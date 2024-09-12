@@ -24,4 +24,7 @@ public class NaverBookSearchController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("검색 중 오류가 발생했습니다.");
         }
     }
+    
+    
+    
 }
