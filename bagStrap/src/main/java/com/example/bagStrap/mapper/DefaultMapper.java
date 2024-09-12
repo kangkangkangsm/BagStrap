@@ -9,7 +9,7 @@ import com.example.bagStrap.model.Item;
 
 
 @Mapper
-public interface ItemMapper {
+public interface DefaultMapper {
 	List<Item> searchItem(HashMap<String, Object> map);
 	List<Item> searchCodes(HashMap<String, Object> map);
 }
