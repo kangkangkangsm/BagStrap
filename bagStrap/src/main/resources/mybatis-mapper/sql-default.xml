@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.bagStrap.mapper.ItemMapper">
+<mapper namespace="com.example.bagStrap.mapper.DefaultMapper">
 	
 	<select id="searchItem" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_ITEM

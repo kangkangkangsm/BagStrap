@@ -4,34 +4,33 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<jsp:include page="/layout/menu.jsp"></jsp:include>
+	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 </head>
 <style>
-	table, tr, td, th {
-		border-collapse: collapse;
-		border: 1px solid black;
-		padding: 10px 20px;
-	}
-</style>
+	
+	</style>
 <body>
 	<div id="app">
-		
-		<div v-for="item in codeList">
-		<input type="checkbox" :value ="item.code" v-model="selectedCodes" @change="fnGetList()">{{item.codeName}}
-		</div>
-		<table>
-		<tr v-for="item in list">
-			<td>{{item.itemNo}}</td>	
-			<td>{{item.itemName}}</td>	
-			<td>{{item.price}}</td>	
-			<td>{{item.codeName}}</td>		
-		</tr>	
-		</table>
-		
-	
-		
+		<main class="main-container">
+			
+	        <aside class="sidebar">
+				
+	            사이드바
+	        </aside>
+			
+	        <div class="content">
+				sdfjklsdjfkla
+	            콘텐츠
+	        </div>
+			
+
+
+	    </main>
+
 	</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
+
 </body>
 </html>
 <script>
@@ -68,4 +67,3 @@
     });
     app.mount('#app');
 </script>
-​
