@@ -252,7 +252,7 @@ a {color: #fff; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    background-color: #F5F5F5; /* 메인 컨테이너 배경색 */
 	    overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
 	    box-sizing: border-box;
-	    padding: 0px 15vw;
+	    padding: 0px 12vw;
 		min-height: 100vh;
 	}
 

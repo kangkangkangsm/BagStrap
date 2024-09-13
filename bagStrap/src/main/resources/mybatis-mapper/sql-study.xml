@@ -17,5 +17,16 @@
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_CODE
 	</select>
+	<!-- 스터디 커뮤니티 카테고리 타입-->
+	<select id="selectStuComm" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM TBL_STU_COMM_BOARD_TYPES
+	</select>
+	<!-- 스터디 커뮤니티 리스트 -->
+	<select id="selectStuCommList" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT *
+FROM TBL_STU_COMM
+FETCH FIRST 5 ROWS ONLY
+	</select>
+
 	
 </mapper>

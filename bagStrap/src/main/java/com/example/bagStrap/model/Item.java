@@ -1,4 +1,4 @@
-package com.example.bagStrap.model;
+	package com.example.bagStrap.model;
 
 import lombok.Data;
 

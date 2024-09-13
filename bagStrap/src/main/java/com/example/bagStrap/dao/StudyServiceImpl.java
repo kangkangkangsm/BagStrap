@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.bagStrap.mapper.StudyMapper;
 import com.example.bagStrap.model.Item;
-
+import com.example.bagStrap.model.StudyComm;
 
 @Service
 public class StudyServiceImpl implements StudyService{
@@ -38,6 +38,27 @@ public class StudyServiceImpl implements StudyService{
 		}
 
 
+		
+		return resultMap;
+	}
+
+
+	@Override
+	public HashMap<String, Object> selectStuComm(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		
+		try {
+			List<StudyComm> boardTypelist = studyMapper.selectStuComm(map);
+			List<StudyComm> boardList = studyMapper.selectStuCommList(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("boardTypelist", boardTypelist);
+			resultMap.put("boardList", boardList);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
 		
 		return resultMap;
 	}
