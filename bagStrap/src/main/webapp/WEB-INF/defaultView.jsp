@@ -21,6 +21,7 @@
 	        <div class="content">
 	            콘텐츠
 				Default
+				{{name}}
 	        </div>
 			
 
@@ -36,7 +37,7 @@
     const app = Vue.createApp({
         data() {
             return {
-                name : "",
+                name : '${hello}',
 				list : {},
 				codeList : {},
 				selectedCodes : []
@@ -62,7 +63,7 @@
         },
         mounted() {
             var self = this;
-			self.fnGetList();
+			//self.fnGetList();
         }
     });
     app.mount('#app');

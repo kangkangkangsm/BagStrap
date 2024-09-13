@@ -21,7 +21,7 @@
 	        <div class="content">
 	            콘텐츠
 				
-				<!--<button @click="">button </button>-->
+				<button @click="fnBoardView('bye')">button </button>
 	        </div>
 			
 
@@ -44,9 +44,9 @@
             };
         },
         methods: {
-			fnBoardView(boardNo){
+			fnBoardView(hi){
 				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
-				//$.pageChange("default.do", {boardNo : boardNo});
+				$.pageChange("default.do", {hello : hi});
 			},
             fnGetList(){
 				var self = this;
