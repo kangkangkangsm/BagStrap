@@ -16,6 +16,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class DefaultController {
 	
@@ -23,10 +25,15 @@ public class DefaultController {
 	DefaultService defaultService;
 	
 	@RequestMapping("/default.do") 
-    public String main(Model model) throws Exception{
-         return "defaultView";
+	public String mainView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("hello", map.get("hello"));
+		return "defaultView";
+	}
+	
+	@RequestMapping("/test.do") 
+    public String maintest(Model model) throws Exception{
+         return "test";
     }
-
 
 	@RequestMapping(value = "/itemList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

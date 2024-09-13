@@ -20,8 +20,8 @@
 			
 	        <div class="content">
 	            콘텐츠
-				Default
-				{{name}}
+				
+				<button @click="fnBoardView('bye')">button </button>
 	        </div>
 			
 
@@ -37,13 +37,17 @@
     const app = Vue.createApp({
         data() {
             return {
-                name : '${hello}',
+                name : "",
 				list : {},
 				codeList : {},
 				selectedCodes : []
             };
         },
         methods: {
+			fnBoardView(hi){
+				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
+				$.pageChange("default.do", {hello : hi});
+			},
             fnGetList(){
 				var self = this;
 				var nparmap = {
@@ -63,7 +67,7 @@
         },
         mounted() {
             var self = this;
-			//self.fnGetList();
+			self.fnGetList();
         }
     });
     app.mount('#app');

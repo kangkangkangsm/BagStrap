@@ -3,7 +3,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 @import url(http://cdn.jsdelivr.net/font-nanum/1.0/nanumbarungothic/nanumbarungothic.css);
 
-html{overflow:scroll;}
+/*html{overflow:scroll;}
 html, body, div, h1, h2, a, form, table, caption, thead, tbody, tr, th, td, submit {
     margin:0; outline:0; border:0; padding:0; font-size:100%; vertical-align:baseline; background:transparent;
 	box-sizing: border-box;
@@ -17,9 +17,56 @@ p{margin:0; padding:0;}
 ul{margin:0;}
 a:link, a:visited {text-decoration:none; color: #656565;}
 input{vertical-align:middle;}
-input:focus {outline:0;}
+input:focus {outline:0;}*/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
-
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+a {color: #fff; text-decoration: none; outline: none} a:hover, a:active {text-decoration: none; color:#fff; }
 	/* 공통 속성들 */
 
 	body {
@@ -43,6 +90,29 @@ input:focus {outline:0;}
 	.clickableText:active{
 	    color: #333;
 	}
+
+	.clickableSvg:hover path {
+	    fill: #555;
+	    stroke: #000;
+	    stroke-width: 2;
+	}
+
+	.clickableSvg:active path {
+	    fill: #333;
+	}
+	
+	/* 우측 정렬된 closeBtn -> layout/sharedHeader 참고 */
+	.rightCloseBtn{
+	    display: flex;
+	    flex-direction: column;
+	}
+	.closeBtn{
+	    align-self: flex-end;
+	}
+	.round{
+	    border-radius: 10px;
+	}
+	
 	
 	/*페이징 처리*/
 	.pagination {
@@ -131,6 +201,22 @@ input:focus {outline:0;}
 	.headerLogin{
 	    
 	}
+	.headerLoginModal{
+	    width: 400px;
+	    height: 300px;
+	}
+	#loginBox{
+	    display: flex;
+	    flex-direction: column;
+
+	    margin: 20px auto;
+	    width: 300px;
+	    height: 200px;   
+	}
+	#loginImage{
+	    align-content: center;
+	}
+	
 	.headerloginMainMenu:hover .headerloginSubMenu{
 	    display: block;
 	}
@@ -166,7 +252,7 @@ input:focus {outline:0;}
 	    background-color: #F5F5F5; /* 메인 컨테이너 배경색 */
 	    overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
 	    box-sizing: border-box;
-	    padding: 0px 15vw;
+	    padding: 0px 12vw;
 		min-height: 100vh;
 	}
 
