@@ -15,12 +15,10 @@
 		<main class="main-container">
 			
 	        <aside class="sidebar">
-				
 	            사이드바
 	        </aside>
 			
 	        <div class="content">
-				sdfjklsdjfkla
 	            콘텐츠
 	        </div>
 			
@@ -46,7 +44,9 @@
         methods: {
             fnGetList(){
 				var self = this;
-				var nparmap = {selectedCodes: JSON.stringify(self.selectedCodes)};
+				var nparmap = {
+					selectedCodes: JSON.stringify(self.selectedCodes)
+				};
 				$.ajax({
 					url:"itemList.dox",
 					dataType:"json",	
@@ -54,8 +54,7 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						self.list = data.list;
-						self.codeList = data.codeList;
+
 					}
 				});
             }
