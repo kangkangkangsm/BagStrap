@@ -45,6 +45,8 @@
             <div class="headerNotification clickableText" alt="icon_cart">
                 <img class="headerIcon" src="http://localhost:8080/src/icon_notification.png" alt="icon_notification">
             </div>
+			
+			
             
         </div>
 

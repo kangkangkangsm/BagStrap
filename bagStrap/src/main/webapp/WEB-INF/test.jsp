@@ -20,7 +20,8 @@
 			
 	        <div class="content">
 	            콘텐츠
-				Default
+				
+				<!--<button @click="">button </button>-->
 	        </div>
 			
 
@@ -43,6 +44,10 @@
             };
         },
         methods: {
+			fnBoardView(boardNo){
+				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
+				//$.pageChange("default.do", {boardNo : boardNo});
+			},
             fnGetList(){
 				var self = this;
 				var nparmap = {
