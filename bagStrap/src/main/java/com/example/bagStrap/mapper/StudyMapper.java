@@ -18,4 +18,6 @@ public interface StudyMapper {
 	List<StudyComm> selectStuComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 리스트 
 	List<StudyComm> selectStuCommList(HashMap<String, Object> map);
+	
+	List<StudyComm> selectStuCommListBoard(HashMap<String, Object> map);
 }

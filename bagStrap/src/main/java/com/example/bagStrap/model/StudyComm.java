@@ -24,6 +24,17 @@ public class StudyComm {
 	private int boardTypeId;
 	private String name;
 	
-
+//USERS
+	private String userId;
+	private String userName;
+	private String userNickname;
+	private String password;
+	private String email;
+	private String addr;
+	private String ban;
+	private String status;
+	private String phoneNum;
+	private String cDatetime;
+	private String uDatetime;
 }
 	
