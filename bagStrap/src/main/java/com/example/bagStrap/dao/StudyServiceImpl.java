@@ -42,7 +42,7 @@ public class StudyServiceImpl implements StudyService{
 		return resultMap;
 	}
 
-
+	//스터디 커뮤니티 헤더 
 	@Override
 	public HashMap<String, Object> selectStuComm(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -60,6 +60,23 @@ public class StudyServiceImpl implements StudyService{
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
 		}
 		
+		return resultMap;
+	}
+
+	// 스터디 커뮤니티 컨텐츠 부문
+	@Override
+	public HashMap<String, Object> selectStuCommListBoard(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<StudyComm> commlist = studyMapper.selectStuCommListBoard(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("commlist", commlist);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
 		return resultMap;
 	}
 

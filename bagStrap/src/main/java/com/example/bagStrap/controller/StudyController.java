@@ -16,23 +16,29 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class StudyController {
 	
 	@Autowired
 	StudyService studyService;
 	
+	@RequestMapping("/defaultView.do") 
+    public String defaultView(Model model) throws Exception{
+         return "study/defaultView";
+    }
 	@RequestMapping("/study.do") 
     public String main(Model model) throws Exception{
          return "study/study_home";
     }
 	
 	@RequestMapping("/study_comm.do") 
-    public String study_comm(Model model) throws Exception{
-         return "study/study_comm";
-    }
+	 public String study_comm(Model model) throws Exception{
+        return "/study/study_comm";
+	}       
 	
-
+	           
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String study(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -50,6 +56,16 @@ public class StudyController {
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		resultMap = studyService.selectStuComm(map);
+		return new Gson().toJson(resultMap);
+	}
+	
+	//스터디 커뮤니티 카테고리 타입
+	@RequestMapping(value = "/selectStuCommListBoard.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectStuCommListBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		resultMap = studyService.selectStuCommListBoard(map);
 		return new Gson().toJson(resultMap);
 	}
 }
