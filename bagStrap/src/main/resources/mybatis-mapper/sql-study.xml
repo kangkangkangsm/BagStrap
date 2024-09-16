@@ -24,9 +24,15 @@
 	<!-- 스터디 커뮤니티 리스트 -->
 	<select id="selectStuCommList" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	SELECT *
-FROM TBL_STU_COMM
-FETCH FIRST 5 ROWS ONLY
+	FROM TBL_STU_COMM
+	FETCH FIRST 5 ROWS ONLY
 	</select>
 
+	<select id="selectStuCommListBoard" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM TBL_STU_COMM C 
+    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    WHERE BOARD_TYPE = #{boardTypeId} OR PART = #{boardTypeId} OR FULLVIEW = #{boardTypeId}
+	</select>
 	
 </mapper>
