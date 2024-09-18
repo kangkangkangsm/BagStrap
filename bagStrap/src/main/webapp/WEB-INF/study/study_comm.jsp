@@ -6,41 +6,42 @@
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
+	
 </head>
 <style>
-	.stu_comm_profile {
+	.stu-comm-profile {
 	    display: flex;
 	    align-items: center;
 	    margin-bottom: 30px;
     }
 
-    .stu_comm_profile-img {
+    .stu-comm-profile-img {
         width: 50px;
         height: 50px;
         border-radius: 50%;
         margin-right: 10px;
     }
 
-    .stu_comm_profile-info {
+    .stu-comm-profile-info {
         flex-grow: 1;
     }
 
-    .stu_comm_profile-info p {
+    .stu-comm-profile-info p {
         margin: 0;
         padding: 0;
     }
 	
-	.stu_comm_activity-item {
+	.stu-comm-activity-item {
         display: flex;
         align-items: center;
         margin-bottom: 5px;
     }
 
-    .stu_comm_activity-icon {
+    .stu-comm-activity-icon {
         margin-right: 5px;
     }
 
-    .stu_comm_activity-item a {
+    .stu-comm-activity-item a {
         text-decoration: none;
         color: #333;
         font-weight: bold;
@@ -48,17 +49,19 @@
 		width:200px;
     }
 
-    .stu_comm_activity-count {
+    .stu-comm-activity-count {
         color: #666;
     }
-	.stu_comm_user-activity {
+	.stu-comm-user-activity {
         margin-top: 10px;
 	}
-	.stu_comm_menu {
+	.stu-comm-menu {
 	    margin-top: 20px;
+		padding: 0;
+		  display: block;  /* display 속성을 추가 */
 	}
 
-	.stu_comm_menu button {
+	.stu-comm-menu button {
 	    width: 93%;
 	    padding: 10px;
 	    margin-bottom: 10px;
@@ -68,74 +71,278 @@
 	    cursor: pointer;
 	}
 
-	.stu_comm_menu ul {
+	.stu-comm-menu ul {
 	    list-style: none;
 	    padding: 0;
 	}
 
-	.stu_comm_menu li {
+	.stu-comm-menu li {
 	    display: flex;
 	    justify-content: space-between;
 	    margin: 10px 0;
 	}
 
-	.stu_comm_menu a {
+	.stu-comm-menu a {
 	    text-decoration: none;
 	    color: #007bff;
-		width:180px;
+		width:190px;
 	}
 	
-	.stu_comm_recent-comments {
+	.stu-comm-recent-comments {
         margin-top: 30px;
     }
 
-    .stu_comm_recent-comments h3 {
+    .stu-comm-recent-comments h3 {
         margin-bottom: 10px;
         font-size: 14px;
         font-weight: bold;
     }
 
-    .stu_comm_recent-comments ul {
+    .stu-comm-recent-comments ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
 
-    .stu_comm_recent-comments li {
+    .stu-comm-recent-comments li {
         margin-bottom: 5px;
     }
 
-    .stu_comm_pagination {
+    .stu-comm-pagination {
         margin-top: 10px;
     }
 
-    .stu_comm_pagination a {
+    .stu-comm-pagination a {
         text-decoration: none;
         color: #007bff;
         margin: 0 5px;
     }
 
-    .stu_comm_pagination span {
+    .stu-comm-pagination span {
         color: #666;
         margin: 0 5px;
     }
 
+	<!-- 추가 -->
+	
+	table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    margin-top: 20px;
+	    font-size: 14px;
+	}
+
+	th, td {
+	    padding: 10px;
+	    text-align: left;
+	    border-bottom: 1px solid #ddd;
+	}
+
+	th {
+	    background-color: #f2f2f2;
+	    font-weight: bold;
+	}
+
+	tr:hover {
+	    background-color: #f5f5f5;
+	}
+
+	
+
+	td a {
+	    text-decoration: none;
+	    color: #007bff;
+	}
+
+	td a:hover {
+	    text-decoration: underline;
+	}
+
+	td:last-child {
+	    text-align: center;
+	}
+
+	/* 검색 및 정렬 섹션 스타일 */
+	.search-container {
+	    display: flex;
+	    justify-content: space-between;
+	    margin-bottom: 10px;
+	}
+
+	.search-container input[type="text"] {
+	    width: 200px;
+	    padding: 5px;
+	}
+
+	.search-container select, .search-container button {
+	    padding: 5px 10px;
+	    margin-left: 5px;
+	}
+
+	.pagination {
+	    display: flex;
+	    justify-content: center;
+	    margin-top: 20px;
+	}
+
+	.pagination a {
+	    margin: 0 5px;
+	    padding: 5px 10px;
+	    border: 1px solid #ddd;
+	    color: #007bff;
+	    text-decoration: none;
+	}
+
+	.pagination a:hover {
+	    background-color: #f0f0f0;
+	}
+	
+	/* 페이징 */
+	.pagination {
+	    justify-content: center;
+	    align-items: center;
+	    margin: 20px 0;
+	}
+	.pagination button {
+	    background-color: #f8f9fa;
+	    border: 1px solid #dee2e6;
+	    color: #007bff;
+	    padding: 8px 12px;
+	    margin: 0 2px;
+	    cursor: pointer;
+	    transition: background-color 0.3s, color 0.3s;
+	    border-radius: 4px;
+	}
+
+	.pagination button:hover {
+	    background-color: #007bff;
+	    color: white;
+	}
+
+	.pagination button.active {
+	    background-color: #007bff;
+	    color: white;
+	    cursor: default;
+	}
+
+	.pagination button:disabled {
+	    background-color: #e9ecef;
+	    color: #6c757d;
+	    cursor: not-allowed;
+	    border: 1px solid #dee2e6;
+	}
+
+	.pagination button:not(.active):not(:disabled):hover {
+	    background-color: #0056b3;
+	    color: white;
+	}
 	</style>
 <body>
 	<div id="app">
 		<main class="main-container">
-			
+		<!--사이드 바 -->		
 	        <aside class="sidebar">
-				<jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>
+				<div class="stu-comm-profile">
+	                <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img">
+	                <div class="stu-comm-profile-info">
+	                    <p><strong>{{sessionUserNickName}} 님</strong></p>
+	                </div>
+	            </div>
+	            <!-- 내가 쓴 게시글, 댓글 -->
+	            <div class="stu-comm-user-activity">
+	                <div class="stu-comm-activity-item">
+	                    <span class="stu-comm-activity-icon">💬</span>
+	                    <a href="#">내가 쓴 게시글</a>
+	                    <span class="stu-comm-activity-count">{{countMyCommCnt}}개</span>
+	                </div>
+	                <div class="stu-comm-activity-item">
+	                    <span class="stu-comm-activity-icon">💬</span>
+	                    <a href="#">내가 쓴 댓글</a>
+	                    <span class="stu-comm-activity-count">{{countMycommentCnt}}개</span>
+	                </div>
+	            </div>
+	            <nav class="stu-comm-menu">
+	                <button>커뮤니티 글쓰기</button>
+	                <ul v-for="item in boardTypelist">
+						<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
+	                    <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
+						</template>
+					</ul>
+					<hr>
+					<ul v-for="item in boardTypelist">
+						<template v-if="item.boardTypeId >= 2000 && item.boardTypeId <= 2999 ">
+	                    <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
+						</template>
+					</ul>
+					<hr>	
+					<ul v-for="item in boardTypelist">
+						<template v-if="item.boardTypeId >= 3000 && item.boardTypeId <= 3999 ">
+	                    <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
+						</template>
+	                </ul>
+	            </nav>
+				<hr>
+				<div class="stu-comm-recent-comments">
+	              <h3>최근 게시글</h3>
+	              <ul v-for = "item in boardList">
+	                  <li><a href="#">{{item.title}}</a></li>
+	              </ul>
+	              <div class="stu-comm-pagination">
+	                  <a href="#">이전</a>
+	                  <a href="#">다음</a>
+		              </div>
+		          </div>
 	        </aside>
 			
-	        <div class="content">
-	            콘텐츠
-				Default
+			<!--메인 컨텐츠-->
+			<div class="content">
+				 
+				<div style="font-size:30px;">{{name}}</div>
+				 <div>게시물 수 :<select v-model="pageSize" @change="fnboardList(1)"></div>
+				<option value='10'>10개씩 </option>
+				<option value='15'>15개씩 </option>
+				<option value='20'>20개씩 </option>
+				</select>	
+				<table>
+					<tr>
+						<th>카테고리</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>조회</th>
+					</tr>
+					<tr v-for="item in commlist">
+						<td><a href="#" @click="fnView(item.boardId)">{{item.name}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.title}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.userNickName}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>	
+					</tr>
+				</table>
+				<div class="pagination">
+				    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
+				    <button v-for="page in totalPages" :class="{active: page == currentPage}" @click="fnboardList(page)">
+				        {{ page }}
+				    </button>
+				    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
+				</div>
 	        </div>
+			<select v-model="selectedPeriod">
+			    <option value="all" @change="fnboardList(1)">전체기간</option>
+			    <option value="1day">1일</option>
+			    <option value="1week">1주</option>
+			    <option value="1month">1개월</option>
+			    <option value="6months">6개월</option>
+			    <option value="1year">1년</option>
+			</select>
+			<select v-model="boardSearch">
+				<option value='all' @change="fnboardList(1)">제목+내용</option>
+				<option value='title'>제목만 </option>
+				<option value='author'>글작성자 </option>
+			</select>	
+			<input type="text" v-model="search" @keyup.enter="fnboardList(1)">
+			<button @click="fnboardList()">검색</button>
 			
-
-
 	    </main>
 
 	</div>
@@ -147,33 +354,131 @@
     const app = Vue.createApp({
         data() {
             return {
-                name : "",
-				list : {},
-				codeList : {},
-				selectedCodes : []
+				boardTypelist : [],
+				boardList : [],
+				commlist : [],
+				boardTypeId :1000,
+				currentPage: 1,      // 현재 페이지 
+				pageSize: 10,        // 한페이지에 보여줄 개수 
+				totalPages:5,
+				cnt :'',
+				name:"전체글보기",
+				search : "",
+				boardSearch : "all",
+				selectedPeriod : "all",
+				user: '${sessionScope.user}',
+				isLogin : false,
+				sessionUserId : '',
+				userId : '',
+				password : ''
+			
             };
         },
         methods: {
-            fnGetList(){
+			fnboardtypeList(){
 				var self = this;
-				var nparmap = {
-					selectedCodes: JSON.stringify(self.selectedCodes)
+				var nparmap = {  
 				};
 				$.ajax({
-					url:"itemList.dox",
+					url:"selectStuCommType.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
-					success : function(data) { 
+					success : function(data) {
+						self.boardTypelist = data.boardTypelist; 
+						self.boardList = data.boardList;
 						console.log(data);
 
+				}
+			});
+           },		
+		   fnboardList(page = 1){
+				var self = this;
+				var startIndex = (page-1) * self.pageSize;
+				var outputNumber = self.pageSize;
+				var boardTypeId = boardTypeId;
+				self.currentPage = page;
+				var search = self.search;
+				var boardSearch = self.boardSearch;
+				var period = self.selectedPeriod;
+				var nparmap = { boardTypeId : self.boardTypeId,startIndex : startIndex, 
+								outputNumber : outputNumber, search : search, boardSearch : boardSearch,
+								period : period };
+				$.ajax({
+					url:"selectStuCommListBoard.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.commlist = data.commlist; 
+						self.cnt = data.cnt;
+						self.totalPages = Math.ceil(self.cnt/self.pageSize);
+
+				}
+			});
+           },
+		   fnboardview(boardTypeId,name){
+				var self = this;
+				self.boardTypeId = boardTypeId;
+				self.name = name;
+				self.search = '';
+				self.fnboardList(1);
+		   },
+		   fnSession(){
+				var self = this;
+				var nparmap = {
+				};
+				$.ajax({
+					url:"sharedHeader.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+						self.isLogin = data.isLogin 
+						if(data.isLogin){
+							self.sessionUserId = data.userId;
+							self.sessionUserNickName = data.userNickName;
+							console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+							self.fnMyCnt();
+						} else {
+							self.sessionUserId = '';
+							self.sessionUserNickName = '';
+						}
+					
 					}
 				});
-            }
+			},
+			fnMyCnt(){
+				var self = this;
+				var sessionUserId = self.sessionUserId;
+				var nparmap = { userId : sessionUserId
+				};
+				$.ajax({
+					url:"myCnt.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+						console.log(data);
+						self.countMyCommCnt=data.countMyCommCnt;
+						self.countMycommentCnt=data.countMycommentCnt;
+
+				}
+			});
+	       },
+		   fnView(boardId){
+				$.pageChange("/study_comm_default.do",{boardId : boardId});
+				},		
+						
         },
         mounted() {
             var self = this;
-			self.fnGetList();
+			self.fnboardList(1);
+			self.fnboardtypeList();
+			self.fnSession();
+			
+			
         }
     });
     app.mount('#app');
