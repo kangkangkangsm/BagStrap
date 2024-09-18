@@ -26,7 +26,11 @@ public class SharedHeaderController {
 
 	@RequestMapping("/myStudy.do")
 	public String main(Model model) throws Exception {
-		return "/sharedHeader/myStudy";
+		return "/header/myStudy";
+	}
+	@RequestMapping("/myshop/orders.do")
+	public String orders(Model model) throws Exception {
+		return "/header/header_myshop_orders";
 	}
 
 	@RequestMapping(value = "/myStudy.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -38,6 +42,7 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
+	
 	@RequestMapping(value = "/sharedHeader.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String sharedHeader(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -50,7 +55,6 @@ public class SharedHeaderController {
 				resultMap.put("userId", user.getUserId());
 
 			}
-			System.out.println("Bye");	
 		} catch(NullPointerException e) {
 			resultMap.put("isLogin", false);
 		}
@@ -58,6 +62,28 @@ public class SharedHeaderController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/orderList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectOrderList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.selectOrderList(map);
+			} else {
+
+				resultMap.put("result", true);
+				resultMap.put("message", "로그인하쇼");
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 	
 
 }

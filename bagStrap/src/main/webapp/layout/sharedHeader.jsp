@@ -26,7 +26,7 @@
         <div class="headerCustomerMenu">
             <div class="headerloginMainMenu headerCustomerSub">
                 <div class="headerLogin ">
-                	<a v-if="!isLogin" class="clickableText" href="javascript:;" onclick="document.getElementById('headerLoginModal').showModal()">Login</a>
+                	<a v-if="!isLogin" class="clickableText" href="javascript:;" @click="fnShowLogin()">Login</a>
 					<a v-if="isLogin" class="clickableText" href="javascript:;" onclick="">{{sessionUserNickName}}님 안녕하세요.</a>
                 </div>    
                 <div class="headerloginSubMenu clickableMenu">
@@ -37,7 +37,7 @@
 					<a href="javascript:;">MyStudy</a>
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a href="javascript:;">MyShop</a>
+					<a href="/myshop/orders.do">MyShop</a>
 					</div>
                 <div class="headerloginSubMenu clickableMenu">
 					<a href="javascript:;">Admin</a>
@@ -70,7 +70,7 @@
 			    </div>     
 			    <div id="loginBox">
 			     <span id="loginImage">로그인 창 이미지/로고?</span>
-			        <div><input class="round" placeholder="id" v-model="userId" /></div>
+			        <div><input class="round" id="inputId" placeholder="id" v-model="userId" /></div>
 			        <div><input class="round" type="password" placeholder="password" v-model="password" /></div>
 			        <div><a>아이디 찾기</a>|<a>비밀번호 찾기</a></div>
 			        <button @click="fnLogin()">로그인</button>
@@ -96,12 +96,13 @@
 	            };
 	        },
 	        methods: {
+				// header main load 함수
 				getSharedHeader(){
 					var self = this;
 					var nparmap = {
 					};
 					$.ajax({
-						url:"sharedHeader.dox",
+						url:"/sharedHeader.dox",
 						dataType:"json",	
 						type : "POST", 
 						data : nparmap,
@@ -117,6 +118,11 @@
 						}
 					});
 	            },
+				fnShowLogin(){
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				},
 	            fnLogin(){
 					var self = this;
 					var nparmap = {
@@ -125,7 +131,7 @@
 
 					};
 					$.ajax({
-						url:"login.dox",
+						url:"/login.dox",
 						dataType:"json",	
 						type : "POST", 
 						data : nparmap,
@@ -146,7 +152,7 @@
 					var nparmap = {
 					};
 					$.ajax({
-						url:"logout.dox",
+						url:"/logout.dox",
 						dataType:"json",	
 						type : "POST", 
 						data : nparmap,
@@ -163,7 +169,7 @@
 	        mounted() {
 	            var self = this;
 				self.getSharedHeader();
-				
+				// login dialog 키 입력 추가
 				document.getElementById("loginBox").addEventListener("keydown", function(event){
 					if(event.key === "Enter"){
 						self.fnLogin();
