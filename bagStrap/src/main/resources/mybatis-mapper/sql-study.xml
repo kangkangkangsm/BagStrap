@@ -14,6 +14,7 @@
 			</foreach>
 		</if>
 	</select>
+	<!-- -->
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_CODE
 	</select>
@@ -131,7 +132,7 @@
     INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
     WHERE POST_ID =  #{boardId}
 	</select>
-		<!-- 스터디 커뮤니티 게시글 상세보기 댓글작성-->
+	
 	<insert id="insertViewComment" parameterType="hashmap">
 	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
 	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE, NULL, NULL)

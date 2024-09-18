@@ -26,7 +26,7 @@ public class StudyComm {
 	private String comcontents;
 	private String comCreateDay;
 	private String comUpdateDay;
-
+//
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;

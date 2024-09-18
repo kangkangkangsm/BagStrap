@@ -15,6 +15,7 @@ import com.example.bagStrap.dao.StudyService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.example.bagStrap.model.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class StudyController {
 	
 	@Autowired
-	StudyService studyService;
+	StudyService studyService; 
 	@Autowired
 	HttpSession session;
 	
@@ -32,7 +33,7 @@ public class StudyController {
          return "study/defaultView";
     }
 	@RequestMapping("/study.do") 
-    public String main(Model model) throws Exception{
+    public String mainz(Model model) throws Exception{
          return "study/study_home";
     }
 	

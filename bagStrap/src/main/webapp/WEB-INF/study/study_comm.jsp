@@ -1,3 +1,5 @@
+study_comm.jsp
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -356,7 +358,7 @@
             return {
 				boardTypelist : [],
 				boardList : [],
-				commlist : [],
+				commlist : [], //
 				boardTypeId :1000,
 				currentPage: 1,      // 현재 페이지 
 				pageSize: 10,        // 한페이지에 보여줄 개수 

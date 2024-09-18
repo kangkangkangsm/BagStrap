@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.bagStrap.model.Item;
 import com.example.bagStrap.model.StudyComm;
 
-
+//
 @Mapper
 public interface StudyMapper {
 	List<Item> searchItem(HashMap<String, Object> map);

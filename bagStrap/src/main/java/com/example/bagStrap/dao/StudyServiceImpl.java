@@ -120,7 +120,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+//
 	@Override
 	public HashMap<String, Object> insertViewComment(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
