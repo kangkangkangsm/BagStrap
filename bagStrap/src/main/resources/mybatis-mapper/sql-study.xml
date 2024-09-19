@@ -21,6 +21,7 @@
 	<!-- 스터디 커뮤니티 카테고리 타입-->
 	<select id="selectStuComm" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 		SELECT * FROM TBL_STU_COMM_BOARD_TYPES
+    ORDER BY BOARD_TYPE_ID
 	</select>
 	<!-- 스터디 커뮤니티 리스트 -->
 	<select id="selectStuCommList" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
@@ -110,11 +111,11 @@
     </if>
     
 	</select>
-	<!-- 내가 쓴 게시글-->
+	<!-- 내가 쓴 게시글 개수-->
 	<select id="countMyCommList" parameterType="hashmap" resultType="int">
 		SELECT count(*) AS CNT3 FROM TBL_STU_COMM WHERE AUTHOR = #{userId}
 	</select>
-	<!-- 내가 쓴 댓글 -->
+	<!-- 내가 쓴 댓글 개수 -->
 	<select id="countMycommentList" parameterType="hashmap" resultType="int">
 		SELECT count(*) AS CNT2 FROM TBL_STU_COMMENTS WHERE AUTHOR = #{userId}
 	</select>
@@ -125,16 +126,44 @@
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
 		WHERE BOARD_ID = #{boardId}
 	</select>
-		<!-- 스터디 커뮤니티 게시글 상세보기 댓글-->
+		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	 SELECT C.*,COM.*,U.*,COM.CONTENT AS COMCONTENTS, COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY FROM TBL_STU_COMM C
     INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
     INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
     WHERE POST_ID =  #{boardId}
 	</select>
-	
+	<!-- 스터디 커뮤니티 게시글 상세보기 댓글 작성-->
 	<insert id="insertViewComment" parameterType="hashmap">
 	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
 	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE + (9/24), NULL, NULL)
 	</insert>
+	<!-- 스터디 커뮤니티 나의 게시글-->
+	<select id="selectMyComm" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT *
+    FROM TBL_STU_COMM C 
+    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    WHERE C.AUTHOR = #{userId}
+    ORDER BY C.created_Date DESC
+    OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
+	</select>
+	<!-- 스터디 커뮤니티 나의 댓글-->
+	<select id="selectMyComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT COM.* FROM  TBL_STU_COMM C 
+    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+    WHERE COM.AUTHOR = #{userId}
+    ORDER BY com.created_Date DESC
+    OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
+	</select>
+	<!-- 스터디 커뮤니티 게시글작성하기-->
+	<insert id="insertComm" parameterType="hashmap">
+	INSERT INTO TBL_STU_COMM 
+    (BOARD_ID, BOARD_TYPE, TITLE, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, VIEWS, LIKES) 
+    VALUES 
+    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, '#{title}', '#{content}', '#{userId}', SYSDATE, NULL, 0, 0)
+	</insert>
+	
 </mapper>

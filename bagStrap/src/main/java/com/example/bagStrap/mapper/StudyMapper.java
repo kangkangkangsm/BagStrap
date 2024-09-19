@@ -11,14 +11,11 @@ import com.example.bagStrap.model.StudyComm;
 //
 @Mapper
 public interface StudyMapper {
-	List<Item> searchItem(HashMap<String, Object> map);
-	List<Item> searchCodes(HashMap<String, Object> map);
-	
 	//스터디 커뮤니티 카테고리 타입
 	List<StudyComm> selectStuComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 리스트 
 	List<StudyComm> selectStuCommList(HashMap<String, Object> map);
-	//스터디 커뮤니티  컨텐츠 보드
+	//스터디 커뮤니티 컨텐츠 보드
 	List<StudyComm> selectStuCommListBoard(HashMap<String, Object> map);
 	//스터디 커뮤니티 게시글 개수
 	int countCommList(HashMap<String, Object> map);
@@ -32,4 +29,8 @@ public interface StudyMapper {
 	List<StudyComm>selectViewComment(HashMap<String, Object> map);
 	//스터디 커뮤니티 게시글 상세보기 댓글 작성
 	void insertViewComment(HashMap<String, Object> map);
+	//스터디 커뮤니티 나의 게시글
+	List<StudyComm> selectMyComm(HashMap<String, Object> map);
+	//스터디 커뮤니티 나의 댓글 
+	List<StudyComm> selectMyComment(HashMap<String, Object> map);
 }
