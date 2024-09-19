@@ -243,22 +243,22 @@
 		<!--사이드 바 -->		
 	        <aside class="sidebar">
 				<div class="stu-comm-profile">
-	                <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img">
+	                <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
 	                <div class="stu-comm-profile-info">
-	                    <p><strong>{{sessionUserNickName}} 님</strong></p>
+	                    <p @click="fnMyboard"><strong>{{sessionUserNickName}} 님</strong></p>
 	                </div>
 	            </div>
 	            <!-- 내가 쓴 게시글, 댓글 -->
 	            <div class="stu-comm-user-activity">
 	                <div class="stu-comm-activity-item">
 	                    <span class="stu-comm-activity-icon">💬</span>
-	                    <a href="#">내가 쓴 게시글</a>
-	                    <span class="stu-comm-activity-count">{{countMyCommCnt}}개</span>
+	                    <a href="#" @click="fnMyboard">내가 쓴 게시글</a>
+	                    <a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyCommCnt}}개</a>
 	                </div>
 	                <div class="stu-comm-activity-item">
 	                    <span class="stu-comm-activity-icon">💬</span>
-	                    <a href="#">내가 쓴 댓글</a>
-	                    <span class="stu-comm-activity-count">{{countMycommentCnt}}개</span>
+	                    <a href="#" @click="fnMycomment" >내가 쓴 댓글</a>
+	                    <a class="stu-comm-activity-count" href="#" @click="fnMycomment">{{countMycommentCnt}}개</a>
 	                </div>
 	            </div>
 	            <nav class="stu-comm-menu">
@@ -293,7 +293,8 @@
 			<!--메인 컨텐츠-->
 			<div class="content">
 				 
-				<div style="font-size:30px;">{{name}}</div>
+				<div style="font-size:30px;" v-if="name2">{{name2}}</div>
+				<div style="font-size:30px;" v-else>{{name}}</div>
 				 <div>게시물 수 :<select v-model="pageSize" @change="fnboardList(1)"></div>
 				<option value='10'>10개씩 </option>
 				<option value='15'>15개씩 </option>
@@ -367,7 +368,11 @@
 				sessionUserId : '',
 				userId : '',
 				password : '',
-				boardTypeId2 : '${boardTypeId2}'
+				boardTypeId2 : '${boardTypeId2}',
+				countMyCommCnt : '',
+				countMycommentCnt : '',
+				name2 : '${name2}'
+				
 			
             };
         },
@@ -418,6 +423,7 @@
            },
 		   fnboardview(boardTypeId,name){
 				var self = this;
+				self.name2 = "";
 				self.boardTypeId = boardTypeId;
 				self.name = name;
 				self.search = '';
@@ -465,10 +471,16 @@
 				}
 			});
 	       },
-		   fnView(boardId){
-				$.pageChange("/study_comm_default.do",{boardId : boardId});
-				},		
-						
+		    fnView(boardId){
+				 $.pageChange("/study-comm-detail.do",{boardId : boardId});
+				 },
+			fnMyboard(){
+				 $.pageChange("/study-comm-myboard.do",{itemMode : "board"});
+				 },
+			fnMycomment(){
+ 				 $.pageChange("/study-comm-myboard.do",{itemMode : "comment"});
+ 				 },				
+					
         },
         mounted() {
             var self = this;

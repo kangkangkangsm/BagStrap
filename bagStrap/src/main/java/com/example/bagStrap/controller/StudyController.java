@@ -33,16 +33,23 @@ public class StudyController {
          return "study/study_home";
     }
 	
-	@RequestMapping("/study_comm.do") 
+	@RequestMapping("/study-comm.do") 
 	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
-		return "/study/study_comm";
+		 request.setAttribute("name2", map.get("name"));
+		return "/study/study-comm";
 	}       
-	@RequestMapping("/study_comm_default.do") 
+	@RequestMapping("/study-comm-detail.do") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardId", map.get("boardId"));
-       return "/study/study_comm_default";
+       return "/study/study-comm-detail";
 	}       
+	
+	@RequestMapping("/study-comm-myboard.do") 
+    public String study_comm_myboard(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("itemMode", map.get("itemMode"));
+		return "study/study-comm-myboard";
+    }
 	
 	        
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

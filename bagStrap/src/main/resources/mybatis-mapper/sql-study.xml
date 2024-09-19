@@ -125,16 +125,36 @@
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
 		WHERE BOARD_ID = #{boardId}
 	</select>
-		<!-- 스터디 커뮤니티 게시글 상세보기 댓글-->
+		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	 SELECT C.*,COM.*,U.*,COM.CONTENT AS COMCONTENTS, COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY FROM TBL_STU_COMM C
     INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
     INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
     WHERE POST_ID =  #{boardId}
 	</select>
-	
+	<!-- 스터디 커뮤니티 게시글 상세보기 댓글 작성-->
 	<insert id="insertViewComment" parameterType="hashmap">
 	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
 	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE + (9/24), NULL, NULL)
 	</insert>
+	<!-- 스터디 커뮤니티 나의 게시글-->
+	<select id="selectMyComm" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT *
+    FROM TBL_STU_COMM C 
+    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    WHERE C.AUTHOR = #{userId}
+    ORDER BY C.created_Date DESC
+	</select>
+	<!-- 스터디 커뮤니티 나의 댓글-->
+	<select id="selectMyComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT COM.* FROM  TBL_STU_COMM C 
+    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+    WHERE COM.AUTHOR = #{userId}
+    ORDER BY com.created_Date DESC
+	</select>
+	
+	
 </mapper>

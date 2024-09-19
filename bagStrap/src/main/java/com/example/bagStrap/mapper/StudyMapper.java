@@ -32,4 +32,8 @@ public interface StudyMapper {
 	List<StudyComm>selectViewComment(HashMap<String, Object> map);
 	//스터디 커뮤니티 게시글 상세보기 댓글 작성
 	void insertViewComment(HashMap<String, Object> map);
+	//스터디 커뮤니티 나의 게시글
+	List<StudyComm> selectMyComm(HashMap<String, Object> map);
+	//스터디 커뮤니티 나의 댓글 
+	List<StudyComm> selectMyComment(HashMap<String, Object> map);
 }

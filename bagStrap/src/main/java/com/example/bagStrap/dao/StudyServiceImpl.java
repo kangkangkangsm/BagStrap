@@ -82,17 +82,20 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
-	@Override
+	// 스터디 커뮤니티 나의 댓글,게시글 목록 및 카운트
 	public HashMap<String, Object> myCnt(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
 			int countMyCommList = studyMapper.countMyCommList(map);
 			int countMycommentList = studyMapper.countMycommentList(map);
-			resultMap.put("result", true);
-			resultMap.put("message", "성공~");
+			List<StudyComm> selectMyComm = studyMapper.selectMyComm(map);
+			List<StudyComm> selectMyComment = studyMapper.selectMyComment(map);
 			resultMap.put("countMyCommCnt", countMyCommList);
 			resultMap.put("countMycommentCnt", countMycommentList);
+			resultMap.put("selectMyCommList", selectMyComm);
+			resultMap.put("selectMyCommentList", selectMyComment);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
 		
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
