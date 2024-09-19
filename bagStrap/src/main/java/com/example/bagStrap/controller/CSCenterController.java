@@ -19,7 +19,7 @@ public class CSCenterController {
 	@Autowired
 	CSCenterService csService;
 	
-	@RequestMapping("/cslist.do") 
+	@RequestMapping("/cslist") 
     public String maintest(Model model) throws Exception{
          return "cslist";
     }

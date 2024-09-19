@@ -16,7 +16,9 @@
     <header id="sharedHeader" class="header">
 
         <div class="header-logo">
-            로고
+			<a href="/intro">			
+				로고 {{isLogin}}
+			</a>
         </div>
 
         <nav class="header-menu">
@@ -27,19 +29,21 @@
             <div class="headerloginMainMenu headerCustomerSub">
                 <div class="headerLogin ">
                 	<a v-if="!isLogin" class="clickableText" href="javascript:;" @click="fnShowLogin()">Login</a>
-					<a v-if="isLogin" class="clickableText" href="javascript:;" onclick="">{{sessionUserNickName}}님 안녕하세요.</a>
+					<a v-if="isLogin" class="clickableText" href="javascript:;" @click="">{{sessionUserNickName}}님 안녕하세요.</a>
                 </div>    
                 <div class="headerloginSubMenu clickableMenu">
 					<a v-if="isLogin" href="javascript:;">MyInfo</a>
 					<a v-if="!isLogin" href="javascript:;">Join</a>
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a href="javascript:;">MyStudy</a>
+					<a v-if="!isLogin" href="javascript:;" @click="fnShowLogin()">MyStudy</a>
+					<a v-if="isLogin" href="javascript:;">MyStudy</a>
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a href="/myshop/orders.do">MyShop</a>
+					<a v-if="!isLogin" href="javascript:;" @click="fnShowLogin()">MyShop</a>
+					<a v-if="isLogin" href="/myshop/orders">MyShop</a>
 					</div>
-                <div class="headerloginSubMenu clickableMenu">
+                <div v-if="isAdmin" class="headerloginSubMenu clickableMenu">
 					<a href="javascript:;">Admin</a>
 					</div>
                 <div v-if="isLogin" class="headerloginSubMenu clickableMenu">
@@ -88,6 +92,7 @@
 	        data() {
 	            return {
 	                isLogin : false, //세션 체크
+					isAdmin : false, //세션 체크
 					sessionUserId : '',
 					sessionUserNickName: '',
 					userId : '',
@@ -108,6 +113,7 @@
 						data : nparmap,
 						success : function(data) {
 							self.isLogin = data.isLogin 
+							self.isAdmin = data.isAdmin 
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
@@ -115,6 +121,8 @@
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
 							}
+							window.sessionStorage.setItem("isLogin", self.isLogin)
+							window.dispatchEvent(new Event('loginStatusChanged'));
 						}
 					});
 	            },

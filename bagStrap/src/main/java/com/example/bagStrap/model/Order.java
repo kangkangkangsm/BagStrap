@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class Order {
 	private String orderdateYear;                // 주문 날짜(년월일)
-	private String orderdateDay;                // 주문 날짜(월일 요일)
+	private String arriveddateDay;                // 주문 날짜(월일 요일)
 	private String year;                // 주문 식별 ID
 	//Order
     private String orderId;                // 주문 식별 ID

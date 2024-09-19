@@ -80,6 +80,26 @@
 		    cursor: pointer;
 		    text-align: center;
 		}
+		details {
+	        width: 500px;
+	        border: 1px solid #aaa;
+	        border-radius: 4px;
+	        padding: 8px 8px 0 8px;
+	        opacity: 0.8;
+	    }
+	    details[open] {
+	        opacity: 1;
+	        padding: 8px;
+	    }
+	    details[open] summary {
+	        background-color: azure;
+	    }
+	    summary {
+	        font-weight: bold;
+	        background-color: bisque;
+	        margin: -8px -8px 0 -8px;
+	        padding: 8px;
+	    }
 	</style>
 </head>
 <body>
@@ -89,62 +109,49 @@
 				<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
 	        </aside>
 			
-
 	        <div class="content">
 				<div id="app">
-
-					{{year}}
-	<div v-if="isLogin">
 					<div>
-						<input placeholder="주문상품 검색"/>
-					</div>
-					<div v-if="isOrderExists">
-						
-						<div id="selected-orders-date">
-							<button class="block round clickableMenu" @click="fnChangeYear('')">전체</button>
-							<button class="block round clickableMenu" @click="fnChangeYear(item)" v-for="item in orderYear">{{item}}</button>
+						<span :style="{ color: progress>0 ? 'blue' : 'black' }"> 1 상품 선택</span>
+						<span :style="{ color: progress>1 ? 'blue' : 'black' }"> - 2 사유 선택</span>
+						<span :style="{ color: progress>2 ? 'blue' : 'black' }"> - 3 해결방법 선택</span>
+					</div>		
+					<div class="progress" v-if="progress === 1">			
+						<h2>상품을 선택해 주세요</h2>
+						<div class="ordered-list-container round">
+						    <div class="left-section">
+						        <div class="ordered-product" v-for="item in orderList">
+									<input type="checkbox" :value="item.bookId" v-model="selectedBooks"/>
+						            <img class="ordered-product-image" :src="item.image" :alt="item.title">
+									<div class="ordered-product-info">
+						                <div class="ordered-product-name">{{item.title}}</div>
+						                <div class="ordered-product-detail-info">
+						                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
+											<button class="ordered-button relative-right">장바구니에 추가</button>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
 						</div>
-						<!--날짜별로 오더리스트 출력-->
-						<div id="order-list-by-date" v-for="(items, date) in groupedByDate" :key="date">
-							<span class="ordered-date">주문: {{date}}</span>
-							<div class="ordered-list-container round">
-							    <!-- Left Section -->
-							    <div class="left-section">
-									<div class="status">
-										{{items[0].status}}
-										<span class="arrival-time">{{items[0].arriveddateDay}} 도착</span>
-									</div>
-							        <div class="ordered-product" v-for="item in items">
-							            <img class="ordered-product-image" :src="item.image" :alt="item.title">
-										<div class="ordered-product-info">
-							                <div class="ordered-product-name">{{item.title}}</div>
-							                <div class="ordered-product-detail-info">
-							                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
-												<button class="ordered-button relative-right">장바구니에 추가</button>
-							                </div>
-							            </div>
-							        </div>
-							    </div>
-							    <!-- Right Section -->
-							    <div class="right-section">
-									<button class="ordered-button" @click="fnSubmitRefund(items[0].orderId)">교환, 반품 신청</button>
-									<button class="ordered-button">리뷰 작성하기</button>
-							    </div>
-							</div>
-						</div>
-						
 					</div>
-					<div v-if="!isOrderExists">
-						주문내역이 존재하지 않습니다..
+					<div class="progress" v-if="progress === 2">
+						<details @toggle="handleToggle">
+						    <summary>Details 태그에 있는 제목부분: summary</summary>
+						    <p>맞아요 여기는 열면 나오는 부분이랍니다</p>
+						</details>
+					<div class="progress" v-if="progress === 3">			
+
+					</div>
+
+					<div>
+						<button @click="progress+=1">다음 단계</button>	
 					</div>
 					
-					</div>
 		        </div>
 			</div>
 
 	    </main>
 
-		
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
@@ -157,53 +164,51 @@
             return {
 				//가변값 넣어라
 				isLogin : true,
-                isOrderExists : true,
-				year: '',
-				orderYear: [],
-				orderList: [],
+                orderId : '${orderId}',
+				progress : 1,
+				orderList : [],
+				selectedBooks: [],
+				
+				reasonList: [],
+				selectedReason: '',
+				
+				
 				list : {},
 				codeList : {},
-				selectedCodes : [],
-				
+				selectedCodes : []
             };
         },
 		computed: {
-		    groupedByDate() {
+		    sumPrice() {
 				var self = this;
-		        return self.orderList.reduce((acc, item) => {
-		            if (!acc[item.orderdateYear]) {
-		                acc[item.orderdateYear] = [];
-		            }
-		            acc[item.orderdateYear].push(item);
+		        return self.selectedPrice.reduce((acc, item) => {
+		            acc = acc+item
 		            return acc;
-		        }, {});
+		        }, 0);
 		    }
 		},
         methods: {
-			fnChangeYear(year){
-				var self = this;
-				self.year = year;
-				self.fnGetList();
-			},
             fnGetList(){
 				var self = this;
 				var nparmap = {
-					year : self.year
+					orderId : self.orderId
 				};
 				$.ajax({
-					url:"/orderList.dox",
+					url:"/orderListForRefund.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
 						self.orderList = data.orderList;
-						self.orderYear = data.orderYear;
+						alert(data.message); 	
 					}
 				});
             },
-			fnSubmitRefund(orderId){
-				$.pageChange("/myshop/refund",{orderId : orderId});
+			handleToggle(event){
+				if (event.target.open){
+					
+				}
 			}
         },
         mounted() {
@@ -213,9 +218,9 @@
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	
 				} else{
+					alert('로그인하쇼');
 					self.isLogin = false;
 				};
-				self.fnGetList();	
 			})
         }
     });

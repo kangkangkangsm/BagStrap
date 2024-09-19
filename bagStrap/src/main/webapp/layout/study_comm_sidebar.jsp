@@ -92,7 +92,7 @@
 				});
             },
 			fnboardview(boardTypeId){
-				$.pageChange("/study_comm.do",{boardTypeId : boardTypeId});
+				$.pageChange("/study_comm",{boardTypeId : boardTypeId});
 			},
         },
         mounted() {

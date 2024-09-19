@@ -43,12 +43,12 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		return resultMap;
 	}
 
-
+	
 	@Override
 	public HashMap<String, Object> selectOrderList(HashMap<String, Object> map) {
 
 		HashMap<String, Object> resultMap = new HashMap();
-System.out.println(map);
+
 		try {
 			List<Order> orderList = sharedHeaderMapper.selectOrderList(map);
 			List<Integer> orderYear = sharedHeaderMapper.selectOrderYear(map);
@@ -69,5 +69,27 @@ System.out.println(map);
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> selectOrderListForRefund(HashMap<String, Object> map) {
+
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			List<Order> orderList = sharedHeaderMapper.selectOrderListForRefund(map);
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("orderList", orderList);
+			
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+
+
+		
+		return resultMap;
+	}
 	
 }

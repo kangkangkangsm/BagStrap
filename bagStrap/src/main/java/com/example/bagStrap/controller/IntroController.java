@@ -22,7 +22,7 @@ public class IntroController {
 	@Autowired
 	IntroService introService;
 	
-	@RequestMapping("/intro.do") 
+	@RequestMapping("/intro") 
     public String main(Model model) throws Exception{
          return "/intro/intro_home";
     }
