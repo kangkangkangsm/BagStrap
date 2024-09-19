@@ -244,7 +244,7 @@
         },
         methods: {
 			fnBoardTypeList(boardTypeId,name){
-				$.pageChange("/study-comm.do",{boardTypeId2 : boardTypeId, name : name});
+				$.pageChange("/study-comm",{boardTypeId2 : boardTypeId, name : name});
 				},		
 			fnView(){
 				var self = this;
