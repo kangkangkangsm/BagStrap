@@ -24,13 +24,13 @@ public class DefaultController {
 	@Autowired
 	DefaultService defaultService;
 	
-	@RequestMapping("/default.do") 
+	@RequestMapping("/default") 
 	public String mainView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("hello", map.get("hello"));
 		return "defaultView";
 	}
 	
-	@RequestMapping("/test.do") 
+	@RequestMapping("/test") 
     public String maintest(Model model) throws Exception{
          return "test";
     }

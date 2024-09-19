@@ -24,20 +24,21 @@ public class StudyController {
 	@Autowired
 	HttpSession session;
 	
-	@RequestMapping("/defaultView.do") 
+	@RequestMapping("/defaultView") 
     public String defaultView(Model model) throws Exception{
          return "study/defaultView";
     }
-	@RequestMapping("/study.do") 
+	@RequestMapping("/study") 
     public String mainz(Model model) throws Exception{
          return "study/study_home";
     }
 	
-	@RequestMapping("/study_comm.do") 
-	 public String study_comm(Model model) throws Exception{
-        return "/study/study_comm";
+	@RequestMapping("/study_comm") 
+	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
+		return "/study/study_comm";
 	}       
-	@RequestMapping("/study_comm_default.do") 
+	@RequestMapping("/study_comm_default") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardId", map.get("boardId"));
        return "/study/study_comm_default";
