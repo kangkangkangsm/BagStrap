@@ -104,7 +104,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	//스터디 커뮤니티 상세 글
 	@Override
 	public HashMap<String, Object> selectCommView(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -123,7 +123,26 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-//
+	@Override
+	public HashMap<String, Object> sidebarCnt(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			int countMyCommList = studyMapper.countMyCommList(map);
+			int countMycommentList = studyMapper.countMycommentList(map);
+			resultMap.put("countMyCommCnt", countMyCommList);
+			resultMap.put("countMycommentCnt", countMycommentList);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+		
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	
+	//스터디 커뮤니티 상세 글 - 댓글작성
 	@Override
 	public HashMap<String, Object> insertViewComment(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -139,5 +158,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+
+	
 	
 }

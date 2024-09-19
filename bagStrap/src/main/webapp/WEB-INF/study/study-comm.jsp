@@ -262,7 +262,7 @@
 	                </div>
 	            </div>
 	            <nav class="stu-comm-menu">
-	                <button>커뮤니티 글쓰기</button>
+	                <button @click="fnInsertComm">커뮤니티 글쓰기</button>
 	                <ul v-for="item in boardTypelist">
 						<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
 	                    <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
@@ -377,6 +377,9 @@
             };
         },
         methods: {
+			fnInsertComm(){
+				location.href="commInsert.do"
+			},
 			fnboardtypeList(){
 				var self = this;
 				var nparmap = {  
@@ -459,7 +462,7 @@
 				var nparmap = { userId : sessionUserId
 				};
 				$.ajax({
-					url:"myCnt.dox",
+					url:"sidebarCnt.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
