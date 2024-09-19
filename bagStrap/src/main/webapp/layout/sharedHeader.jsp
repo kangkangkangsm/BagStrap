@@ -26,8 +26,7 @@
         <div class="headerCustomerMenu">
             <div class="headerloginMainMenu headerCustomerSub">
                 <div class="headerLogin ">
-                	<a v-if="!isLogin" class="clickableText" href="javascript:;" @click="fnShowLogin()">Login</a>
-					<a v-if="isLogin" class="clickableText" href="javascript:;" onclick="">{{sessionUserNickName}}님 안녕하세요.</a>
+                    <a class="clickableText" href="javascript:;" onclick="document.getElementById('headerLoginModal').showModal()">Login</a>
                 </div>    
                 <div class="headerloginSubMenu clickableMenu">
 					<a v-if="isLogin" href="javascript:;">MyInfo</a>
@@ -37,13 +36,13 @@
 					<a href="javascript:;">MyStudy</a>
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a href="/myshop/orders.do">MyShop</a>
+					<a href="javascript:;">MyShop</a>
 					</div>
                 <div class="headerloginSubMenu clickableMenu">
 					<a href="javascript:;">Admin</a>
 					</div>
-                <div v-if="isLogin" class="headerloginSubMenu clickableMenu">
-					<a href="javascript:;" @click="fnLogout()">Logout</a>
+                <div class="headerloginSubMenu clickableMenu">
+					<a v-if="isLogin" href="javascript:;">Logout</a>
 				</div>
             </div>
             <div class="headerCSCenter headerCustomerSub">
@@ -61,7 +60,7 @@
             </div>
 			
 			<!--Login Popup-->
-
+			
 			<dialog id="headerLoginModal" class="headerLoginModal round">
 			    <div class="rightCloseBtn" onclick="document.getElementById('headerLoginModal').close()">
 					<a href="javascript:;"  class="closeBtn">
@@ -70,113 +69,54 @@
 			    </div>     
 			    <div id="loginBox">
 			     <span id="loginImage">로그인 창 이미지/로고?</span>
-			        <div><input class="round" id="inputId" placeholder="id" v-model="userId" /></div>
-			        <div><input class="round" type="password" placeholder="password" v-model="password" /></div>
+			        <div><input class="round" placeholder="id" /></div>
+			        <div><input class="round" placeholder="password" /></div>
 			        <div><a>아이디 찾기</a>|<a>비밀번호 찾기</a></div>
-			        <button @click="fnLogin()">로그인</button>
+			        <button>로그인</button>
 			        계정이 없으신가요? <a>회원가입</a>
 			    </div>
 			</dialog>
             
         </div>
 
+		<dialog id="modal">
+		    <p>안녕하세요 모달입니다.</p>
+		    <p>용준씨가 좋아하는 모달입니다</p>
+		    <p>모달샘플</p>
+		    <p>입니다</p>
+		    <button onclick="document.getElementById('modal').close()" >닫기</button>
+		</dialog>
+
     </header>
 
 	<script>
-		
 	    const sharedHeaderApp = Vue.createApp({
 	        data() {
 	            return {
-	                isLogin : false, //세션 체크
-					sessionUserId : '',
-					sessionUserNickName: '',
-					userId : '',
-					password : '',
-					user: '${sessionScope.user}'
+	                isLogin : true //세션 체크
 	            };
 	        },
 	        methods: {
-				// header main load 함수
-				getSharedHeader(){
+	            fnGetList(){
 					var self = this;
 					var nparmap = {
+						selectedCodes: JSON.stringify(self.selectedCodes)
 					};
 					$.ajax({
-						url:"/sharedHeader.dox",
+						url:"itemList.dox",
 						dataType:"json",	
 						type : "POST", 
 						data : nparmap,
-						success : function(data) {
-							self.isLogin = data.isLogin 
-							if(data.isLogin){
-								self.sessionUserId = data.userId;
-								self.sessionUserNickName = data.userNickName;
-							} else {
-								self.sessionUserId = '';
-								self.sessionUserNickName = '';
-							}
-						}
-					});
-	            },
-				fnShowLogin(){
-					document.getElementById('headerLoginModal').showModal();
-					document.getElementById('inputId').focus();
-					
-				},
-	            fnLogin(){
-					var self = this;
-					var nparmap = {
-						userId : self.userId,
-						password : self.password
+						success : function(data) { 
+							console.log(data);
 
-					};
-					$.ajax({
-						url:"/login.dox",
-						dataType:"json",	
-						type : "POST", 
-						data : nparmap,
-						success : function(data) {
-							console.log(data); 
-							alert(data.message);
-							if(data.result){
-								document.getElementById('headerLoginModal').close();
-								self.getSharedHeader();
-								self.userId = '',
-								self.password = ''
-							}
-						}
-					});
-	            },
-				fnLogout(){
-					var self = this;
-					var nparmap = {
-					};
-					$.ajax({
-						url:"/logout.dox",
-						dataType:"json",	
-						type : "POST", 
-						data : nparmap,
-						success : function(data) {
-							console.log(data); 
-							alert(data.message);
-							self.getSharedHeader();
 						}
 					});
 	            }
-				
-
 	        },
 	        mounted() {
 	            var self = this;
-				self.getSharedHeader();
-				// login dialog 키 입력 추가
-				document.getElementById("loginBox").addEventListener("keydown", function(event){
-					if(event.key === "Enter"){
-						self.fnLogin();
-					} else if (event.key === "Escape"){
-						document.getElementById('headerLoginModal').close();
-					}
-				})
+				//self.fnGetList();
 	        }
 	    });
 	   sharedHeaderApp.mount('#sharedHeader');

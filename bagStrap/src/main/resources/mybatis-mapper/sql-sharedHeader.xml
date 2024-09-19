@@ -18,20 +18,4 @@
 		SELECT * FROM TBL_CODE
 	</select>
 	
-	<select id="selectOrderYear" parameterType="hashmap" resultType="Integer">
-		SELECT DISTINCT TO_CHAR(ORDER_DATE, 'YYYY') AS YEAR
-		FROM TBL_ORDER O
-		WHERE USER_ID = #{userId}
-		ORDER BY YEAR DESC	
-	</select>
-
-	<select id="selectOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		SELECT TO_CHAR(ORDER_DATE, 'YYYY. MM. DD ') AS ORDERDATE_YEAR,TO_CHAR(ORDER_DATE, 'MM/DD DAY ') AS ORDERDATE_DAY, O.STATUS, I.BOOK_ID, IMAGE, TITLE, I.PRICE, I.QUANTITY
-		FROM TBL_ORDER O
-		INNER JOIN TBL_ORDER_ITEM I ON O.ORDER_ID = I.ORDER_ID
-		INNER JOIN TBL_BOOK B ON I.BOOK_ID= B.BOOK_ID
-		WHERE USER_ID = #{userId} and TO_CHAR(ORDER_DATE, 'YYYY') LIKE '%'|| #{year} || '%' 
-		ORDER BY ORDER_DATE DESC	
-	</select>
-	
 </mapper>
