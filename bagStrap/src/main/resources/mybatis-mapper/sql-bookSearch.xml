@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.bagStrap.mapper.BookSearchMapper">
+	
+	<insert id="insertBooks" parameterType="java.util.List">
+		INSERT ALL
+		<foreach collection="list" item="item" separator="">
+		     INTO TBL_BOOK (
+		        BOOK_ID,
+		        TITLE,
+		        DESCRIPTION,
+		        AUTHOR,
+		        PUBLISHER,
+		        PRICE,
+		        IMAGE,
+		        QUANTITY,
+		        CATEGORY,
+		        EBOOK
+		    ) VALUES (
+		        #{item.isbn},
+		        #{item.title},
+		        #{item.description},
+		        #{item.author},
+		        #{item.publisher},
+		        #{item.price},
+		        #{item.image},
+		        #{item.quantity},
+		        #{item.category},
+		        #{item.ebook}
+		    )
+		</foreach>
+	    SELECT * FROM dual
+
+	</insert>
+
+	
+</mapper>

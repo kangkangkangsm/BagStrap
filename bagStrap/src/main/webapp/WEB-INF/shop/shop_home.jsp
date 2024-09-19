@@ -90,8 +90,7 @@
 <body>
 	<div id="app">
 		<main class="main-container">
-			
-			<aside class="sidebar">
+						<aside class="sidebar">
 			         
 			     </aside>
 

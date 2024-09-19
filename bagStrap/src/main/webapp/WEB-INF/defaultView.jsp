@@ -24,7 +24,6 @@
 	        <div class="content">
 	            콘텐츠
 				Default
-				{{name}}
 	        </div>
 			
 
@@ -37,16 +36,20 @@
 </body>
 </html>
 <script>
+	//localStorage.setItem('data', JSON.stringify(data));
+	// JSON.parse(localStorage.getItem('data')).result
     const app = Vue.createApp({
         data() {
             return {
                 name : '${hello}',
 				list : {},
 				codeList : {},
-				selectedCodes : []
+				selectedCodes : [],
+				
             };
         },
         methods: {
+			
             fnGetList(){
 				var self = this;
 				var nparmap = {
@@ -59,7 +62,6 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-
 					}
 				});
             }

@@ -135,6 +135,6 @@
 	
 	<insert id="insertViewComment" parameterType="hashmap">
 	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
-	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE, NULL, NULL)
+	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE + (9/24), NULL, NULL)
 	</insert>
 </mapper>

@@ -1,7 +1,6 @@
 package com.example.bagStrap.controller;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.bagStrap.dao.StudyService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.example.bagStrap.model.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -28,20 +24,21 @@ public class StudyController {
 	@Autowired
 	HttpSession session;
 	
-	@RequestMapping("/defaultView.do") 
+	@RequestMapping("/defaultView") 
     public String defaultView(Model model) throws Exception{
          return "study/defaultView";
     }
-	@RequestMapping("/study.do") 
+	@RequestMapping("/study") 
     public String mainz(Model model) throws Exception{
          return "study/study_home";
     }
 	
-	@RequestMapping("/study_comm.do") 
-	 public String study_comm(Model model) throws Exception{
-        return "/study/study_comm";
+	@RequestMapping("/study_comm") 
+	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
+		return "/study/study_comm";
 	}       
-	@RequestMapping("/study_comm_default.do") 
+	@RequestMapping("/study_comm_default") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardId", map.get("boardId"));
        return "/study/study_comm_default";
