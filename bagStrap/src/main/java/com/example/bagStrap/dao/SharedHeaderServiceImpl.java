@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.bagStrap.mapper.SharedHeaderMapper;
 import com.example.bagStrap.model.Item;
 import com.example.bagStrap.model.Order;
+import com.example.bagStrap.model.RefundReason;
 
 
 @Service
@@ -76,10 +77,11 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 
 		try {
 			List<Order> orderList = sharedHeaderMapper.selectOrderListForRefund(map);
-			
+			List<RefundReason> refundReasonList = sharedHeaderMapper.selectRefundReasonList();
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
 			resultMap.put("orderList", orderList);
+			resultMap.put("refundReasonList", refundReasonList);
 			
 		} catch(Exception e) {
 			System.out.println("Exception : " + e);

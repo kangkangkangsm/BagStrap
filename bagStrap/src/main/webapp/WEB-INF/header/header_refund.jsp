@@ -80,26 +80,10 @@
 		    cursor: pointer;
 		    text-align: center;
 		}
-		details {
-	        width: 500px;
-	        border: 1px solid #aaa;
-	        border-radius: 4px;
-	        padding: 8px 8px 0 8px;
-	        opacity: 0.8;
-	    }
-	    details[open] {
-	        opacity: 1;
-	        padding: 8px;
-	    }
-	    details[open] summary {
-	        background-color: azure;
-	    }
-	    summary {
-	        font-weight: bold;
-	        background-color: bisque;
-	        margin: -8px -8px 0 -8px;
-	        padding: 8px;
-	    }
+		.refundReasonList3{
+			
+			margin-left:20px;	
+		}
 	</style>
 </head>
 <body>
@@ -111,6 +95,7 @@
 			
 	        <div class="content">
 				<div id="app">
+					
 					<div>
 						<span :style="{ color: progress>0 ? 'blue' : 'black' }"> 1 상품 선택</span>
 						<span :style="{ color: progress>1 ? 'blue' : 'black' }"> - 2 사유 선택</span>
@@ -134,11 +119,27 @@
 						    </div>
 						</div>
 					</div>
+					
+					
 					<div class="progress" v-if="progress === 2">
-						<details @toggle="handleToggle">
-						    <summary>Details 태그에 있는 제목부분: summary</summary>
-						    <p>맞아요 여기는 열면 나오는 부분이랍니다</p>
-						</details>
+					    <div class="refundReasonList1" v-for="item1 in refundReasonList1" :key="item1.reasonId">
+					        {{ item1.reasonText }}
+					        <div class="refundReasonList2" v-for="item2 in refundReasonList2" :key="item2.reasonId">
+								<template v-if="startsWith(item1.reasonId, item2.reasonId)">
+						            <label>
+						                <input type="radio" name="reason2" :value="item2.reasonId"> {{ item2.reasonText }}
+						            </label>
+						            
+					                <div v-for="item3 in refundReasonList3" :key="item3.reasonId">
+										<template v-if="startsWith(item2.reasonId, item3.reasonId)">
+					                    		<input class="refundReasonList3" type="radio" name="reason3" :value="item3.reasonId">{{ item3.reasonText }}
+										</template>
+					                </div>
+					            </template>
+					        </div>
+					    </div>
+					</div>
+					
 					<div class="progress" v-if="progress === 3">			
 
 					</div>
@@ -169,7 +170,9 @@
 				orderList : [],
 				selectedBooks: [],
 				
-				reasonList: [],
+				refundReasonList1: [],
+				refundReasonList2: [],
+				refundReasonList3: [],
 				selectedReason: '',
 				
 				
@@ -178,15 +181,6 @@
 				selectedCodes : []
             };
         },
-		computed: {
-		    sumPrice() {
-				var self = this;
-		        return self.selectedPrice.reduce((acc, item) => {
-		            acc = acc+item
-		            return acc;
-		        }, 0);
-		    }
-		},
         methods: {
             fnGetList(){
 				var self = this;
@@ -199,16 +193,26 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						data.refundReasonList.forEach((item) => {
+							if(item.reasonId.length === 1){
+								self.refundReasonList1.push(item);
+							} else if(item.reasonId.length === 2){
+								self.refundReasonList2.push(item);							
+							} else {
+								self.refundReasonList3.push(item);
+							}
+
+						});
 						self.orderList = data.orderList;
-						alert(data.message); 	
 					}
 				});
             },
 			handleToggle(event){
-				if (event.target.open){
-					
-				}
+				console.log(event.target.id);
+				self.selectedReason = event.target.id;
+			},
+			startsWith(prefix, str) {
+			  return str.startsWith(prefix);
 			}
         },
         mounted() {
@@ -221,7 +225,7 @@
 					alert('로그인하쇼');
 					self.isLogin = false;
 				};
-			})
+			});
         }
     });
     app.mount('#app');
