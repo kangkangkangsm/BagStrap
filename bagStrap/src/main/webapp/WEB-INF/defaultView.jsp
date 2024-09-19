@@ -15,7 +15,10 @@
 		<main class="main-container">
 			
 	        <aside class="sidebar">
-	            사이드바
+	            
+				
+				
+				
 	        </aside>
 			
 	        <div class="content">

@@ -12,5 +12,18 @@ public class Item {
 	private String itemName;
 	private int price;
 	private String category1;
+	
+	
+	private String bookId;
+	private String title;
+	private String description;
+	private String author;
+	private String publisther;
+	private String image;
+	private String quantity;
+	private String category;
+	private String eBook;
+	
 }
+
 	
