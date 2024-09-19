@@ -11,5 +11,6 @@ public class MyStudyController {
     public String calendar(Model model) throws Exception{
 
         return "study/calendar";
+
     }
 }
