@@ -287,7 +287,7 @@
 				});
 		       },
 			  fnBoardDetail(boardId){
-	   				 $.pageChange("/study-comm-detail.do",{boardId : boardId});
+	   				 $.pageChange("/study-comm-detail",{boardId : boardId});
 	   				 },
         },
         mounted() {

@@ -378,7 +378,7 @@
         },
         methods: {
 			fnInsertComm(){
-				location.href="commInsert.do"
+				location.href="commInsert"
 			},
 			fnboardtypeList(){
 				var self = this;
@@ -475,13 +475,13 @@
 			});
 	       },
 		    fnView(boardId){
-				 $.pageChange("/study-comm-detail.do",{boardId : boardId});
+				 $.pageChange("/study-comm-detail",{boardId : boardId});
 				 },
 			fnMyboard(){
-				 $.pageChange("/study-comm-myboard.do",{itemMode : "board"});
+				 $.pageChange("/study-comm-myboard",{itemMode : "board"});
 				 },
 			fnMycomment(){
- 				 $.pageChange("/study-comm-myboard.do",{itemMode : "comment"});
+ 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
  				 },				
 					
         },

@@ -33,25 +33,25 @@ public class StudyController {
          return "study/study_home";
     }
 	
-	@RequestMapping("/study_comm") 
+	@RequestMapping("/study-comm") 
 	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
 		 request.setAttribute("name2", map.get("name"));
 		return "/study/study-comm";
 	}       
-	@RequestMapping("/study_comm_default") 
+	@RequestMapping("/study-comm-detail") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardId", map.get("boardId"));
        return "/study/study-comm-detail";
 	}       
 	// 스터디 커뮤니티 나의 게시글, 댓글 
-	@RequestMapping("/study-comm-myboard.do") 
+	@RequestMapping("/study-comm-myboard") 
     public String study_comm_myboard(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("itemMode", map.get("itemMode"));
 		return "study/study-comm-myboard";
     }
 	// 스터디 커뮤니티 게시글 작성
-	@RequestMapping("/commInsert.do") 
+	@RequestMapping("/commInsert") 
     public String commInsert(Model model) throws Exception{
          return "study/study-comm-insert";
     }
