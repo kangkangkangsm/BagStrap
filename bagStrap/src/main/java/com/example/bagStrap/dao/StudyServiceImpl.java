@@ -42,7 +42,7 @@ public class StudyServiceImpl implements StudyService{
 		return resultMap;
 	}
 
-
+	//스터디 커뮤니티 사이드 
 	@Override
 	public HashMap<String, Object> selectStuComm(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -54,6 +54,7 @@ public class StudyServiceImpl implements StudyService{
 			resultMap.put("message", "성공~");
 			resultMap.put("boardTypelist", boardTypelist);
 			resultMap.put("boardList", boardList);
+			
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
@@ -63,5 +64,77 @@ public class StudyServiceImpl implements StudyService{
 		return resultMap;
 	}
 
+	// 스터디 커뮤니티 컨텐츠 부문
+	@Override
+	public HashMap<String, Object> selectStuCommListBoard(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<StudyComm> commlist = studyMapper.selectStuCommListBoard(map);
+			int countCommList = studyMapper.countCommList(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("commlist", commlist);
+			resultMap.put("cnt", countCommList);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> myCnt(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			int countMyCommList = studyMapper.countMyCommList(map);
+			int countMycommentList = studyMapper.countMycommentList(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("countMyCommCnt", countMyCommList);
+			resultMap.put("countMycommentCnt", countMycommentList);
+		
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> selectCommView(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			StudyComm selectCommView = studyMapper.selectCommView(map);
+			List<StudyComm> selectViewComment = studyMapper.selectViewComment(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("viewList", selectCommView);
+			resultMap.put("viewComment", selectViewComment);
+		
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+//
+	@Override
+	public HashMap<String, Object> insertViewComment(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertViewComment(map);
+	
+			resultMap.put("result", true);
+			resultMap.put("message", "댓글 작성 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 	
 }
