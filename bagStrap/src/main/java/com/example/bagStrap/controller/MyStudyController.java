@@ -10,10 +10,7 @@ public class MyStudyController {
 	@RequestMapping("/calendar.do") 
     public String calendar(Model model) throws Exception{
 
-<<<<<<< song
-        return "/study/calendar";
-=======
+
         return "/calendar";
->>>>>>> main
     }
 }
