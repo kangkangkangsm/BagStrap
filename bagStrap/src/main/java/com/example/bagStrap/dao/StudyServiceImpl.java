@@ -23,13 +23,12 @@ public class StudyServiceImpl implements StudyService{
 		HashMap<String, Object> resultMap = new HashMap();
 		
 		try {
-			List<Item> list = studyMapper.searchItem(map);
-			List<Item> codeList = studyMapper.searchCodes(map);
+
 			
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
-			resultMap.put("list", list);
-			resultMap.put("codeList", codeList);
+
+
 			
 		} catch(Exception e) {
 			System.out.println("Exception : " + e);

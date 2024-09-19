@@ -30,7 +30,7 @@ public class ShopController {
     
     private int currentImageIndex = 0;
     
-    @RequestMapping("/shop.do") 
+    @RequestMapping("/shop") 
     public String main(Model model) throws Exception {
         return "shop/shop_home";
     }
