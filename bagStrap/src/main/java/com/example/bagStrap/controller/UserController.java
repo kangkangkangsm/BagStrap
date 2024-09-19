@@ -25,7 +25,7 @@ public class UserController {
 	@Autowired
 	HttpSession session;
 	
-	@RequestMapping("/defaults") 
+	@RequestMapping("/defaultasdfass") 
 	public String mainasView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		request.setAttribute("hello", map.get("hello"));
 		return "defaultVasiew";

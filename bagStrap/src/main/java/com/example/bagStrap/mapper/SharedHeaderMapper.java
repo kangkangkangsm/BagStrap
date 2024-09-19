@@ -15,5 +15,6 @@ public interface SharedHeaderMapper {
 	List<Item> searchCodes(HashMap<String, Object> map);
 	List<Order> selectOrderList(HashMap<String, Object> map);
 	List<Integer> selectOrderYear(HashMap<String, Object> map);
+	List<Order> selectOrderListForRefund(HashMap<String, Object> map);
 	
 }

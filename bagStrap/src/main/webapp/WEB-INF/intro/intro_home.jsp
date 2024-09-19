@@ -77,10 +77,10 @@
 	                });
 	            },
 	            fnShop(){
-	                location.href="http://localhost:8080/shop.do";
+	                location.href="/shop";
 	            },
 	            fnStudy(){
-	                location.href="http://localhost:8080/study.do";
+	                location.href="/study";
 	            }
 	        },
 	        mounted() {

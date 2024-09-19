@@ -36,9 +36,28 @@ public class ShopServiceImpl implements ShopService{
 			resultMap.put("result", false);
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
 		}
-
-
+	
+		return resultMap;
+	}
+	
+	@Override
+	public HashMap<String, Object> searchBookList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
 		
+		try {
+			List<Item> bookList = shopMapper.searchBookList(map);
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("bookList", bookList);
+			
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+	
 		return resultMap;
 	}
 

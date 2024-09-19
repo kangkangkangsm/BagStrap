@@ -24,23 +24,22 @@ public class StudyController {
 	@Autowired
 	HttpSession session;
 	
-	@RequestMapping("/defaultView.do") 
+	@RequestMapping("/defaultView") 
     public String defaultView(Model model) throws Exception{
          return "study/defaultView";
     }
-	@RequestMapping("/study.do") 
+	@RequestMapping("/study") 
     public String mainz(Model model) throws Exception{
          return "study/study_home";
     }
-	// 스터디 커뮤니티 페이지
-	@RequestMapping("/study-comm.do") 
+	
+	@RequestMapping("/study_comm") 
 	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
 		 request.setAttribute("name2", map.get("name"));
 		return "/study/study-comm";
 	}       
-	// 스터디 커뮤니티 게시글 상세페이지
-	@RequestMapping("/study-comm-detail.do") 
+	@RequestMapping("/study_comm_default") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardId", map.get("boardId"));
        return "/study/study-comm-detail";
