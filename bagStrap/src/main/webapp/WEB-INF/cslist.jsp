@@ -11,6 +11,7 @@
 	table {
 		margin : 20px;
 	}
+	
 	table, tr, th, td {
 		border : 1px solid black;
 		padding : 5px 5px;

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CSCenterService {
-	HashMap<String, Object> searchCS(HashMap<String, Object> map);
+	HashMap<String, Object> searchCS (HashMap<String, Object> map);
 }

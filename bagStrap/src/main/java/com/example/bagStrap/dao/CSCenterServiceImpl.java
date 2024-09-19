@@ -19,7 +19,7 @@ public class CSCenterServiceImpl implements CSCenterService{
 	public HashMap<String, Object> searchCS(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap=new HashMap<String, Object>();
-		List<StudyComm> list =CSMapper.searchList(map);
+		List<StudyComm> list = CSMapper.searchList(map);
 		
 		resultMap.put("list", list);
 		resultMap.put("result", "success");

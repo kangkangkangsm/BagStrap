@@ -9,5 +9,5 @@ import com.example.bagStrap.model.StudyComm;
 
 @Mapper
 public interface CSCenterMapper {
-	List<StudyComm> searchList(HashMap<String, Object> map);
+	List<StudyComm> searchList (HashMap<String, Object> map);
 }
