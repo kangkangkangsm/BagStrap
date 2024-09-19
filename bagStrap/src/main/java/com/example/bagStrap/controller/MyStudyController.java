@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MyStudyController {
 
-	@RequestMapping("/calendar.do") 
+	@RequestMapping("/study_calendar.do") 
     public String calendar(Model model) throws Exception{
 
-
-        return "/calendar";
+        return "study/calendar";
     }
 }
