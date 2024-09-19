@@ -1,5 +1,3 @@
-study_comm.jsp
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -289,10 +287,6 @@ study_comm.jsp
 	              <ul v-for = "item in boardList">
 	                  <li><a href="#">{{item.title}}</a></li>
 	              </ul>
-	              <div class="stu-comm-pagination">
-	                  <a href="#">이전</a>
-	                  <a href="#">다음</a>
-		              </div>
 		          </div>
 	        </aside>
 			
@@ -344,7 +338,7 @@ study_comm.jsp
 			</select>	
 			<input type="text" v-model="search" @keyup.enter="fnboardList(1)">
 			<button @click="fnboardList()">검색</button>
-			
+			{{boardTypeId2}}
 	    </main>
 
 	</div>
@@ -372,7 +366,8 @@ study_comm.jsp
 				isLogin : false,
 				sessionUserId : '',
 				userId : '',
-				password : ''
+				password : '',
+				boardTypeId2 : '${boardTypeId2}'
 			
             };
         },
@@ -398,12 +393,12 @@ study_comm.jsp
 				var self = this;
 				var startIndex = (page-1) * self.pageSize;
 				var outputNumber = self.pageSize;
-				var boardTypeId = boardTypeId;
 				self.currentPage = page;
+				var boardTypeId = self.boardTypeId2 || self.boardTypeId;
 				var search = self.search;
 				var boardSearch = self.boardSearch;
 				var period = self.selectedPeriod;
-				var nparmap = { boardTypeId : self.boardTypeId,startIndex : startIndex, 
+				var nparmap = { boardTypeId : boardTypeId,startIndex : startIndex, 
 								outputNumber : outputNumber, search : search, boardSearch : boardSearch,
 								period : period };
 				$.ajax({
@@ -416,6 +411,7 @@ study_comm.jsp
 						self.commlist = data.commlist; 
 						self.cnt = data.cnt;
 						self.totalPages = Math.ceil(self.cnt/self.pageSize);
+						self.boardTypeId2 = '';
 
 				}
 			});

@@ -184,7 +184,7 @@
             <div class="stu-comm-detail-content">
                 <div class="stu-comm-detail-board-container">
                     <div class="stu-comm-detail-board-header">
-                        <h2 class="stu-comm-detail-board-type">{{viewList.name}}</h2>
+                        <a class="stu-comm-detail-board-type" href="#" @click="fnBoardTypeList(viewList.boardTypeId)">{{viewList.name}}</a>
                         <h1 class="stu-comm-detail-board-title">{{viewList.title}}</h1>
                         <div class="stu-comm-detail-profile">
                             <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-detail-profile-img">
@@ -243,6 +243,9 @@
             };
         },
         methods: {
+			fnBoardTypeList(boardTypeId){
+				$.pageChange("/study_comm.do",{boardTypeId2 : boardTypeId});
+				},		
 			fnView(){
 				var self = this;
 				var nparmap = {boardId : self.boardId};

@@ -34,8 +34,9 @@ public class StudyController {
     }
 	
 	@RequestMapping("/study_comm.do") 
-	 public String study_comm(Model model) throws Exception{
-        return "/study/study_comm";
+	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
+		return "/study/study_comm";
 	}       
 	@RequestMapping("/study_comm_default.do") 
 	 public String study_comm_default(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
