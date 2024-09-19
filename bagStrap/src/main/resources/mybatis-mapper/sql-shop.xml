@@ -17,5 +17,9 @@
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_CODE
 	</select>
+	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
+		SELECT * FROM TBL_BOOK
+	</select>
+	
 	
 </mapper>

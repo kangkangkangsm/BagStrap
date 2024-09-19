@@ -12,4 +12,5 @@ import com.example.bagStrap.model.Item;
 public interface ShopMapper {
 	List<Item> searchItem(HashMap<String, Object> map);
 	List<Item> searchCodes(HashMap<String, Object> map);
+	List<Item> searchBookList(HashMap<String, Object> map);
 }
