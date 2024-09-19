@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <jsp:include page="/layout/menu.jsp"></jsp:include>
+    <!-- <jsp:include page="/layout/sharedHeader.jsp"></jsp:include> -->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <title>MyCalendar</title>
     <style>
@@ -13,7 +13,7 @@
             height: 60%; /* 캘린더의 높이를 필요에 따라 조정 */
             margin: 0 auto; /* 캘린더를 수평으로 중앙 정렬 */
         }
-        #btn {
+        #calendarBtn {
             margin: 10px 0;
         }
     </style>
@@ -101,7 +101,7 @@
     </script>
 </head>
 <body>
-    <div id="btn">
+    <div id="calendarBtn">
         <button id="add">추가</button>
         <button id="edit">변경</button>
         <button id="delete">삭제</button>
