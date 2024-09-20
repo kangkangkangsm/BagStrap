@@ -107,7 +107,7 @@
 
 			           <div class="stu-comm-insert-buttons">
 			               <button type="button" @click="fnBack()">취소</button>
-			               <button type="submit" @click="fnSave()">등록</button>
+			               <button type="button" @click="fnSave()">등록</button>
 			           </div>
 			       </form>
 			   </div>
@@ -225,8 +225,7 @@
 					
 					}
 				});
-			}
-			
+			},
         },
         mounted() {
             var self = this;
