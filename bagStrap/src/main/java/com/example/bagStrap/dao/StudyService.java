@@ -17,4 +17,6 @@ public interface StudyService {
 	HashMap<String, Object> selectCommView(HashMap<String, Object> map);
 	//스터디 커뮤니티 게시글 상세보기 댓글작성
 	HashMap<String, Object> insertViewComment(HashMap<String, Object> map);
+	
+	
 }
