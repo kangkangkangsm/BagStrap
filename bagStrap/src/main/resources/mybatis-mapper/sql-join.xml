@@ -3,14 +3,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.bagStrap.mapper.JoinMapper">
-	<select id="joinList" parameterType="hashmap" resultType="com.example.bagStrap.model.Join">
+	<select id="joinList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
 		SELECT * FROM TBL_USER
 	</select>
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, ADDR, BAN, STATUS, PHON_NUM, CREATE_DATE, UPDATE_DATE) 
-		VALUES (#{USER_ID}, #{USER_NAME}, #{USER_NICKNAME}, #{PASSWORD}, 
-		#{EMAIL}, #{ADDR}, #{BAN}, #{STATUS}, #{PHONE_NUM}, #{CREATE_DATE}, #{UPDATE_DATE})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, ADDR, BAN, STATUS, PHONE_NUM, CREATED_DATE, UPDATE_DATE) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{addr}, #{ban}, #{status}, #{phoneNum}, #{cDatetime}, #{uDatetime})
 	</insert>
+	
+	
 </mapper>
