@@ -146,6 +146,18 @@ public class StudyController {
 
 		return new Gson().toJson(resultMap);
 	}
+	
+	//스터디 커뮤니티 게시글 숨기기 
+	@RequestMapping(value = "/updateStatusBoard.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateStatusBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		resultMap = studyService.updateStatusBoard(map);
+
+		return new Gson().toJson(resultMap);
+	}
+		
 	//스터디 게시글 작성하기 이미지 첨부
 	 @RequestMapping("/fileUpload.dox")
 	    public String result(@RequestParam("file1") MultipartFile multi, @RequestParam("idx") int idx, HttpServletRequest request,HttpServletResponse response, Model model)
@@ -174,7 +186,7 @@ public class StudyController {
 	                
 	                HashMap<String, Object> map = new HashMap<String, Object>();
 	                map.put("fileName", saveFileName);
-	                map.put("filePath", "../../img/" + saveFileName);
+	                map.put("filePath", "../src/" + saveFileName);
 	                map.put("idx", idx);
 	                map.put("fileOrgName", originFilename);
 	                map.put("fileSize", size);
@@ -209,4 +221,13 @@ public class StudyController {
 	        
 	        return fileName;
 	    }
+	  //스터디 커뮤니티 게시글 삭제 하기 
+		@RequestMapping(value = "/deleteBoard.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deleteBoard(map);
+
+			return new Gson().toJson(resultMap);
+		}
 }

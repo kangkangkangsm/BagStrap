@@ -29,13 +29,14 @@
 	    margin-bottom: 20px;
 	}
 
-	.stu-comm-myboard-picture {
+	.stu-comm-myboard-picture img {
 	    width: 100px;
 	    height: 100px;
 	    background-color: #e0e0e0;
 	    border-radius: 50%;
 	    display: inline-block;
-	    margin-bottom: 10px;
+	    margin-bottom: 0px;
+		float:left;
 	}
 
 	h2 {
@@ -103,6 +104,11 @@
 	    font-size: 14px;
 	    margin-top: 5px;
 	}
+	
+	.stu-comm-myboard-btn {
+	  
+	    margin-left:520px; /* 우측 여백 */
+	}
 	</style>
 <body>
 	<div id="app">
@@ -114,12 +120,14 @@
 			<!--메인 컨텐츠-->
 			<div class="content">
 				<div class="stu-comm-myboard-container">
+					<button class="stu-comm-myboard-btn" @click="fnBack">뒤로가기</button>
 				        <div class="stu-comm-myboard-header">
 				            <div class="stu-comm-myboard-picture">
-								
+								<img src="../src/profile.png" alt="프로필 사진">
 				            </div>
 				            <h2>{{sessionUserNickName}}</h2>
 				        </div>
+							
 
 				        <div class="stu-comm-myboard-info">
 				            <table>
@@ -209,6 +217,9 @@
             };
         },
         methods: {
+			fnBack(){
+				history.back();
+			},
 			fnhide(){
 				var self = this;
 				if(self.hide == "N"){

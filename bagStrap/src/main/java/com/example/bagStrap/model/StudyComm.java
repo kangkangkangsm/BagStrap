@@ -12,6 +12,7 @@ public class StudyComm {
 	private String author;
 	private String createdDate;
 	private String updateDate;
+	private String boardstatus;
 	private int views;
 	private int likes;
 	private String createdDateFormatted;
@@ -45,6 +46,8 @@ public class StudyComm {
 	private String uDatetime;
 
 //TBL_BOADRFILE
+		private int fileNo;
+		private int boardNo;
 		private String idx;
 		private String fileName;
 		private String fileOrgName;

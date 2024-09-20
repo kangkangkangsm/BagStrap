@@ -309,11 +309,17 @@
 						<th>조회</th>
 					</tr>
 					<tr v-for="item in commlist">
+						<template v-if="item.boardstatus === 'N'">
 						<td><a href="#" @click="fnView(item.boardId)">{{item.name}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.title}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.userNickName}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>	
+						</template>
+						<template v-if="item.boardstatus === 'Y'">
+						<td colspan="5"><a href="#" @click="fnView(item.boardId)" style="color:black;">관리자에 의해 숨김 처리된 게시글 입니다.</a></td>
+						</template>
+						
 					</tr>
 				</table>
 				<div class="pagination">
@@ -398,6 +404,7 @@
 			});
            },		
 		   fnboardList(page = 1){
+				var boardTypeId = '';
 				var self = this;
 				var startIndex = (page-1) * self.pageSize;
 				var outputNumber = self.pageSize;
@@ -442,6 +449,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
+							console.log(data);
 						self.isLogin = data.isLogin 
 						if(data.isLogin){
 							self.sessionUserId = data.userId;

@@ -170,14 +170,14 @@
 									contentType: false,  
 									success: function() {
 									  console.log('업로드 성공!');
-									  location.href="/board/list.do"
+									  location.href="/study-comm"
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
 									  console.error('업로드 실패!', textStatus, errorThrown);
 									}
 							  });		
 						  }	else{
-							location.href="/boastudy-comm"
+							location.href="/study-comm"
 						  }		
 						}
 					});
@@ -225,6 +225,9 @@
 					
 					}
 				});
+			},
+			fnBack(){
+				 history.back();
 			},
         },
         mounted() {

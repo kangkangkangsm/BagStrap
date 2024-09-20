@@ -124,7 +124,8 @@
 		SELECT * FROM TBL_STU_COMM C
 		LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-		WHERE BOARD_ID = #{boardId}
+        LEFT JOIN TBL_BOARDFILE BF ON C.BOARD_ID = BF.BOARDNO 
+        WHERE C.BOARD_ID = #{boardId}
 	</select>
 		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
@@ -153,7 +154,7 @@
 	SELECT COM.* FROM  TBL_STU_COMM C 
     LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
     INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-    INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+    RIGHT JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
     WHERE COM.AUTHOR = #{userId}
     ORDER BY com.created_Date DESC
     OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
@@ -172,11 +173,22 @@
 	INSERT INTO TBL_STU_COMM 
     (BOARD_ID, BOARD_TYPE, TITLE, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, VIEWS, LIKES) 
     VALUES 
-    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, #{title}, #{content}, #{userId}, SYSDATE, NULL, 0, 0)
+    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, #{title}, #{content}, #{userId}, SYSDATE + (9/24), NULL, 0, 0)
 	</insert>
 	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
 	<insert id="insertBoardFile" parameterType="hashmap" >
-		INSERT INTO TBL_BOADRFILE 
+		INSERT INTO TBL_BOARDFILE
 		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N')
 	</insert>
+	<!-- 스터디 커뮤니티 게시글 삭제하기-->
+	<delete id="deleteBoard" parameterType="hashmap" >
+	DELETE FROM TBL_STU_COMM 
+	WHERE BOARD_ID = #{boardId}
+	</delete>
+		<!-- 스터디 커뮤니티 게시글 숨기기-->
+	<update id="updateStatusBoard" parameterType="hashmap" >
+	UPDATE TBL_STU_COMM
+	SET BOARD_STATUS = 'Y' 
+	WHERE BOARD_ID = #{boardId}
+	</update>
 </mapper>

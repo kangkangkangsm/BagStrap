@@ -39,4 +39,11 @@ public interface StudyMapper {
 	void insertComm(HashMap<String, Object> map); 
 	// 스터디 커뮤티 게시글 작성 이미지 첨부
 	void insertBoardFile(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 삭제
+	void deleteBoard(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 숨기기
+	void updateStatusBoard(HashMap<String, Object> map);
+		
+	
+	
 }

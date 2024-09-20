@@ -192,17 +192,34 @@
                                 <p><strong>{{viewList.userNickName}} 님</strong></p>
                                 {{viewList.createdDate}} 조회 : {{viewList.views}}
                             </div>
+							<button @click="fnInsertBoard()">글쓰기</button>
+							<button @click="fnBack()">목록</button>
+							<template v-if="viewList.userId === sessionUserId">
+								<button @click="fnDelete()">삭제</button>
+								<button @click="fnUpdate()">수정</button>
+							</template>
+							<template v-if="isAdmin">
+								<button @click="fnhide()">숨기기</button>
+							</template>
                         </div>
                     </div>
 
                     <div class="stu-comm-detail-board-content">
-                        {{viewList.content}}
-                    </div>
-
+                     <div v-html = "viewList.content"></div>   
+					 <template v-if="viewList.filePath">
+					 <img style="width:400px; height:400px;" :src="viewList.filePath">
+                     </template>
+				 	</div>
+		
 					<div class="stu-comm-detail-comments-section">
 					    <div class="stu-comm-detail-comment">
 					        <div style="flex-grow: 1;">
+								<template v-if="isLogin">
 					            {{sessionUserNickName}} 님
+								</template>
+								<template v-if="!isLogin">
+									로그인 먼저 하십셔
+								</template>
 					            <div class="stu-comm-detail-comment-input-container">
 					                <textarea placeholder="댓글을 남겨보세요..." v-model="contents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnSave()"></textarea>
 					            </div>
@@ -210,7 +227,7 @@
 					        <button class="stu-comm-detail-comment-button" @click="fnSave()">등록</button>
 					    </div>
 					</div>
-
+				<template v-if="viewComment.length > 0">
                     <div class="stu-comm-detail-comment-list">
                         <div class="stu-comm-detail-comment-item" v-for="item in viewComment">
                             <strong>{{item.userNickName}}</strong>
@@ -218,6 +235,7 @@
                             <small>{{item.comCreateDay}}</small>
                         </div>
                     </div>
+					</template>
                 </div>
             </div>
 
@@ -243,6 +261,44 @@
             };
         },
         methods: {
+			fnhide(){
+			var self = this;
+			var nparmap = {boardId : self.boardId};
+			$.ajax({
+				url:"/updateStatusBoard.dox",
+				dataType:"json",	
+				type : "POST", 
+				data : nparmap,
+				success : function(data) { 
+					console.log(data);
+					alert(data.message);
+					location.href="/study-comm"
+						
+						}
+					});
+			},				
+			fnDelete(){
+				var self = this;
+				var nparmap = {boardId : self.boardId};
+				$.ajax({
+					url:"/deleteBoard.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						console.log(data);
+						alert(data.message);
+						location.href="/study-comm"
+							
+						}
+					});
+			},			
+			fnInsertBoard(){
+				location.href="/commInsert"
+			},
+			fnBack(){
+				 history.back();
+			},
 			fnBoardTypeList(boardTypeId,name){
 				$.pageChange("/study-comm",{boardTypeId2 : boardTypeId, name : name});
 				},		
@@ -272,14 +328,17 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
-						self.isLogin = data.isLogin 
+						console.log(data);
+						self.isLogin = data.isLogin; 
 						if(data.isLogin){
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
+							self.isAdmin = data.isAdmin;
 							console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
 						} else {
 							self.sessionUserId = '';
-							self.sessionUserNickName = '';
+							self.sessionUserNickName = '';	
+							self.isAdmin = '';			
 						}
 					
 					}
