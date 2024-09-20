@@ -26,7 +26,7 @@ public class StudyComm {
 	private String comcontents;
 	private String comCreateDay;
 	private String comUpdateDay;
-//
+
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;
@@ -44,6 +44,14 @@ public class StudyComm {
 	private String cDatetime;
 	private String uDatetime;
 
+//TBL_BOADRFILE
+		private String idx;
+		private String fileName;
+		private String fileOrgName;
+		private String filePath;
+		private String fileSize;
+		private String fileExt;
+		private String thumbnailYN;
 	
 	public String getUserId() {
 		return userId;

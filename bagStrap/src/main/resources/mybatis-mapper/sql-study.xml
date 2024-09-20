@@ -158,12 +158,25 @@
     ORDER BY com.created_Date DESC
     OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
+	<!-- 스터디 커뮤니티 게시글 작성하기 카테고리 불러오기-->
+	<select id="selectMyCommCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM tbl_stu_comm_board_types
+	WHERE (board_type_id BETWEEN 1001 AND 1999) 
+	OR (board_type_id BETWEEN 2001 AND 2999)
+	OR (board_type_id BETWEEN 3001 AND 3999)
+	OR (board_type_id BETWEEN 4001 AND 4999)
+	ORDER BY board_type_id
+	</select>
 	<!-- 스터디 커뮤니티 게시글작성하기-->
-	<insert id="insertComm" parameterType="hashmap">
+	<insert id="insertComm" parameterType="hashmap" useGeneratedKeys="true" keyProperty="board_Id" keyColumn="board_Id">
 	INSERT INTO TBL_STU_COMM 
     (BOARD_ID, BOARD_TYPE, TITLE, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, VIEWS, LIKES) 
     VALUES 
-    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, '#{title}', '#{content}', '#{userId}', SYSDATE, NULL, 0, 0)
+    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, #{title}, #{content}, #{userId}, SYSDATE, NULL, 0, 0)
 	</insert>
-	
+	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
+	<insert id="insertBoardFile" parameterType="hashmap" >
+		INSERT INTO TBL_BOADRFILE 
+		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N')
+	</insert>
 </mapper>

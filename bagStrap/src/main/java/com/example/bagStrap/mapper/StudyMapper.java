@@ -33,4 +33,10 @@ public interface StudyMapper {
 	List<StudyComm> selectMyComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 나의 댓글 
 	List<StudyComm> selectMyComment(HashMap<String, Object> map);
+	//스터디 커뮤니티 게시글 작성하기 카테고리  
+	List<StudyComm> selectMyCommCategory(HashMap<String, Object> map);
+	//스터디 커뮤니티 게시글 작성 
+	void insertComm(HashMap<String, Object> map); 
+	// 스터디 커뮤티 게시글 작성 이미지 첨부
+	void insertBoardFile(HashMap<String, Object> map);
 }
