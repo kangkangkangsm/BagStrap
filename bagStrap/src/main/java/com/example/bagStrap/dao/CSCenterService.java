@@ -7,4 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CSCenterService {
 	HashMap<String, Object> searchCS (HashMap<String, Object> map);
+	
+	HashMap<String, Object> NoticeList(HashMap<String, Object> map);
+	
+	HashMap<String, Object> searchNoticeInfo(HashMap<String, Object> map);
+	
+	HashMap<String, Object> FaqList(HashMap<String, Object> map);
 }
