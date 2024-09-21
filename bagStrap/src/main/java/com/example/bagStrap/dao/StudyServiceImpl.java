@@ -212,15 +212,33 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	//스터디 커뮤니티 게시글 숨기기 및 해제 
 	@Override
 	public HashMap<String, Object> updateStatusBoard(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		try {
 			studyMapper.updateStatusBoard(map);
+			resultMap.put("resultHide",map.get("BOARD_STATUS"));
 			resultMap.put("result", true);
 			resultMap.put("message", "ㅋㅋㅋ");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateComm(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateComm(map);
+			resultMap.put("idx",map.get("board_Id"));
+			resultMap.put("result", true);
+			resultMap.put("message", "게시글 업데이트 완료");
+			System.out.println(resultMap);
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);

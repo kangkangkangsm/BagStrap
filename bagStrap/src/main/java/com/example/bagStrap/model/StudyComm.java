@@ -55,7 +55,7 @@ public class StudyComm {
 		private String fileSize;
 		private String fileExt;
 		private String thumbnailYN;
-	
+		private String fileCreateDate;
 	public String getUserId() {
 		return userId;
 	}

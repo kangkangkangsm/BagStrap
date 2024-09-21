@@ -26,5 +26,7 @@ public interface StudyService {
 	HashMap<String, Object> deleteBoard(HashMap<String, Object> map);
 	// 스터디 커뮤티 게시글 숨기기
 	HashMap<String, Object> updateStatusBoard(HashMap<String, Object> map);
+	// 스터디 커뮤니티 업데이트
+	HashMap<String, Object> updateComm(HashMap<String, Object> map);
 	
 }

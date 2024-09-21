@@ -60,6 +60,13 @@ public class StudyController {
     public String commInsert(Model model) throws Exception{
          return "study/study-comm-insert";
     }
+	// 스터디 커뮤니티 게시글 수정 
+	@RequestMapping("/study-comm-Update") 
+    public String commUpdate(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("boardId", map.get("boardId"));
+         return "study/study-comm-update";
+    }
+	
 	
 	        
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -152,7 +159,6 @@ public class StudyController {
 	@ResponseBody
 	public String updateStatusBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
 		resultMap = studyService.updateStatusBoard(map);
 
 		return new Gson().toJson(resultMap);
@@ -230,4 +236,12 @@ public class StudyController {
 
 			return new Gson().toJson(resultMap);
 		}
+		//스터디 커뮤니티 게시글 업데이트
+			@RequestMapping(value = "/updateComm.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+			@ResponseBody
+			public String updateComm(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+				HashMap<String, Object> resultMap = new HashMap();
+				resultMap = studyService.updateComm(map);
+				return new Gson().toJson(resultMap);
+			}
 }

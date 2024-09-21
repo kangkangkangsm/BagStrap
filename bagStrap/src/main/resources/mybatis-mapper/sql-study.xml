@@ -33,7 +33,7 @@
 
 		<!-- 스터디 컨텐츠 리스트 -->
 	<select id="selectStuCommListBoard" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-    SELECT C.*, U.*, T.*,
+   SELECT C.*, U.*, T.*,cnt,
     CASE 
         WHEN TO_CHAR(C.CREATED_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
         THEN TO_CHAR(C.CREATED_DATE, 'HH24:MI:SS')
@@ -42,6 +42,11 @@
     FROM TBL_STU_COMM C 
     LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
     INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    LEFT JOIN
+	(
+	SELECT COUNT(*) CNT , POST_ID AS board_id FROM TBL_STU_COMMENTS
+	GROUP BY POST_ID
+	) CCNT ON C.BOARD_ID = CCNT.board_id
     WHERE 1=1
     <if test="boardTypeId !='' and boardTypeId != null">
         AND (BOARD_TYPE = #{boardTypeId} OR PART = #{boardTypeId} OR FULLVIEW = #{boardTypeId})
@@ -121,11 +126,15 @@
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기-->
 	<select id="selectCommView" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		SELECT * FROM TBL_STU_COMM C
+		SELECT *
+		FROM TBL_STU_COMM C
 		LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-        LEFT JOIN TBL_BOARDFILE BF ON C.BOARD_ID = BF.BOARDNO 
-        WHERE C.BOARD_ID = #{boardId}
+		LEFT JOIN (
+		    SELECT BF.*, ROW_NUMBER() OVER (PARTITION BY BF.BOARDNO ORDER BY BF.FILECREATEDATE DESC) AS RN
+		    FROM TBL_BOARDFILE BF
+		) BF ON C.BOARD_ID = BF.BOARDNO AND BF.RN = 1
+		WHERE C.BOARD_ID = #{boardId}
 	</select>
 		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
@@ -178,7 +187,7 @@
 	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
 	<insert id="insertBoardFile" parameterType="hashmap" >
 		INSERT INTO TBL_BOARDFILE
-		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N')
+		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N',SYSDATE + (9/24))
 	</insert>
 	<!-- 스터디 커뮤니티 게시글 삭제하기-->
 	<delete id="deleteBoard" parameterType="hashmap" >
@@ -186,9 +195,23 @@
 	WHERE BOARD_ID = #{boardId}
 	</delete>
 		<!-- 스터디 커뮤니티 게시글 숨기기-->
-	<update id="updateStatusBoard" parameterType="hashmap" >
+	<update id="updateStatusBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARD_STATUS" keyColumn="BOARD_STATUS" >
 	UPDATE TBL_STU_COMM
-	SET BOARD_STATUS = 'Y' 
+		SET BOARD_STATUS = 
+			CASE 
+				WHEN #{boardstatus} = 'N' THEN 'Y'
+				WHEN #{boardstatus} = 'Y' THEN 'N'
+				ELSE BOARD_STATUS 
+			END
+	WHERE BOARD_ID = #{boardId}
+	</update>
+	<update id="updateComm" parameterType="hashmap" useGeneratedKeys="true" keyProperty="board_Id" keyColumn="board_Id">
+	UPDATE TBL_STU_COMM
+	SET 
+	BOARD_TYPE = #{boardTypeId},
+	TITLE = #{title},
+	CONTENT = #{content},
+	UPDATE_DATE = SYSDATE + (9/24)
 	WHERE BOARD_ID = #{boardId}
 	</update>
 </mapper>

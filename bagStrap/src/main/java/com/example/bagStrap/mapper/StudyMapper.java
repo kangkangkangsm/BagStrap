@@ -43,7 +43,8 @@ public interface StudyMapper {
 	void deleteBoard(HashMap<String, Object> map);
 	// 스터디 커뮤티 게시글 숨기기
 	void updateStatusBoard(HashMap<String, Object> map);
-		
+	// 스터디 커뮤니티 게시글 업데이트
+	void updateComm(HashMap<String, Object> map);
 	
 	
 }

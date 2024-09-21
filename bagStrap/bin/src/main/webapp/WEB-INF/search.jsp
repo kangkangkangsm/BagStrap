@@ -4,48 +4,103 @@
     <meta charset="UTF-8">
     <title>도서 검색</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+
 </head>
 <body>
-    <h1>도서 검색</h1>
-    <form id="searchForm">
-        <input type="text" id="query" name="query" placeholder="검색어를 입력하세요" required>
-        <button type="submit">검색</button>
-    </form>
-    <div id="results">
-        <!-- 검색 결과가 여기에 표시됩니다 -->
-    </div>
+	
+	<div id="app">
+	    <form @submit.prevent="fnSearch">
+	        <input type="text" v-model="query" placeholder="검색어를 입력하세요">
+	        <button type="submit">검색</button>
+			<button type="button" @click="fnCreateDB">DB추가</button>
+			<select v-model="category">
+				<option value="1">vfor해서 카테고리로 불러야겠지?</option>
+			</select>
+	    </form>
 
+	    <div id="results">
+	        <div v-for="item in results" :key="item.title">
+	            <h3>{{ item.title }}</h3>
+	            <p>저자: {{ item.author }}</p>
+	            <p>출판사: {{ item.publisher }}</p>
+	            <p>출판일: {{ item.pubdate }}</p>
+	            <p>가격: {{ item.price }}</p>
+	            <p><a :href="item.link">자세히 보기</a></p>
+	        </div>
+	    </div>
+	</div>
+		
+	
     <script>
-        $(document).ready(function() {
-            $('#searchForm').on('submit', function(e) {
-                e.preventDefault();
-                var query = $('#query').val();
-                
-                $.ajax({
-                    url: '/search1',
-                    type: 'GET',
-                    data: { query: query },
-                    success: function(data) {
-						console.log(data);
-                        var results = '';
-                        data.items.forEach(function(item) {
-                            results += '<div>';
-                            results += '<h3>' + item.title + '</h3>';
-                            results += '<p>저자: ' + item.author + '</p>';
-                            results += '<p>출판사: ' + item.publisher + '</p>';
-                            results += '<p>출판일: ' + item.pubdate + '</p>';
-                            results += '<p>가격: ' + item.price + '</p>';
-                            results += '<p><a href="' + item.link + '">자세히 보기</a></p>';
-                            results += '</div>';
-                        });
-                        $('#results').html(results);
-                    },
-                    error: function() {
-                        $('#results').html('<p>검색 중 오류가 발생했습니다.</p>');
-                    }
-                });
-            });
-        });
+		const app = Vue.createApp({
+		    data() {
+		        return {
+		            query: '',
+		            results: [],
+					parMap: [],
+					category: 1
+		        };
+		    },
+		    methods: {
+		        fnSearch() {
+		            var self = this;
+		            $.ajax({
+		                url: '/search1',
+		                type: 'GET',
+		                data: { query: self.query },
+		                success: function(data) {
+		                    console.log(data);
+		                    self.results = data.items;
+							data.items.forEach(function(item){
+								var map = {
+									isbn : item.isbn,
+									title : item.title,
+									description : item.description,
+									author : item.author,
+									publisher : item.publisher,
+									price : item.discount,
+									image : item.image,
+									quantity : 10,
+									category : self.category,
+									ebook : 'N'
+								}
+								self.parMap.push(map);
+							})
+							console.log('hi');
+							console.log(self.parMap);
+		                },
+		                error: function() {
+		                    self.results = [{ title: '검색 중 오류가 발생했습니다.' }];
+		                }
+		            });
+		        },
+				fnCreateDB() {
+				    var self = this;
+				    $.ajax({
+				        url: '/addBook.dox',
+				        type: 'POST',
+				        contentType: 'application/json',  // JSON으로 보낼 것을 명시
+				        data: JSON.stringify({ bookList: self.parMap }),  // 데이터를 JSON 문자열로 변환
+				        success: function(data) {
+				            console.log(data);
+				            alert('성공~');
+				        },
+				        error: function(e) {
+				            alert('오류 발생: ' + e.responseText);
+				        }
+				    });
+				}
+		    },
+		    mounted() {
+		        // This could be used for any initialization logic, if needed
+		    }
+		});
+
+		app.mount('#app');
+		
+		
+        
     </script>
 </body>
 </html>

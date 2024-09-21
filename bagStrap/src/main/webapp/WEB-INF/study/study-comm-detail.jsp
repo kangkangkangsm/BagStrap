@@ -174,6 +174,7 @@
 	.stu-comm-detail-comment-button:hover {
 	    background-color: #0056b3;
 	}
+
 </style>
 <body>
     <div id="app">
@@ -196,10 +197,13 @@
 							<button @click="fnBack()">목록</button>
 							<template v-if="viewList.userId === sessionUserId">
 								<button @click="fnDelete()">삭제</button>
-								<button @click="fnUpdate()">수정</button>
+								<button @click="fnUpdate(viewList.boardId)">수정</button>
 							</template>
-							<template v-if="isAdmin">
-								<button @click="fnhide()">숨기기</button>
+							<template v-if="isAdmin && viewList.boardstatus === 'N'">
+								<button @click="fnhide(viewList.boardstatus)">숨기기</button>
+							</template>
+							<template v-if="isAdmin && viewList.boardstatus === 'Y'">
+								<button @click="fnhide(viewList.boardstatus)">숨김해제</button>
 							</template>
                         </div>
                     </div>
@@ -261,9 +265,12 @@
             };
         },
         methods: {
-			fnhide(){
+			fnUpdate(boardId){
+			$.pageChange("/study-comm-Update",{boardId : boardId});
+			},
+			fnhide(boardstatus){
 			var self = this;
-			var nparmap = {boardId : self.boardId};
+			var nparmap = {boardId : self.boardId, boardstatus : boardstatus };
 			$.ajax({
 				url:"/updateStatusBoard.dox",
 				dataType:"json",	
@@ -271,12 +278,15 @@
 				data : nparmap,
 				success : function(data) { 
 					console.log(data);
-					alert(data.message);
-					location.href="/study-comm"
-						
+					if(data.resultHide == "N"){
+						alert("숨김해제 완료");
+					}else{
+						alert("숨김처리 완료");
+					}
+					location.href="study-comm"
 						}
 					});
-			},				
+			},	
 			fnDelete(){
 				var self = this;
 				var nparmap = {boardId : self.boardId};
