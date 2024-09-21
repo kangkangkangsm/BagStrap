@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService{
 				resultMap.put("userInfo", userInfo);
 				resultMap.put("message", userInfo.getUserNickName()+"님 환영합니다.");
 				
+				
 			} else {
 				resultMap.put("result", false);
 				//TODO 닉네임 정보 확인 후 메세지 작성 : 

@@ -157,6 +157,77 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	//스터디 커뮤니티 게시글 작성하기 카테고리  
+	@Override
+	public HashMap<String, Object> selectMyCommCategory(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<StudyComm> selectMyCommCategory = studyMapper.selectMyCommCategory(map);
+			resultMap.put("categoryList", selectMyCommCategory);
+			resultMap.put("result", true);
+			resultMap.put("message", "댓글 작성 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// 스터디 커뮤니티 게시글 작성
+	@Override
+	public HashMap<String, Object> insertComm(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertComm(map);
+			resultMap.put("idx",map.get("board_Id"));
+			resultMap.put("result", true);
+			resultMap.put("message", "게시글 작성 완료");
+			System.out.println(resultMap);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// 스터디 커뮤니티 게시글 이미지 첨부
+	@Override
+	public HashMap<String, Object> addBoardFile(HashMap<String, Object> map) {
+		studyMapper.insertBoardFile(map);
+		return null;
+	}
+	// 스터디 커뮤니티 게시글 삭제 
+	@Override
+	public HashMap<String, Object> deleteBoard(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.deleteBoard(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "게시글 삭제 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateStatusBoard(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStatusBoard(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "ㅋㅋㅋ");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 
 	
 	
