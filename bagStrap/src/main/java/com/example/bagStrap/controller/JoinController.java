@@ -24,10 +24,10 @@ public class JoinController {
          return "/header/header_join";
     }
 	
-	@RequestMapping("/joinadd1.do") 
-    public String insert(Model model) throws Exception{
-         return "/header/header_join";
-    }
+	
+	  @RequestMapping("/joinadd1.do") public String insert(Model model) throws
+	  Exception{ return "/header/header_join"; }
+	 
 	
 
 	@RequestMapping(value = "/join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -40,9 +40,13 @@ public class JoinController {
 	
 	@RequestMapping(value = "/joinadd1.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String joininsert(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+	public String joinAdd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<>();
 		resultMap = joinService.addJoin(map);
+		System.out.println("1111111111111111111111111111111111111");
+
+		System.out.println(resultMap);
 		return new Gson().toJson(resultMap);
 	}
+	
 }
