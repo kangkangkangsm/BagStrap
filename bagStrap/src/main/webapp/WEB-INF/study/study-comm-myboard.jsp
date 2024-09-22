@@ -115,17 +115,29 @@
 		<main class="main-container">
 		<!--사이드 바 -->		
 	        <aside class="sidebar">
+				{{author}}
 	        </aside>
 			
 			<!--메인 컨텐츠-->
 			<div class="content">
+				<template v-if="userNickName">
+				 <h2>유저 페이지</h2>
+				</template>
+				<template v-else>
+	            <h2>마이페이지</h2>
+				</template>
 				<div class="stu-comm-myboard-container">
 					<button class="stu-comm-myboard-btn" @click="fnBack">뒤로가기</button>
 				        <div class="stu-comm-myboard-header">
 				            <div class="stu-comm-myboard-picture">
 								<img src="../src/profile.png" alt="프로필 사진">
 				            </div>
+							<template v-if="userNickName">
+							 <h2>{{userNickName}}</h2>
+							</template>
+							<template v-else>
 				            <h2>{{sessionUserNickName}}</h2>
+							</template>
 				        </div>
 							
 
@@ -208,11 +220,13 @@
 				countMycommentCnt : {},
 				selectMyCommList : [],
 				selectMyCommentList : [],
-				itemMode : '${itemMode}',
+				itemMode :'${itemMode}',
 				totalPages:5,
 				currentPage: 1,      // 현재 페이지 
 				pageSize: 5,        // 한페이지에 보여줄 개수 
-				hide : "N"
+				hide : "N",
+				author:'${author}',
+				userNickName : '${userNickName}'
 			
             };
         },
@@ -272,12 +286,21 @@
 			},
 			fnMyCnt(page = 1){
 					var self = this;
+					if(self.author){
+					var sessionUserId = self.sessionUserId;
+					var startIndex = (page-1) * self.pageSize;
+					var outputNumber = self.pageSize;
+					self.currentPage = page;
+					var nparmap = { userId : self.author,startIndex : startIndex,outputNumber : outputNumber,
+					};	
+					}else{
 					var sessionUserId = self.sessionUserId;
 					var startIndex = (page-1) * self.pageSize;
 					var outputNumber = self.pageSize;
 					self.currentPage = page;
 					var nparmap = { userId : sessionUserId,startIndex : startIndex,outputNumber : outputNumber,
 					};
+					}
 					$.ajax({
 						url:"myCnt.dox",
 						dataType:"json",	

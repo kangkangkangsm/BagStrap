@@ -313,7 +313,7 @@
 							<strong style="color:red;">[{{item.cnt}}]</strong>
 							</template>
 						</td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.userNickName}}</a></td>
+						<td><a href="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.commLikeCnt}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>	
@@ -487,15 +487,18 @@
 				}
 			});
 	       },
-		    fnView(boardId){
-				 $.pageChange("/study-comm-detail",{boardId : boardId});
-				 },
-			fnMyboard(){
-				 $.pageChange("/study-comm-myboard",{itemMode : "board"});
-				 },
-			fnMycomment(){
- 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
- 				 },				
+	    fnView(boardId){
+			 $.pageChange("/study-comm-detail",{boardId : boardId});
+		},
+		fnMyboard(){
+			 $.pageChange("/study-comm-myboard",{itemMode : "board"});
+	    },
+		fnMycomment(){
+			 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
+	    },
+	    fnUserboard(author,userNickName){
+	     	 $.pageChange("/study-comm-myboard",{author : author, itemMode : "board", userNickName : userNickName});
+  	    },	 				
 					
         },
         mounted() {

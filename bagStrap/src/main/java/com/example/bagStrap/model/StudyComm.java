@@ -29,6 +29,7 @@ public class StudyComm {
 	private String comUpdateDay;
 	private String commentstatus;
 	private int commentCnt;
+	private String upMode;
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;

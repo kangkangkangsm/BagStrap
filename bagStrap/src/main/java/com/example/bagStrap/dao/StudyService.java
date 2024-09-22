@@ -41,4 +41,10 @@ public interface StudyService {
 	HashMap<String, Object> deleteCommentLike(HashMap<String, Object> map);
 	// 스터디 커뮤니티 좋아요수 갱신  
 	HashMap<String, Object> selectgetLikeCount(HashMap<String, Object> map);
+	// 스터디 커뮤니티 댓글 수정모드 
+	HashMap<String, Object> updateComment(HashMap<String, Object> map);
+	// 스터디 커뮤니티  댓글 수정모드 N
+	HashMap<String, Object> updateCommentNO(HashMap<String, Object> map);
+	// 스터디 커뮤니티 댓글 수정 완료처리
+	HashMap<String, Object> updateCommentResult(HashMap<String, Object> map);
 }

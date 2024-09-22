@@ -53,6 +53,8 @@ public class StudyController {
 	@RequestMapping("/study-comm-myboard") 
     public String study_comm_myboard(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("itemMode", map.get("itemMode"));
+		 request.setAttribute("author", map.get("author"));
+		 request.setAttribute("userNickName", map.get("userNickName"));
 		return "study/study-comm-myboard";
     }
 	// 스터디 커뮤니티 게시글 작성
@@ -300,6 +302,30 @@ public class StudyController {
 		public String selectgetLikeCount(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.selectgetLikeCount(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티  댓글 수정모드
+		@RequestMapping(value = "/updateComment.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateComment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateComment(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티  댓글 수정모드 N 
+		@RequestMapping(value = "/updateCommentNO.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateCommentNO(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateCommentNO(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티  댓글 수정완료처리
+		@RequestMapping(value = "/updateCommentResult.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateCommentResult(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateCommentResult(map);
 			return new Gson().toJson(resultMap);
 		}
 }

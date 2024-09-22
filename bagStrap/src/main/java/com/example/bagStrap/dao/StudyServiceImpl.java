@@ -340,5 +340,55 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	// 스터디 커뮤니티  댓글 수정모드
+	@Override
+	public HashMap<String, Object> updateComment(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			System.out.println("이거보면돼 --> " + map);
+
+			studyMapper.updateComment(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "조회완료");
+			System.out.println(resultMap);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateCommentNO(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentNO(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "조회완료");
+			System.out.println(resultMap);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateCommentResult(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentResult(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성고옹~");
+			resultMap.put("idx",map.get("COMMENT_ID"));
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 	
 }

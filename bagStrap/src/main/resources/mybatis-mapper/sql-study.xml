@@ -152,18 +152,22 @@
 	</select>
 		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-	SELECT C.*, COM.*, U.*, LC.*, BFILE.*, COM.CONTENT AS COMCONTENTS, COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY 
-	FROM TBL_STU_COMM C
-	INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
-	INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
-	LEFT JOIN TBL_BOARDFILE BFILE ON COM.COMMENT_ID = BFILE.BOARDNO
-	LEFT JOIN (
-	    SELECT targetid, COUNT(*) LIKECNT 
-	    FROM TBL_Likes 
-	    GROUP BY targetid
-	) LC ON COM.COMMENT_ID = LC.targetid
-	WHERE POST_ID = #{boardId}
-	ORDER BY COM.CREATED_DATE
+		SELECT C.*, COM.*, U.*, LC.*, BFILE.*, COM.CONTENT AS COMCONTENTS, 
+		       COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY
+		FROM TBL_STU_COMM C
+		INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+		INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
+		LEFT JOIN (
+			SELECT BF.*, ROW_NUMBER() OVER (PARTITION BY BF.BOARDNO ORDER BY BF.FILECREATEDATE DESC) AS RN
+			FROM TBL_BOARDFILE BF
+		) BFILE ON COM.COMMENT_ID = BFILE.BOARDNO AND BFILE.RN = 1
+		LEFT JOIN (
+		    SELECT targetid, COUNT(*) LIKECNT 
+		    FROM TBL_Likes 
+		    GROUP BY targetid
+		) LC ON COM.COMMENT_ID = LC.targetid
+		WHERE POST_ID = #{boardId}
+		ORDER BY COM.CREATED_DATE
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기 댓글 작성-->
 	<insert id="insertViewComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
@@ -285,4 +289,31 @@
 	WHERE TARGETID = #{boardId}
 	GROUP BY TARGETID
 	</select>
+	<!-- 스터디 커뮤니티 댓글 수정모드-->
+	<update id="updateComment" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'Y'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
+	<update id="updateCommentNO" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'N'
+	WHERE POST_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
+	<update id="updateCommentYES" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'Y'
+	WHERE POST_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정완료처리..-->
+	<update id="updateCommentResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
+	UPDATE TBL_STU_COMMENTS
+	SET 
+	CONTENT = #{content},
+	UPDATE_DATE = SYSDATE + (9/24),
+	UPMODE = 'N'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
 </mapper>
