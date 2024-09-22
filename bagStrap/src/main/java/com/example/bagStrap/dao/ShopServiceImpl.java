@@ -61,5 +61,25 @@ public class ShopServiceImpl implements ShopService{
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> insertBookList(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		
+		try {
+			Item insertBookList = shopMapper.insertBookList(map);
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "성공~");
+			resultMap.put("insertBookList", insertBookList);
+			
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		
+		return null;
+	}
+
 	
 }

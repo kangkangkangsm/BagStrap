@@ -18,7 +18,8 @@
 		SELECT * FROM TBL_CODE
 	</select>
 	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
-		SELECT * FROM TBL_BOOK
+		    SELECT * FROM TBL_BOOK 
+    		WHERE (#{keyword} IS NULL OR #{keyword} = '' OR TITLE LIKE '%' || #{keyword} || '%' OR AUTHOR LIKE '%' || #{keyword} || '%')
 	</select>
 	
 	
