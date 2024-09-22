@@ -26,6 +26,7 @@
 			<td>{{item.itemName}}</td>	
 			<td>{{item.price}}</td>	
 			<td>{{item.codeName}}</td>		
+			<td>{{item.codeName}}</td>	
 		</tr>	
 		</table>
 		

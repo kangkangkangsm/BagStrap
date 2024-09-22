@@ -83,7 +83,6 @@
 <body>
 	<div id="app">
 		<main class="main-container">
-			
 	        <aside class="sidebar">
 	            {{sessionUserNickName}}
 	        </aside>
@@ -93,22 +92,23 @@
 			       <h2>글쓰기 </h2>
 			       <form class="stu-comm-insert-form">
 			           <label for="category">카테고리</label>
-					   <select id="category" class="stu-comm-insert-category" v-model="boardTypeId" >
-					       <option v-for="item in boardTypelist" >{{item.name}}</option>				 
+					   <select id="category" class="stu-comm-insert-category" v-model="boardTypeId">
+					     <option v-for="item in categoryList" :value="item.boardTypeId">
+					       {{ item.name }} 
+					     </option>
 					   </select>
 			           <label for="title">제목</label>
 			           <input type="text" id="title" v-model = "title" class="stu-comm-insert-title" placeholder="제목을 입력하세요">
-
-
 			           <label for="content">내용</label>
 			           <div id="editor" style="height:300px;"></div>
 
 			           <label for="file">파일 업로드</label>
 			           <input type="file" @change="fnFileChange"/>
-
+					   <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+					   <div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
 			           <div class="stu-comm-insert-buttons">
 			               <button type="button" @click="fnBack()">취소</button>
-			               <button type="submit" @click="fnSave()">등록</button>
+			               <button type="button" @click="fnSave()">등록</button>
 			           </div>
 			       </form>
 			   </div>
@@ -134,47 +134,88 @@
 				sessionUserId : '',
 				sessionUserNickName : '',
 				file : null,
+				categoryList : [],
 				content : "",
-				boardTypelist : [],
-				boardTypeId :"",
-				title : ""
+		        filePreview: ''// 이미지 미리보기 URL 저장
+	
 				
             };
         },
         methods: {
 			fnSave(){
 				var self = this;
-				var nparmap = {
-					
+				var nparmap = { 
+					boardTypeId : self.boardTypeId,
+					title : self.title,
+					content : self.content,
+					userId : self.sessionUserId
 				};
 				$.ajax({
-					url:"/selectStuCommType.dox",
+					url:"/insertComm.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
-						self.boardTypelist = data.boardTypelist;
-						
-					}
-				});
-            },
+						alert(data.message);
+						var idx = data.idx;
+						console.log(idx);
+						console.log(self.file);		
+						if (self.file) {
+							  const formData = new FormData();
+							  formData.append('file1', self.file);
+							  formData.append('idx', idx);
+							  $.ajax({
+									url: '/fileUpload.dox',
+									type: 'POST',
+									data: formData,
+									processData: false,  
+									contentType: false,  
+									success: function() {
+									  console.log('업로드 성공!');
+									  location.href="/study-comm"
+									  self.filePreview ="";
+									},
+									error: function(jqXHR, textStatus, errorThrown) {
+									  console.error('업로드 실패!', textStatus, errorThrown);
+									}
+							  });		
+						  }	else{
+							location.href="/study-comm"
+						  }		
+						}
+					});
+            },			
 			fnFileChange(event) {
-							this.file = event.target.files[0];
-						},
+			    const file = event.target.files[0];
+			    this.file = file;
+
+			    // 파일명이 있으면 표시
+			    this.fileName = file.name;
+
+			    // 이미지 파일인 경우 미리보기 표시
+			    if (file && file.type.startsWith('image/')) {
+			        const reader = new FileReader();
+			        reader.onload = (e) => {
+			            this.filePreview = e.target.result;
+			        };
+			        reader.readAsDataURL(file); // 이미지 파일을 읽음
+			    } else {
+			        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+			    }
+			},		
             fnGetList(){
 				var self = this;
 				var nparmap = {
 					
 				};
 				$.ajax({
-					url:"/selectStuCommType.dox",
+					url:"/selectMyCommCategory.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						self.boardTypelist = data.boardTypelist;
+						self.categoryList = data.categoryList;
 						
 					}
 				});
@@ -203,31 +244,34 @@
 					}
 				});
 			},
+			fnBack(){
+				 history.back();
+			},
         },
         mounted() {
             var self = this;
 			self.fnSession();
 			self.fnGetList();
 			var quill = new Quill('#editor', {
-		            theme: 'snow',
-		            modules: {
-		                toolbar: [
-		                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-		                    ['bold', 'italic', 'underline'],
-		                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-		                    ['link', 'image'],
-		                    ['clean']
-		                ]
-		            }
-		        });
-				// 에디터 초기 내용 설정
-				quill.root.innerHTML = this.content;
+	            theme: 'snow',
+	            modules: {
+	                toolbar: [
+	                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+	                    ['bold', 'italic', 'underline'],
+	                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	                    ['link', 'image'],
+	                    ['clean']
+	                ]
+	            }
+	        });
+			// 에디터 초기 내용 설정
+			quill.root.innerHTML = this.content;
 
-		        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
-				quill.on('text-change', () => {
-				    this.content = quill.root.innerHTML; // 수정된 코드
-				});
-		    }
-		    });
+	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
+			quill.on('text-change', () => {
+			    this.content = quill.root.innerHTML; // 수정된 코드
+			});
+	    }
+    });
     app.mount('#app');
 </script>

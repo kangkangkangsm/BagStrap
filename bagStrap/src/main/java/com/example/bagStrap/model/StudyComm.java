@@ -12,6 +12,7 @@ public class StudyComm {
 	private String author;
 	private String createdDate;
 	private String updateDate;
+	private String boardstatus;
 	private int views;
 	private int likes;
 	private String createdDateFormatted;
@@ -26,7 +27,9 @@ public class StudyComm {
 	private String comcontents;
 	private String comCreateDay;
 	private String comUpdateDay;
-//
+	private String commentstatus;
+	private int commentCnt;
+	private String upMode;
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;
@@ -43,8 +46,25 @@ public class StudyComm {
 	private String phoneNum;
 	private String cDatetime;
 	private String uDatetime;
-
-	
+//TBL_LIKES
+	private int likeId;
+	private String likeUserId;
+	private String targetId;
+	private String targetType;
+	private String likeDate;	
+	private int likeCnt;
+	private int commLikeCnt;
+//TBL_BOADRFILE
+		private int fileNo;
+		private int boardNo;
+		private String idx;
+		private String fileName;
+		private String fileOrgName;
+		private String filePath;
+		private String fileSize;
+		private String fileExt;
+		private String thumbnailYN;
+		private String fileCreateDate;
 	public String getUserId() {
 		return userId;
 	}

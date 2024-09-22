@@ -283,16 +283,12 @@
 	            </nav>
 				<hr>
 				<div class="stu-comm-recent-comments">
-	              <h3>최근 게시글</h3>
-	              <ul v-for = "item in boardList">
-	                  <li><a href="#">{{item.title}}</a></li>
-	              </ul>
+	             
 		          </div>
 	        </aside>
 			
 			<!--메인 컨텐츠-->
 			<div class="content">
-				 
 				<div style="font-size:30px;" v-if="name2">{{name2}}</div>
 				<div style="font-size:30px;" v-else>{{name}}</div>
 				 <div>게시물 수 :<select v-model="pageSize" @change="fnboardList(1)"></div>
@@ -306,14 +302,28 @@
 						<th>제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
-						<th>조회</th>
+						<th>좋아요</th>
+						<th>조회수</th>
 					</tr>
 					<tr v-for="item in commlist">
+						<template v-if="item.boardstatus === 'N'">
 						<td><a href="#" @click="fnView(item.boardId)">{{item.name}}</a></td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.title}}</a></td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.userNickName}}</a></td>
+						<td><a href="#" style="color:black;" @click="fnView(item.boardId)">{{item.title}}</a> 
+							<template v-if="item.cnt">
+							<strong style="color:red;">[{{item.cnt}}]</strong>
+							</template>
+						</td>
+						<td><a href="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.commLikeCnt}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>	
+						</template>
+						<template v-if="item.boardstatus === 'Y' && isAdmin">
+						<td colspan="5"><a href="#" @click="fnView(item.boardId)" style="color:black;">관리자에 의해 숨김 처리된 게시글 입니다.</a></td>
+						</template>
+						<template v-if="item.boardstatus === 'Y' && !isAdmin">
+						<td colspan="5"><a style="color:black;">관리자에 의해 숨김 처리된 게시글 입니다.</a></td>
+						</template>
 					</tr>
 				</table>
 				<div class="pagination">
@@ -398,6 +408,7 @@
 			});
            },		
 		   fnboardList(page = 1){
+				var boardTypeId = '';
 				var self = this;
 				var startIndex = (page-1) * self.pageSize;
 				var outputNumber = self.pageSize;
@@ -442,10 +453,12 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
+							console.log(data);
 						self.isLogin = data.isLogin 
 						if(data.isLogin){
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
+							self.isAdmin = data.isAdmin;
 							console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
 							self.fnMyCnt();
 						} else {
@@ -474,15 +487,18 @@
 				}
 			});
 	       },
-		    fnView(boardId){
-				 $.pageChange("/study-comm-detail",{boardId : boardId});
-				 },
-			fnMyboard(){
-				 $.pageChange("/study-comm-myboard",{itemMode : "board"});
-				 },
-			fnMycomment(){
- 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
- 				 },				
+	    fnView(boardId){
+			 $.pageChange("/study-comm-detail",{boardId : boardId});
+		},
+		fnMyboard(){
+			 $.pageChange("/study-comm-myboard",{itemMode : "board"});
+	    },
+		fnMycomment(){
+			 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
+	    },
+	    fnUserboard(author,userNickName){
+	     	 $.pageChange("/study-comm-myboard",{author : author, itemMode : "board", userNickName : userNickName});
+  	    },	 				
 					
         },
         mounted() {

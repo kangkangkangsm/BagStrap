@@ -17,7 +17,8 @@
 
         <div class="header-logo">
 			<a href="/intro">			
-				로고 {{isLogin}}
+				 <img src="../src/현이의가방끈.png" style="width:220px; height:100px; margin-left:20px; margin-top: 10px;">
+				
 			</a>
         </div>
 

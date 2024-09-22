@@ -33,4 +33,40 @@ public interface StudyMapper {
 	List<StudyComm> selectMyComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 나의 댓글 
 	List<StudyComm> selectMyComment(HashMap<String, Object> map);
+	//스터디 커뮤니티 게시글 작성하기 카테고리  
+	List<StudyComm> selectMyCommCategory(HashMap<String, Object> map);
+	//스터디 커뮤니티 게시글 작성 
+	void insertComm(HashMap<String, Object> map); 
+	// 스터디 커뮤티 게시글 작성 이미지 첨부
+	void insertBoardFile(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 삭제
+	void deleteBoard(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 숨기기
+	void updateStatusBoard(HashMap<String, Object> map);
+	// 스터디 커뮤니티 게시글 업데이트
+	void updateComm(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 댓글 숨기기
+	void updateStatusBoardComment(HashMap<String, Object> map);
+	// 스터디 커뮤니티 게시글 댓글 삭제
+	void deleteBoardComment(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 좋아요
+	void insertCommLike(HashMap<String, Object> map);
+	// 스터디 커뮤니티 게시글 댓글 좋아요
+	void insertCommentLike(HashMap<String, Object> map);
+	//스터디 커뮤니티 상세보기 좋아요 중복체크  
+	StudyComm selectLikeCheck(HashMap<String, Object> map);
+	// 스터디 커뮤니티 상세보기 좋아요 삭제
+	void deleteCommentLike(HashMap<String, Object> map);
+	// 스터디 커뮤니티 조회수
+	void updateCommViews(HashMap<String, Object> map);
+	// 스터디 커뮤니티 좋아요수 갱신  
+	StudyComm selectgetLikeCount(HashMap<String, Object> map);
+	// 스터디 커뮤니티  댓글 수정모드 
+	void updateComment(HashMap<String, Object> map);
+	// 스터디 커뮤니티  댓글 수정모드 N
+	void updateCommentNO(HashMap<String, Object> map);
+	// 스터디 커뮤니티  댓글 수정모드 Y
+	void updateCommentYES(HashMap<String, Object> map);
+	// 스터디 커뮤니티 수정완료처리
+	void updateCommentResult(HashMap<String, Object> map);
 }

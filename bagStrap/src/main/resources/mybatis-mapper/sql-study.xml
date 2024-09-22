@@ -33,7 +33,7 @@
 
 		<!-- 스터디 컨텐츠 리스트 -->
 	<select id="selectStuCommListBoard" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-    SELECT C.*, U.*, T.*,
+   SELECT C.*, U.*, T.*,commLikeCnt,cnt,
     CASE 
         WHEN TO_CHAR(C.CREATED_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
         THEN TO_CHAR(C.CREATED_DATE, 'HH24:MI:SS')
@@ -42,6 +42,16 @@
     FROM TBL_STU_COMM C 
     LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
     INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    LEFT JOIN
+	(
+	SELECT COUNT(*) CNT , POST_ID AS board_id FROM TBL_STU_COMMENTS
+	GROUP BY POST_ID
+	) CCNT ON C.BOARD_ID = CCNT.board_id
+	LEFT JOIN
+	(
+	select targetId,count(*) AS commLikeCnt from tbl_likes 
+	group by targetId
+	) CLIKE ON C.BOARD_ID = CLIKE.targetId
     WHERE 1=1
     <if test="boardTypeId !='' and boardTypeId != null">
         AND (BOARD_TYPE = #{boardTypeId} OR PART = #{boardTypeId} OR FULLVIEW = #{boardTypeId})
@@ -121,20 +131,46 @@
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기-->
 	<select id="selectCommView" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		SELECT * FROM TBL_STU_COMM C
+		SELECT *
+		FROM TBL_STU_COMM C
 		LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-		WHERE BOARD_ID = #{boardId}
+		LEFT JOIN (
+		    SELECT BF.*, ROW_NUMBER() OVER (PARTITION BY BF.BOARDNO ORDER BY BF.FILECREATEDATE DESC) AS RN
+		    FROM TBL_BOARDFILE BF
+		) BF ON C.BOARD_ID = BF.BOARDNO AND BF.RN = 1
+		LEFT JOIN 
+		(
+		SELECT targetid,COUNT(*) LIKECNT FROM TBL_Likes
+		GROUP BY targetid
+		) L ON C.BOARD_ID = L.targetid
+		LEFT JOIN (
+		SELECT POST_ID,COUNT(*) AS commentCnt FROM TBL_STU_COMMENTS
+		GROUP BY POST_ID ) COMC
+		ON C.BOARD_ID = COMC.POST_ID
+		WHERE C.BOARD_ID = #{boardId}
 	</select>
 		<!-- 스터디 커뮤니티 게시글 상세보기 댓글 리스트(boardId기준)-->
 	<select id="selectViewComment" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-	 SELECT C.*,COM.*,U.*,COM.CONTENT AS COMCONTENTS, COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY FROM TBL_STU_COMM C
-    INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
-    INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
-    WHERE POST_ID =  #{boardId}
+		SELECT C.*, COM.*, U.*, LC.*, BFILE.*, COM.CONTENT AS COMCONTENTS, 
+		       COM.CREATED_DATE AS COMCREATEDAY, COM.UPDATE_DATE AS COMUPDATEDAY
+		FROM TBL_STU_COMM C
+		INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+		INNER JOIN TBL_USER U ON U.USER_ID = COM.AUTHOR
+		LEFT JOIN (
+			SELECT BF.*, ROW_NUMBER() OVER (PARTITION BY BF.BOARDNO ORDER BY BF.FILECREATEDATE DESC) AS RN
+			FROM TBL_BOARDFILE BF
+		) BFILE ON COM.COMMENT_ID = BFILE.BOARDNO AND BFILE.RN = 1
+		LEFT JOIN (
+		    SELECT targetid, COUNT(*) LIKECNT 
+		    FROM TBL_Likes 
+		    GROUP BY targetid
+		) LC ON COM.COMMENT_ID = LC.targetid
+		WHERE POST_ID = #{boardId}
+		ORDER BY COM.CREATED_DATE
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기 댓글 작성-->
-	<insert id="insertViewComment" parameterType="hashmap">
+	<insert id="insertViewComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
 	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
 	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE + (9/24), NULL, NULL)
 	</insert>
@@ -153,17 +189,131 @@
 	SELECT COM.* FROM  TBL_STU_COMM C 
     LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
     INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-    INNER JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
+    RIGHT JOIN TBL_STU_COMMENTS COM ON C.BOARD_ID = COM.POST_ID
     WHERE COM.AUTHOR = #{userId}
     ORDER BY com.created_Date DESC
     OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
+	<!-- 스터디 커뮤니티 게시글 작성하기 카테고리 불러오기-->
+	<select id="selectMyCommCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM tbl_stu_comm_board_types
+	WHERE (board_type_id BETWEEN 1001 AND 1999) 
+	OR (board_type_id BETWEEN 2001 AND 2999)
+	OR (board_type_id BETWEEN 3001 AND 3999)
+	OR (board_type_id BETWEEN 4001 AND 4999)
+	ORDER BY board_type_id
+	</select>
 	<!-- 스터디 커뮤니티 게시글작성하기-->
-	<insert id="insertComm" parameterType="hashmap">
+	<insert id="insertComm" parameterType="hashmap" useGeneratedKeys="true" keyProperty="board_Id" keyColumn="board_Id">
 	INSERT INTO TBL_STU_COMM 
     (BOARD_ID, BOARD_TYPE, TITLE, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, VIEWS, LIKES) 
     VALUES 
-    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, '#{title}', '#{content}', '#{userId}', SYSDATE, NULL, 0, 0)
+    (SEQ_BOARD_ID.NEXTVAL,#{boardTypeId}, #{title}, #{content}, #{userId}, SYSDATE + (9/24), NULL, 0, 0)
 	</insert>
-	
+	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
+	<insert id="insertBoardFile" parameterType="hashmap" >
+		INSERT INTO TBL_BOARDFILE
+		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N',SYSDATE + (9/24))
+	</insert>
+	<!-- 스터디 커뮤니티 게시글 삭제하기-->
+	<delete id="deleteBoard" parameterType="hashmap" >
+	DELETE FROM TBL_STU_COMM 
+	WHERE BOARD_ID = #{boardId}
+	</delete>
+		<!-- 스터디 커뮤니티 게시글 숨기기-->
+	<update id="updateStatusBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="BOARD_STATUS" keyColumn="BOARD_STATUS" >
+	UPDATE TBL_STU_COMM
+		SET BOARD_STATUS = 
+			CASE 
+				WHEN #{boardstatus} = 'N' THEN 'Y'
+				WHEN #{boardstatus} = 'Y' THEN 'N'
+				ELSE BOARD_STATUS 
+			END
+	WHERE BOARD_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 게시글 수정하기..-->
+	<update id="updateComm" parameterType="hashmap" useGeneratedKeys="true" keyProperty="board_Id" keyColumn="board_Id">
+	UPDATE TBL_STU_COMM
+	SET 
+	BOARD_TYPE = #{boardTypeId},
+	TITLE = #{title},
+	CONTENT = #{content},
+	UPDATE_DATE = SYSDATE + (9/24)
+	WHERE BOARD_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 게시글 댓글 삭제하기-->
+	<delete id="deleteBoardComment" parameterType="hashmap" >
+	DELETE FROM TBL_STU_COMMENTS 
+	WHERE COMMENT_ID = #{commentId}
+	</delete>
+	<!-- 스터디 커뮤니티 게시글 댓글 숨기기-->
+	<update id="updateStatusBoardComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENTSTATUS" keyColumn="COMMENTSTATUS" >
+	UPDATE TBL_STU_COMMENTS
+		SET commentstatus = 
+			CASE 
+				WHEN #{commentstatus} = 'N' THEN 'Y'
+				WHEN #{commentstatus} = 'Y' THEN 'N'
+				ELSE commentstatus 
+			END
+	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 게시글 좋아요-->
+	<insert id="insertCommLike" parameterType="hashmap" >
+	INSERT INTO TBL_Likes (likeId, likeUserId, targetId, targetType, likeDate)
+	VALUES (seq_likeId.NEXTVAL,#{userId},#{boardId},'게시글', SYSDATE + (9/24))
+	</insert>
+	<!-- 스터디 커뮤니티 댓글 좋아요-->
+	<insert id="insertCommentLike" parameterType="hashmap" >
+	INSERT INTO TBL_Likes (likeId, likeUserId, targetId, targetType, likeDate)
+	VALUES (seq_likeId.NEXTVAL,#{userId},#{boardId},'댓글', SYSDATE + (9/24))
+	</insert>
+	<!-- 스터디 커뮤니티 게시글 상세보기 좋아요 중복체크-->
+	<select id="selectLikeCheck" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM TBL_LIKES
+	WHERE LIKEUSERID = #{userId} AND TARGETID = #{boardId}
+	</select>
+	<!-- 스터디 커뮤니티 좋아요 삭제 -->
+	<delete id="deleteCommentLike" parameterType="hashmap" >
+	delete from tbl_likes
+	where LIKEUSERID = #{userId} and TARGETID = #{boardId}
+	</delete>
+	<!-- 스터디 커뮤니티 게시글 조회수-->
+	<update id="updateCommViews" parameterType="hashmap" >
+	update tbl_stu_comm set views = views+1 
+	where board_id = #{boardId}
+	</update>
+	<!-- 게시글 좋아요 갱신 -->
+	<select id="selectgetLikeCount" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT COUNT(*) AS likeCnt
+	FROM tbl_likes
+	WHERE TARGETID = #{boardId}
+	GROUP BY TARGETID
+	</select>
+	<!-- 스터디 커뮤니티 댓글 수정모드-->
+	<update id="updateComment" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'Y'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
+	<update id="updateCommentNO" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'N'
+	WHERE POST_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
+	<update id="updateCommentYES" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET UPMODE = 'Y'
+	WHERE POST_ID = #{boardId}
+	</update>
+	<!-- 스터디 커뮤니티 댓글 수정완료처리..-->
+	<update id="updateCommentResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
+	UPDATE TBL_STU_COMMENTS
+	SET 
+	CONTENT = #{content},
+	UPDATE_DATE = SYSDATE + (9/24),
+	UPMODE = 'N'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
 </mapper>
