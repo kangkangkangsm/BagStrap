@@ -31,9 +31,14 @@ public class ShopController {
     private int currentImageIndex = 0;
     
     @RequestMapping("/shop") 
-    public String main(Model model) throws Exception {
+    public String shop(Model model) throws Exception {
         return "shop/shop_home";
     }
+    @RequestMapping("/shop_cart") 
+    public String shop_cart(Model model) throws Exception {
+        return "shop/shop_cart";
+    }
+    
     
 
     @RequestMapping(value = "/bookList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -44,6 +49,20 @@ public class ShopController {
       
 		System.out.println(map);
 		resultMap = shopService.searchBookList(map);
+
+        
+        return new Gson().toJson(resultMap);
+    }
+    
+
+    @RequestMapping(value = "/insertBookList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String insertBookList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        System.out.println(map);
+        HashMap<String, Object> resultMap = new HashMap<>();
+      
+		System.out.println(map);
+		resultMap = shopService.insertBookList(map);
 
         
         return new Gson().toJson(resultMap);
