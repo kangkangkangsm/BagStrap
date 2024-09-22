@@ -59,6 +59,6 @@ public interface StudyMapper {
 	void deleteCommentLike(HashMap<String, Object> map);
 	// 스터디 커뮤니티 조회수
 	void updateCommViews(HashMap<String, Object> map);
-	//스터디 커뮤니티 게시글 작성하기 카테고리  
+	// 스터디 커뮤니티 좋아요수 갱신  
 	StudyComm selectgetLikeCount(HashMap<String, Object> map);
 }

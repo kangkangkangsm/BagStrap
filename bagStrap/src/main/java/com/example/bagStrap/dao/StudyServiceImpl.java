@@ -323,7 +323,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	// 스터디 커뮤니티 좋아요수 갱신 
 	@Override
 	public HashMap<String, Object> selectgetLikeCount(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
