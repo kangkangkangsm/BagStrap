@@ -104,7 +104,8 @@
 
 			           <label for="file">파일 업로드</label>
 			           <input type="file" @change="fnFileChange"/>
-
+					   <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+					   <div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
 			           <div class="stu-comm-insert-buttons">
 			               <button type="button" @click="fnBack()">취소</button>
 			               <button type="button" @click="fnSave()">등록</button>
@@ -134,7 +135,8 @@
 				sessionUserNickName : '',
 				file : null,
 				categoryList : [],
-				content : ""
+				content : "",
+		        filePreview: ''// 이미지 미리보기 URL 저장
 	
 				
             };
@@ -171,6 +173,7 @@
 									success: function() {
 									  console.log('업로드 성공!');
 									  location.href="/study-comm"
+									  self.filePreview ="";
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
 									  console.error('업로드 실패!', textStatus, errorThrown);
@@ -181,10 +184,25 @@
 						  }		
 						}
 					});
-	            },			
-				fnFileChange(event) {
-					this.file = event.target.files[0];
-				},
+            },			
+			fnFileChange(event) {
+			    const file = event.target.files[0];
+			    this.file = file;
+
+			    // 파일명이 있으면 표시
+			    this.fileName = file.name;
+
+			    // 이미지 파일인 경우 미리보기 표시
+			    if (file && file.type.startsWith('image/')) {
+			        const reader = new FileReader();
+			        reader.onload = (e) => {
+			            this.filePreview = e.target.result;
+			        };
+			        reader.readAsDataURL(file); // 이미지 파일을 읽음
+			    } else {
+			        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+			    }
+			},		
             fnGetList(){
 				var self = this;
 				var nparmap = {

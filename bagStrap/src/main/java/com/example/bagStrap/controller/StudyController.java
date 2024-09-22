@@ -237,11 +237,69 @@ public class StudyController {
 			return new Gson().toJson(resultMap);
 		}
 		//스터디 커뮤니티 게시글 업데이트
-			@RequestMapping(value = "/updateComm.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-			@ResponseBody
-			public String updateComm(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-				HashMap<String, Object> resultMap = new HashMap();
-				resultMap = studyService.updateComm(map);
-				return new Gson().toJson(resultMap);
-			}
+		@RequestMapping(value = "/updateComm.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateComm(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateComm(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤티 게시글 댓글 숨기기
+		@RequestMapping(value = "/updateStatusBoardComment.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStatusBoardComment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStatusBoardComment(map);
+
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 게시글 댓글 삭제
+		@RequestMapping(value = "/deleteBoardComment.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteBoardComment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deleteBoardComment(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤티 게시글 좋아요
+		@RequestMapping(value = "/insertCommLike.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String insertCommLike(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.insertCommLike(map);
+
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 게시글 댓글 좋아요
+		@RequestMapping(value = "/insertCommentLike.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String insertCommentLike(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.insertCommentLike(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 게시글 댓글 좋아요 체크
+		@RequestMapping(value = "/selectLikeCheck.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectLikeCheck(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectLikeCheck(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 상세보기 좋아요 삭제
+		@RequestMapping(value = "/deleteCommentLike.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteCommentLike(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deleteCommentLike(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 좋아요수 갱신 
+		@RequestMapping(value = "/selectgetLikeCount.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectgetLikeCount(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectgetLikeCount(map);
+			return new Gson().toJson(resultMap);
+		}
 }

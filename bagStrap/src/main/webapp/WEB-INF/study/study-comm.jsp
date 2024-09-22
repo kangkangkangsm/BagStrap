@@ -302,7 +302,8 @@
 						<th>제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
-						<th>조회</th>
+						<th>좋아요</th>
+						<th>조회수</th>
 					</tr>
 					<tr v-for="item in commlist">
 						<template v-if="item.boardstatus === 'N'">
@@ -314,6 +315,7 @@
 						</td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.userNickName}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
+						<td><a href="#" @click="fnView(item.boardId)">{{item.commLikeCnt}}</a></td>
 						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>	
 						</template>
 						<template v-if="item.boardstatus === 'Y' && isAdmin">

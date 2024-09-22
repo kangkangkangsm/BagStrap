@@ -45,6 +45,20 @@ public interface StudyMapper {
 	void updateStatusBoard(HashMap<String, Object> map);
 	// 스터디 커뮤니티 게시글 업데이트
 	void updateComm(HashMap<String, Object> map);
-	
-	
+	// 스터디 커뮤티 게시글 댓글 숨기기
+	void updateStatusBoardComment(HashMap<String, Object> map);
+	// 스터디 커뮤니티 게시글 댓글 삭제
+	void deleteBoardComment(HashMap<String, Object> map);
+	// 스터디 커뮤티 게시글 좋아요
+	void insertCommLike(HashMap<String, Object> map);
+	// 스터디 커뮤니티 게시글 댓글 좋아요
+	void insertCommentLike(HashMap<String, Object> map);
+	//스터디 커뮤니티 상세보기 좋아요 중복체크  
+	StudyComm selectLikeCheck(HashMap<String, Object> map);
+	// 스터디 커뮤니티 상세보기 좋아요 삭제
+	void deleteCommentLike(HashMap<String, Object> map);
+	// 스터디 커뮤니티 조회수
+	void updateCommViews(HashMap<String, Object> map);
+	//스터디 커뮤니티 게시글 작성하기 카테고리  
+	StudyComm selectgetLikeCount(HashMap<String, Object> map);
 }

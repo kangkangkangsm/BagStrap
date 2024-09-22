@@ -27,7 +27,8 @@ public class StudyComm {
 	private String comcontents;
 	private String comCreateDay;
 	private String comUpdateDay;
-
+	private String commentstatus;
+	private int commentCnt;
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;
@@ -44,7 +45,14 @@ public class StudyComm {
 	private String phoneNum;
 	private String cDatetime;
 	private String uDatetime;
-
+//TBL_LIKES
+	private int likeId;
+	private String likeUserId;
+	private String targetId;
+	private String targetType;
+	private String likeDate;	
+	private int likeCnt;
+	private int commLikeCnt;
 //TBL_BOADRFILE
 		private int fileNo;
 		private int boardNo;
