@@ -36,4 +36,25 @@
 		<!--where board_type=1002-->
 		order by s.created_date desc
 	</select>
+	
+	<select id="searchNotice" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+		SELECT n.*,
+		    CASE
+		        WHEN TRUNC(created_at) = TRUNC(SYSDATE) THEN TO_CHAR(created_at, 'HH24:MI:SS')
+		        ELSE TO_CHAR(created_at, 'YYYY-MM-DD')
+		    END AS createdDateFormatted
+		FROM tbl_notice n
+		order by created_at desc
+	</select>
+	
+	<select id="Noticeinfo" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+		select *
+		from tbl_notice
+		where notice_id = #{keyword}
+	</select>
+	
+	<select id="faqlist" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+		select *
+		from tbl_faq
+	</select>
 </mapper>
