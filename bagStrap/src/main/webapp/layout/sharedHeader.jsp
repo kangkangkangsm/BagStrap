@@ -121,8 +121,10 @@
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
 							}
-							window.sessionStorage.setItem("isLogin", self.isLogin)
+							window.sessionStorage.setItem("isLogin", self.isLogin);
+							window.sessionStorage.setItem("isAdmin", self.isAdmin);
 							window.dispatchEvent(new Event('loginStatusChanged'));
+							window.dispatchEvent(new Event('adminStatusChanged'));
 						}
 					});
 	            },

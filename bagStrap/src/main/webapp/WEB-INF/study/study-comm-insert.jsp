@@ -250,6 +250,14 @@
         },
         mounted() {
             var self = this;
+			window.addEventListener('loginStatusChanged', function(){
+					if(window.sessionStorage.getItem("isLogin") === 'true'){
+						self.isLogin = true;	
+					} else{
+						self.isLogin = false;
+					};
+					self.fnSession();
+				});
 			self.fnSession();
 			self.fnGetList();
 			var quill = new Quill('#editor', {

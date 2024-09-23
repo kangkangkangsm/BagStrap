@@ -27,7 +27,13 @@ public class StudyController {
 	StudyService studyService; 
 	@Autowired
 	HttpSession session;
-	
+	// ---------------------------------------------------------- 스터디 그룹 ---------------------------------------------------------------------
+	// 스터디 커뮤니티 게시글 수정 
+	@RequestMapping("/study-group-insert") 
+    public String study_group_insert(Model model) throws Exception{
+         return "study/study-group-insert";
+    }
+	// ---------------------------------------------------------- 스터디 커뮤니티 ---------------------------------------------------------------------	
 	@RequestMapping("/defaultView") 
     public String defaultView(Model model) throws Exception{
          return "study/defaultView";
@@ -36,7 +42,7 @@ public class StudyController {
     public String mainz(Model model) throws Exception{
          return "study/study_home";
     }
-	// 스터디 커뮤니티 메인
+	// 스터디 커뮤니티 
 	@RequestMapping("/study-comm") 
 	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
@@ -68,8 +74,6 @@ public class StudyController {
 		 request.setAttribute("boardId", map.get("boardId"));
          return "study/study-comm-update";
     }
-	
-	
 	        
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -326,6 +330,30 @@ public class StudyController {
 		public String updateCommentResult(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.updateCommentResult(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티  답글 세트
+		@RequestMapping(value = "/updateCommentRENO.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateCommentRENO(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateCommentRENO(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 답글 모드
+		@RequestMapping(value = "/updateCommentREY.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateCommentREY(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateCommentREY(map);
+			return new Gson().toJson(resultMap);
+		}
+		// 스터디 커뮤니티 답글 수정완료처리
+		@RequestMapping(value = "/updateCommentReResult.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateCommentReResult(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateCommentReResult(map);
 			return new Gson().toJson(resultMap);
 		}
 }

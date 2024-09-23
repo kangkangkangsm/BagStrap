@@ -358,7 +358,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	// 스터디 커뮤니티  답글 수정모드 세트 바로위에거랑 같이 동작하는거임 일부러 같이 안넣음 
 	@Override
 	public HashMap<String, Object> updateCommentNO(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -374,7 +374,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	// 스터디 커뮤니티 수정완료처리
 	@Override
 	public HashMap<String, Object> updateCommentResult(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -383,6 +383,55 @@ public class StudyServiceImpl implements StudyService{
 			resultMap.put("result", true);
 			resultMap.put("message", "성고옹~");
 			resultMap.put("idx",map.get("COMMENT_ID"));
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// 스터디 커뮤니티 답글 세트
+	@Override
+	public HashMap<String, Object> updateCommentRENO(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentRENO(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성고옹~");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// 스터디 커뮤니티 답글 모드
+	@Override
+	public HashMap<String, Object> updateCommentREY(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentREY(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성고옹~");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+
+	}
+	//스터디 커뮤니티 답글 마무뤼
+	@Override
+	public HashMap<String, Object> updateCommentReResult(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateCommentReResult(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "답글 완");
+			resultMap.put("idx",map.get("COMMENT_ID"));
+			System.out.println(resultMap);
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);

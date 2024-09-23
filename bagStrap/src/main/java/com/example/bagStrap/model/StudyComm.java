@@ -30,6 +30,9 @@ public class StudyComm {
 	private String commentstatus;
 	private int commentCnt;
 	private String upMode;
+	private String reMode;
+	private String reUserId;
+	private String reNickName;
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;
@@ -65,6 +68,7 @@ public class StudyComm {
 		private String fileExt;
 		private String thumbnailYN;
 		private String fileCreateDate;
+//TBL_
 	public String getUserId() {
 		return userId;
 	}

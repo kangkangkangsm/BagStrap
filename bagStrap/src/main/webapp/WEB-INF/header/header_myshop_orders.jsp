@@ -217,6 +217,14 @@
 				};
 				self.fnGetList();	
 			})
+			window.addEventListener('adminStatusChanged', function(){
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				} else{
+					self.isAdmin = false;
+				};
+				self.fnGetList();	
+			})
         }
     });
     app.mount('#app');

@@ -266,6 +266,14 @@
             var self = this;
 			self.fnSession();
 			self.fnGetList();
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnSession();
+			});
 
 			// Quill 에디터 초기화 함수
 			function initQuill() {

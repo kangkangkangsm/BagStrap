@@ -65,8 +65,12 @@ public interface StudyMapper {
 	void updateComment(HashMap<String, Object> map);
 	// 스터디 커뮤니티  댓글 수정모드 N
 	void updateCommentNO(HashMap<String, Object> map);
-	// 스터디 커뮤니티  댓글 수정모드 Y
-	void updateCommentYES(HashMap<String, Object> map);
+	// 스터디 커뮤니티  답글 세트
+	void updateCommentRENO(HashMap<String, Object> map);
 	// 스터디 커뮤니티 수정완료처리
 	void updateCommentResult(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 모드
+	void updateCommentREY(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 수정완료처리
+	void updateCommentReResult(HashMap<String, Object> map);
 }

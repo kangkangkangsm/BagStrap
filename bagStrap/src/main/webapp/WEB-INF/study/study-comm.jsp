@@ -506,7 +506,14 @@
 			self.fnboardList(1);
 			self.fnboardtypeList();
 			self.fnSession();
-			
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnSession();	
+			})
 			
         }
     });

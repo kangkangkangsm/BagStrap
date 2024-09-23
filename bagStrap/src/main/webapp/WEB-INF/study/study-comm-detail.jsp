@@ -225,7 +225,7 @@
                             <img style="width:400px; height:400px;" :src="viewList.filePath">
                         </template>
                     </div>
-        
+
                     <div class="stu-comm-detail-comments-section">
                         좋아요 : {{viewList.likeCnt}} 댓글수 : {{viewList.commentCnt}} 
                         <div class="stu-comm-detail-comment">
@@ -253,21 +253,21 @@
                     </div>
                     <template v-if="viewComment.length > 0">
                         <div class="stu-comm-detail-comment-list">
-                            <div class="stu-comm-detail-comment-item" v-for="item in viewComment">
-                                <template v-if="item.upMode ==='N'">
-                                    <div><a style="font-size:20px; color:black;" href ="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></div>
-                                    <template v-if="item.commentstatus === 'N'">
-                                        <div><a>{{item.comcontents}}</a></div>
-                                        <template v-if="item.filePath">
-                                            <div><img style="width:200px; height:200px;" :src="item.filePath"><div>
-                                        </template>
-                                        <template v-if="item.comUpdateDay">
-                                            <div><a><small>{{item.comUpdateDay}}(수정됨)</small></a></div>
-                                        </template>
-                                        <template v-else="item.comUpdateDay">
-                                            <div><a><small>{{item.comCreateDay}}</small></a></div>
-                                        </template>
-                                    </template>
+							<div class="stu-comm-detail-comment-item" v-for="item in viewComment" v-show="!item.parentCommentId">
+					            <template v-if="item.upMode === 'N'">
+					                <div><a style="font-size:20px; color:black;" href="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></div>
+					                <template v-if="item.commentstatus === 'N'">
+					                    <div><a>{{item.comcontents}}</a></div>
+					                    <template v-if="item.filePath">
+					                        <div><img style="width:200px; height:200px;" :src="item.filePath"></div>
+					                    </template>
+					                    <template v-if="item.comUpdateDay">
+					                        <div><a><small>{{item.comUpdateDay}}(수정됨)</small></a></div>
+					                    </template>
+					                    <template v-else>
+					                        <div><a><small>{{item.comCreateDay}}</small></a></div>
+					                    </template>
+					                </template>
                                     <template v-if="item.commentstatus === 'Y' && isAdmin">
                                         <div><a>{{item.comcontents}} <a style="color:red;">( 숨김 처리된 댓글 입니다. 관리자만 보임)</a></a></div>
                                         <template v-if="item.filePath">
@@ -278,17 +278,77 @@
                                     <template v-if="item.commentstatus === 'Y' && !isAdmin">
                                         <div><a style="color:red;">관리자에 의해 숨김 처리된 댓글 입니다.</a><div>
                                     </template>    
-                                    <template v-if="item.userId === sessionUserId && item.commentstatus === 'N'">
-                                        <button @click="fnCommDelete(item.commentId)">삭제</button>
-                                        <button @click="fnCommUpdateN(item.commentId)">수정</button>
-                                    </template>
-                                    <template v-if="isAdmin && item.commentstatus === 'N'">
-                                        <button @click="fnCommhide(item.commentId,item.commentstatus)">숨기기</button>
-                                    </template>
-                                    <template v-if="isAdmin && item.commentstatus === 'Y'">
-                                        <button @click="fnCommhide(item.commentId,item.commentstatus)">숨김해제</button>
-                                    </template>
-                                    <button @click="fnLikeCheck(item.commentId),'댓글'">좋아요</button> {{item.likeCnt}}
+									<template v-if="item.userId === sessionUserId && item.commentstatus === 'N'">
+					                    <button @click="fnCommDelete(item.commentId)">삭제</button>
+					                    <button @click="fnCommUpdateN(item.commentId)">수정</button>
+					                </template>
+					                <template v-if="isAdmin && item.commentstatus === 'N'">
+					                    <button @click="fnCommhide(item.commentId,item.commentstatus)">숨기기</button>
+					                </template>
+					                <template v-if="isAdmin && item.commentstatus === 'Y'">
+					                    <button @click="fnCommhide(item.commentId,item.commentstatus)">숨김 해제</button>
+					                </template>
+					                <button @click="fnReChat(item.commentId)">답글</button>
+					                <button @click="fnLikeCheck(item.commentId,'댓글')">좋아요</button> {{item.likeCnt}}
+									<div style="margin-left : 70px; margin-top:20px;" class="stu-comm-detail-comment-reply" v-for="reply in viewComment" v-show="reply.parentCommentId === item.commentId">
+										<div><a style="font-size:15px; color:black;" href="#" @click="fnUserboard(reply.author,reply.userNickName)">{{reply.userNickName}}</a></div>
+							                <template v-if="reply.commentstatus === 'N'">
+							                    <div><a>{{reply.comcontents}}</a></div>
+							                    <template v-if="reply.filePath">
+							                        <div><img style="width:200px; height:200px;" :src="reply.filePath"></div>
+							                    </template>
+							                    <template v-if="reply.comUpdateDay">
+							                        <div><a><small>{{reply.comUpdateDay}}(수정됨)</small></a></div>
+							                    </template>
+							                    <template v-else>
+							                        <div><a><small>{{reply.comCreateDay}}</small></a></div>
+							                    </template>
+							                </template>
+			                                  <template v-if="reply.commentstatus === 'Y' && isAdmin">
+			                                      <div><a>{{reply.comcontents}} <a style="color:red;">( 숨김 처리된 댓글 입니다. 관리자만 보임)</a></a></div>
+			                                      <template v-if="reply.filePath">
+			                                          <img style="width:200px; height:200px;" :src="reply.filePath">
+			                                      </template>
+			                                      <div><a><small>{{reply.comCreateDay}}</small></a></div>
+			                                  </template>
+			                                  <template v-if="reply.commentstatus === 'Y' && !isAdmin">
+			                                      <div><a style="color:red;">관리자에 의해 숨김 처리된 댓글 입니다.</a><div>
+			                                  </template>    
+											<template v-if="reply.userId === sessionUserId && reply.commentstatus === 'N'">
+							                    <button @click="fnCommDelete(reply.commentId)">삭제</button>
+							                </template>
+							                <template v-if="isAdmin && reply.commentstatus === 'N'">
+							                    <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨기기</button>
+							                </template>
+							                <template v-if="isAdmin && reply.commentstatus === 'Y'">
+							                    <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨김 해제</button>
+							                </template>
+							                <button @click="fnLikeCheck(reply.commentId,'댓글')">좋아요</button> {{reply.likeCnt}}
+					                </div>
+									<template v-if="item.reMode === 'Y'">
+									    <div class="stu-comm-detail-comment">
+									        <div style="flex-grow: 1;">
+									            <template v-if="isLogin">
+									                {{sessionUserNickName}} 님
+									            </template>
+									            <div class="stu-comm-detail-comment-input-container">
+									                <textarea placeholder="답글을 남겨보세요..." v-model="comcontents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)"></textarea>
+									                <div>
+									                    <label for="file-upload" style="cursor: pointer;">
+									                        <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
+									                    </label>
+									                    <input type="file" id="file-upload" style="display: none;" @change="fnFileChange(item.commentId)" />
+									                    <div v-if="fileName || filePreview">
+									                        <img :src="filePreview" style="width: 100px; height: 100px;" v-if="filePreview" />
+									                        <div>{{ fileName }}</div>
+									                    </div>
+									                </div>
+									            </div>
+									        </div>
+									        <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)">답글 완료</button>
+									        <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)">취소</button>
+									    </div>
+									</template>
                                 </template>
                                 <template v-if="item.upMode === 'Y'">
                                     <div class="stu-comm-detail-comment">
@@ -297,21 +357,15 @@
                                                 {{sessionUserNickName}} 님
                                             </template>
                                             <div class="stu-comm-detail-comment-input-container">
-                                                <!-- 기존 댓글 내용을 가져와서 textarea에 표시 -->
                                                 <textarea placeholder="댓글을 남겨보세요..." v-model="item.comcontents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnupdateCommentResult(item.commentId, item.comcontents)"></textarea>
-
-                                                <!-- 파일 업로드 및 기존 파일 정보 유지 -->
                                                 <div>
                                                     <label for="file-upload" style="cursor: pointer;">
                                                         <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
                                                     </label>
                                                     <input type="file" id="file-upload" style="display: none;" @change="fnFileChange(item.commentId)" />
-                                                    
-                                                    <!-- 기존 이미지 미리보기 -->
                                                     <div>
                                                         <img v-if="item.filePath || filePreview" :src="filePreview ? filePreview : item.filePath" style="width: 100px; height: 100px;" />
                                                     </div>
-                                                    <!-- 기존 파일명 표시 -->
                                                     <div v-if="fileName || item.fileName">{{ fileName ? fileName : item.fileName }}</div>
                                                 </div>
                                             </div>
@@ -327,12 +381,10 @@
             </div>
 
         </main>
-
     </div>
     <jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
-
 </html>
 <script>
     const app = Vue.createApp({
@@ -352,6 +404,83 @@
             };
         },
         methods: {
+			fnupdateCommentReResult(commentId,comcontents,boardId){
+              var self = this;
+              var nparmap = { 
+                  commentId : commentId,
+                  content : comcontents,
+				  boardId : boardId,
+				  userId : self.sessionUserId
+				  
+              };
+              $.ajax({
+                  url:"/updateCommentReResult.dox",
+                  dataType:"json",    
+                  type : "POST", 
+                  data : nparmap,
+                  success : function(data) { 
+                      alert(data.message);
+                      var idx = data.idx;
+                      console.log(idx);
+                      console.log(self.file);        
+                      if (self.file) {
+                          const formData = new FormData();
+                          formData.append('file1', self.file);
+                          formData.append('idx', idx);
+                          $.ajax({
+                              url: '/fileUpload.dox',
+                              type: 'POST',
+                              data: formData,
+                              processData: false,  
+                              contentType: false,  
+                              success: function() {
+                                  console.log('업로드 성공!');
+								  self.fnReChat();
+                                  self.fnView();    
+                                  self.filePreview ="";
+                                  self.fileName ="";
+                              },
+                              error: function(jqXHR, textStatus, errorThrown) {
+                                  console.error('업로드 실패!', textStatus, errorThrown);
+                              }
+                          });        
+                      } else{
+						  self.fnReChat();
+                          self.fnView();    
+                      }        
+                  }
+              });
+          },        
+			fnReCommChat(commentId){
+	              var self = this;
+	              var boardId = self.boardId;
+	              var nparmap = {commentId : commentId};
+	              $.ajax({
+	                  url:"/updateCommentREY.dox",
+	                  dataType:"json",    
+	                  type : "POST", 
+	                  data : nparmap,
+	                  success : function(data) { 
+	                      console.log(data);
+	                      self.fnView();                        
+	                  }
+	              });
+	          },
+            fnReChat(commentId){
+               var self = this;
+               var boardId = self.boardId;
+               var nparmap = {boardId : boardId};
+               $.ajax({
+                   url:"/updateCommentRENO.dox",
+                   dataType:"json",    
+                   type : "POST", 
+                   data : nparmap,
+                   success : function(data) { 
+                       console.log(data);
+                       self.fnReCommChat(commentId);                        
+                   }
+               });
+	        },
             fnCommUpdateNo(boardId){
                 var self = this;
                 var nparmap = {boardId : boardId};
@@ -600,25 +729,24 @@
                     }
                 });
             },
-            fnFileChange(event) {
-                const file = event.target.files[0];
-                this.file = file;
+			fnFileChange(event) {
+			    const file = event.target.files[0];
+			    this.file = file;
 
-                // 파일명이 있으면 표시
-                this.fileName = file.name;
+			    // 파일명 업데이트
+			    this.fileName = file.name;
 
-                // 이미지 파일인 경우 미리보기 표시
-                if (file && file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.filePreview = e.target.result;
-                    };
-                    reader.readAsDataURL(file); // 이미지 파일을 읽음
-                } else {
-                    this.filePreview = null; // 이미지가 아니면 미리보기 없음
-                }
-            },
-            
+			    // 이미지 파일인 경우 미리보기 생성
+			    if (file && file.type.startsWith('image/')) {
+			        const reader = new FileReader();
+			        reader.onload = (e) => {
+			            this.filePreview = e.target.result;
+			        };
+			        reader.readAsDataURL(file);
+			    } else {
+			        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+			    }
+			},
             fnCommLike(boardId){
                 var self = this;
                 var nparmap = {boardId : boardId,
@@ -727,6 +855,14 @@
             var self = this;
             self.fnView();
             self.fnSession();
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnSession();
+			});
         }
     });
     app.mount('#app');

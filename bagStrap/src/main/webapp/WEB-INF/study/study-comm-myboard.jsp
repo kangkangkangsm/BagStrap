@@ -188,6 +188,7 @@
 				            <h3>내가 활동중인 스터디 목록</h3>
 				            <ul v-for="">
 				                <li>
+									구현예정임
 									<template v-if="hide == 'Y'">
 				                    <a href="#">스터디1(공개중) </a> 
 									<button @click="fnhide()">숨기기</button>
@@ -326,6 +327,14 @@
         },
         mounted() {
             var self = this;
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnSession();
+			});
 			self.fnSession();
 			
 			

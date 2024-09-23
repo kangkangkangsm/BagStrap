@@ -14,7 +14,14 @@
 			</foreach>
 		</if>
 	</select>
-	<!-- -->
+	<!-- ||||||||||||||||||||||||||||||||||||||스터디 그룹||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- 스터디 그룹 만들기(책 불러오기)-->
+	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM TBL_BOOK 
+		WHERE CATEGORY = #{boardTypeId}
+	</select>	
+	<!-- ||||||||||||||||||||||||||||||||||||||스터디 커뮤니티||||||||||||||||||||||||||||||||||||||||| -->
+	
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_CODE
 	</select>
@@ -30,7 +37,6 @@
 	ORDER BY CREATED_DATE DESC
 	FETCH FIRST 5 ROWS ONLY
 	</select>
-
 		<!-- 스터디 컨텐츠 리스트 -->
 	<select id="selectStuCommListBoard" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
    SELECT C.*, U.*, T.*,commLikeCnt,cnt,
@@ -301,12 +307,6 @@
 	SET UPMODE = 'N'
 	WHERE POST_ID = #{boardId}
 	</update>
-	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
-	<update id="updateCommentYES" parameterType="hashmap">
-	UPDATE TBL_STU_COMMENTS 
-	SET UPMODE = 'Y'
-	WHERE POST_ID = #{boardId}
-	</update>
 	<!-- 스터디 커뮤니티 댓글 수정완료처리..-->
 	<update id="updateCommentResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
 	UPDATE TBL_STU_COMMENTS
@@ -315,5 +315,21 @@
 	UPDATE_DATE = SYSDATE + (9/24),
 	UPMODE = 'N'
 	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 답글 모드-->
+	<update id="updateCommentREY" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET REMODE = 'Y'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 답글 수정모드 세트 -->
+	<update id="updateCommentRENO" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET REMODE = 'N'
+	WHERE POST_ID = #{boardId}
+	</update><!-- 스터디 커뮤니티 답글 수정완료처리..-->
+	<update id="updateCommentReResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
+	INSERT INTO TBL_STU_COMMENTS(COMMENT_ID,POST_ID,CONTENT,AUTHOR,CREATED_DATE,PARENT_COMMENT_ID)
+	VALUES(COMMENT_SEQ.NEXTVAL,#{boardId},#{content}, #{userId},SYSDATE + (9/24),#{commentId})
 	</update>
 </mapper>
