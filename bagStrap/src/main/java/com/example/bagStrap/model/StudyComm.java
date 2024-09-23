@@ -1,5 +1,7 @@
 package com.example.bagStrap.model;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -68,7 +70,43 @@ public class StudyComm {
 		private String fileExt;
 		private String thumbnailYN;
 		private String fileCreateDate;
-//TBL_
+//TBL_STUDY_GROUP
+		private int studyGroupId;
+		private String studyAdminId;
+		private int subjectTypeId;
+		private String description;
+		private String relatedBook;
+		private String onOffMode;
+		private int participants;
+		private int max_participants;
+		private String startdate;
+		private String enddate;
+		private String studytime;
+		private String age;
+		private String groupStatus;
+		private String groupPassword;
+		private String mypageStatus;
+		private String genderGroup;
+		private String groupPublic;
+		private String relatedBookDirect;
+		
+//TBL_STUDY_APPS
+		private int applicationId;
+		private int studyid;
+		private String applicantId;
+		private String goal;
+		private String acontent;
+		private String AppStatus;
+		private String createDate;
+		private String updateDdate;
+		
+//Book
+		private Long bookId;            // 책 고유번호
+	    private String publisher;       // 출판사
+	    private String image;           // 책 이미지
+	    private Long category;          // 카테고리 번호
+	    private String ebook;           // 전자책 여부
+	   
 	public String getUserId() {
 		return userId;
 	}

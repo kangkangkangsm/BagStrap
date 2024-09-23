@@ -15,7 +15,8 @@ public class StudyServiceImpl implements StudyService{
 
 	@Autowired
 	StudyMapper studyMapper;
-
+	// ------------------------------- 스터디 커뮤니티 --------------------------------------
+	
 	//스터디 커뮤니티 사이드 
 	@Override
 	public HashMap<String, Object> selectStuComm(HashMap<String, Object> map) {
@@ -439,5 +440,37 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-	
+	// ------------------------------- 스터디 그룹 --------------------------------------
+	//스터디 그룹 만들기(책 불러오기)
+	@Override
+	public HashMap<String, Object> selectStuGroupInsertBoardType(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<StudyComm> selectStuGroupInsertBoardType = studyMapper.selectStuGroupInsertBoardType(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "완료");
+			resultMap.put("typeList",selectStuGroupInsertBoardType);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 그룹 만들기(책 불러오기)
+	@Override
+	public HashMap<String, Object> insertStuGroup(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.insertStuGroup(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "그룹 개설 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 }

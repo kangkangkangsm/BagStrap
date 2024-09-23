@@ -11,6 +11,9 @@ import com.example.bagStrap.model.StudyComm;
 //
 @Mapper
 public interface StudyMapper {
+	
+	// ------------------------------- 스터디 커뮤니티 --------------------------------------
+	
 	//스터디 커뮤니티 카테고리 타입
 	List<StudyComm> selectStuComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 리스트 
@@ -73,4 +76,12 @@ public interface StudyMapper {
 	void updateCommentREY(HashMap<String, Object> map);
 	// 스터디 커뮤니티 답글 수정완료처리
 	void updateCommentReResult(HashMap<String, Object> map);
+	
+	// ------------------------------- 스터디 그룹 --------------------------------------
+	
+	//스터디 그룹 만들기(책 불러오기)
+	List<StudyComm> selectStuGroupInsertBoardType(HashMap<String, Object> map);
+	//스터디 그룹 만들기
+	void insertStuGroup(HashMap<String, Object> map);	
+		
 }

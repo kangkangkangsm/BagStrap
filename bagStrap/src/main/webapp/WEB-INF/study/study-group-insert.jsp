@@ -102,7 +102,7 @@
 				<div class="study-group-insert-form-container">			  
 			      <div class="study-group-insert-form-group">
 			          <label for="field">스터디 영역</label>
-			          <select id="field" v-model="subjectTypeId" >
+			          <select id="field" v-model="subjectTypeId" @change="fnBoardType(subjectTypeId)" >
 			              <option v-for="item in categoryList" v-show="item.boardTypeId >= 2000 && item.boardTypeId <= 2999 " :value="item.boardTypeId">{{item.name}}</option>
 			          </select>
 			      </div>
@@ -180,24 +180,23 @@
 			              <input type="radio" id="private" name="visibility" v-model="groupPublic" value="N">
 			              <label for="private">비공개</label>
 			          </div>
-			          <input type="password" id="groupPassword" placeholder="비밀번호 4자리 (비공개 시 입력)" style="width: 100%;">
+			          <input type="password" id="groupPassword" placeholder="비밀번호 4자리 (비공개 시 입력)" style="width: 100%;" v-model="groupPassword">
 			      </div>
 			      <div class="study-group-insert-form-group">
 			          <label for="book">참고 할 교재</label>
 			          <div class="study-group-insert-book-list">
 			              <select id="book" name="book" v-model="﻿relatedBook">
-			                  <option>책 선택</option>
+			                  <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
 			                  <!-- 책 리스트 추가 -->
 			              </select>
-			            
 			          </div>
-			          <input type="text" id="customBook" placeholder="직접 입력 (없으면 안 써도 됨)" style="width: 91.5%; margin-top: 10px;">
+			          <input type="text" id="customBook" placeholder="직접 입력 (없으면 안 써도 됨)" style="width: 91.5%; margin-top: 10px;" v-model="relatedBookDirect">
 			      </div>
 				  <div class="study-group-insert-form-group">
 	  		          <label for="description">스터디 설명 (50자이내)</label>
 	  		          <input type="text" id="description" name="description" v-model="description" maxlength="50" style="height:67px;">
 	  		      </div>
-			      <button class="study-group-insert-submit-btn">스터디 생성</button>
+			      <button class="study-group-insert-submit-btn" @click="fnGroupInsert()">스터디 생성</button>
 			  </div>
 	        </div>
 	    </main>
@@ -216,12 +215,50 @@
 					isLogin: false,
 					sessionUserId: '',
 					sessionUserNickName: '',
-					categoryList:[]
+					categoryList:[],
+					typeList:[]
 					
 	            };
 	        },
 	        methods: {
-				selectMyCommCategory(){
+				fnGroupInsert(){
+					var self = this;
+					var nparmap = { boardTypeId : self.subjectTypeId, userId : self.sessionUserId,
+									studyName : self.studyName, startdate : self.startdate,
+									enddate : self.enddate,  studytime : self.studytime,
+									age : self.age, onOffMode : self.onOffMode, 
+									maxParticipants : self.maxParticipants, genderGroup : self.genderGroup,
+									groupPublic : self.groupPublic, groupPassword : self.groupPassword,
+									relatedBook : self.relatedBook, description : self.description
+					};
+					$.ajax({
+						url:"insertStuGroup.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							alert(data.message);
+							
+						}
+					});
+		        },
+				fnBoardType(boardTypeId){
+				var self = this;
+					var nparmap = { boardTypeId : boardTypeId
+					};
+					$.ajax({
+						url:"selectStuGroupInsertBoardType.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							self.typeList = data.typeList;
+						}
+					});
+		        },
+				fnselectMyCommCategory(){
 					var self = this;
 					var nparmap = {
 					};
@@ -265,7 +302,7 @@
 	        mounted() {
 	            var self = this;
 				self.fnSession();
-				self.selectMyCommCategory();
+				self.fnselectMyCommCategory();
 				window.addEventListener('loginStatusChanged', function(){
 					if(window.sessionStorage.getItem("isLogin") === 'true'){
 						self.isLogin = true;	

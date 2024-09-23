@@ -4,22 +4,6 @@
 
 <mapper namespace="com.example.bagStrap.mapper.StudyMapper">
 	
-	<select id="searchItem" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
-		SELECT * FROM TBL_ITEM
-		INNER JOIN TBL_CODE ON CODE = CATEGORY1
-		<if test="selectedCodes.size() != 0">
-			WHERE CODE IN 
-			<foreach collection="selectedCodes" item="item" open="(" close=")" separator=",">
-			#{item}
-			</foreach>
-		</if>
-	</select>
-	<!-- ||||||||||||||||||||||||||||||||||||||스터디 그룹||||||||||||||||||||||||||||||||||||||||| -->
-	<!-- 스터디 그룹 만들기(책 불러오기)-->
-	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		SELECT * FROM TBL_BOOK 
-		WHERE CATEGORY = #{boardTypeId}
-	</select>	
 	<!-- ||||||||||||||||||||||||||||||||||||||스터디 커뮤니티||||||||||||||||||||||||||||||||||||||||| -->
 	
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
@@ -332,4 +316,48 @@
 	INSERT INTO TBL_STU_COMMENTS(COMMENT_ID,POST_ID,CONTENT,AUTHOR,CREATED_DATE,PARENT_COMMENT_ID)
 	VALUES(COMMENT_SEQ.NEXTVAL,#{boardId},#{content}, #{userId},SYSDATE + (9/24),#{commentId})
 	</update>
+	
+	<!-- ||||||||||||||||||||||||||||||||||||||스터디 그룹||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- 스터디 그룹 만들기(책 불러오기)-->
+	<select id="selectStuGroupInsertBoardType" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM TBL_BOOK 
+		WHERE CATEGORY = #{boardTypeId}
+	</select>	
+	<!-- 스터디 그룹 만들기-->
+	<insert id="insertStuGroup" parameterType="hashmap" >
+	INSERT INTO TBL_STUDY_GROUP (
+    STUDY_GROUP_ID,
+    STUDY_ADMIN_ID,
+    SUBJECT_TYPE_ID,
+    STUDY_NAME,
+    STARTDATE,
+    ENDDATE,
+    STUDYTIME,
+    AGE,
+    ONOFFMODE,
+    MAX_PARTICIPANTS,
+    GENDERGROUP,
+    GROUPPUBLIC,
+    GROUPPASSWORD,
+    RELATED_BOOK,
+    DESCRIPTION
+) VALUES (
+    STUDY_GROUP_ID_SEQ.NEXTVAL,                     
+    #{userId},          
+    #{boardTypeId},                    
+    #{studyName},
+    TO_DATE(#{startdate}, 'YYYY-MM-DD'), 
+    TO_DATE(#{enddate}, 'YYYY-MM-DD'), 
+    TO_DATE(#{studytime}, 'HH24:MI'),
+    #{age},                
+    #{onOffMode},             
+    #{maxParticipants},                 
+    #{genderGroup},             
+    #{groupPublic},            
+    #{groupPassword},        
+    #{relatedBook},                 
+    #{description}
+)
+	</insert>
+	
 </mapper>
