@@ -133,14 +133,23 @@
 					saveYN : self.saveYN,
 					reqComment : self.reqComment,
 					entrancePassword : self.entrancePassword
+
+					// orderTable
 					// paymentId : orderId,
+					// merchang_uid : orderId,
+
+					// bookTable
 					// totalAmount: PriceSum,
-					// merchang_uid : orderId
+
+					// userSession
 					// buyer_email: userEmail,
 					// buyer_name: userId,
 					// buyer_tel: userInfo,
+
+					// addressTable
 					// buyer_addr: userAddr,
 					// buyer_postcode: "123-456",
+					
 				};
 				$.ajax({
 					url:"/order.dox",

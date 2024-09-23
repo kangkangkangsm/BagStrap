@@ -16,7 +16,8 @@ public class Order {
     private Date orderDate;                // 주문 생성 날짜
     private String shippingAddress;        // 배송할 주소
     private String status;                 // 배송상태 / 환불여부
-	
+    private int orderQuantity;		// 주문하는 책 수량
+    
     //OrderItem
     private Integer quantity;              // 상품수량
     private BigDecimal price;              // 상품가격
@@ -46,5 +47,15 @@ public class Order {
     private String reqComment;     // VARCHAR2(500 BYTE)
     private String entrancePassword;// VARCHAR2(100 BYTE)
     private String saveYN;         // CHAR(1 BYTE)
+    
+    public BigDecimal getPrice() {
+    	return price;
+    }
+    public int getQuantity() {
+    	return quantity;
+    }
+    public int getOrderQuantity() {
+    	return orderQuantity;
+    }
 }
 	

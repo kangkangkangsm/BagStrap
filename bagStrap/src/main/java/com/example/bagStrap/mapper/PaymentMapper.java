@@ -12,7 +12,7 @@ import com.example.bagStrap.model.Order;
 public interface PaymentMapper {
 	List<Order> selectAddress(HashMap<String, Object> map);
 	int insertAddress(HashMap<String, Object> map);
-	List<Order> selectOrderList(HashMap<String, Object> map);
+	List<Order> selectBookList(HashMap<String, Object> map);
 
 	
 }

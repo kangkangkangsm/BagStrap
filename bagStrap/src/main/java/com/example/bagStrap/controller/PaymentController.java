@@ -56,6 +56,7 @@ public class PaymentController {
 				map.put("orderList", orderList);
 				map.put("userId", user.getUserId());
 				paymentService.createOrder(map);
+				
 
 				resultMap.put("isLogin", true);
 				resultMap.put("userNickName", user.getUserNickName());

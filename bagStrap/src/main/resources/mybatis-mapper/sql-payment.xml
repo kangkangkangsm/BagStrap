@@ -38,13 +38,14 @@
             #{entrancePassword}
         )
 	</insert>
-	<select id="selectOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-	   		SELECT * 
-			FROM TBL_BOOK
-			WHERE BOOK_ID IN
-			<foreach item="item" collection="orderList" open="(" close=")" separator=",">
-	    		#{item}
-	    </foreach>
+	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+	   		
+			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
+			SELECT B.*, #{item.bookQuantity} AS ORDER_QUANTITY 
+			FROM TBL_BOOK B
+			WHERE 
+    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
+	    	</foreach>
 	</select>
 	
 </mapper>

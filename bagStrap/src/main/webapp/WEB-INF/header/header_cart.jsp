@@ -103,6 +103,7 @@
 					<div>{{selectedRadio2}}</div>
 					<div>{{refundReasonContent}}</div>
 					<div>{{priceSum}}</div>
+					<div>{{quantityOfBooks}}</div>
 				</div>		
 				
 				<div class="progress" v-if="progress === 1">			
@@ -218,16 +219,25 @@
             },
 			isItemChecked(bookId, bookPrice, bookQuantity){
 				var self = this;
+				let bookExists = false;
+				
 				const price = +bookPrice
 				const quantity = +bookQuantity
-
-				if(self.selectedBooks.includes(bookId)){
-					self.priceSum = self.priceSum-(price*quantity);
-					self.selectedBooks.pop(bookId);
-				}else{
+				self.selectedBooks.forEach(item => {
+					if(item.bookId === bookId){
+						self.priceSum = self.priceSum-(price*quantity);
+						self.selectedBooks = self.selectedBooks.filter(item => item.bookId !== bookId);
+						bookExists = true;
+					}
+				})
+				if(!bookExists){
 					self.priceSum = self.priceSum+(price*quantity);
-					self.selectedBooks.push(bookId);
-				}	
+					self.selectedBooks.push({
+						bookId : bookId,
+						bookQuantity : bookQuantity
+					});
+				}
+
 				
 			},
 			toOrder(){

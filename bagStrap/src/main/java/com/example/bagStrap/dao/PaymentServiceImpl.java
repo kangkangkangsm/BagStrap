@@ -1,6 +1,7 @@
 package com.example.bagStrap.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.bagStrap.mapper.PaymentMapper;
+import com.example.bagStrap.model.Order;
 import com.google.gson.Gson;
 
 
@@ -82,6 +84,19 @@ public class PaymentServiceImpl implements PaymentService{
 		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		try {
+			// 책 구매 수량 체크
+			if(!isBookAvailableForPurchase(map)) {
+				failedResultMap(resultMap, "책없어용");
+				return resultMap;
+			}
+			System.out.println("수량 이상 무");
+			// 가격 이상 유무 체크
+			if(!checkPriceSum(map)) {
+				failedResultMap(resultMap, "가격이 일치하지않습니다");
+				return resultMap;
+			}
+			System.out.println("가격 이상 무");
+			
 			// 주소 저장 시 최대 개수 체크
 			if(map.get("saveYN").equals("Y")) {
 				map.put("checkSave", "check");		
@@ -93,25 +108,41 @@ public class PaymentServiceImpl implements PaymentService{
 			} 
 			
 			System.out.println(map);
-			// 해당 주소 저장
-			paymentMapper.insertAddress(map);
+			// 배송 주소 저장
+			//paymentMapper.insertAddress(map);
 			System.out.println("AddressNo = " + map.get("addressNo"));
 			
-			System.out.println(paymentMapper.selectOrderList(map));
-
+			//TODO 오더 및 오더 아이템 생성하기
 			
-			
-			
-			
-			
-		
-				
-				
+			resultMap.put("result", true);	
 		} catch(Exception e) {
 			System.out.println("Exception e : " + e);
 		}
-		return null;
+		return resultMap;
 	}
-
+	//책 수량이 같은지 체크
+	private boolean isBookAvailableForPurchase(HashMap<String, Object> map) {
+		List<Order> orderList = paymentMapper.selectBookList(map);
+		List<Object> objList = (List<Object>) map.get("orderList");
+		
+		return objList.size() == orderList.size();
+	}
 	
+	private boolean checkPriceSum(HashMap<String, Object> map) {
+		List<Order> orderList = paymentMapper.selectBookList(map);
+		int priceSum = Integer.parseInt(map.get("priceSum").toString());
+		
+		final int[] comparePrice = {0};
+		orderList.forEach(item -> {
+			comparePrice[0] += item.getPrice().intValue() * item.getOrderQuantity();
+			System.out.println(priceSum);
+			System.out.println(comparePrice[0]);
+		});
+		
+		return priceSum == comparePrice[0];
+	}
+	private void failedResultMap(HashMap<String, Object> map, String message) {
+		map.put("message", message);
+		map.put("result", false);
+	}
 }
