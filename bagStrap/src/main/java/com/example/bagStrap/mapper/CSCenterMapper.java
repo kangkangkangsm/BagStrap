@@ -16,5 +16,7 @@ public interface CSCenterMapper {
 	
 	Notice Noticeinfo(HashMap<String, Object> map);
 	
+	void insertNotice(HashMap<String, Object> map);
+	
 	List<Notice> faqlist(HashMap<String, Object> map);
 }

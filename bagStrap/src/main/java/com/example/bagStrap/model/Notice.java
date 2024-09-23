@@ -16,6 +16,9 @@ public class Notice {
 	
 	private String createdDateFormatted;
 	
+	private String userId;
+	private String email;
+	
 	//tbl_faq
 	private int faqId;
 	private String question;

@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
-	<title>첫번째 페이지</title>
+	<title>공지사항</title>
 </head>
 <style>
 	.list-item {
@@ -42,8 +42,14 @@
 				{{ item.title }} - 작성자: {{ item.author }} | 조회수: {{ item.hit }} | 작성일: {{ item.createdDateFormatted }}
 			</a>
 		</div>
-		<button class="add-button" @click="goAddNotice">추가</button>
-					
+		<div v-if="isLogin && isAdmin">
+			<button class="add-button"  @click="goAddNotice">추가</button>
+		</div>
+		<div>
+		    <!-- 상태 확인을 위한 로그 출력 -->
+		    <p>로그인 상태: {{ isLogin }}</p>
+		    <p>관리자 상태: {{ isAdmin }}</p>
+		</div>			
 	</div>
 </body>
 </html>
@@ -53,6 +59,9 @@
             return {
 				list : [],
 				keyword : "",
+				isLogin: false, // 로그인 상태
+				isAdmin: false, // 관리자 상태
+				
             };
         },
         methods: {
@@ -60,7 +69,9 @@
 				var self = this;
 				var nparmap = {
 					keyword : self.keyword,
+					author:self.sessionId
 				};
+				console.log(nparmap); // 확인용
 				$.ajax({
 					url:"notice-list.dox",
 					dataType:"json",	
@@ -83,6 +94,22 @@
         mounted() {
             var self = this;
 			self.fnGetList();
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnGetList();	
+			})
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				} else{
+					self.isAdmin = false;
+				};
+				self.fnGetList();	
+			})
         }
     });
     app.mount('#app');
