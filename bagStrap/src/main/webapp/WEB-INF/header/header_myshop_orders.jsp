@@ -216,6 +216,14 @@
 					self.isLogin = false;
 				};
 				self.fnGetList();	
+			});
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				} else{
+					self.isAdmin = false;
+				};
+				self.fnGetList();	
 			})
         }
     });

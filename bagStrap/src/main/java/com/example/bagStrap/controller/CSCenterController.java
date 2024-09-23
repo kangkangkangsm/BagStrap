@@ -37,10 +37,17 @@ public class CSCenterController {
 		 request.setAttribute("noticeId", map.get("noticeId"));
          return "noticedetail";
     }
+	
+	@RequestMapping("/noticeadd") 
+    public String noticeadd(Model model) throws Exception{
+         return "noticeadd";
+    }
+	
 	@RequestMapping("/faqlist") 
     public String faqlist(Model model) throws Exception{
          return "faqlist";
     }
+	
 	@RequestMapping("/cslist") 
     public String cslist(Model model) throws Exception{
          return "cslist";
@@ -49,7 +56,7 @@ public class CSCenterController {
 	@RequestMapping(value = "/notice-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String NoticeList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		//System.out.println(map);
+		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		resultMap=csService.NoticeList(map);
@@ -60,10 +67,21 @@ public class CSCenterController {
 	@RequestMapping(value = "/notice-detail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String NoticeDetail( Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		//System.out.println(map);
+		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		resultMap=csService.searchNoticeInfo(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/notice-add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String NoticeAdd( Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		//System.out.println(map);
+		resultMap=csService.addNotice(map);
 
 		return new Gson().toJson(resultMap);
 	}
