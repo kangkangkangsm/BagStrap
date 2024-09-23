@@ -9,9 +9,27 @@
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, ADDR, BAN, STATUS, PHONE_NUM, CREATED_DATE, UPDATE_DATE) 
-		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{addr}, #{ban}, #{status}, #{phoneNum}, #{cDatetime}, #{uDatetime})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE_NUM, CREATED_DATE, BIRTH, GENDER) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phoneNum}, #{cDatetime}, #{birth}, #{gender})
 	</insert>
 	
+	<!--아이디 중복검사-->
+	<select id="joinMultiCheck" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_USER
+		WHERE USER_ID = #{userId}
+	</select>
 	
+	<!--닉네임 중복검사-->
+	<select id="nickNameMultiCheck" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_USER
+		WHERE USER_NICKNAME = #{userNickName}
+	</select>
+	
+	<insert id="" parameterType="hashmap">
+		INSERT INTO TBL_ADDRESS
+		(ADDRESS_NO, USER_ID, USER_NAME, PHONE, ADDRESS, ADDRESS_DETAIL, ZONECODE)
+		VALUES (#{addressNo}, #{userId}, #{userName}, #{phone}, #{address}, #{addressDetail},#{zonecode})
+	</insert>
 </mapper>

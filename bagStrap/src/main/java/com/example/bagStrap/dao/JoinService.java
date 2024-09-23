@@ -8,4 +8,7 @@ public interface JoinService {
 	
 	HashMap<String, Object> addJoin(HashMap<String,Object> map);
 	
+	HashMap<String, Object> doubleCheckJoin(HashMap<String, Object> map);
+	
+	HashMap<String, Object> doubleNickName(HashMap<String, Object> map);
 }

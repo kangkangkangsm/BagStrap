@@ -9,12 +9,11 @@ public class User {
 	private String userNickName;
 	private String password;
 	private String email;
-	private String addr;
-	private String ban;
-	private String status;
 	private String phoneNum;
 	private String cDatetime;
-	private String uDatetime;
+	private String birth;
+	private String gender;
+	private String addressNo;
 	
 	public String getUserId() {
 		return userId;
@@ -28,23 +27,18 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-	public String getAddr() {
-		return addr;
-	}
-	public String getBan() {
-		return ban;
-	}
-	public String getStatus() {
-		return status;
-	}
 	public String getPhoneNum() {
 		return phoneNum;
 	}
 	public String getcDatetime() {
 		return cDatetime;
 	}
-	public String getuDatetime() {
-		return uDatetime;
+	public String birth() {
+		return birth;
+	}
+	public String gender() {
+		return gender;
+		
 	}
 }
 	

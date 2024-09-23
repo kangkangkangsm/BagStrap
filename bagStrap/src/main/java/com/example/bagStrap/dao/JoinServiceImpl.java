@@ -41,6 +41,7 @@ public class JoinServiceImpl implements JoinService{
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
 			System.out.println("map3 : " + map);
+			
 			joinMapper.joinInsert(map);
 			System.out.println("map4 : " + map);
 			resultMap.put("result", "success");
@@ -51,7 +52,55 @@ public class JoinServiceImpl implements JoinService{
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> doubleCheckJoin(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+	        System.out.println("map5: " + map);
+	        int count = joinMapper.joinMultiCheck(map);  
+	        System.out.println("중복된 아이디 개수: " + count);  
+
+	       
+	        if (count > 0) {
+	            resultMap.put("result", "fail");
+	            resultMap.put("message", "이미 사용 중인 아이디입니다.");
+	        }else {
+	            resultMap.put("result", "success");
+	            resultMap.put("message", "사용 가능한 아이디입니다.");
+	        }  
+	        
+	    } catch(Exception e) {
+	        resultMap.put("result", "fail");  
+	        resultMap.put("message", "서버 오류가 발생했습니다.");
+	    }
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> doubleNickName(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			System.out.println("map6 : " + map);
+			int count2 = joinMapper.nickNameMultiCheck(map);
+			System.out.println("중복된 닉네임 개수 : " + count2);
+			
+			if(count2 > 0) {
+				resultMap.put("result", "fail");
+				resultMap.put("message", "이미 사용 중인 닉네임입니다.");
+			}else {
+				resultMap.put("result", "success");
+				resultMap.put("message", "사용 가능한 닉네임입니다.");
+			}
+			
+		}catch(Exception e) {
+	        resultMap.put("result", "fail");  
+	        resultMap.put("message", "서버 오류가 발생했습니다.");
+		}
+		return resultMap;
+	}
  
-	
-	
 }

@@ -49,4 +49,24 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/joinMultiCheck1.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String joinMuitiCheck(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.doubleCheckJoin(map);
+		System.out.println("resultMap1 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/nickNameMultiCheck1.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String nickNameMuitiCheck(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.doubleNickName(map);
+		System.out.println("resultMap2 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 }
