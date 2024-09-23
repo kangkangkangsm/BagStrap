@@ -5,6 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<title>첫번째 페이지</title>
 	<style>
 
@@ -199,7 +200,8 @@
 				<div>
 <!--					<button v-if="progress>1" @click="fnChangeProgress(-1)">이전</button>
 -->					<button v-if="progress<3" @click="fnChangeProgress(1)">다음</button>	
-					<button v-if="progress==3" @click="fnRefund()">환불신청</button>	
+					<button v-if="progress==3" @click="fnRefund()">환불신청</button>
+					<button v-if="progress==3" @click="fnOrder()">결제</button>		
 				</div>
 				
 	        </div>
@@ -236,9 +238,26 @@
 				
 				priceSum: 0,
 				
-				list : {},
-				codeList : {},
-				selectedCodes : []
+				response : {
+					
+				},
+				data : {
+					storeId: "${store_id}",
+					 // 채널 키 설정
+					 channelKey: "${CHANNEL_KEY}",
+					 paymentId: self.orderId,
+					 orderName: "현이의 가방끈",
+					 totalAmount: self.priceSum,
+					 currency: "CURRENCY_KRW",
+					 payMethod: "CARD",
+					 customer: {
+				       fullName: "${FULLNAME}",
+				       phoneNumber: "${PHONE_NUMBER}",
+				       email: "${EMAIL}",
+				     }
+				}
+				
+				
             };
         },
         methods: {
@@ -303,9 +322,6 @@
 					}
 				}
 				
-				
-				
-				
 				self.progress += value;
 				
 				if(self.progress == 0 ){
@@ -341,11 +357,70 @@
 					self.selectedBooks.push(bookId);
 				}	
 				
+			},
+			// PortOne API
+			fnOrder(){
+				var self = this;
+				var nparmap = {
+					bookList : [], 
+				};
+				$.ajax({
+					url:"payment.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						console.log(data);
+						alert(data.message);
+						if(data.result){
+							self.fnImp();
+						}
+					}
+				});
+			},
+			fnImp(){
+				var self = this;
+				IMP.request_pay(
+				  {
+				    pg: "html5_inicis.${IMP_UID}", //테스트 시 html5_inicis.INIpayTest 기재
+				    pay_method: "card",
+				    merchant_uid: self.orderId, //상점에서 생성한 고유 주문번호
+				    name: "현이의 가방끈",
+				    amount: self.priceSum,
+				    buyer_email: "test@portone.io",
+				    buyer_name: "구매자이름",
+				    buyer_tel: "010-1234-5678", //필수 파라미터 입니다.
+				    buyer_addr: "서울특별시 강남구 삼성동",
+				    buyer_postcode: "123-456",
+				  },
+				  function (rsp) {
+					console.log(rsp)
+				    // callback 로직
+				    //* ...중략... *//
+				  },
+				);
+			}
+			,
+			fnRefund(){
+				var self = this;
+				var nparmap = {
+					
+				};
+				$.ajax({
+					url:"/refund.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						console.log(data);
+					}
+				});
 			}
         },
         mounted() {
             var self = this;
 			self.fnGetList();
+			IMP.init("imp11730175"); 
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	

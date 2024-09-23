@@ -34,5 +34,17 @@ public class Order {
     private String ebook;           // 전자책 여부
     private Date createdDate;       // 책 등록 날짜
     private Date updateDate;        // 책 마지막 수정 날짜
+    
+    //Address
+    private Long addressNo;        // NUMBER
+    private String userName;       // VARCHAR2(50 BYTE)
+    private String phone;          // VARCHAR2(15 BYTE)
+    private String address;        // VARCHAR2(255 BYTE)
+    private String addressDetail;  // VARCHAR2(255 BYTE)
+    private Long zonecode;         // NUMBER
+    private String defaultYN;      // CHAR(1 BYTE)
+    private String reqComment;     // VARCHAR2(500 BYTE)
+    private String entrancePassword;// VARCHAR2(100 BYTE)
+    private String saveYN;         // CHAR(1 BYTE)
 }
 	

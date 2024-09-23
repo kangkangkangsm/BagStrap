@@ -50,4 +50,11 @@
 		ORDER BY L1.REASON_ID
 	</select>
 	
+	<select id="selectCartList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		SELECT USER_ID, C.BOOK_ID, B.PRICE, C.QUANTITY, IMAGE
+		FROM TBL_CART C
+		INNER JOIN TBL_BOOK B ON B.BOOK_ID = C.BOOK_ID
+		WHERE USER_ID = #{userId}
+	</select>
+	
 </mapper>

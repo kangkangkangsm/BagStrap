@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.bagStrap.mapper.PaymentMapper">
+
+	<select id="selectAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		  SELECT *
+		        FROM TBL_ADDRESS
+		        WHERE 
+		        USER_ID = #{userId}
+ 				<if test='checkSave != null'>
+ 				AND SAVEYN = 'Y'
+ 		        </if>
+	</select>
+	<insert id="insertAddress" parameterType="hashmap" useGeneratedKeys="true" keyProperty="addressNo">
+		   INSERT INTO TBL_ADDRESS (
+            USER_ID,
+            USER_NAME,
+            PHONE,
+            ADDRESS,
+            ADDRESS_DETAIL,
+            ZONECODE,
+            DEFAULTYN,
+            SAVEYN,
+            REQCOMMENT,
+            ENTRANCE_PASSWORD
+        ) VALUES (
+            #{userId},
+            #{userName},
+            #{phone},
+            #{address},
+            #{addressDetail},
+            #{zonecode},
+            #{defaultYN},
+            #{saveYN},
+            #{reqComment},
+            #{entrancePassword}
+        )
+	</insert>
+	<select id="selectOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+	   		SELECT * 
+			FROM TBL_BOOK
+			WHERE BOOK_ID IN
+			<foreach item="item" collection="orderList" open="(" close=")" separator=",">
+	    		#{item}
+	    </foreach>
+	</select>
+	
+</mapper>
