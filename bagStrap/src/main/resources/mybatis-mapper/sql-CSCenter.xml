@@ -56,7 +56,7 @@
 	
 	<insert id="insertNotice" parameterType="hashmap" >
 		 INSERT INTO TBL_NOTICE(NOTICE_ID,TITLE,CONTENT,AUTHOR,CREATED_AT)
-		 VALUES(NOTICE_SEQ.NEXTVAL,#{title},#{content},#{author},SYSDATE)
+		 VALUES(NOTICE_SEQ.NEXTVAL,#{title},#{content},#{userId},SYSDATE + (9/24))
 	</insert>
 	
 	<select id="faqlist" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">

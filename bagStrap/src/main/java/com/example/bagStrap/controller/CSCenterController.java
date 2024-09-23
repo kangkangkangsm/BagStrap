@@ -86,6 +86,17 @@ public class CSCenterController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/faq-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String FaqList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.FaqList(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
 	@RequestMapping(value = "/cs-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String CSList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {

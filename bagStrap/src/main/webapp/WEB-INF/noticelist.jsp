@@ -61,6 +61,9 @@
 				keyword : "",
 				isLogin: false, // 로그인 상태
 				isAdmin: false, // 관리자 상태
+				sessionId:'${sessionId}',
+				sessionStatus:'${sessionStatus}',
+				sessionEmail:'${sessionEmail}',
 				
             };
         },
@@ -102,6 +105,7 @@
 				};
 				self.fnGetList();	
 			})
+			
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isAdmin") === 'true'){
 					self.isAdmin = true;	
@@ -110,6 +114,7 @@
 				};
 				self.fnGetList();	
 			})
+			
         }
     });
     app.mount('#app');
