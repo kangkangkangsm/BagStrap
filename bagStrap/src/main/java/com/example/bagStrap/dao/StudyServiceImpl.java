@@ -441,10 +441,11 @@ public class StudyServiceImpl implements StudyService{
 		return resultMap;
 	}
 	// ------------------------------- 스터디 그룹 --------------------------------------
-	//스터디 그룹 만들기(책 불러오기)
+	//스터디 그룹 리스트(책 불러오기)
 	@Override
 	public HashMap<String, Object> selectStuGroupInsertBoardType(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
 		try {
 			List<StudyComm> selectStuGroupInsertBoardType = studyMapper.selectStuGroupInsertBoardType(map);
 			resultMap.put("result", true);

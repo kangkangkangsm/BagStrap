@@ -242,9 +242,11 @@
 				window.addEventListener('sideBarEventStartime', function(){
 					self.startTime = window.sessionStorage.getItem("startTime");
 					self.endTime = window.sessionStorage.getItem("endTime");
+					self.fnGetList();
 				});
 				window.addEventListener('sideBarEventparticipants', function(){
 					self.participants = window.sessionStorage.getItem("participants");
+					self.fnGetList();
 				});
 
 	        }

@@ -391,8 +391,8 @@
 	    </if>
 	
 	    <!-- 시간 범위 필터 -->
-	    <if test="participants != null and participants != ''">
-			 AND (#{participants} >= MAX_PARTICIPANTS)
-	    </if>
+	   <if test="participants != null and participants != ''">
+   		   AND (TO_NUMBER(#{participants}) >= MAX_PARTICIPANTS)
+		</if>
 	</select>		
 </mapper>
