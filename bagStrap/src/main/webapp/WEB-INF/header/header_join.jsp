@@ -13,10 +13,6 @@
 </head>
 <body>
 		<main class="main-container">
-			
-	        <aside class="sidebar">
-				<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
-	        </aside>
 
 	        <div class="content">
 				<div id="app">
@@ -28,8 +24,9 @@
 					    <div>
 					        이름<input type="text" v-model="userName">
 					    </div>
-					    <div>
-					        닉네임<input type="text" v-model="userNickName">
+					    
+						<div>
+					        닉네임<input type="text" v-model="userNickName" >
 							<button @click="fnCheckNickName">중복검사</button>
 					    </div>
 					    <div>
@@ -42,14 +39,14 @@
 							이메일<input type="email" v-model="email">
 						</div>
 					    <div>
-					        주소<input type="text" v-model="addr" :disabled=isAddrDisabled>
+					        주소<input type="text" v-model="address" :disabled=isAddrDisabled>
 							<button @click="fnAddr">주소검색</button>
 					    </div>
 						<div>
-							상세주소<input type="text" v-model="detailAddr">
+							상세주소<input type="text" v-model="addressDetail">
 						</div>
 					    <div>
-					        휴대전화<input type="text" v-model="phoneNum">
+					        휴대전화<input type="text" v-model="phone">
 					    </div>
 					    <div>
 					        생성일<input type="date" v-model="cDatetime">
@@ -85,9 +82,10 @@
 				password:"",
 				confirmPassword:"",
 				email:"",
-				addr:"",
-				detailAddr:"",
-				phoneNum:"",
+				address:"",
+				addressDetail:"",
+				zonecode:"",
+				phone:"",
 				cDatetime:"",
 				birth:"",
 				gender:"",				
@@ -136,7 +134,7 @@
 					return;
 				}
 				var phoneRegex=/^01[016789]\d{8}$/;
-				if(!phoneRegex.test(self.phoneNum)){
+				if(!phoneRegex.test(self.phone)){
 					alert("전화번호는 '-'없이 오직 숫자만 11자를 입력해야 합니다.");
 					return;
 				}
@@ -188,13 +186,20 @@
 				           alert("이메일을 입력해주세요.");
 				           return;
 				       }
-				       if (!self.addr) {
+					   if(!self.gender) {
+							alert("주민등록번호 뒷자리의 맨 앞자리만 입력해 주세요.");
+							return;
+					   }
+				       if (!self.address) {
 				           alert("주소를 입력해주세요.");
 				           return;
 				       }
-				       
-				       if (!self.phoneNum) {
-				           alert("휴대전화를 입력해주세요.");
+				       if (!self.addressDetail) {
+				           alert("상세주소를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.phone) {
+				           alert("휴대전화번호를 입력해주세요.");
 				           return;
 				       }
 				       if (!self.cDatetime) {
@@ -209,15 +214,19 @@
 							alert("주민등록번호 뒷자리의 맨 앞자리만 입력해 주세요.");
 							return;
 					   }
+					   
+					   
+					   
 				var nparmap = {
 						userId:self.userId,
 						userName:self.userName,
 						userNickName:self.userNickName,
 						password:self.password,
 						email:self.email,
-						addr:self.addr,
-						detailAddr:self.detailAddr,
-						phoneNum:self.phoneNum,
+						address:self.address,
+						zonecode: self.zonecode,
+						addressDetail:self.addressDetail,
+						phone:self.phone,
 						cDatetime:self.cDatetime,
 						birth:self.birth,
 						gender:self.gender
@@ -298,13 +307,40 @@
 					new daum.Postcode({
 				        oncomplete: function(data) {
 							console.log(data);
-							self.addr=data.address;
+							self.address=data.address;
+							self.zonecode=data.zonecode,
 							self.isAddrDisabled=true;
+							var nparam = {
+								addressNo : self.addressNo,
+								userId : self.userId,
+								userName : self.userName,
+								phone : self.phone,
+								address:self.address,
+								addressDetail : self.addressDetail,
+								zonecode : self.zonecode
+							};
 				            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
 				            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+							$.ajax({
+				 				url:"/addAddress1.dox",
+				 				dataType:"json",	
+				 				type : "POST", 
+				 				data : nparam,
+				 				success : function(data) { 
+				 					if(data.result == "success") {
+				 						console.log(data);
+				 						alert(data.message);
+				 						self.fnGetList();
+									}else{
+				 						alert(data.message);
+				 					};
+				 				}
+				 			});
+							
 				        }
-				    }).open();
-				 }
+				 	 }).open();
+					
+			 },
    	 },			
 			
         mounted() {

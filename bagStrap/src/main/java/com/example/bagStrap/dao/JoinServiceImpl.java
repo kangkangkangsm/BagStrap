@@ -102,5 +102,25 @@ public class JoinServiceImpl implements JoinService{
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> addAddress(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try{
+			System.out.println("map7 : " + map);
+			joinMapper.addressInsert(map);
+			System.out.println("map8 : " + map);
+			resultMap.put("result", "success");
+			/* resultMap.put("message", "주소를 별도의 테이블에 저장합니다."); */
+		}catch(Exception e) {
+			 e.printStackTrace();
+			resultMap.put("result", "fail");
+			/* resultMap.put("message", "주소 저장 실패!!!!"); */
+		}
+		return resultMap;
+	}
+
+
  
 }

@@ -9,8 +9,8 @@
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE_NUM, CREATED_DATE, BIRTH, GENDER) 
-		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phoneNum}, #{cDatetime}, #{birth}, #{gender})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, CREATED_DATE, BIRTH, GENDER) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{cDatetime}, #{birth}, #{gender})
 	</insert>
 	
 	<!--아이디 중복검사-->
@@ -27,9 +27,13 @@
 		WHERE USER_NICKNAME = #{userNickName}
 	</select>
 	
-	<insert id="" parameterType="hashmap">
+	<!--주소추가-->
+	<insert id="addressInsert" parameterType="hashmap">
 		INSERT INTO TBL_ADDRESS
-		(ADDRESS_NO, USER_ID, USER_NAME, PHONE, ADDRESS, ADDRESS_DETAIL, ZONECODE)
-		VALUES (#{addressNo}, #{userId}, #{userName}, #{phone}, #{address}, #{addressDetail},#{zonecode})
+		( USER_ID, USER_NAME, PHONE, ADDRESS, ADDRESS_DETAIL, ZONECODE)
+		VALUES ( #{userId}, #{userName}, #{phone}, #{address}, #{addressDetail}, #{zonecode})
 	</insert>
+	
+
+
 </mapper>

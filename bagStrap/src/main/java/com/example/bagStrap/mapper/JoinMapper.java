@@ -17,4 +17,9 @@ public interface JoinMapper {
 	int joinMultiCheck(HashMap<String, Object> map);
 	
 	int nickNameMultiCheck(HashMap<String, Object> map);
+	
+	/*주소추가*/
+	void addressInsert(HashMap<String, Object> map);
+	
+
 }
