@@ -83,5 +83,6 @@ public interface StudyMapper {
 	List<StudyComm> selectStuGroupInsertBoardType(HashMap<String, Object> map);
 	//스터디 그룹 만들기
 	void insertStuGroup(HashMap<String, Object> map);	
-		
+	//스터디 그룹 리스트 사이드바
+	List<StudyComm> selectStuGroupListSidebar(HashMap<String, Object> map);
 }

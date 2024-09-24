@@ -70,10 +70,21 @@ public class StudyController {
     }
 
 	// ---------------------------------------------------------- 스터디 그룹 ---------------------------------------------------------------------
-	// 스터디 커뮤니티 게시글 수정 
+	// 스터디 그룹 만들기 
 	@RequestMapping("/study-group-insert") 
     public String study_group_insert(Model model) throws Exception{
          return "study/study-group-insert";
+    }
+	// 스터디 그룹 리스트 
+	@RequestMapping("/study-group-list") 
+	 public String study_group_list(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("Age", map.get("Age"));
+         return "study/study-group-list";
+    }
+	// 스터디 그룹 사이드바
+	@RequestMapping("/study-group-sidebar") 
+    public String study_group_sidebar(Model model) throws Exception{
+         return "../layout/study-group-sidebar";
     }
 	
 	
@@ -373,6 +384,14 @@ public class StudyController {
 		public String insertStuGroup(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.insertStuGroup(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 그룹 리스트 사이드바 
+		@RequestMapping(value = "/selectStuGroupListSidebar.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupListSidebar(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupListSidebar(map);
 			return new Gson().toJson(resultMap);
 		}
 

@@ -175,7 +175,7 @@
 			      <div class="study-group-insert-form-group">
 			          <div class="study-group-insert-inline-radio">
 			          <label>그룹 공개 여부    </label>
-			              <input type="radio" id="public" name="visibility" v-model="groupPublic" value="Y" checked >
+			              <input type="radio" id="public" name="visibility" v-model="groupPublic" value="Y">
 			              <label for="public">공개</label>
 			              <input type="radio" id="private" name="visibility" v-model="groupPublic" value="N">
 			              <label for="private">비공개</label>

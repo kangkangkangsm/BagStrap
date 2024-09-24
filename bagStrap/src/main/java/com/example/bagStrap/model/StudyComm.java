@@ -78,7 +78,7 @@ public class StudyComm {
 		private String relatedBook;
 		private String onOffMode;
 		private int participants;
-		private int max_participants;
+		private int maxparticipants;
 		private String startdate;
 		private String enddate;
 		private String studytime;
@@ -89,7 +89,9 @@ public class StudyComm {
 		private String genderGroup;
 		private String groupPublic;
 		private String relatedBookDirect;
-		
+		private String stgStartDate;
+		private String stgEndDate;
+		private String stgStudyTime;
 //TBL_STUDY_APPS
 		private int applicationId;
 		private int studyid;
@@ -99,6 +101,7 @@ public class StudyComm {
 		private String AppStatus;
 		private String createDate;
 		private String updateDdate;
+		
 		
 //Book
 		private Long bookId;            // 책 고유번호
