@@ -75,15 +75,17 @@
             return {
 				orderList : JSON.parse('${orderList}'),
 				priceSum : '${priceSum}',
-				address : '',
-				address_detail : '',
-				zonecode : '', 
+				address : '.',
+				address_detail : '.',
+				zonecode : '0', 
 				defaultYN: 'N',
 				saveYN: 'N',
 				reqComment: '',
 				entrancePassword: '',
-				addressNo: '',
+				addressNo: '0',
 				imp : "",
+				userName: ".",
+				phone: ".",
 				response : {
 				},
 				data : {
@@ -131,6 +133,8 @@
 					addressDetail : self.addressDetail,
 					defaultYN : self.defaultYN,
 					saveYN : self.saveYN,
+					userName: self.userName,
+					phone : self.phone,
 					reqComment : self.reqComment,
 					entrancePassword : self.entrancePassword
 				};
@@ -149,9 +153,9 @@
 							self.data.userEmail = data.userEmail;
 							self.data.phone = data.phone;
 							self.addressNo = data.addressNo;
-							
-							self.fnImp();
-
+							alert(data.addressNo);
+							//self.fnImp();
+							self.completeOrder()
 						} else {
 							alert(data.message);
 						}
@@ -193,17 +197,19 @@
 						orderId : self.data.paymentId,
 						orderList : JSON.stringify(self.orderList),
 						addressNo : self.addressNo,
-						imp : self.imp
+						//imp : self.imp,
+						imp : "self.imp"
 					},
 					success : function(data) { 
 						console.log(data);
+						alert(data.message);
 					}
 				});
 			},
 			fnRefund(){
 				var self = this;
 				var nparmap = {
-					imp : 'imp_764413501625',
+					imp : 'imp_925969653488',
 					amount : '21600' 	
 				};
 				$.ajax({

@@ -17,6 +17,8 @@ import com.example.bagStrap.mapper.PaymentMapper;
 import com.example.bagStrap.model.Order;
 import com.google.gson.Gson;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class PaymentServiceImpl implements PaymentService{
@@ -77,7 +79,6 @@ public class PaymentServiceImpl implements PaymentService{
 	        System.out.println("hi");
 			return ResponseEntity.ok(response.getBody());
 	}
-
 	@Override
 	public HashMap<String, Object> createOrder(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -100,18 +101,27 @@ public class PaymentServiceImpl implements PaymentService{
 			// 주소 저장 시 최대 개수 체크
 			if(map.get("saveYN").equals("Y")) {
 				map.put("checkSave", "check");		
-				if(paymentMapper.selectAddress(map).size() >= 2) {
+				if(paymentMapper.selectAddress(map).size() >= 10) {
 					map.replace("saveYN", "N");
-					resultMap.put("message", "배송지 저장 개수 10개 넘어서 저장은 안대용~");
+					resultMap.put("message", "배송지 저장 개수 3개 넘어서 저장은 안대용~");
+				} else {
+					paymentMapper.updateAddressDefaultToN(map);
 				};
 				map.remove("checkSave");
 			} 
 			
 			System.out.println(map);
 			// 배송 주소 저장
-			//paymentMapper.insertAddress(map);
-			System.out.println("AddressNo = " + map.get("addressNo"));
+			try {
+				int idx = paymentMapper.insertAddress(map);
+				System.out.println(idx);
+			}catch(Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException("Address insertion failed", e);
+			}
 			
+			System.out.println("AddressNo = " + map.get("addressNo"));
+			resultMap.put("addressNo", map.get("addressNo"));
 			resultMap.put("result", true);
 		} catch(Exception e) {
 			System.out.println("Exception e : " + e);
@@ -138,6 +148,15 @@ public class PaymentServiceImpl implements PaymentService{
 			resultMap.put("result", false);
 			resultMap.put("message", message);
 		}
+		
+		//카트에서 삭제
+		if(!deleteCart(map)) {
+			message = "카트에서 못지워용";
+			resultMap.put("result", false);
+			resultMap.put("message", message);
+		}
+		
+		
 		resultMap.put("result", true);
 		resultMap.put("message", message);
 
@@ -176,9 +195,9 @@ public class PaymentServiceImpl implements PaymentService{
 		try {
 			 paymentMapper.updateBookTable(map); 
 		} catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-		
 		return true;
 	}
 	//오더 테이블 및 아이템 테이블 생성	
@@ -187,9 +206,22 @@ public class PaymentServiceImpl implements PaymentService{
 			 paymentMapper.createOrder(map); 
 			 paymentMapper.createOrderItem(map); 
 		} catch(Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-		
 		return true;
 	}
+	
+	private boolean deleteCart(HashMap<String, Object> map) {
+		try {
+			 paymentMapper.deleteCart(map); 
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 }

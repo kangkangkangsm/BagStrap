@@ -13,7 +13,12 @@
  				AND SAVEYN = 'Y'
  		        </if>
 	</select>
-	<insert id="insertAddress" parameterType="hashmap" useGeneratedKeys="true" keyProperty="addressNo">
+	<update id="updateAddressDefaultToN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET DEFAULTYN = 'N'
+			WHERE USER_ID = #{userId}
+ 	</update>
+	<insert id="insertAddress" parameterType="hashmap">
 		   INSERT INTO TBL_ADDRESS (
             USER_ID,
             USER_NAME,
@@ -37,6 +42,10 @@
             #{reqComment},
             #{entrancePassword}
         )
+          <selectKey keyProperty="addressNo" resultType="int" order="AFTER">
+		       SELECT ISEQ$$_26662.CURRVAL  FROM DUAL
+		  </selectKey>
+        
 	</insert>
 	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
@@ -66,12 +75,19 @@
 	</insert>
 	<insert id="createOrderItem" parameterType="hashmap" >
 			INSERT ALL
-			<foreach item="item" collection="orderList" separate=" ">
+			<foreach item="item" collection="orderList" separator=" ">
 			INTO TBL_ORDER_ITEM (ORDER_ID, BOOK_ID, QUANTITY, PRICE)
 			VALUES ( #{orderId}, #{item.bookId}, #{item.bookQuantity}, #{item.bookPrice} )
 			</foreach>
 			SELECT * FROM DUAL
 	</insert>
- 	
+ 	<delete id="deleteCart" parameterType="hashmap" >
+			DELETE FROM TBL_CART
+			WHERE USER_ID = #{userId} AND BOOK_ID IN 
+			<foreach item="item" collection="orderList" open="(" close=")" separator=",">
+			#{item.bookId}
+			</foreach>
+	</delete>
+ 
 	
 </mapper>
