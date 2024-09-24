@@ -288,6 +288,81 @@ a {color: #fff; text-decoration: none; outline: none} a:hover, a:active {text-d
 	}
 
 
+	/* 스터디 커뮤니티 사이드바 css */
+	.stu-comm-profile {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 30px;
+    }
 
-	
-	
+    .stu-comm-profile-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .stu-comm-profile-info {
+        flex-grow: 1;
+    }
+
+    .stu-comm-profile-info p {
+        margin: 0;
+        padding: 0;
+    }
+	.stu-comm-activity-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .stu-comm-activity-icon {
+        margin-right: 5px;
+    }
+
+    .stu-comm-activity-item a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+        margin-right: 10px;
+		width:200px;
+    }
+
+    .stu-comm-activity-count {
+        color: #666;
+    }
+	.stu-comm-user-activity {
+        margin-top: 10px;
+	}
+	.stu-comm-menu {
+	    margin-top: 20px;
+		padding: 0;
+		  display: block;  /* display 속성을 추가 */
+	}
+
+	.stu-comm-menu button {
+	    width: 93%;
+	    padding: 10px;
+	    margin-bottom: 10px;
+	    background-color: #333;
+	    color: #fff;
+	    border: none;
+	    cursor: pointer;
+	}
+
+	.stu-comm-menu ul {
+	    list-style: none;
+	    padding: 0;
+	}
+
+	.stu-comm-menu li {
+	    display: flex;
+	    justify-content: space-between;
+	    margin: 10px 0;
+	}
+
+	.stu-comm-menu a {
+	    text-decoration: none;
+	    color: #007bff;
+		width:190px;
+	}

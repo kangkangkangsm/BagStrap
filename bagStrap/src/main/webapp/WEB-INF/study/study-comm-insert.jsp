@@ -10,14 +10,14 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-	body {
+	.stu-comm-insert-body {
 	    font-family: Arial, sans-serif;
 	    background-color: #f4f4f4;
 	    padding: 20px;
 	}
 
 	.stu-comm-insert-container {
-	    max-width:80%;
+	    max-width: 80%;
 	    margin: 0 auto;
 	    background-color: white;
 	    padding: 20px;
@@ -25,7 +25,7 @@
 	    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	}
 
-	h2 {
+	.stu-comm-insert-h2 {
 	    margin-bottom: 20px;
 	    text-align: center;
 	}
@@ -78,88 +78,93 @@
 
 	.stu-comm-insert-buttons button:hover {
 	    opacity: 0.9;
-	}	
+	}
+
+	/* 이미지 미리보기 */
+	.stu-comm-insert-image-preview {
+	    margin-top: 10px;
+	    width: 100px;
+	    height: 100px;
+	}
 </style>
-<body>
-	<div id="app">
-		<main class="main-container">
-	        <aside class="sidebar">
-	            {{sessionUserNickName}}
-	        </aside>
-	        <div class="content">
-			
-				<div class="stu-comm-insert-container">
-			       <h2>글쓰기 </h2>
-			       <form class="stu-comm-insert-form">
-			           <label for="category">카테고리</label>
-					   <select id="category" class="stu-comm-insert-category" v-model="boardTypeId">
-					     <option v-for="item in categoryList" :value="item.boardTypeId">
-					       {{ item.name }} 
-					     </option>
-					   </select>
-			           <label for="title">제목</label>
-			           <input type="text" id="title" v-model = "title" class="stu-comm-insert-title" placeholder="제목을 입력하세요">
-			           <label for="content">내용</label>
-			           <div id="editor" style="height:300px;"></div>
+<body class="stu-comm-insert-body">
+	<main class="main-container">
+		<aside class="sidebar">
+			<jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>  
+        </aside>
 
-			           <label for="file">파일 업로드</label>
-			           <input type="file" @change="fnFileChange"/>
-					   <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
-					   <div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
-			           <div class="stu-comm-insert-buttons">
-			               <button type="button" @click="fnBack()">취소</button>
-			               <button type="button" @click="fnSave()">등록</button>
-			           </div>
-			       </form>
-			   </div>
-			   
-	        </div>
-			
+        <div id="app" class="content">
+			<div class="stu-comm-insert-container">
+			    <h2 class="stu-comm-insert-h2">글쓰기</h2>
+			    <form class="stu-comm-insert-form">
+			        <label for="category">카테고리</label>
+					<select id="category" class="stu-comm-insert-category" v-model="boardTypeId">
+					    <option v-for="item in categoryList" :value="item.boardTypeId">
+					        {{ item.name }} 
+					    </option>
+					</select>
 
+			        <label for="title">제목</label>
+			        <input type="text" id="title" v-model="title" class="stu-comm-insert-title" placeholder="제목을 입력하세요">
 
-	    </main>
+			        <label for="content">내용</label>
+			        <div id="editor" class="stu-comm-insert-content" style="height:300px;"></div>
 
-	</div>
+			        <label for="file">파일 업로드</label>
+			        <input type="file" @change="fnFileChange"/>
+			        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+
+			        <!-- 이미지 미리보기 -->
+			        <div v-if="filePreview">
+			            <img :src="filePreview" class="stu-comm-insert-image-preview" />
+			        </div>
+
+			        <div class="stu-comm-insert-buttons">
+			            <button type="button" @click="fnBack()" class="cancel">취소</button>
+			            <button type="button" @click="fnSave()" class="submit">등록</button>
+			        </div>
+			    </form>
+			</div>
+        </div>
+	</main>
+
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
 </html>
-<script>
 
-	    const app = Vue.createApp({
+<script>
+    const app = Vue.createApp({
         data() {
             return {
 				user: '${sessionScope.user}',
-				isLogin : false,
-				sessionUserId : '',
-				sessionUserNickName : '',
-				file : null,
-				categoryList : [],
-				content : "",
-		        filePreview: ''// 이미지 미리보기 URL 저장
-	
-				
+				isLogin: false,
+				sessionUserId: '',
+				sessionUserNickName: '',
+				file: null,
+				categoryList: [],
+				content: "",
+		        filePreview: '' // 이미지 미리보기 URL 저장
             };
         },
         methods: {
-			fnSave(){
+			fnSave() {
 				var self = this;
 				var nparmap = { 
-					boardTypeId : self.boardTypeId,
-					title : self.title,
-					content : self.content,
-					userId : self.sessionUserId
+					boardTypeId: self.boardTypeId,
+					title: self.title,
+					content: self.content,
+					userId: self.sessionUserId
 				};
 				$.ajax({
-					url:"/insertComm.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) { 
+					url: "/insertComm.dox",
+					dataType: "json",	
+					type: "POST", 
+					data: nparmap,
+					success: function(data) { 
 						alert(data.message);
 						var idx = data.idx;
 						console.log(idx);
-						console.log(self.file);		
 						if (self.file) {
 							  const formData = new FormData();
 							  formData.append('file1', self.file);
@@ -172,18 +177,18 @@
 									contentType: false,  
 									success: function() {
 									  console.log('업로드 성공!');
-									  location.href="/study-comm"
-									  self.filePreview ="";
+									  location.href = "/study-comm";
+									  self.filePreview = "";
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
 									  console.error('업로드 실패!', textStatus, errorThrown);
 									}
 							  });		
-						  }	else{
-							location.href="/study-comm"
+						  } else {
+							location.href = "/study-comm";
 						  }		
-						}
-					});
+					}
+				});
             },			
 			fnFileChange(event) {
 			    const file = event.target.files[0];
@@ -203,81 +208,69 @@
 			        this.filePreview = null; // 이미지가 아니면 미리보기 없음
 			    }
 			},		
-            fnGetList(){
+            fnGetList() {
 				var self = this;
-				var nparmap = {
-					
-				};
 				$.ajax({
-					url:"/selectMyCommCategory.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) { 
-						console.log(data);
+					url: "/selectMyCommCategory.dox",
+					dataType: "json",	
+					type: "POST", 
+					success: function(data) { 
 						self.categoryList = data.categoryList;
-						
 					}
 				});
             },
-			fnSession(){
+			fnSession() {
 				var self = this;
-				var nparmap = {
-				};
 				$.ajax({
-					url:"sharedHeader.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) {
-						self.isLogin = data.isLogin 
-						if(data.isLogin){
+					url: "sharedHeader.dox",
+					dataType: "json",	
+					type: "POST", 
+					success: function(data) {
+						self.isLogin = data.isLogin;
+						if (data.isLogin) {
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
-							console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
-					
 						} else {
 							self.sessionUserId = '';
 							self.sessionUserNickName = '';
 						}
-					
 					}
 				});
 			},
-			fnBack(){
-				 history.back();
-			},
+			fnBack() {
+				history.back();
+			}
         },
         mounted() {
             var self = this;
-			window.addEventListener('loginStatusChanged', function(){
-					if(window.sessionStorage.getItem("isLogin") === 'true'){
-						self.isLogin = true;	
-					} else{
-						self.isLogin = false;
-					};
-					self.fnSession();
-				});
+			window.addEventListener('loginStatusChanged', function() {
+				if (window.sessionStorage.getItem("isLogin") === 'true') {
+					self.isLogin = true;
+				} else {
+					self.isLogin = false;
+				}
+				self.fnSession();
+			});
 			self.fnSession();
 			self.fnGetList();
+
+			// Quill 에디터 초기화
 			var quill = new Quill('#editor', {
 	            theme: 'snow',
 	            modules: {
 	                toolbar: [
 	                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
 	                    ['bold', 'italic', 'underline'],
-	                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
 	                    ['link', 'image'],
 	                    ['clean']
 	                ]
 	            }
 	        });
-			// 에디터 초기 내용 설정
-			quill.root.innerHTML = this.content;
 
 	        // 에디터 내용이 변경될 때마다 Vue 데이터를 업데이트
 			quill.on('text-change', () => {
-			    this.content = quill.root.innerHTML; // 수정된 코드
+			    this.content = quill.root.innerHTML;
 			});
 	    }
     });

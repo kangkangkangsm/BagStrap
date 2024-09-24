@@ -5,200 +5,393 @@
 <head>
     <meta charset="UTF-8">
     <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
     <title>첫번째 페이지</title>
+    <style>
+		/* 전체 레이아웃 스타일 */
+		.stu-comm-detail-body {
+		    font-family: Arial, sans-serif;
+		    background-color: #f4f4f4;
+		    padding: 20px;
+		}
+
+		.stu-comm-detail-container {
+		    max-width: 80%;
+		    margin: 0 auto;
+		    background-color: white;
+		    padding: 20px;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		}
+
+		/* 메인 컨테이너 스타일 */
+		.stu-comm-detail-main-container {
+		    display: flex;
+		    flex: 1; /* 메인 컨테이너가 남은 공간을 차지하도록 설정 */
+		    background-color: #F5F5F5; /* 메인 컨테이너 배경색 */
+		    overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
+		    box-sizing: border-box;
+		    padding: 0px 12vw;
+		    min-height: 100vh;
+		}
+
+		/* 사이드바 스타일 */
+		.stu-comm-detail-sidebar {
+		    width: 300px; /* 사이드바의 고정 너비 */
+		    background-color: #9E9E9E; /* 사이드바 배경색 */
+		    padding: 20px;
+		    box-sizing: border-box;
+		    border-radius: 8px;
+		    margin-right: 20px;
+		}
+
+		/* 콘텐츠 영역 스타일 */
+		.stu-comm-detail-content {
+		    flex: 1; /* 콘텐츠가 사이드바를 제외한 나머지 공간을 차지하도록 설정 */
+		    padding: 20px;
+		    background-color: #FFFFFF; /* 콘텐츠 배경색 */
+		    box-sizing: border-box;
+		    border-radius: 8px;
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		/* 게시판 컨테이너 스타일 */
+		.stu-comm-detail-board-container {
+		    background-color: white;
+		    padding: 20px;
+		    border-radius: 8px;
+		    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		    margin-bottom: 30px;
+		}
+
+		/* 게시판 헤더 스타일 */
+		.stu-comm-detail-board-header {
+		    border-bottom: 1px solid #ddd;
+		    padding-bottom: 10px;
+		    margin-bottom: 20px;
+		}
+
+		/* 게시판 타입 링크 스타일 */
+		.stu-comm-detail-board-type {
+		    color: #888;
+		    font-size: 18px;
+		    margin: 0;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
+
+		.stu-comm-detail-board-type:hover {
+		    color: #555;
+		}
+
+		/* 게시판 제목 스타일 */
+		.stu-comm-detail-board-title {
+		    color: #333;
+		    font-size: 28px;
+		    margin: 10px 0;
+		}
+
+		/* 프로필 섹션 스타일 */
+		.stu-comm-detail-profile {
+		    display: flex;
+		    align-items: center;
+		    margin-top: 15px;
+		}
+
+		.stu-comm-detail-profile-img {
+		    width: 60px;
+		    height: 60px;
+		    border-radius: 50%;
+		    margin-right: 15px;
+		    cursor: pointer;
+		    transition: transform 0.3s;
+		}
+
+		.stu-comm-detail-profile-img:hover {
+		    transform: scale(1.05);
+		}
+
+		.stu-comm-detail-profile-info a {
+		    color: black;
+		    text-decoration: none;
+		}
+
+		.stu-comm-detail-profile-info a:hover {
+		    text-decoration: underline;
+		}
+
+		/* 버튼 스타일 */
+		.stu-comm-detail-profile button {
+		    margin-left: 10px;
+		    padding: 8px 16px;
+		    background-color: #007bff;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.stu-comm-detail-profile button:hover {
+		    background-color: #0056b3;
+		    transform: translateY(-2px);
+		}
+
+		.stu-comm-detail-profile button:active {
+		    transform: translateY(0);
+		}
+
+		/* 게시판 내용 스타일 */
+		.stu-comm-detail-board-content {
+		    font-size: 16px;
+		    line-height: 1.8;
+		    margin-top: 20px;
+		}
+
+		.stu-comm-detail-board-content img {
+		    max-width: 100%;
+		    height: auto;
+		    border-radius: 5px;
+		    margin-top: 10px;
+		}
+
+		/* 댓글 섹션 스타일 */
+		.stu-comm-detail-comments-section {
+		    margin-top: 40px;
+		}
+
+		.stu-comm-detail-comments-section span {
+		    font-size: 16px;
+		    color: #555;
+		    margin-right: 20px;
+		}
+
+		/* 댓글 입력창 스타일 */
+		.stu-comm-detail-comment {
+		    display: flex;
+		    align-items: flex-start;
+		    background-color: #fff;
+		    border: 1px solid #ddd;
+		    border-radius: 8px;
+		    padding: 15px;
+		    margin-bottom: 20px;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+		}
+
+		.stu-comm-detail-comment textarea {
+		    padding: 10px;
+		    margin: 10px 0;
+		    resize: none;
+		    border: 1px solid #ddd;
+		    border-radius: 4px;
+		    width: 100%;
+		    font-size: 14px;
+		}
+
+		.stu-comm-detail-comment-button {
+		    align-self: flex-end;
+		    padding: 10px 20px;
+		    background-color: #28a745;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.stu-comm-detail-comment-button:hover {
+		    background-color: #218838;
+		    transform: translateY(-2px);
+		}
+
+		.stu-comm-detail-comment-button:active {
+		    transform: translateY(0);
+		}
+
+		/* 댓글 리스트 스타일 */
+		.stu-comm-detail-comment-list {
+		    margin-top: 20px;
+		    padding: 15px;
+		    background-color: #f9f9f9;
+		    border-radius: 8px;
+		    border: 1px solid #ddd;
+		}
+
+		.stu-comm-detail-comment-item {
+		    padding: 15px;
+		    border-bottom: 1px solid #ddd;
+		    position: relative;
+		}
+
+		.stu-comm-detail-comment-item:last-child {
+		    border-bottom: none;
+		}
+
+		/* 댓글 작성자 링크 스타일 */
+		.stu-comm-detail-comment-item a {
+		    color: black;
+		    text-decoration: none;
+		}
+
+		.stu-comm-detail-comment-item a:hover {
+		    text-decoration: underline;
+		}
+
+		/* 댓글 작성일 및 조회수 스타일 */
+		.stu-comm-detail-comment-item div small {
+		    color: #999;
+		    font-size: 12px;
+		}
+
+		/* 댓글 버튼 스타일 */
+		.stu-comm-detail-comment-item button {
+		    margin-right: 10px;
+		    padding: 5px 10px;
+		    background-color: #6c757d;
+		    color: white;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    font-size: 12px;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.stu-comm-detail-comment-item button:hover {
+		    background-color: #5a6268;
+		    transform: translateY(-2px);
+		}
+
+		.stu-comm-detail-comment-item button:active {
+		    transform: translateY(0);
+		}
+
+		/* 대댓글 스타일 */
+		.stu-comm-detail-comment-reply {
+		    margin-left: 40px;
+		    margin-top: 20px;
+		    padding: 15px;
+		    background-color: #f1f1f1;
+		    border-radius: 8px;
+		    border: 1px solid #ccc;
+		}
+
+		.stu-comm-detail-comment-reply a {
+		    font-size: 15px;
+		    color: black;
+		    text-decoration: none;
+		}
+
+		.stu-comm-detail-comment-reply a:hover {
+		    text-decoration: underline;
+		}
+
+		.stu-comm-detail-comment-reply button {
+		    margin-right: 10px;
+		    padding: 5px 10px;
+		    background-color: #6c757d;
+		    color: white;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    font-size: 12px;
+		    transition: background-color 0.3s, transform 0.3s;
+		}
+
+		.stu-comm-detail-comment-reply button:hover {
+		    background-color: #5a6268;
+		    transform: translateY(-2px);
+		}
+
+		.stu-comm-detail-comment-reply button:active {
+		    transform: translateY(0);
+		}
+
+		/* 파일 업로드 섹션 스타일 */
+		.stu-comm-detail-comment-input-container {
+		    display: flex;
+		    align-items: center;
+		    margin-top: 10px;
+		}
+
+		.stu-comm-detail-comment-input-container img {
+		    cursor: pointer;
+		    margin-right: 10px;
+		}
+
+		.stu-comm-detail-comment-input-container input[type="file"] {
+		    display: none;
+		}
+
+		.stu-comm-detail-comment-input-container div {
+		    display: flex;
+		    align-items: center;
+		}
+
+		.stu-comm-detail-comment-input-container img {
+		    width: 25px;
+		    height: 25px;
+		}
+
+		.stu-comm-detail-comment-input-container img:hover {
+		    opacity: 0.8;
+		}
+
+		/* 이미지 미리보기 스타일 */
+		.stu-comm-detail-comment-input-container img[src*="첨부이모티콘"] {
+		    width: 25px;
+		    height: 25px;
+		}
+
+		/* 좋아요 카운트 스타일 */
+		.stu-comm-detail-like-count {
+		    font-size: 14px;
+		    color: #555;
+		    margin-left: 5px;
+		}
+
+		/* 반응형 디자인 */
+		@media (max-width: 1200px) {
+		    .stu-comm-detail-container {
+		        max-width: 90%;
+		    }
+
+		    .stu-comm-detail-main-container {
+		        padding: 0px 8vw;
+		    }
+		}
+
+		@media (max-width: 992px) {
+		    .stu-comm-detail-container {
+		        max-width: 100%;
+		    }
+
+		    .stu-comm-detail-main-container {
+		        flex-direction: column;
+		        padding: 20px;
+		    }
+		    
+		    .stu-comm-detail-sidebar {
+		        width: 100%;
+		        margin-right: 0;
+		        margin-bottom: 20px;
+		    }
+		}
+
+    </style>
 </head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-
-    .stu-comm-detail-content {
-        width: 100%;
-        max-width: none; /* 최대 너비 제한 해제 */
-        margin: 0; /* 중앙 정렬 제거 */
-        padding: 20px;
-    }
-
-    .stu-comm-detail-board-container {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .stu-comm-detail-board-header {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 10px;
-        margin-bottom: 20px;
-    }
-
-    .stu-comm-detail-board-type {
-        color: #888;
-        font-size: 18px;
-        margin: 0;
-    }
-
-    .stu-comm-detail-board-title {
-        color: #333;
-        font-size: 24px;
-        margin: 5px 0 0 0;
-    }
-
-    .stu-comm-detail-board-content {
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    .stu-comm-detail-ol {
-        padding-left: 20px;
-        margin-top: 10px;
-    }
-
-    .stu-comm-detail-comments-section {
-        margin-top: 30px;
-    }
-
-    .stu-comm-detail-comment {
-        display: flex;
-        align-items: flex-start;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .comment-input-container {
-        flex-grow: 1;
-        margin-right: 10px;
-    }
-
-    .stu-comm-detail-comment textarea {
-        padding: 10px;
-        margin: 10px 0;
-        resize: none;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        width: 100%;
-    }
-
-    .stu-comm-detail-comment-button {
-        align-self: flex-end;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .stu-comm-detail-comment-button:hover {
-        background-color: #0056b3;
-    }
-
-    .stu-comm-detail-comment-list {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-    }
-
-    .stu-comm-detail-comment-item {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-	.stu-comm-detail-comment-item a {
-	       color : black;
-		   
-	}
-    .stu-comm-detail-comment-item div {
-   	       margin-bottom:10px;
-   		   
-   	}
-    .stu-comm-detail-comment-item:last-child {
-        border-bottom: none;
-    }
-
-    .stu-comm-detail-profile {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-    }
-
-    .stu-comm-detail-profile-img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .stu-comm-detail-profile-info {
-        flex-grow: 1;
-    }
-
-    .stu-comm-detail-profile-info a {
-		color: black;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* 댓글 창 스타일 */
-    .stu-comm-detail-comment {
-        display: flex;
-        align-items: center; /* 수직 중앙 정렬 */
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-
-    .stu-comm-detail-comment-input-container {
-        flex-grow: 1;
-        margin-right: 10px;
-    }
-
-    .stu-comm-detail-comment-textarea {
-        width: 30%;
-        height: 50px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 14px;
-        resize: none;
-    }
-
-    .stu-comm-detail-comment-button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .stu-comm-detail-comment-button:hover {
-        background-color: #0056b3;
-    }
-
-</style>
 <body>
-    <div id="app">
-        <main class="main-container">
-
-            <aside class="sidebar"></aside>
-
+    <main class="stu-comm-detail-main-container">
+        <aside class="stu-comm-detail-sidebar">
+            <jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>  
+        </aside>
+        <div id="app">
             <div class="stu-comm-detail-content">
                 <div class="stu-comm-detail-board-container">
                     <div class="stu-comm-detail-board-header">
                         <a class="stu-comm-detail-board-type" href="#" @click="fnBoardTypeList(viewList.boardTypeId,viewList.name)">{{viewList.name}}</a>
                         <h1 class="stu-comm-detail-board-title">{{viewList.title}}</h1>
-                        <div class="stu-comm-detail-profile" >
-                            <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-detail-profile-img" @click="fnUserboard(viewList.author,viewList.userNickName)" >
+                        <div class="stu-comm-detail-profile">
+                            <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-detail-profile-img" @click="fnUserboard(viewList.author,viewList.userNickName)">
                             <div class="stu-comm-detail-profile-info">
                                <div><a href ="#" @click="fnUserboard(viewList.author,viewList.userNickName)" style="color:black;"><strong>{{viewList.userNickName}} 님</strong></a></div>
                                <div><a href ="#" @click="fnUserboard(viewList.author,viewList.userNickName)" style="color:black;">{{viewList.createdDate}} 조회 : {{viewList.views}}</a></div>
@@ -220,7 +413,7 @@
                     </div>
 
                     <div class="stu-comm-detail-board-content">
-                        <div v-html = "viewList.content"></div>   
+                        <div v-html="viewList.content"></div>   
                         <template v-if="viewList.filePath">
                             <img style="width:400px; height:400px;" :src="viewList.filePath">
                         </template>
@@ -253,21 +446,21 @@
                     </div>
                     <template v-if="viewComment.length > 0">
                         <div class="stu-comm-detail-comment-list">
-							<div class="stu-comm-detail-comment-item" v-for="item in viewComment" v-show="!item.parentCommentId">
-					            <template v-if="item.upMode === 'N'">
-					                <div><a style="font-size:20px; color:black;" href="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></div>
-					                <template v-if="item.commentstatus === 'N'">
-					                    <div><a>{{item.comcontents}}</a></div>
-					                    <template v-if="item.filePath">
-					                        <div><img style="width:200px; height:200px;" :src="item.filePath"></div>
-					                    </template>
-					                    <template v-if="item.comUpdateDay">
-					                        <div><a><small>{{item.comUpdateDay}}(수정됨)</small></a></div>
-					                    </template>
-					                    <template v-else>
-					                        <div><a><small>{{item.comCreateDay}}</small></a></div>
-					                    </template>
-					                </template>
+                            <div class="stu-comm-detail-comment-item" v-for="item in viewComment" v-show="!item.parentCommentId">
+                                <template v-if="item.upMode === 'N'">
+                                    <div><a style="font-size:20px; color:black;" href="#" @click="fnUserboard(item.author,item.userNickName)">{{item.userNickName}}</a></div>
+                                    <template v-if="item.commentstatus === 'N'">
+                                        <div><a>{{item.comcontents}}</a></div>
+                                        <template v-if="item.filePath">
+                                            <div><img style="width:200px; height:200px;" :src="item.filePath"></div>
+                                        </template>
+                                        <template v-if="item.comUpdateDay">
+                                            <div><a><small>{{item.comUpdateDay}}(수정됨)</small></a></div>
+                                        </template>
+                                        <template v-else>
+                                            <div><a><small>{{item.comCreateDay}}</small></a></div>
+                                        </template>
+                                    </template>
                                     <template v-if="item.commentstatus === 'Y' && isAdmin">
                                         <div><a>{{item.comcontents}} <a style="color:red;">( 숨김 처리된 댓글 입니다. 관리자만 보임)</a></a></div>
                                         <template v-if="item.filePath">
@@ -278,77 +471,77 @@
                                     <template v-if="item.commentstatus === 'Y' && !isAdmin">
                                         <div><a style="color:red;">관리자에 의해 숨김 처리된 댓글 입니다.</a><div>
                                     </template>    
-									<template v-if="item.userId === sessionUserId && item.commentstatus === 'N'">
-					                    <button @click="fnCommDelete(item.commentId)">삭제</button>
-					                    <button @click="fnCommUpdateN(item.commentId)">수정</button>
-					                </template>
-					                <template v-if="isAdmin && item.commentstatus === 'N'">
-					                    <button @click="fnCommhide(item.commentId,item.commentstatus)">숨기기</button>
-					                </template>
-					                <template v-if="isAdmin && item.commentstatus === 'Y'">
-					                    <button @click="fnCommhide(item.commentId,item.commentstatus)">숨김 해제</button>
-					                </template>
-					                <button @click="fnReChat(item.commentId)">답글</button>
-					                <button @click="fnLikeCheck(item.commentId,'댓글')">좋아요</button> {{item.likeCnt}}
-									<div style="margin-left : 70px; margin-top:20px;" class="stu-comm-detail-comment-reply" v-for="reply in viewComment" v-show="reply.parentCommentId === item.commentId">
-										<div><a style="font-size:15px; color:black;" href="#" @click="fnUserboard(reply.author,reply.userNickName)">{{reply.userNickName}}</a></div>
-							                <template v-if="reply.commentstatus === 'N'">
-							                    <div><a>{{reply.comcontents}}</a></div>
-							                    <template v-if="reply.filePath">
-							                        <div><img style="width:200px; height:200px;" :src="reply.filePath"></div>
-							                    </template>
-							                    <template v-if="reply.comUpdateDay">
-							                        <div><a><small>{{reply.comUpdateDay}}(수정됨)</small></a></div>
-							                    </template>
-							                    <template v-else>
-							                        <div><a><small>{{reply.comCreateDay}}</small></a></div>
-							                    </template>
-							                </template>
-			                                  <template v-if="reply.commentstatus === 'Y' && isAdmin">
-			                                      <div><a>{{reply.comcontents}} <a style="color:red;">( 숨김 처리된 댓글 입니다. 관리자만 보임)</a></a></div>
-			                                      <template v-if="reply.filePath">
-			                                          <img style="width:200px; height:200px;" :src="reply.filePath">
-			                                      </template>
-			                                      <div><a><small>{{reply.comCreateDay}}</small></a></div>
-			                                  </template>
-			                                  <template v-if="reply.commentstatus === 'Y' && !isAdmin">
-			                                      <div><a style="color:red;">관리자에 의해 숨김 처리된 댓글 입니다.</a><div>
-			                                  </template>    
-											<template v-if="reply.userId === sessionUserId && reply.commentstatus === 'N'">
-							                    <button @click="fnCommDelete(reply.commentId)">삭제</button>
-							                </template>
-							                <template v-if="isAdmin && reply.commentstatus === 'N'">
-							                    <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨기기</button>
-							                </template>
-							                <template v-if="isAdmin && reply.commentstatus === 'Y'">
-							                    <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨김 해제</button>
-							                </template>
-							                <button @click="fnLikeCheck(reply.commentId,'댓글')">좋아요</button> {{reply.likeCnt}}
-					                </div>
-									<template v-if="item.reMode === 'Y'">
-									    <div class="stu-comm-detail-comment">
-									        <div style="flex-grow: 1;">
-									            <template v-if="isLogin">
-									                {{sessionUserNickName}} 님
-									            </template>
-									            <div class="stu-comm-detail-comment-input-container">
-									                <textarea placeholder="답글을 남겨보세요..." v-model="comcontents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)"></textarea>
-									                <div>
-									                    <label for="file-upload" style="cursor: pointer;">
-									                        <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
-									                    </label>
-									                    <input type="file" id="file-upload" style="display: none;" @change="fnFileChange(item.commentId)" />
-									                    <div v-if="fileName || filePreview">
-									                        <img :src="filePreview" style="width: 100px; height: 100px;" v-if="filePreview" />
-									                        <div>{{ fileName }}</div>
-									                    </div>
-									                </div>
-									            </div>
-									        </div>
-									        <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)">답글 완료</button>
-									        <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)">취소</button>
-									    </div>
-									</template>
+                                    <template v-if="item.userId === sessionUserId && item.commentstatus === 'N'">
+                                        <button @click="fnCommDelete(item.commentId)">삭제</button>
+                                        <button @click="fnCommUpdateN(item.commentId)">수정</button>
+                                    </template>
+                                    <template v-if="isAdmin && item.commentstatus === 'N'">
+                                        <button @click="fnCommhide(item.commentId,item.commentstatus)">숨기기</button>
+                                    </template>
+                                    <template v-if="isAdmin && item.commentstatus === 'Y'">
+                                        <button @click="fnCommhide(item.commentId,item.commentstatus)">숨김 해제</button>
+                                    </template>
+                                    <button @click="fnReChat(item.commentId)">답글</button>
+                                    <button @click="fnLikeCheck(item.commentId,'댓글')">좋아요</button> {{item.likeCnt}}
+                                    <div style="margin-left : 70px; margin-top:20px;" class="stu-comm-detail-comment-reply" v-for="reply in viewComment" v-show="reply.parentCommentId === item.commentId">
+                                        <div><a style="font-size:15px; color:black;" href="#" @click="fnUserboard(reply.author,reply.userNickName)">{{reply.userNickName}}</a></div>
+                                        <template v-if="reply.commentstatus === 'N'">
+                                            <div><a>{{reply.comcontents}}</a></div>
+                                            <template v-if="reply.filePath">
+                                                <div><img style="width:200px; height:200px;" :src="reply.filePath"></div>
+                                            </template>
+                                            <template v-if="reply.comUpdateDay">
+                                                <div><a><small>{{reply.comUpdateDay}}(수정됨)</small></a></div>
+                                            </template>
+                                            <template v-else>
+                                                <div><a><small>{{reply.comCreateDay}}</small></a></div>
+                                            </template>
+                                        </template>
+                                        <template v-if="reply.commentstatus === 'Y' && isAdmin">
+                                            <div><a>{{reply.comcontents}} <a style="color:red;">( 숨김 처리된 댓글 입니다. 관리자만 보임)</a></a></div>
+                                            <template v-if="reply.filePath">
+                                                <img style="width:200px; height:200px;" :src="reply.filePath">
+                                            </template>
+                                            <div><a><small>{{reply.comCreateDay}}</small></a></div>
+                                        </template>
+                                        <template v-if="reply.commentstatus === 'Y' && !isAdmin">
+                                            <div><a style="color:red;">관리자에 의해 숨김 처리된 댓글 입니다.</a><div>
+                                        </template>    
+                                        <template v-if="reply.userId === sessionUserId && reply.commentstatus === 'N'">
+                                            <button @click="fnCommDelete(reply.commentId)">삭제</button>
+                                        </template>
+                                        <template v-if="isAdmin && reply.commentstatus === 'N'">
+                                            <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨기기</button>
+                                        </template>
+                                        <template v-if="isAdmin && reply.commentstatus === 'Y'">
+                                            <button @click="fnCommhide(reply.commentId,reply.commentstatus)">숨김 해제</button>
+                                        </template>
+                                        <button @click="fnLikeCheck(reply.commentId,'댓글')">좋아요</button> {{reply.likeCnt}}
+                                    </div>
+                                    <template v-if="item.reMode === 'Y'">
+                                        <div class="stu-comm-detail-comment">
+                                            <div style="flex-grow: 1;">
+                                                <template v-if="isLogin">
+                                                    {{sessionUserNickName}} 님
+                                                </template>
+                                                <div class="stu-comm-detail-comment-input-container">
+                                                    <textarea placeholder="답글을 남겨보세요..." v-model="comcontents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)"></textarea>
+                                                    <div>
+                                                        <label for="file-upload" style="cursor: pointer;">
+                                                            <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
+                                                        </label>
+                                                        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange(item.commentId)" />
+                                                        <div v-if="fileName || filePreview">
+                                                            <img :src="filePreview" style="width: 100px; height: 100px;" v-if="filePreview" />
+                                                            <div>{{ fileName }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)">답글 완료</button>
+                                            <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)">취소</button>
+                                        </div>
+                                    </template>
                                 </template>
                                 <template v-if="item.upMode === 'Y'">
                                     <div class="stu-comm-detail-comment">
@@ -379,13 +572,12 @@
                     </template>
                 </div>
             </div>
-
-        </main>
-    </div>
+        </div>
+    </main>
     <jsp:include page="/layout/footer.jsp"></jsp:include>
-
 </body>
 </html>
+
 <script>
     const app = Vue.createApp({
         data() {

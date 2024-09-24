@@ -91,13 +91,13 @@
     }
 </style>
 <body>
-	<div id="app">
 		<main class="main-container">
 			
-	        <aside class="sidebar">
-	           {{sessionUserId}}
-	        </aside>
+			<aside class="sidebar">
+	           <jsp:include page="/layout/study-group-sidebar.jsp"></jsp:include>
+	       </aside>
 			
+	<div id="app">
 	        <div class="content">
 				<div class="study-group-insert-form-container">			  
 			      <div class="study-group-insert-form-group">
