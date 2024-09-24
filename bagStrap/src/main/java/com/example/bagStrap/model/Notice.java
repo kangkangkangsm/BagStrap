@@ -37,4 +37,13 @@ public class Notice {
 	private String faqCategory;
 	private String created;
 	private String updated;
+	
+	//tbl_inquiries
+	private int inquiryId;
+	private String inqcategory;
+	private String inqTitle;
+	private String message;
+	private String inqcDate;
+	private String inquDate;
+	private String statusAnswer;
 }

@@ -46,6 +46,7 @@
 		FROM tbl_notice n
 		inner join tbl_user u on n.author=u.user_id
 		order by n.created_at desc
+	
 	</select>
 	
 	<select id="Noticeinfo" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
@@ -62,5 +63,16 @@
 	<select id="faqlist" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
 		select *
 		from tbl_faq
+		where 1=1
+		<if test="searchOption=='all'">
+			and (question LIKE '%' || #{keyword} || '%')	
+		</if>
+		<if test="searchOption == 'title'">
+			and question LIKE '%' || #{keyword} || '%'
+		</if>
 	</select>
+	
+	<insert id="insertInquiry" parameterType="hashmap">
+		
+	</insert>
 </mapper>

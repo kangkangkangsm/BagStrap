@@ -48,6 +48,11 @@ public class CSCenterController {
          return "faqlist";
     }
 	
+	@RequestMapping("/inquiry") 
+    public String inquiry(Model model) throws Exception{
+         return "inquiry";
+    }
+	
 	@RequestMapping("/cslist") 
     public String cslist(Model model) throws Exception{
          return "cslist";

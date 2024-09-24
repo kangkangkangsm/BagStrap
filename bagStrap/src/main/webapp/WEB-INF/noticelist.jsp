@@ -31,12 +31,29 @@
 	.add-button:hover {
 	    background-color: #0056b3; /* 호버 시 배경색 변화 */
 	}
+	.pagination {
+		margin-top: 20px;
+		text-align: center;
+	}
+	.pagination button {
+		margin: 0 5px;
+		padding: 10px;
+		border: 1px solid #007BFF;
+		background-color: white;
+		color: #007BFF;
+		cursor: pointer;
+	}
+	.pagination button.active {
+		background-color: #007BFF;
+		color: white;
+	}
 </style>
 
 <body>
 	<div id="app">
 	
 		<h1>공지사항</h1>
+
 		<div class="list-item" v-for="item in list" :key="item.noticeId">
 			<a href="#" @click="fnDetail(item.noticeId)">
 				{{ item.title }} - 작성자: {{ item.author }} | 조회수: {{ item.hit }} | 작성일: {{ item.createdDateFormatted }}
@@ -45,11 +62,7 @@
 		<div v-if="isLogin && isAdmin">
 			<button class="add-button"  @click="goAddNotice">추가</button>
 		</div>
-		<div>
-		    <!-- 상태 확인을 위한 로그 출력 -->
-		    <p>로그인 상태: {{ isLogin }}</p>
-		    <p>관리자 상태: {{ isAdmin }}</p>
-		</div>			
+				
 	</div>
 </body>
 </html>
@@ -70,11 +83,13 @@
         methods: {
             fnGetList(){
 				var self = this;
+
 				var nparmap = {
 					keyword : self.keyword,
-					author:self.sessionId
+					author: self.sessionId,
+		
 				};
-				console.log(nparmap); // 확인용
+				//console.log(nparmap); // 확인용
 				$.ajax({
 					url:"notice-list.dox",
 					dataType:"json",	
@@ -82,7 +97,8 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						self.list = data.list;		
+						self.list = data.list;	
+						
 					}
 				});
             },

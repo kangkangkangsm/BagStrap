@@ -35,7 +35,8 @@
                 <td><div id="editor"></div></td>
             </tr>	
         </table>
-        <button id="btn" @click="fnSave()">저장</button>	
+        <button id="btn" @click="fnSave()">저장</button>
+			
     </div>
 	</body>
 	</html>
@@ -100,16 +101,16 @@
                     theme: 'snow',
                     modules: {
                         toolbar: [
-                            [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                            ['bold', 'italic', 'underline'],
-                            [{'list': 'ordered'}, {'list': 'bullet'}],
-                            ['link', 'image'],
-                            ['clean']
+							[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+							['bold', 'italic', 'underline'],
+							[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+							['link', 'image'],
+							['clean']
                         ]
                     }
                 });
 				//에디터 초기 내용
-				quill.root.innerHTML=self.contents;
+				quill.root.innerHTML=self.content;
 
                 // 에디터 내용이 변경될 때마다 Vue 데이터 업데이트
                 quill.on('text-change', () => {

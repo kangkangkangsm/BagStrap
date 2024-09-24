@@ -8,16 +8,49 @@
 	<title>FAQ</title>
 </head>
 <style>
-</style>
+	
+    details {
+		width: 100%; /* 화면의 100% */
+		max-width: 600px; /* 최대 너비 설정 */
+		margin: 10px auto; /* 가운데 정렬 */
+       
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 8px 8px 0 8px;
+        opacity: 0.8;
+    }
+    details[open] {
+        opacity: 1;
+        padding: 8px;
+    }
+    details[open] summary {
+        background-color: azure;
+    }
+    summary {
+        font-weight: bold;
+        background-color: bisque;
+        margin: -8px -8px 0 -8px;
+        padding: 8px;
+    }
+</style> 
 <body>
 	<div id="app">
 		<h1>자주 묻는 질문</h1>
-		<div v-for="item in list" :key="item.faqId" class="faq-item" @click="toggle(item.faqId)" :class="{ active: item.active }">
-		    <h3>{{ item.question }}</h3>
-		    <p v-if="item.active">{{ item.answer }}</p>
+		<select v-model="searchOption">
+			<option value="all">::전체::</option>
+			<option value="title">제목</option>
+		</select>
+		검색 : <input placeholder="검색어" v-model="keyword">
+					<button @click="fnGetList(1)">검색</button>
+		<div v-for="item in list">
+			<details>	
+			    <summary>[{{item.category}}] {{ item.question }}</summary>
+			    <p>{{ item.answer }}</p>
+			</details>
 		</div>
 		
 	</div>
+	
 </body>
 </html>
 <script>
@@ -25,13 +58,16 @@
         data() {
             return {
 				list : [],
+				keyword :"",
+				searchOption:"all",
             };
         },
         methods: {
 			fnGetList(){
 				var self = this;
 				var nparmap = {
-					
+					keyword : self.keyword,
+					searchOption:self.searchOption,
 				};
 				$.ajax({
 					url:"faq-list.dox",
@@ -44,13 +80,7 @@
 					}
 				});
 			},
-			toggle(faqId){
-				var self = this;
-				var faq = self.list.find(item => item.faqId === faqId); // 클릭한 FAQ 찾기
-				if (faq) {
-				    faq.active = !faq.active; // 활성화 상태 토글
-				}
-			}
+
         },
         mounted() {
 			var self = this;
