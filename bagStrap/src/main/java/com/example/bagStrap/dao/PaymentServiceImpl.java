@@ -44,10 +44,10 @@ public class PaymentServiceImpl implements PaymentService{
 	        System.out.println("토큰 값: " + token);
 	        
 	        Map<String, Object> requestBody = new HashMap<>();
-	        requestBody.put("imp_uid", "imp_959782040252"); // 취소할 결제의 imp_uid
+	        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
 	        //requestBody.put("imp_uid", refundMap.get("imp_uid")); // 취소할 결제의 imp_uid
 	        requestBody.put("reason", "구매취소"); // 취소 사유
-	        requestBody.put("amount", 1004); // 취소 금액 (전체 금액 취소 시 생략 가능)
+	        requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
 	        //requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
 	        String jsonBody = gson.toJson(requestBody);
 	        
@@ -112,14 +112,38 @@ public class PaymentServiceImpl implements PaymentService{
 			//paymentMapper.insertAddress(map);
 			System.out.println("AddressNo = " + map.get("addressNo"));
 			
-			//TODO 오더 및 오더 아이템 생성하기
-			
-			resultMap.put("result", true);	
+			resultMap.put("result", true);
 		} catch(Exception e) {
 			System.out.println("Exception e : " + e);
 		}
 		return resultMap;
 	}
+	
+
+	@Override
+	public HashMap<String, Object> completeOrder(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		String message = "주문이 완료되었습니다"; 
+		//상점 책 개수 업데이트
+		if(!updateBookTable(map)) {
+			message = "책 개수 변경 에러";
+			resultMap.put("result", false);
+			resultMap.put("message", message);
+		}
+		
+		//상점 책 개수 업데이트
+		if(!createOrderTable(map)) {
+			message = "orderList 못만들어용";
+			resultMap.put("result", false);
+			resultMap.put("message", message);
+		}
+		resultMap.put("result", true);
+		resultMap.put("message", message);
+
+		return resultMap;
+	}
+	
 	//책 수량이 같은지 체크
 	private boolean isBookAvailableForPurchase(HashMap<String, Object> map) {
 		List<Order> orderList = paymentMapper.selectBookList(map);
@@ -144,5 +168,28 @@ public class PaymentServiceImpl implements PaymentService{
 	private void failedResultMap(HashMap<String, Object> map, String message) {
 		map.put("message", message);
 		map.put("result", false);
+	}
+
+	//북테이블 개수 변경
+	private boolean updateBookTable(HashMap<String, Object> map) {
+		
+		try {
+			 paymentMapper.updateBookTable(map); 
+		} catch(Exception e) {
+			return false;
+		}
+		
+		return true;
+	}
+	//오더 테이블 및 아이템 테이블 생성	
+	private boolean createOrderTable(HashMap<String, Object> map) {
+		try {
+			 paymentMapper.createOrder(map); 
+			 paymentMapper.createOrderItem(map); 
+		} catch(Exception e) {
+			return false;
+		}
+		
+		return true;
 	}
 }

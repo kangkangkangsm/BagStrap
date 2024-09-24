@@ -16,13 +16,8 @@
 	<div id="app">
 		<main class="main-container">
 
-			
-			   
-			
 	        <div class="content">
-				{{priceSum}}
-				{{orderList}}
-				{{defaultYN}}
+
 				<div id="shipping-information">
 					<div>받는 사람 정보</div>
 					<hr>
@@ -85,22 +80,29 @@
 				zonecode : '', 
 				defaultYN: 'N',
 				saveYN: 'N',
+				reqComment: '',
+				entrancePassword: '',
+				addressNo: '',
+				imp : "",
 				response : {
 				},
 				data : {
 					storeId: "${store_id}",
 					 // 채널 키 설정
 					 channelKey: "${CHANNEL_KEY}",
-					 paymentId: `payment-202405231417002`,
+					 paymentId: ``,
 					 orderName: "현이의 가방끈",
-					 totalAmount: 1000,
+					 totalAmount: 0,
 					 currency: "CURRENCY_KRW",
 					 payMethod: "CARD",
 					 customer: {
 				       fullName: "${FULLNAME}",
 				       phoneNumber: "${PHONE_NUMBER}",
 				       email: "${EMAIL}",
-				     }
+				     },
+					 userEmail: "test@portone.io",
+ 				    userName: "구매자이름",
+ 				    phone: "010-1234-5678", //필수 파라미터 입니다.
 				}
             };
         },
@@ -124,8 +126,6 @@
 				var nparmap = {
 					orderList : JSON.stringify(self.orderList),
 					priceSum : self.priceSum, 
-					userName : self.name,
-					phone: self.phone,
 					address : self.address,
 					zonecode : self.zonecode,
 					addressDetail : self.addressDetail,
@@ -133,23 +133,6 @@
 					saveYN : self.saveYN,
 					reqComment : self.reqComment,
 					entrancePassword : self.entrancePassword
-
-					// orderTable
-					// paymentId : orderId,
-					// merchang_uid : orderId,
-
-					// bookTable
-					// totalAmount: PriceSum,
-
-					// userSession
-					// buyer_email: userEmail,
-					// buyer_name: userId,
-					// buyer_tel: userInfo,
-
-					// addressTable
-					// buyer_addr: userAddr,
-					// buyer_postcode: "123-456",
-					
 				};
 				$.ajax({
 					url:"/order.dox",
@@ -158,40 +141,70 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						alert(data.message);
 						
 						if(data.result){
+							self.data.totalAmount = +data.totalAmount;
+							self.data.paymentId = data.userId +'_'+ Date.now();
+							self.data.userName = data.userName;
+							self.data.userEmail = data.userEmail;
+							self.data.phone = data.phone;
+							self.addressNo = data.addressNo;
+							
 							self.fnImp();
+
+						} else {
+							alert(data.message);
 						}
 					}
 				});
 			},
 			fnImp(){
+				var self = this;
 				IMP.request_pay(
 				  {
 				    pg: "html5_inicis.${IMP_UID}", //테스트 시 html5_inicis.INIpayTest 기재
 				    pay_method: "card",
-				    merchant_uid: "order_no_0005", //상점에서 생성한 고유 주문번호
-				    name: "주문명:결제테스트",
-				    amount: 1004,
-				    buyer_email: "test@portone.io",
-				    buyer_name: "구매자이름",
-				    buyer_tel: "010-1234-5678", //필수 파라미터 입니다.
-				    buyer_addr: "서울특별시 강남구 삼성동",
-				    buyer_postcode: "123-456",
+				    merchant_uid: self.data.paymentId, //상점에서 생성한 고유 주문번호
+				    name: "현이의 가방끈",
+				    amount: self.data.totalAmount,
+				    buyer_email: self.data.userEmail,
+				    buyer_name: self.data.userName,
+				    buyer_tel: self.data.phone, //필수 파라미터 입니다.
+				    buyer_addr: self.address + self.address_detail,
+				    buyer_postcode: self.zonecode,
 				  },
 				  function (rsp) {
-					console.log(rsp)
-				    // callback 로직
-				    //* ...중략... *//
+					console.log(rsp);
+					if(rsp.success){
+						self.imp = rsp.imp;
+						self.completeOrder();
+					}
+					
 				  },
 				);
-			}
-			,
+			},
+			completeOrder(){
+				var self = this;
+				$.ajax({
+					url:"/completeOrder.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : {
+						orderId : self.data.paymentId,
+						orderList : JSON.stringify(self.orderList),
+						addressNo : self.addressNo,
+						imp : self.imp
+					},
+					success : function(data) { 
+						console.log(data);
+					}
+				});
+			},
 			fnRefund(){
 				var self = this;
 				var nparmap = {
-					
+					imp : 'imp_764413501625',
+					amount : '21600' 	
 				};
 				$.ajax({
 					url:"/refund.dox",

@@ -234,7 +234,8 @@
 					self.priceSum = self.priceSum+(price*quantity);
 					self.selectedBooks.push({
 						bookId : bookId,
-						bookQuantity : bookQuantity
+						bookQuantity : bookQuantity,
+						bookPrice : bookPrice
 					});
 				}
 

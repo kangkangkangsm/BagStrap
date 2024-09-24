@@ -20,6 +20,7 @@ public interface PaymentService {
 	ResponseEntity<Map> refund (HashMap<String, Object> refundMap, HashMap<String, Object> tokenMap);
 	ResponseEntity<Map> getToken(HashMap<String, Object> map);
 	HashMap<String, Object> createOrder(HashMap<String, Object> map);
-
+	HashMap<String, Object> completeOrder(HashMap<String, Object> map);
+	
 	
 }

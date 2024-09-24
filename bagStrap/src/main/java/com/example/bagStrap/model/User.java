@@ -12,9 +12,11 @@ public class User {
 	private String addr;
 	private String ban;
 	private String status;
-	private String phoneNum;
-	private String cDatetime;
-	private String uDatetime;
+	private String phone;
+	private String createdDate;
+	private String updateDate;
+	private int birth;
+	private int gender;
 	
 	public String getUserId() {
 		return userId;
@@ -37,14 +39,17 @@ public class User {
 	public String getStatus() {
 		return status;
 	}
-	public String getPhoneNum() {
-		return phoneNum;
+	public String getPhone() {
+		return phone;
 	}
-	public String getcDatetime() {
-		return cDatetime;
+	public String getCreatedDate() {
+		return createdDate;
 	}
-	public String getuDatetime() {
-		return uDatetime;
+	public String getuUpdateDate() {
+		return updateDate;
+	}
+	public String getEmail() {
+		return email;
 	}
 }
 	

@@ -55,13 +55,22 @@ public class PaymentController {
 				List<Object> orderList = mapper.readValue(json, new TypeReference<List<Object>>(){});
 				map.put("orderList", orderList);
 				map.put("userId", user.getUserId());
-				paymentService.createOrder(map);
+				resultMap = paymentService.createOrder(map);
+				
+				if((boolean)resultMap.get("result")) {
+					resultMap.put("totalAmount", map.get("priceSum"));
+					resultMap.put("addressNo", map.get("addressNo"));
+					resultMap.put("userName", user.getUserName());
+					resultMap.put("userId", user.getUserId());
+					resultMap.put("userEmail", user.getEmail());
+					resultMap.put("phone", user.getPhone());
+					
+				}
+				System.out.println(resultMap);
+
+				
 				
 
-				resultMap.put("isLogin", true);
-				resultMap.put("userNickName", user.getUserNickName());
-				resultMap.put("userId", user.getUserId());
-				resultMap.put("isAdmin", user.getStatus().equals("ADMIN")?true : false);
 			} else {
 				resultMap.put("isLogin", false);
 				resultMap.put("isAdmin", false);
@@ -74,6 +83,39 @@ public class PaymentController {
 
 		return new Gson().toJson(resultMap);
 	}
+	
+	@RequestMapping(value = "/completeOrder.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String createOrderTable(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				System.out.println(map);
+				String json = map.get("orderList").toString(); 
+				ObjectMapper mapper = new ObjectMapper();
+				List<Object> orderList = mapper.readValue(json, new TypeReference<List<Object>>(){});
+				map.put("orderList", orderList);
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.completeOrder(map);
+
+				System.out.println(resultMap);
+
+				
+				
+
+			} else {
+
+			}
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	
 	
 }
 

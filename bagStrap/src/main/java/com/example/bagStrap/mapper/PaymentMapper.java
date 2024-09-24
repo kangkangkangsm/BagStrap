@@ -13,6 +13,9 @@ public interface PaymentMapper {
 	List<Order> selectAddress(HashMap<String, Object> map);
 	int insertAddress(HashMap<String, Object> map);
 	List<Order> selectBookList(HashMap<String, Object> map);
+	void updateBookTable(HashMap<String, Object> map);
+	void createOrder(HashMap<String, Object> map);
+	void createOrderItem(HashMap<String, Object> map);
 
 	
 }

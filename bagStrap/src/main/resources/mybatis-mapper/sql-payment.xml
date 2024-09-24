@@ -39,13 +39,39 @@
         )
 	</insert>
 	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-	   		
 			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
-			SELECT B.*, #{item.bookQuantity} AS ORDER_QUANTITY 
-			FROM TBL_BOOK B
-			WHERE 
-    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
+				SELECT B.*, #{item.bookQuantity} AS ORDER_QUANTITY 
+				FROM TBL_BOOK B
+				WHERE 
+	    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
 	    	</foreach>
 	</select>
+	
+	<update id="updateBookTable" parameterType="hashmap">
+			UPDATE TBL_BOOK
+			SET QUANTITY = QUANTITY - CASE
+			<foreach item="item" collection="orderList" index="index" separator=" ">
+				WHEN BOOK_ID = #{item.bookId} THEN #{item.bookQuantity}
+			</foreach>
+			END
+			WHERE BOOK_ID IN (
+			<foreach item="item" collection="orderList" index="index" separator=",">
+        		#{item.bookId}
+    		</foreach>
+ 			)
+ 	</update>
+ 	<insert id="createOrder" parameterType="hashmap" >
+			INSERT INTO TBL_ORDER (ORDER_ID, USER_ID, SHIPPING_ADDRESS, IMP)
+			VALUES ( #{orderId}, #{userId}, #{addressNo}, #{imp} )
+	</insert>
+	<insert id="createOrderItem" parameterType="hashmap" >
+			INSERT ALL
+			<foreach item="item" collection="orderList" separate=" ">
+			INTO TBL_ORDER_ITEM (ORDER_ID, BOOK_ID, QUANTITY, PRICE)
+			VALUES ( #{orderId}, #{item.bookId}, #{item.bookQuantity}, #{item.bookPrice} )
+			</foreach>
+			SELECT * FROM DUAL
+	</insert>
+ 	
 	
 </mapper>
