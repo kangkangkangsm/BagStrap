@@ -86,7 +86,12 @@ public class StudyController {
     public String study_group_sidebar(Model model) throws Exception{
          return "../layout/study-group-sidebar";
     }
-	
+	// 스터디 그룹 상세페이지
+	@RequestMapping("/study-group-detail") 
+    public String studygroupdetail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("boardNo", map.get("boardNo"));
+         return "study/study-group-detail";
+    }
 	
 	
 	
@@ -370,7 +375,7 @@ public class StudyController {
 			return new Gson().toJson(resultMap);
 		}
 // ---------------------------------------------------------- 스터디 그룹 ---------------------------------------------------------------------
-		//스터디 그룹 만들기(책 불러오기)
+		//스터디 그룹 만들기 ( 과목 불러오기)
 		@RequestMapping(value = "/selectStuGroupInsertBoardType.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String selectStuGroupInsertBoardType(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -378,7 +383,7 @@ public class StudyController {
 			resultMap = studyService.selectStuGroupInsertBoardType(map);
 			return new Gson().toJson(resultMap);
 		}
-		//스터디 그룹 만들기(책 불러오기)
+		//스터디 그룹 만들기
 		@RequestMapping(value = "/insertStuGroup.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public String insertStuGroup(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -392,6 +397,22 @@ public class StudyController {
 		public String selectStuGroupListSidebar(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.selectStuGroupListSidebar(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 그룹 리스트 사이드바 
+		@RequestMapping(value = "/selectStuGroupDetail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupDetail(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupDetail(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 신청하기
+		@RequestMapping(value = "/insertStuGroupApply.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String insertStuGroupApply(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.insertStuGroupApply(map);
 			return new Gson().toJson(resultMap);
 		}
 

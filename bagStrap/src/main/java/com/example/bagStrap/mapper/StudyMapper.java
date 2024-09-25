@@ -85,4 +85,10 @@ public interface StudyMapper {
 	void insertStuGroup(HashMap<String, Object> map);	
 	//스터디 그룹 리스트 사이드바
 	List<StudyComm> selectStuGroupListSidebar(HashMap<String, Object> map);
+	//스터디 그룹 개수(페이징)
+	int selectStuGroupListSidebarCnt(HashMap<String, Object> map);
+	//스터디 상세정보
+	StudyComm selectStuGroupDetail(HashMap<String, Object> map);
+	//스터디 신청하기
+	void insertStuGroupApply(HashMap<String, Object> map);
 }

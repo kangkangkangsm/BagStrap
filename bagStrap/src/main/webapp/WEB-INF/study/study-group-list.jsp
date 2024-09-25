@@ -113,32 +113,48 @@
         </aside>
         
         <div id="app" class="study-group-list-content">
-			{{age}} {{onOffMode}} {{subjectTypeId}} {{genderGroup}} {{startDate}} {{startTime}} {{endTime}} {{participants}}
             <div class="study-group-list-search-bar">
-                <input type="text" placeholder="검색어를 입력하세요">
-                <button>검색</button>
-                <button>스터디 등록</button>
+                <input type="text" placeholder="검색어를 입력하세요" v-model="search" @keyup.enter="fnGetList()">
+                <button @click="fnGetList()">검색</button>
+				<button @click="fnFullView()">전체보기</button>
+                <button @click="fnStudyCreate()">스터디 등록</button>
             </div>
             <div class="study-group-list-container">
                 <div class="study-group-list-grid">
                     <div class="study-group-list-item" v-for="item in groupList">
 						<template v-if="item">
-		                    <img  src="../src/profile.png" alt="Product Image" class="study-group-list-image">
-		                    <div class="study-group-list-title">[{{item.name}}]{{item.description}}</div>
-							<template v-if="!item.participants">
-		                   		 <div class="study-group-list-details">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} |인원 0 / {{item.maxparticipants}}</div>
+							<template v-if="item.filePath">
+		                    	<img  :src="item.filePath" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
 							</template>
 							<template v-else>
-		                   		 <div class="study-group-list-details">{{item.genderGroup}} | {{item.onOffMode}} | 인원 {{participants}} / {{item.maxparticipants}}</div>
+		                    	<img  src="../src/profile.png" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
 							</template>
-		                    <div class="study-group-list-details">시작일  {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}</div>
+		                    <div class="study-group-list-title" @click="fnDetail(item.studyGroupId)">[{{item.name}}]{{item.studyName}}</div>
+							<template v-if="!item.participants">
+		                   		 <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} |인원 0 / {{item.maxparticipants}}</div>
+							</template>
+							<template v-else>
+		                   		 <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | 인원 {{participants}} / {{item.maxparticipants}}</div>
+							</template>
+		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">시작일  {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}</div>
 						</template>
 						<template v-if="!item">
 						<div>검색된 결과가 없습니다.</div>
 						</template>
                     </div>
                 </div>
+				<div class="stu-comm-myboard-pagination">
+             </div>
             </div>
+                 <button @click="fnGetList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
+                 <button 
+                     v-for="page in totalPages" 
+                     :key="page" 
+                     :class="{active: page == currentPage}" 
+                     @click="fnGetList(page)">
+                     {{ page }}
+                 </button>
+                 <button @click="fnGetList(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
         </div>
     </main>
     <jsp:include page="/layout/footer.jsp"></jsp:include>
@@ -159,16 +175,42 @@
 					startDate : '${startDate}' || new Date().toISOString().substring(0, 10), // 기본값 오늘 날짜로 설정
 					startTime : '${startTime}',
 					endTime : '${endTime}',
-					participants :'${participants}'
+					participants :'${participants}',
+					totalPages: 5,
+	                currentPage: 1,      // 현재 페이지 
+	                pageSize: 12,         // 한 페이지에 보여줄 개수 
+					search:""
 	            };
 	        },
 	        methods: {
-				fnGetList(){
+				fnDetail(boardId) {
+					$.pageChange("/study-group-detail", { boardNo: boardId });
+				},
+				fnFullView(){
 					var self = this;
+					self.age = '';
+					self.onOffMode ='';
+					self.subjectTypeId='';
+					self.genderGroup='';
+					self.startDate = new Date().toISOString().substring(0, 10);
+					self.startTime = '';
+					self.endTime='';
+					self.participants='';
+					self.fnGetList();
+				},
+				fnStudyCreate(){
+					location.href="/study-group-insert";
+				},
+				fnGetList(page = 1){
+					var self = this;
+					const startIndex = (page - 1) * self.pageSize;
+	                const outputNumber = self.pageSize;
+	                self.currentPage = page;
 					var nparmap = { age : self.age, onOffMode : self.onOffMode, 
 									genderGroup : self.genderGroup,subjectTypeId : self.subjectTypeId,
 									startDate : self.startDate, startTime : self.startTime, endTime : self.endTime,
-									participants : self.participants
+									participants : self.participants,startIndex: startIndex, 
+									outputNumber: outputNumber , search : self.search
 					};
 					$.ajax({
 						url:"/selectStuGroupListSidebar.dox",
@@ -178,6 +220,8 @@
 						success : function(data) { 
 							console.log(data);
 							self.groupList = data.groupList;
+							self.groupListCnt = data.groupListCnt;
+							self.totalPages = Math.ceil(self.groupListCnt / self.pageSize);
 						}
 					});
 		        },

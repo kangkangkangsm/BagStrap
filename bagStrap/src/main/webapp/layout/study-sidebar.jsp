@@ -38,23 +38,10 @@
            </div>
         </div>
         <nav class="stu-comm-menu">
-            <button @click="fnInsertComm">커뮤니티 글쓰기</button>
-            <ul v-for="item in boardTypelist">
-				<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
-                <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
-				</template>
-			</ul>
-			<hr>
-			<ul v-for="item in boardTypelist">
-				<template v-if="item.boardTypeId >= 2000 && item.boardTypeId <= 2999 ">
-                <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
-				</template>
-			</ul>
+            <button @click="fnMoveComm">커뮤니티</button>
+			<button @click="fnMoveGroup">스터디그룹</button>
 			<hr>	
 			<ul v-for="item in boardTypelist">
-				<template v-if="item.boardTypeId >= 3000 && item.boardTypeId <= 3999 ">
-                <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
-				</template>
             </ul>
         </nav>    
 	</aside>
@@ -73,14 +60,6 @@
             };
         },
         methods: {
-			fnboardview(boardTypeId,name){
-				var self = this;
-				self.name2 = "";
-				self.boardTypeId = boardTypeId;
-				self.name = name;
-				self.search = '';
-				self.fnboardList(1);
-		   },
 			fnSession(){
 				var self = this;
 				var nparmap = {
@@ -154,10 +133,12 @@
 			fnMycomment(){
 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
 		    },
-			fnInsertComm(){
-				location.href="commInsert"
+			fnMoveComm(){
+				location.href="/study-comm"
 			},
-			
+			fnMoveGroup(){
+				location.href="/study-group-list"
+			},
         },
         mounted() {
             var self = this;

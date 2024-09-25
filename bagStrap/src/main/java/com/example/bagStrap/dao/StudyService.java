@@ -62,5 +62,10 @@ public interface StudyService {
 	//스터디 그룹 만들기
 	HashMap<String, Object> insertStuGroup(HashMap<String, Object> map);	
 	//스터디 그룹 리스트 사이드바
-	HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map);		
+	HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map);	
+	//스터디 그룹 상세정보
+	HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map);	
+	//스터디 신청하기 
+	HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map);	
+	
 }

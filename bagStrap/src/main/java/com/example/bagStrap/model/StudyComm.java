@@ -92,6 +92,8 @@ public class StudyComm {
 		private String stgStartDate;
 		private String stgEndDate;
 		private String stgStudyTime;
+		private int groupCnt;
+		private String studyName;
 //TBL_STUDY_APPS
 		private int applicationId;
 		private int studyid;
@@ -102,6 +104,17 @@ public class StudyComm {
 		private String createDate;
 		private String updateDdate;
 		
+//TBL_STUDY_APPLICATION
+		private int fetchapplicationid;
+		private int fetchappstudyid;
+		private String fetchappuserid;
+		private String selfintro;
+		private String studygoal;
+		private String stustatus;
+		private String additionalquestions;
+		private String fetchapplication_date;
+		private String fetchapplstatus;
+
 		
 //Book
 		private Long bookId;            // 책 고유번호
@@ -109,7 +122,10 @@ public class StudyComm {
 	    private String image;           // 책 이미지
 	    private Long category;          // 카테고리 번호
 	    private String ebook;           // 전자책 여부
-	   
+		private String quantity;
+		private String tbDescription;
+		
+		
 	public String getUserId() {
 		return userId;
 	}

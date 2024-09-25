@@ -1,10 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
-    <title>첫번째 페이지</title>
+	<meta charset="UTF-8">
+	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+	<title>첫번째 페이지</title>
 </head>
 <style>
    
@@ -91,9 +92,8 @@
 </style>
 <body>
 		<main class="main-container">
-			
 			<aside class="sidebar">
-	           <jsp:include page="/layout/study-group-sidebar.jsp"></jsp:include>
+	           <jsp:include page="/layout/study-sidebar.jsp"></jsp:include>
 	       </aside>
 			
 	<div id="app">
@@ -195,6 +195,15 @@
 	  		          <label for="description">스터디 설명 (50자이내)</label>
 	  		          <input type="text" id="description" name="description" v-model="description" maxlength="50" style="height:67px;">
 	  		      </div>
+				  <label for="file">스터디 그룹 이미지</label>
+				        <input type="file" @change="fnFileChange"/>
+				        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+			
+				        <!-- 이미지 미리보기 -->
+				        <div v-if="filePreview">
+				            <img :src="filePreview" class="stu-comm-insert-image-preview" />
+				        </div>
+				  <button class="study-group-insert-submit-btn" @click="fnback()">취소</button>
 			      <button class="study-group-insert-submit-btn" @click="fnGroupInsert()">스터디 생성</button>
 			  </div>
 	        </div>
@@ -215,11 +224,15 @@
 					sessionUserId: '',
 					sessionUserNickName: '',
 					categoryList:[],
-					typeList:[]
+					typeList:[],
+					filePreview: ''
 					
 	            };
 	        },
 	        methods: {
+				fnback(){
+					history.back();
+				},
 				fnGroupInsert(){
 					var self = this;
 					var nparmap = { boardTypeId : self.subjectTypeId, userId : self.sessionUserId,
@@ -237,11 +250,51 @@
 						data : nparmap,
 						success : function(data) { 
 							console.log(data);
-							alert(data.message);
-							
+							var idx = data.idx;
+							console.log(idx);
+							if (self.file) {
+								  const formData = new FormData();
+								  formData.append('file1', self.file);
+								  formData.append('idx', idx);
+								  $.ajax({
+										url: '/fileUpload.dox',
+										type: 'POST',
+										data: formData,
+										processData: false,  
+										contentType: false,  
+										success: function() {
+										 alert("개설 신청이 완료 되었습니다. 관리자 확인후 개설됩니다.");
+										  location.href = "/study-group-list";
+										  self.filePreview = "";
+										},
+										error: function(jqXHR, textStatus, errorThrown) {
+										  console.error('업로드 실패!', textStatus, errorThrown);
+										}
+								  });		
+							  } else {
+								location.href = "/study-group-list";
+							  }		
 						}
 					});
-		        },
+		        },			
+				fnFileChange(event) {
+				    const file = event.target.files[0];
+				    this.file = file;
+
+				    // 파일명이 있으면 표시
+				    this.fileName = file.name;
+
+				    // 이미지 파일인 경우 미리보기 표시
+				    if (file && file.type.startsWith('image/')) {
+				        const reader = new FileReader();
+				        reader.onload = (e) => {
+				            this.filePreview = e.target.result;
+				        };
+				        reader.readAsDataURL(file); // 이미지 파일을 읽음
+				    } else {
+				        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+				    }
+				},		
 				fnBoardType(boardTypeId){
 				var self = this;
 					var nparmap = { boardTypeId : boardTypeId

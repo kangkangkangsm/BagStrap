@@ -110,7 +110,10 @@
             <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="endTime" @change="fnMoveStartime(startTime,endTime)">
         </div>
 		<div class="study-group-sidebar-range">
-		    <h3 class="study-group-sidebar-h3">참여자 수: <span>{{ participants }}</span>명 이하</h3>
+		    <h3 class="study-group-sidebar-h3">참여자 수
+				<template v-if="participants">
+					: <span>{{ participants }}</span>명 이하</h3>
+				</template>
 		    <input type="range" id="participantsRange" min="2" max="20" v-model="participants" class="study-group-sidebar-input" @change="fnmaxparticipants(participants)">
 		    <p>{{ minParticipants }}명~{{ maxParticipants }}명</p>
 		</div>

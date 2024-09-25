@@ -465,6 +465,7 @@ public class StudyServiceImpl implements StudyService{
 		System.out.println(map);
 		try {
 			studyMapper.insertStuGroup(map);
+			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
 			resultMap.put("result", true);
 			resultMap.put("message", "그룹 개설 완료");
 		} catch (Exception e) {
@@ -474,15 +475,17 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-	//스터디 그룹 리스트 사이드바 
+	//스터디 그룹 리스트 
 	@Override
 	public HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		try {
+			int cntlist= studyMapper.selectStuGroupListSidebarCnt(map);
 			List<StudyComm> list = studyMapper.selectStuGroupListSidebar(map);
 			resultMap.put("result", true);
 			resultMap.put("message", "조회완료");
+			resultMap.put("groupListCnt", cntlist);
 			resultMap.put("groupList", list);
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
@@ -491,5 +494,37 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 		
+	}
+	//스터디 그룹 상세정보
+	@Override
+	public HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			StudyComm list = studyMapper.selectStuGroupDetail(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "조회완료");
+			resultMap.put("detailList", list);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 신청하기 
+	@Override
+	public HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertStuGroupApply(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "신청완료 방장의 승인 후 가입되십니다.");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
 	}
 }
