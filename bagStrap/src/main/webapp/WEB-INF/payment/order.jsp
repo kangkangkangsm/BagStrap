@@ -21,7 +21,7 @@
 <body>
 	<div id="app">
 		<main class="main-container">
-			<div>{{defaultYN}}{{saveYN}}{{addressNo}}</div>
+			<div>{{defaultYN}}{{saveYN}}{{priceSum}}</div>
 
 	        <div class="content">
 
@@ -45,9 +45,9 @@
 					<label for="address_detail">상세 주소:</label>
 					<input type="text" id="address_detail" name="address_detail" v-model="addressDetail"><br><br>
 					<label for="defaultYN">기본 배송지로 등록:</label>
-					<input type="checkbox" id="defaultYN" name="defaultYN" @change="fnChangeYN('default')"><br><br>
+					<input type="checkbox" id="defaultYN" name="defaultYN" @change="fnChangeYN('#defaultYN')"><br><br>
 					<label for="saveYN">배송지에 추가 하기:</label>
-					<input type="checkbox" id="saveYN" name="saveYN" @change="fnChangeYN('save')"><br><br>
+					<input type="checkbox" id="saveYN" name="saveYN" @change="fnChangeYN('#saveYN')"><br><br>
 
 					<label for="reqComment">요청 댓글:</label>
 					<textarea id="reqComment" name="reqComment" v-model="reqComment" rows="4" cols="50"></textarea><br><br>
@@ -302,32 +302,15 @@
 			},
 			fnChangeYN(flg){
 				var self = this;
-				if(flg === 'default'){
-					if(self.defaultYN === 'Y'){
-						self.defaultYN = 'N'
-					} else {
-						if(self.myAddressList.length >= 10){
-							document.querySelector("#defaultYN").checked = false;
-							alert("저장 가능한 배송지의 개수는 최대 10개입니다. 삭제 후 적용해주세요.")
-						} else{
-							self.defaultYN = 'Y'
-							self.saveYN = 'Y'
-							document.querySelector("#saveYN").checked = true;
-						}
-					}	
-				} else{
-					if(self.saveYN === 'Y'){
-						self.saveYN = 'N'
-					} else {
-						if(self.myAddressList.length >= 10){
-							document.querySelector("#saveYN").checked = false;
-							alert("저장 가능한 배송지의 개수는 최대 10개입니다. 삭제 후 적용해주세요.");
-						} else{
-							self.saveYN = 'Y'
-						}
+					if(self.myAddressList.length >= 10){
+						document.querySelector(flg).checked = false;
+						alert("저장 가능한 배송지의 개수는 최대 10개입니다. 삭제 후 적용해주세요.")
+					} else if(flg === '#defaultYN'){
+						document.querySelector("#saveYN").checked = true;
 					}
-				}
-				
+				self.defaultYN = document.querySelector("#defaultYN").checked ? 'Y' : 'N'
+				self.saveYN = document.querySelector("#saveYN").checked ? 'Y' : 'N'
+
 			},
 			fnShowAddress(){
 				document.getElementById('addressModal').showModal();				
@@ -342,12 +325,17 @@
 				self.zonecode  = self.myAddressList[idx].zonecode ;
 				self.addressDetail  = self.myAddressList[idx].addressDetail ;
 				self.addressNo  = self.myAddressList[idx].addressNo ;
-				self.defaultYN  = self.myAddressList[idx].defaultYN ;
-				self.saveYN  = self.myAddressList[idx].saveYN ;
 				self.phone  = self.myAddressList[idx].phone ;
 				self.reqComment  = self.myAddressList[idx].reqComment ;
 				self.entrancePassword  = self.myAddressList[idx].entrancePassword ;
 				self.userName = self.myAddressList[idx].userName ;
+				
+				if(self.myAddressList[idx].defaultYN) {
+					document.querySelector("#defaultYN").checked = true;
+				}
+				document.querySelector("#saveYN").checked = true;
+				self.defaultYN = document.querySelector("#defaultYN").checked ? 'Y' : 'N'
+				self.saveYN = document.querySelector("#saveYN").checked ? 'Y' : 'N'				
 				document.getElementById('addressModal').close();
 			},			
 			changeDefaultYN(addressNo){

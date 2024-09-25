@@ -105,13 +105,12 @@
 					<div>{{priceSum}}</div>
 					<div>{{quantityOfBooks}}</div>
 				</div>	-->	
-				
 				<div class="progress" v-if="progress === 1">			
 					<h2>상품을 선택해 주세요</h2>
 					<div class="ordered-list-container round">
 					    <div class="left-section">
-					        <div class="ordered-product" v-for="item in cartList">
-								<input type="checkbox" :value="item.bookId" @change="isItemChecked(item.bookId, item.price, item.quantity)"/>
+					        <div class="ordered-product" v-for="item in cartList" :key="item.bookId">
+								<input :id="item.bookId" type="checkbox" @change="isItemChecked()"/>
 
 					            <img class="ordered-product-image" :src="item.image" :alt="item.title">
 								<div class="ordered-product-info">
@@ -119,7 +118,7 @@
 					                <div class="ordered-product-detail-info">
 					                    <span>{{item.price}}</span> / 
 										<span>
-											<input :id="item.bookId" type="number" :value="item.quantity"/>
+											<input  type="number" v-model="item.quantity"  @change="isItemChecked()"/>
 										</span> 
 										<button class="ordered-button relative-right" @click="deleteCartItem(item.bookId)">장바구니에서 제거</button>
 					                </div>
@@ -178,12 +177,6 @@
 				selectedReason: '',
 				refundReasonContent: '',
 				file: null,
-				
-				priceSum: 0,
-				
-				response : {
-					
-				},
 				data : {
 					storeId: "${store_id}",
 					 // 채널 키 설정
@@ -203,6 +196,17 @@
 				
             };
         },
+		computed: {
+			priceSum(){
+				var result = 0
+				this.selectedBooks.forEach(item => {
+					console.log('quantity: '+ typeof item.bookQuantity);
+					console.log('bookPrice: '+ typeof item.bookPrice);
+					result = result + item.bookQuantity*item.bookPrice;
+				})
+				return result;
+			}
+		},
         methods: {
             fnGetList(){
 				var self = this;
@@ -220,27 +224,19 @@
 					}
 				});
             },
-			isItemChecked(bookId, bookPrice){
+			isItemChecked(){
 				var self = this;
-				let bookExists = false;
-				
-				const price = +bookPrice
-				const quantity = +document.getElementById(bookId).value;
-				self.selectedBooks.forEach(item => {
-					if(item.bookId === bookId){
-						self.priceSum = self.priceSum-(price*quantity);
-						self.selectedBooks = self.selectedBooks.filter(item => item.bookId !== bookId);
-						bookExists = true;
+				self.selectedBooks = [];
+				self.cartList.forEach(item => {
+					if(document.getElementById(item.bookId).checked === true){
+						self.selectedBooks.push({
+							bookId : item.bookId,
+							bookQuantity : item.quantity,
+							bookPrice : item.price
+						});
 					}
 				})
-				if(!bookExists){
-					self.priceSum = self.priceSum+(price*quantity);
-					self.selectedBooks.push({
-						bookId : bookId,
-						bookQuantity : quantity,
-						bookPrice : bookPrice
-					});
-				}
+				
 
 				
 			},
