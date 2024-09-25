@@ -35,68 +35,88 @@
                 <td><div id="editor"></div></td>
             </tr>	
         </table>
-        <button id="btn" @click="fnSave()">저장</button>	
+        <button id="btn" @click="fnSave()">저장</button>
+			
     </div>
-
+	</body>
+	</html>
     <script>
         const app = Vue.createApp({
             data() {
                 return {
+					isLogin : false,
                     title: "",
                     content: "",
-                    author: '${sessionId}', 
+					sessionUserId : '',
+					sessionUserNickName : '',
                 };
             },
             methods: {
-				
                 fnSave() {
-                    var self = this;
+					var self=this;
                     var nparam = {
                         title: self.title, 
                         content: self.content,
-                        author: self.sessionId,
+                        userId: self.sessionUserId
                     };
-					console.log(nparam);
+                    console.log(nparam);
                     $.ajax({
                         url: "notice-add.dox",
                         dataType: "json",	
                         type: "POST", 
                         data: nparam,
-                        success: function(data) { 
+                        success: (data) => { 
                             alert(data.message);
                             if (data.result === "success") {
                                 location.href = "noticelist"; 
                             }
                         }
                     });
+                },
+                fnSession() {
+                    $.ajax({
+                        url: "sharedHeader.dox",
+                        dataType: "json",	
+                        type: "POST", 
+                        success: (data) => {
+                            this.isLogin = data.isLogin;
+                            if (data.isLogin) {
+                                this.sessionUserId = data.userId;
+                                this.sessionUserNickName = data.userNickName;
+                                console.log('세션아이디:', this.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+                            } else {
+                                this.sessionUserId = '';
+                                this.sessionUserNickName = '';
+                            }
+                        }
+                    });
                 }
             },
             mounted() {
-                var self = this;
-				console.log(this.sessionId);
+				var self=this;
+                this.fnSession();
+
                 // Quill 에디터 초기화
                 var quill = new Quill('#editor', {
                     theme: 'snow',
                     modules: {
                         toolbar: [
-                            [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                            ['bold', 'italic', 'underline'],
-                            [{'list': 'ordered'}, {'list': 'bullet'}],
-                            ['link', 'image'],
-                            ['clean']
+							[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+							['bold', 'italic', 'underline'],
+							[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+							['link', 'image'],
+							['clean']
                         ]
                     }
                 });
 				//에디터 초기 내용
 				quill.root.innerHTML=self.content;
-				
+
                 // 에디터 내용이 변경될 때마다 Vue 데이터 업데이트
-                quill.on('text-change', function() {
-                    self.content = quill.root.innerHTML;
+                quill.on('text-change', () => {
+                    this.content = quill.root.innerHTML;
                 });
             }
         });
         app.mount('#app');
     </script>
-</body>
-</html>

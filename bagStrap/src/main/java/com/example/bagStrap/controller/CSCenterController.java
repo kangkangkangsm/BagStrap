@@ -48,6 +48,11 @@ public class CSCenterController {
          return "faqlist";
     }
 	
+	@RequestMapping("/inquiry") 
+    public String inquiry(Model model) throws Exception{
+         return "inquiry";
+    }
+	
 	@RequestMapping("/cslist") 
     public String cslist(Model model) throws Exception{
          return "cslist";
@@ -82,6 +87,17 @@ public class CSCenterController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		//System.out.println(map);
 		resultMap=csService.addNotice(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/faq-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String FaqList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.FaqList(map);
 
 		return new Gson().toJson(resultMap);
 	}
