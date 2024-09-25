@@ -106,7 +106,7 @@
 		</div>
         <div class="study-group-sidebar-range">
              <h3 class="study-group-sidebar-h3">스터디 시간</h3>
-            <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="startTime"> ~ 
+            <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="startTime" @change="fnMoveStartime(startTime,endTime)"> ~ 
             <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="endTime" @change="fnMoveStartime(startTime,endTime)">
         </div>
 		<div class="study-group-sidebar-range">
@@ -156,18 +156,13 @@
 				    window.sessionStorage.setItem("startDate", this.startDate);
 				    window.dispatchEvent(new Event('sideBarEventStartDate'));
 			     },
-				 fnMoveStartime(startTime,endTime) {
-					if(!startTime){
-						alert("시작시간을 먼저 입력해주세요");
-						this.endTime ="";
-						return;
-					}
+				 fnMoveStartime(startTime,endTime) {	
+					if(endTime){
 					if(startTime > endTime){
 						alert("첫번째 시간이 두번째 시간보다 클 수는 없습니다.");
 						this.endTime ="";
-						this.startTime ="";
 						return;
-					}
+					}}
 	 			    window.sessionStorage.setItem("startTime", this.startTime);
 					window.sessionStorage.setItem("endTime", this.endTime);
 	 			    window.dispatchEvent(new Event('sideBarEventStartime'));

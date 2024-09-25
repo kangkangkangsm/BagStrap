@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
-	<title>첫번째 페이지</title>
+    <meta charset="UTF-8">
+    <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+    <title>첫번째 페이지</title>
 </head>
 <style>
    

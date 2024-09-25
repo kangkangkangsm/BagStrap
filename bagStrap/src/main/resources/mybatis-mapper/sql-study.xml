@@ -389,10 +389,15 @@
 	    <if test="startDate != null and startDate != ''">
 	        AND (ENDDATE > TO_DATE(#{startDate}, 'YYYY-MM-DD'))
 	    </if>
-	
-	    <!-- 시간 범위 필터 -->
+	    <!-- 사람 범위 필터 -->
 	   <if test="participants != null and participants != ''">
    		   AND (TO_NUMBER(#{participants}) >= MAX_PARTICIPANTS)
+	   </if>
+		<if test="startTime != null and startTime != ''">
+		    AND TO_CHAR(STUDYTIME, 'HH24:MI') >= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+		    AND #{endTime} >= TO_CHAR(STUDYTIME, 'HH24:MI')
 		</if>
 	</select>		
 </mapper>
