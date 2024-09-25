@@ -16,7 +16,9 @@ public class Order {
     private Date orderDate;                // 주문 생성 날짜
     private String shippingAddress;        // 배송할 주소
     private String status;                 // 배송상태 / 환불여부
-    private int orderQuantity;		// 주문하는 책 수량
+    private String imp;                 // 배송상태 / 환불여부
+    private int orderQuantity;
+    // 주문하는 책 수량
     
     //OrderItem
     private Integer quantity;              // 상품수량

@@ -21,6 +21,10 @@ public interface PaymentService {
 	ResponseEntity<Map> getToken(HashMap<String, Object> map);
 	HashMap<String, Object> createOrder(HashMap<String, Object> map);
 	HashMap<String, Object> completeOrder(HashMap<String, Object> map);
+	HashMap<String, Object> selectMyAddress(HashMap<String, Object> map);
+	HashMap<String, Object> changeDefaultYN(HashMap<String, Object> map);
+	HashMap<String, Object> updateSaveYN(HashMap<String, Object> map);
+
 	
 	
 }

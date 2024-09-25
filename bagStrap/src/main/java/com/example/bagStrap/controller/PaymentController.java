@@ -115,7 +115,69 @@ public class PaymentController {
 
 		return new Gson().toJson(resultMap);
 	}
+	@RequestMapping(value = "/changeDefaultYN.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String changeDefaultYN(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.changeDefaultYN(map);
+			}
+			
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/updateSaveYN.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateSaveYN(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.updateSaveYN(map);
+			}
+			
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 	
+	@RequestMapping(value = "/selectMyAddress.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectMyAddress(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.selectMyAddress(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "내 주소를 불러옴");
+				
+			} else {
+				resultMap.put("result", false);
+				resultMap.put("message", "내 주소를 불러는데 실패했습니다.");
+			}
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 	
 }
 

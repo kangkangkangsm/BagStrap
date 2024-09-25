@@ -96,7 +96,7 @@
 		
         <div class="content">
 			<div id="app">
-				cart입니당
+				<!--cart입니당
 				<div>
 					<div>{{selectedBooks}}</div>
 					<div>{{selectedRadio1}}</div>
@@ -104,7 +104,7 @@
 					<div>{{refundReasonContent}}</div>
 					<div>{{priceSum}}</div>
 					<div>{{quantityOfBooks}}</div>
-				</div>		
+				</div>	-->	
 				
 				<div class="progress" v-if="progress === 1">			
 					<h2>상품을 선택해 주세요</h2>
@@ -117,8 +117,11 @@
 								<div class="ordered-product-info">
 					                <div class="ordered-product-name">{{item.title}}</div>
 					                <div class="ordered-product-detail-info">
-					                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
-										<button class="ordered-button relative-right">장바구니에서 제거</button>
+					                    <span>{{item.price}}</span> / 
+										<span>
+											<input :id="item.bookId" type="number" :value="item.quantity"/>
+										</span> 
+										<button class="ordered-button relative-right" @click="deleteCartItem(item.bookId)">장바구니에서 제거</button>
 					                </div>
 					            </div>
 					        </div>
@@ -217,12 +220,12 @@
 					}
 				});
             },
-			isItemChecked(bookId, bookPrice, bookQuantity){
+			isItemChecked(bookId, bookPrice){
 				var self = this;
 				let bookExists = false;
 				
 				const price = +bookPrice
-				const quantity = +bookQuantity
+				const quantity = +document.getElementById(bookId).value;
 				self.selectedBooks.forEach(item => {
 					if(item.bookId === bookId){
 						self.priceSum = self.priceSum-(price*quantity);
@@ -234,7 +237,7 @@
 					self.priceSum = self.priceSum+(price*quantity);
 					self.selectedBooks.push({
 						bookId : bookId,
-						bookQuantity : bookQuantity,
+						bookQuantity : quantity,
 						bookPrice : bookPrice
 					});
 				}
@@ -243,13 +246,36 @@
 			},
 			toOrder(){
 				var self = this;
-				$.pageChange("/payment/order",{orderList : self.selectedBooks, priceSum : self.priceSum});
+				if(self.selectedBooks.length !== 0){
+					$.pageChange("/payment/order",{orderList : self.selectedBooks, priceSum : self.priceSum});	
+				} else {
+					alert("주문할 상품을 선택해주세요");
+				}
+				
+			},
+			deleteCartItem(bookId){
+				var self = this;
+				var nparmap = {
+					bookId : bookId
+				};
+				$.ajax({
+					url:"/deleteCartItem.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						console.log(data);
+						alert(data.message);
+						if(data.result){
+							self.fnGetList();
+						}
+					}
+				});
 			}
         },
         mounted() {
             var self = this;
 			self.fnGetList();
-			IMP.init("imp11730175"); 
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	

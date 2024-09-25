@@ -3,7 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.bagStrap.mapper.PaymentMapper">
-
+	<select id="selectMyAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT *
+	        FROM TBL_ADDRESS
+	        WHERE 
+	        USER_ID = #{userId} AND SAVEYN = 'Y'
+	        ORDER BY DEFAULTYN DESC
+	</select>
 	<select id="selectAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 		  SELECT *
 		        FROM TBL_ADDRESS
@@ -13,6 +19,19 @@
  				AND SAVEYN = 'Y'
  		        </if>
 	</select>
+	<update id="changeDefaultYN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET DEFAULTYN = CASE
+            WHEN ADDRESS_NO = #{addressNo} THEN 'Y'
+            ELSE 'N'
+            END
+			WHERE USER_ID = #{userId}
+ 	</update>
+	<update id="updateSaveYN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET SAVEYN = 'N'
+			WHERE USER_ID = #{userId} AND ADDRESS_NO = #{addressNo} 
+ 	</update>
 	<update id="updateAddressDefaultToN" parameterType="hashmap">
 			UPDATE TBL_ADDRESS
 			SET DEFAULTYN = 'N'
@@ -39,8 +58,8 @@
             #{zonecode},
             #{defaultYN},
             #{saveYN},
-            #{reqComment},
-            #{entrancePassword}
+             #{reqComment},
+             #{entrancePassword}
         )
           <selectKey keyProperty="addressNo" resultType="int" order="AFTER">
 		       SELECT ISEQ$$_26662.CURRVAL  FROM DUAL

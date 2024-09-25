@@ -19,6 +19,10 @@ public interface PaymentMapper {
 	void createOrder(HashMap<String, Object> map);
 	void createOrderItem(HashMap<String, Object> map);
 	void deleteCart(HashMap<String, Object> map);
+	List<Order> selectMyAddress(HashMap<String, Object> map);
+	void changeDefaultYN(HashMap<String, Object> map);
+	void updateSaveYN(HashMap<String, Object> map);
 
 	
-}
+}	
+

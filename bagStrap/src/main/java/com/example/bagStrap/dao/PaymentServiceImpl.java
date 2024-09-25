@@ -98,38 +98,71 @@ public class PaymentServiceImpl implements PaymentService{
 			}
 			System.out.println("가격 이상 무");
 			
-			// 주소 저장 시 최대 개수 체크
-			if(map.get("saveYN").equals("Y")) {
-				map.put("checkSave", "check");		
-				if(paymentMapper.selectAddress(map).size() >= 10) {
-					map.replace("saveYN", "N");
-					resultMap.put("message", "배송지 저장 개수 3개 넘어서 저장은 안대용~");
-				} else {
-					paymentMapper.updateAddressDefaultToN(map);
-				};
-				map.remove("checkSave");
-			} 
+			if(map.get("addressNo").toString().equals("0")) saveAddress(map,resultMap);
 			
-			System.out.println(map);
-			// 배송 주소 저장
-			try {
-				int idx = paymentMapper.insertAddress(map);
-				System.out.println(idx);
-			}catch(Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException("Address insertion failed", e);
-			}
-			
-			System.out.println("AddressNo = " + map.get("addressNo"));
-			resultMap.put("addressNo", map.get("addressNo"));
 			resultMap.put("result", true);
 		} catch(Exception e) {
 			System.out.println("Exception e : " + e);
 		}
 		return resultMap;
 	}
+	private void saveAddress(HashMap<String, Object> map, HashMap<String, Object> resultMap) {
+		// 주소 저장 시 최대 개수 체크
+		if(map.get("saveYN").equals("Y")) {
+			map.put("checkSave", "check");		
+			if(paymentMapper.selectAddress(map).size() >= 10) {
+				map.replace("saveYN", "N");
+				resultMap.put("message", "배송지 저장 개수 3개 넘어서 저장은 안대용~");
+			} else {
+				paymentMapper.updateAddressDefaultToN(map);
+			};
+			map.remove("checkSave");
+		} 
+		
+		System.out.println(map);
+		// 배송 주소 저장
+		try {
+			if(map.get("reqComment") == null) map.put("reqComment", "");
+			if(map.get("entrancePassword") == null) map.put("entrancePassword", "");
+			System.out.println(map);
+			int idx = paymentMapper.insertAddress(map);
+			resultMap.put("addressNo", map.get("addressNo"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			failedResultMap(resultMap, "주소지 입력에 실패했습니다.");
+			throw new RuntimeException("Address insertion failed", e);
+			
+		}
+	}
+	@Override
+	public HashMap<String, Object> changeDefaultYN(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+			try {
+				paymentMapper.changeDefaultYN(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "기본 배송지가 변경되었습니다");
+			}catch(Exception e) {
+				e.printStackTrace();
+				failedResultMap(resultMap, "기본 배송지 설정에 실패했습니다.");
+			}
+		return resultMap;
+	}
+	@Override
+	public HashMap<String, Object> updateSaveYN(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+			try {
+				paymentMapper.updateSaveYN(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "배송지에서 제거되었습니다");
+			}catch(Exception e) {
+				e.printStackTrace();
+				failedResultMap(resultMap, "배송지 제거에 실패했습니다.");
+			}
+		return resultMap;
+	}
 	
-
 	@Override
 	public HashMap<String, Object> completeOrder(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -159,6 +192,16 @@ public class PaymentServiceImpl implements PaymentService{
 		
 		resultMap.put("result", true);
 		resultMap.put("message", message);
+
+		return resultMap;
+	}
+	// 내 주소 불러오기
+	@Override
+	public HashMap<String, Object> selectMyAddress(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		List<Order> addressList = paymentMapper.selectMyAddress(map);
+		resultMap.put("addressList", addressList);
 
 		return resultMap;
 	}
@@ -221,6 +264,7 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		return true;
 	}
+
 	
 	
 	

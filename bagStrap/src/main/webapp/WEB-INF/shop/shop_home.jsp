@@ -238,14 +238,13 @@
 	        <aside class="sidebar">
 				
 				
-				
 	        </aside>
 			
 			
 			<div>
 				<!-- 메인 제목과 버튼 -->
 				<div class="main-chap1">
-					<h1>온라인 일간 베스트</h1>
+					<h1>베스트</h1>
 				</div>
 	
 				<!-- 검색 및 필터 -->
@@ -261,6 +260,7 @@
 	
 				<!-- 체크박스 및 장바구니 버튼 -->
 				<div class="button-container">
+					{{selectedBooks}}
 					<input type="checkbox" v-model="isAllSelected" @change="selectAllBooks"> 전체선택
 					<button @click="addToCart()">장바구니</button>
 				</div>
@@ -269,7 +269,7 @@
 	
 				<div class="book-list">
 					<a v-for="(book, index) in paginatedBooks" :key="book.BOOK_ID" :href="'/bookDetail/' + book.BOOK_ID" class="book-item" style="text-decoration: none; color: inherit;">
-						<input type="checkbox" v-model="book.selected">
+						<input type="checkbox" :value="book.bookId" @change="isItemChecked(book.bookId)">
 						<img :src="book.image" alt="책 이미지">
 						<h5>{{ book.title }}</h5>
 						<div class="price">{{ book.price }}원</div>
@@ -300,7 +300,8 @@
 			            itemsPerPage: 20,      // 한 페이지에 보여줄 책 수 (기본값 추가)
 			            totalPages: 0,         // 총 페이지 수
 						keyword: "",           // 검색 키워드
-						isAllSelected: false    // 전체선택 체크박스 상태
+						isAllSelected: false,    // 전체선택 체크박스 상태
+						selectedBooks: []
 			        };
 			    },
 			    computed: {
@@ -325,6 +326,7 @@
 			                type: "POST",
 			                data: nparmap, // 검색어 데이터를 함께 전송
 			                success: function(data) {
+								console.log(data);
 			                    self.bookList = data.bookList.map(book => ({
 			                        ...book,
 			                        selected: false // 각 책에 대해 selected 상태를 추가
@@ -336,6 +338,7 @@
 			                }
 			            });
 			        },
+					
 			        // 페이지 전환
 			        goToPage(page) {
 			            this.currentPage = page;
@@ -352,7 +355,26 @@
 			                this.currentPage++;
 			            }
 			        },
-			        // 전체 선택/해제 처리
+					isItemChecked(bookId){
+						var self = this;
+						let bookExists = false;
+						
+						const quantity = +bookQuantity
+						self.selectedBooks.forEach(item => {
+							if(item.bookId === bookId){
+								self.selectedBooks = self.selectedBooks.filter(item => item.bookId !== bookId);
+								bookExists = true;
+							}
+						})
+						if(!bookExists){
+							self.selectedBooks.push({
+								bookId : bookId
+							});
+						}
+
+						
+					},
+					// 전체 선택/해제 처리
 			        selectAllBooks() {
 			            const self = this;
 			            self.paginatedBooks.forEach(book => {

@@ -36,12 +36,12 @@
 					<a v-if="!isLogin" href="javascript:;">Join</a>
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a v-if="!isLogin" href="javascript:;" @click="fnShowLogin()">MyStudy</a>
-					<a v-if="isLogin" href="javascript:;">MyStudy</a>
+					<!--TODO : 넣어야함-->
+					<a href="javascript:;" @click="fnPageChange('/mystudy')"> MyStudy </a>
+
 				</div>
                 <div class="headerloginSubMenu clickableMenu">
-					<a v-if="!isLogin" href="javascript:;" @click="fnShowLogin()">MyShop</a>
-					<a v-if="isLogin" href="/myshop/orders">MyShop</a>
+					<a href="javascript:;" @click="fnPageChange('/myshop/orders')"> MyShop </a>
 					</div>
                 <div v-if="isAdmin" class="headerloginSubMenu clickableMenu">
 					<a href="javascript:;">Admin</a>
@@ -51,17 +51,21 @@
 				</div>
             </div>
             <div class="headerCSCenter headerCustomerSub">
-                <a class="clickableText" href="javascript:;" >CSCenter</a>
+				<!--TODO: 여기 수정해야한다.-->
+				<a href="/myshop/faq"> CSCenter </a>
             </div>
 			<!--cart-->
             <div class="headerCart headerIcon headerCustomerSub">
-				<a href="/myshop/cart" >
+				<a href="javascript:;" @click="fnPageChange('/myshop/cart')">
 					<svg class="headerIcon clickableSvg" alt="icon_cart" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg>
 				</a>
+				
+
             </div>
 			<!--notification-->
             <div class="headerNotification headerIcon headerCustomerSub">
-				<a href="javascript:;" >
+				<!--TODO: 여기 수정해야한다.-->
+				<a href="javascript:;" @click="fnPageChange('/myshop/notification')">
 					<svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
 				</a>
             </div>
@@ -97,12 +101,22 @@
 					isAdmin : false, //세션 체크
 					sessionUserId : '',
 					sessionUserNickName: '',
-					userId : '',
-					password : '',
+					userId : 'admin',
+					password : 'admin1234',
 					user: '${sessionScope.user}'
 	            };
 	        },
 	        methods: {
+				fnPageChange(path){
+					var self = this;
+					if(self.isLogin){
+						location.href=path;
+					} else{
+						alert('로그인 후 이용가능합니다.')
+						document.getElementById('headerLoginModal').showModal();
+						document.getElementById('inputId').focus();
+					}
+				},
 				// header main load 함수
 				getSharedHeader(){
 					var self = this;
@@ -115,7 +129,7 @@
 						data : nparmap,
 						success : function(data) {
 							self.isLogin = data.isLogin 
-							self.isAdmin = data.isAdmin 
+							self.isAdmin = data.isAdmin
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
@@ -186,7 +200,7 @@
 					} else if (event.key === "Escape"){
 						document.getElementById('headerLoginModal').close();
 					}
-				})
+				});
 	        }
 	    });
 	   sharedHeaderApp.mount('#sharedHeader');

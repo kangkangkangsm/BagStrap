@@ -132,6 +132,14 @@
         mounted() {
             var self = this;
 			IMP.init("imp11730175"); 
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnGetList();	
+			})
         }
     });
     app.mount('#app');
