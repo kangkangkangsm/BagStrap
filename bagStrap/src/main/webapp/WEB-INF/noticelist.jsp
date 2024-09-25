@@ -87,9 +87,8 @@
 				var nparmap = {
 					keyword : self.keyword,
 					author: self.sessionId,
-		
 				};
-				//console.log(nparmap); // 확인용
+			
 				$.ajax({
 					url:"notice-list.dox",
 					dataType:"json",	
