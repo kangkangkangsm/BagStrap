@@ -45,5 +45,5 @@ public class Notice {
 	private String message;
 	private String inqcDate;
 	private String inquDate;
-	private String statusAnswer;
+	private String inqAnswer;
 }

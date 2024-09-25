@@ -51,7 +51,7 @@
 				</div>
             </div>
             <div class="headerCSCenter headerCustomerSub">
-                <a class="clickableText" href="javascript:;" >CSCenter</a>
+                <a class="clickableText" href="cscenter" >CSCenter</a>
             </div>
             <div class="headerCart headerIcon headerCustomerSub">
 				<a href="javascript:;" >
