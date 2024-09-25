@@ -14,4 +14,12 @@ public interface JoinMapper {
 	
 	void joinInsert(HashMap<String, Object> map);
 	
+	int joinMultiCheck(HashMap<String, Object> map);
+	
+	int nickNameMultiCheck(HashMap<String, Object> map);
+	
+	/*주소추가*/
+	void addressInsert(HashMap<String, Object> map);
+	
+
 }
