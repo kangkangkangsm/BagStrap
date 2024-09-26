@@ -410,6 +410,7 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
+						alert(data.body.message);
 					}
 				});
 			}

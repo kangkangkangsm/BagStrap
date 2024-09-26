@@ -36,8 +36,10 @@ public class PaymentServiceImpl implements PaymentService{
 				System.out.println(refundMap);
 				List<Order> checkList = paymentMapper.checkRefund(refundMap);
 				boolean[] check = {false};
+				System.out.println(checkList);
 				if(checkList.size() != 0) {
 					checkList.forEach(item -> {
+						System.out.println(item.getCalc());
 						if(item.getCalc() <0) {
 							check[0] = true;
 						}
@@ -45,9 +47,10 @@ public class PaymentServiceImpl implements PaymentService{
 				}
 				
 				if(check[0]) {
+					resultMap.put("message","어어 진짜 음수인데?");
 					System.out.println("어어 음수인데?");
+					return ResponseEntity.ok(resultMap);
 				}
-				
 				//환불 테이블 생성
 				paymentMapper.refund(refundMap);
 

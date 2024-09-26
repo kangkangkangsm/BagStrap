@@ -108,16 +108,16 @@
 			</foreach>
 	</delete>
 	<select id="checkRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-				SELECT BOOK_ID, QUANTITY,
-				CASE
-				<foreach item="item" collection="orderList">
-				    WHEN BOOK_ID = #{item.bookId} THEN QUANTITY - #{item.bookQuantity}
-				    ELSE QUANTITY
-				</foreach>
-				END AS CALC
-				FROM TBL_ORDER O
-				INNER JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID
-				INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
+				SELECT OI.BOOK_ID, OI.QUANTITY, CASE 
+				<foreach item="item" collection="orderList">   
+				       WHEN RI.BOOK_ID = #{item.bookId} THEN OI.QUANTITY - RI.QUANTITY - #{item.bookQuantity} 
+				</foreach>       
+		        ELSE OI.QUANTITY 
+				END AS CALC 
+				FROM TBL_ORDER O 
+				INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
+				INNER JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID 
+				INNER JOIN TBL_REFUND_ITEM RI ON R.REFUND_ID = RI.REFUND_ID 
 				WHERE O.ORDER_ID = #{orderId}
 	</select>
 	<insert id="refund" parameterType="hashmap" >
