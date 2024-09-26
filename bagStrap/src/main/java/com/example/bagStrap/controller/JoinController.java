@@ -113,25 +113,6 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	@RequestMapping(value = "/myinfo2.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String myInfo2(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap();
-		try {
-			User user = (User) session.getAttribute("user");
-			if(user.getUserNickName() != null) {
-				map.put("userId", user.getUserId());
-			resultMap = joinService.searchMyinfoAddress(map);
-			} else {
-				
-			}
-		} catch(NullPointerException e) {
-			resultMap.put("isLogin2", false);
-		}
-
-		return new Gson().toJson(resultMap);
-	}
-	
 }	
 	
 	

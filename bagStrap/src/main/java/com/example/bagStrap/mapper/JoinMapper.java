@@ -23,5 +23,4 @@ public interface JoinMapper {
 	
 	User myInfoList(HashMap<String, Object> map);
 	
-	User myInfoAddress(HashMap<String, Object> map);
 }

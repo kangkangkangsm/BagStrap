@@ -139,20 +139,6 @@ public class JoinServiceImpl implements JoinService{
 		return resultMap;
 	}
 
-	@Override
-	public HashMap<String, Object> searchMyinfoAddress(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap2 = new HashMap<>();
-		try {
-			User list = joinMapper.myInfoAddress(map);
-			resultMap2.put("result", "success");
-			resultMap2.put("messsage", "주소별도추가성공");
-			resultMap2.put("addressList", list);
-		}catch(Exception e) {
-			resultMap2.put("result", "fail");
-			resultMap2.put("messsage", "주소별도추가실패");
-		}
-		return resultMap2;
-	}
+	
  
 }

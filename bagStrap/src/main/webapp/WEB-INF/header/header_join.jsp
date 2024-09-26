@@ -64,7 +64,7 @@
 											<div class="valid_check">
 												<div class="input_btn_box">
 													<input type="text" v-model="userId" class="form_ip" placeholder="아이디를 입력하세요">
-													<button @click=fnCheckuserId>
+													<button type="button" @click=fnCheckuserId>
 														<span class="text">중복체크</span>														
 													</button>
 												</div>
@@ -113,7 +113,7 @@
 											<div class="valid_check">
 												<div class="input_btn_box">
 													<input type="text" v-model="userNickName" class="form_ip" placeholder="닉네임를 입력하세요">
-													<button @click="fnCheckNickName">
+													<button type="button" @click="fnCheckNickName">
 														<span class="text">중복체크</span>														
 													</button>
 												</div>
@@ -241,7 +241,7 @@
 											<div class="valid_check">
 												<div class="input_btn_box">
 													<input type="text" v-model="phone" class="form_ip" placeholder="번호를 입력하세요">
-													<button @click="fnCheckNickName">
+													<button type="button" @click="fnCheckNickName">
 														<span class="text">인증번호</span>														
 													</button>
 												</div>
@@ -265,7 +265,7 @@
 											<div class="valid_check">
 												<div class="input_btn_box">
 													<input type="text" v-model="address" :disabled=isAddrDisabled class="form_ip" placeholder="번호를 입력하세요">
-													<button @click="fnCheckNickName">
+													<button type="button" @click="fnAddr">
 														<span class="text">주소검색</span>														
 													</button>	
 												</div>
@@ -523,7 +523,6 @@
 						alert('가입하시겠습니까?');
 						if(data.result == "success") {
 							console.log(data);
-							self.fnGetList();
 							alert("환영합니다.");	
 						}
 						else{
@@ -547,12 +546,12 @@
 				dataType:"json",	
 				type : "POST", 
 				data : nparam,
-				success : function(data) { 
+				success : function(data) {
+					console.log(data);
+ 
 					if(data.result == "success") {
-						console.log(data);
 						alert(data.message);
 						self.isUserIdChecked = true;
-						self.fnGetList();	
 					   }else{
 		 						alert(data.message);
 		 					};
@@ -579,7 +578,6 @@
 		 						console.log(data);
 		 						alert(data.message);
 								self.isUserNickNameChecked = true;
-		 						self.fnGetList();
 							}else{
 		 						alert(data.message);
 		 					};
@@ -614,7 +612,6 @@
 				 					if(data.result == "success") {
 				 						console.log(data);
 				 						alert(data.message);
-				 						self.fnGetList();
 									}else{
 				 						alert(data.message);
 				 					};
@@ -629,7 +626,7 @@
 			
         mounted() {
             var self = this;
-			self.fnGetList();
+			//self.fnGetList();
         }
     });
     app.mount('#app');
