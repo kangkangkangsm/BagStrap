@@ -1,10 +1,13 @@
 package com.example.bagStrap.controller;
 
+import java.lang.reflect.Member;
+import java.security.Principal;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,8 @@ public class JoinController {
 	JoinService joinService;
 	@Autowired
 	HttpSession session;
+
+
 	
 	@RequestMapping("/join.do") 
     public String search(Model model) throws Exception{
@@ -89,7 +94,7 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	@RequestMapping(value = "/myInfo.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/myinfo.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String myInfo(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -97,8 +102,9 @@ public class JoinController {
 			User user = (User) session.getAttribute("user");
 			if(user.getUserNickName() != null) {
 				map.put("userId", user.getUserId());
-
+			resultMap = joinService.searchmyInfo(map);
 			} else {
+				
 			}
 		} catch(NullPointerException e) {
 			resultMap.put("isLogin", false);
@@ -107,8 +113,28 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/myinfo2.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String myInfo2(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+			resultMap = joinService.searchMyinfoAddress(map);
+			} else {
+				
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin2", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	
+}	
 	
 	
 	
 	
-}
+	

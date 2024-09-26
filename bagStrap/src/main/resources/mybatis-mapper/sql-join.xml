@@ -9,8 +9,8 @@
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, CREATED_DATE, BIRTH, GENDER) 
-		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{cDatetime}, #{birth}, #{gender})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
 	</insert>
 	
 	<!--아이디 중복검사-->
@@ -33,7 +33,15 @@
 		( USER_ID, USER_NAME, PHONE, ADDRESS, ADDRESS_DETAIL, ZONECODE)
 		VALUES ( #{userId}, #{userName}, #{phone}, #{address}, #{addressDetail}, #{zonecode})
 	</insert>
-	
 
+	<select id="myInfoList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
+		SELECT * FROM TBL_USER WHERE USER_ID=#{userId}
+	</select>
+	
+	<select id="myInfoAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
+		SELECT * 
+		FROM TBL_ADDRESS 
+		WHERE USER_ID=#{userId} 
+	</select>
 
 </mapper>

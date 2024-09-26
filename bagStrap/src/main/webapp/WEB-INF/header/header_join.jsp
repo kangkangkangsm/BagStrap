@@ -445,39 +445,93 @@
 			        alert("닉네임 중복검사를 하지 않았습니다.");
 			        return;
 			    }
-
-			    // 유효성 검사를 모두 통과했을 때, Ajax 호출 진행
-			    var nparmap = {
-			        userId:self.userId,
-			        userName:self.userName,
-			        userNickName:self.userNickName,
-			        password:self.password,
-			        email:self.email,
-			        address:self.address,
-			        zonecode: self.zonecode,
-			        addressDetail:self.addressDetail,
-			        phone:self.phone,
-			        birth:self.birth,
-			        gender:self.gender
-			    };
-			    $.ajax({
-			        url:"/joinadd1.dox",
-			        dataType:"json",  
-			        type : "POST", 
-			        data : nparmap,
-			        success : function(data) { 
-			            alert('가입하시겠습니까?');
-			            if(data.result == "success") {
-			                console.log(data);
-			                self.fnGetList();
-			                alert("환영합니다.");    
-			            }
-			            else{
-			                console.error("응답 데이터가 null");
-			            };
-			        }
-			    });
-			},
+					
+				if (!self.userId) {
+				           alert("아이디를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.userName) {
+				           alert("이름을 입력해주세요.");
+				           return;
+				       }
+				       if (!self.userNickName) {
+				           alert("닉네임을 입력해주세요.");
+				           return;
+				       }
+				       if (!self.password) {
+				           alert("비밀번호를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.confirmPassword) {
+				           alert("비밀번호 재확인을 입력해주세요.");
+				           return;
+				       }
+				       if (self.password !== self.confirmPassword) {
+				           alert("비밀번호가 일치하지 않습니다.");
+				           return;
+				       }
+				       if (!self.email) {
+				           alert("이메일을 입력해주세요.");
+				           return;
+				       }
+					   if(!self.gender) {
+							alert("주민등록번호 뒷자리의 맨 앞자리만 입력해 주세요.");
+							return;
+					   }
+				       if (!self.address) {
+				           alert("주소를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.addressDetail) {
+				           alert("상세주소를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.phone) {
+				           alert("휴대전화번호를 입력해주세요.");
+				           return;
+				       }
+				       if (!self.birth) {
+				           alert("주민등록번호 앞자리를 입력해주세요.");
+				           return;
+				       }
+					   if(!self.gender) {
+							alert("주민등록번호 뒷자리의 맨 앞자리만 입력해 주세요.");
+							return;
+					   }
+					   
+					   
+					   
+				var nparmap = {
+						userId:self.userId,
+						userName:self.userName,
+						userNickName:self.userNickName,
+						password:self.password,
+						email:self.email,
+						address:self.address,
+						zonecode: self.zonecode,
+						addressDetail:self.addressDetail,
+						phone:self.phone,
+						birth:self.birth,
+						gender:self.gender
+				};
+				$.ajax({
+					url:"/joinadd1.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						alert('가입하시겠습니까?');
+						if(data.result == "success") {
+							console.log(data);
+							self.fnGetList();
+							alert("환영합니다.");	
+						}
+						else{
+							console.error("응답 데이터가 null");
+						};
+					}
+				});
+		   },
 		   fnCheckuserId(){
 			var self = this;
 			
