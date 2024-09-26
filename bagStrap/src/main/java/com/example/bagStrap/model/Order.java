@@ -50,6 +50,9 @@ public class Order {
     private String entrancePassword;// VARCHAR2(100 BYTE)
     private String saveYN;         // CHAR(1 BYTE)
     
+    //Refund
+    private int calc;
+    
     public BigDecimal getPrice() {
     	return price;
     }
@@ -58,6 +61,9 @@ public class Order {
     }
     public int getOrderQuantity() {
     	return orderQuantity;
+    }
+    public int getCalc() {
+    	return calc;
     }
 }
 	

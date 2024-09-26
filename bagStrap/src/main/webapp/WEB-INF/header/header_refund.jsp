@@ -102,31 +102,35 @@
 					<span :style="{ color: progress>0 ? 'blue' : 'black' }"> 1 상품 선택</span>
 					<span :style="{ color: progress>1 ? 'blue' : 'black' }"> - 2 사유 선택</span>
 					<span :style="{ color: progress>2 ? 'blue' : 'black' }"> - 3 해결방법 선택</span>
-					<div>{{selectedBooks}}</div>
 					<div>{{selectedRadio1}}</div>
 					<div>{{selectedRadio2}}</div>
 					<div>{{refundReasonContent}}</div>
-					<div>{{priceSum}}</div>
+					<div>{{imp}}</div>
 					
 					
 					
 				</div>		
 				<div class="progress" v-if="progress === 1">			
-					<h2>상품을 선택해 주세요</h2>
+					<h2>상품을 선택해 주세요{{priceSum}}</h2>
 					<div class="ordered-list-container round">
 					    <div class="left-section">
-					        <div class="ordered-product" v-for="item in orderList">
-								<input type="checkbox" :value="item.bookId" @change="isItemChecked(item.bookId, item.price, item.quantity)"/>
-
+					        <div class="ordered-product" v-for="item in orderList" :key="item.bookId">
+								<input type="checkbox" :id="item.bookId" :value="item.quantity"@change="isItemChecked()"/>
 					            <img class="ordered-product-image" :src="item.image" :alt="item.title">
+								
 								<div class="ordered-product-info">
 					                <div class="ordered-product-name">{{item.title}}</div>
 					                <div class="ordered-product-detail-info">
-					                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
+					                    <span>{{item.price}}</span> / 
+										<span>
+											<input type="number" v-model="item.quantity" @change="isItemChecked()" min="1" :max="fnGetMax(item.bookId)"/>
+										</span> 
 										<button class="ordered-button relative-right">장바구니에 추가</button>
 					                </div>
 					            </div>
+								
 					        </div>
+							
 					    </div>
 					</div>
 				</div>
@@ -140,7 +144,7 @@
 							
 							<template v-if="startsWith(item1.reasonId, item2.reasonId)">
 					            <label class="">
-					                <input type="radio" name="reason2" :value="item2.reasonId" v-model="selectedRadio1" @change="fnChangeReason(2)"> {{ item2.reasonText }}
+					                <input type="radio" name="reason2" :value="item2.reasonId" v-model="selectedRadio1" @change="fnChangeReason(2, item2.reasonId)"> {{ item2.reasonText }}
 					            </label>
 								<div v-show="selectedRadio1 === item2.reasonId">
 									<div class="refund-textarea" v-if="item2.textarea === 'Y'">
@@ -154,7 +158,7 @@
 									<div v-for="item3 in refundReasonList3" :key="item3.reasonId">
 										<template v-if="startsWith(item2.reasonId, item3.reasonId)">
 											<label>
-					                    		<input class="refundReasonList3" type="radio" name="reason3" :value="item3.reasonId" v-model="selectedRadio2" @change="fnChangeReason(3)">{{ item3.reasonText }}
+					                    		<input class="refundReasonList3" type="radio" name="reason3" :value="item3.reasonId" v-model="selectedRadio2" @change="fnChangeReason(3, item3.reasonId)">{{ item3.reasonText }}
 											</label>
 										</template>
 										<div v-show="selectedRadio2 === item3.reasonId">
@@ -167,15 +171,12 @@
 										</div>
 					                </div>
 									
-									
 								</div>
 				            </template>
 				        </div>
 						
-						
 				    </div>
 				</div>
-				
 				
 				
 				<div class="progress" v-if="progress === 3">			
@@ -198,10 +199,8 @@
 				</div>
 
 				<div>
-<!--					<button v-if="progress>1" @click="fnChangeProgress(-1)">이전</button>
--->					<button v-if="progress<3" @click="fnChangeProgress(1)">다음</button>	
+					<button v-if="progress<3" @click="fnChangeProgress(1)">다음</button>	
 					<button v-if="progress==3" @click="fnRefund()">환불신청</button>
-					<button v-if="progress==3" @click="fnOrder()">결제</button>		
 				</div>
 				
 	        </div>
@@ -222,10 +221,11 @@
 				//가변값 넣어라
 				isLogin : true,
                 orderId : '${orderId}',
+				imp : '${imp}',
 				progress : 1,
 				orderList : [],
 				selectedBooks: [],
-				
+				orderMaxList : [],
 
 				selectedRadio1: '',
 				selectedRadio2: '',
@@ -234,13 +234,7 @@
 				refundReasonList3: [],
 				selectedReason: '',
 				refundReasonContent: '',
-				file: null,
 				
-				priceSum: 0,
-				
-				response : {
-					
-				},
 				data : {
 					storeId: "${store_id}",
 					 // 채널 키 설정
@@ -260,7 +254,47 @@
 				
             };
         },
+		computed: {
+			priceSum(){
+				var result = 0
+				this.selectedBooks.forEach(item => {
+					console.log('quantity: '+ typeof item.bookQuantity);
+					console.log('bookPrice: '+ typeof item.bookPrice);
+					result = result + item.bookQuantity*item.bookPrice;
+				})
+				return result;
+			},
+			fnGetMax(bookId){
+				return (bookId) => {
+					var self = this;
+					const item = self.orderMaxList.find(item => item.bookId === bookId);
+					return item ? item.quantity : 0
+				}
+			}
+		},
         methods: {
+			reasonSelectLogic(reasonId){
+				// 쓰는거 아님
+				var self = this;
+				var item1 = self.refundReasonList2.filter(item => item.reasonId.startsWith(reasonId) );
+				var item2 = self.refundReasonList3.filter(item => item.reasonId.startsWith(reasonId));
+				if(item1.length !=0){
+					console.log(item1[0])
+					if(item1[0].textarea === 'Y'){
+						//alert('첫번째 radio에 있는 refundReasonContent만 읽으면 됨')
+					} else {
+						self.refundReasonContent = item1[0].reasonText
+						//alert('첫번째 radio에 있는 value만 읽으면 됨')
+					}
+				} else if(item2.length !=0){
+					if(item2[0].textarea === 'Y'){
+						//alert('두번째 radio에 있는 refundReasonContent만 읽으면 됨')
+					} else{
+						self.refundReasonContent = item2[0].reasonText
+						//alert('두번째 radio에 있는 value만 읽으면 됨')
+					}
+				}
+			},
             fnGetList(){
 				var self = this;
 				var nparmap = {
@@ -283,6 +317,14 @@
 							}
 
 						});
+						data.orderList.forEach(item => {
+							self.orderMaxList.push({
+								bookId : item.bookId,
+								quantity : item.quantity 
+							})
+						});
+						console.log('orderMaxList')
+						console.log(self.orderMaxList)
 						self.orderList = data.orderList;
 					}
 				});
@@ -307,14 +349,10 @@
 						})
 						self.refundReasonList3.forEach((item) => {
 							if(item.reasonId == self.selectedRadio2 && item.textarea ==='Y' && self.refundReasonContent ===''){
-								
-								
 								end = true
 							}
 						})
-					}
-					console.log()
-					
+					}					
 					if(end){
 						alert('사유를 선택해주세요');
 						end = false; 
@@ -333,7 +371,7 @@
 			startsWith(prefix, str) {
 			  return str.startsWith(prefix);
 			},
-			fnChangeReason(flg){
+			fnChangeReason(flg, reasonId){
 				var self = this;
 				if(flg!=3){
 					self.selectedRadio2='';	
@@ -341,70 +379,29 @@
 				
 				self.refundReasonContent='';
 				document.querySelectorAll(".refund-textarea").innerHTML ='';
-				
+				self.reasonSelectLogic(reasonId)
 				self.file=null;
 			},
-			isItemChecked(bookId, bookPrice, bookQuantity){
+			isItemChecked(){
 				var self = this;
-				const price = +bookPrice
-				const quantity = +bookQuantity
-
-				if(self.selectedBooks.includes(bookId)){
-					self.priceSum = self.priceSum-(price*quantity);
-					self.selectedBooks.pop(bookId);
-				}else{
-					self.priceSum = self.priceSum+(price*quantity);
-					self.selectedBooks.push(bookId);
-				}	
-				
-			},
-			// PortOne API
-			fnOrder(){
-				var self = this;
-				var nparmap = {
-					bookList : [], 
-				};
-				$.ajax({
-					url:"payment.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) { 
-						console.log(data);
-						alert(data.message);
-						if(data.result){
-							self.fnImp();
-						}
+				self.selectedBooks = [];
+				self.orderList.forEach(item => {
+					if(document.getElementById(item.bookId).checked === true){
+						self.selectedBooks.push({
+							bookId : item.bookId,
+							bookQuantity : item.quantity,
+							bookPrice : item.price
+						});
 					}
-				});
+				})
 			},
-			fnImp(){
-				var self = this;
-				IMP.request_pay(
-				  {
-				    pg: "html5_inicis.${IMP_UID}", //테스트 시 html5_inicis.INIpayTest 기재
-				    pay_method: "card",
-				    merchant_uid: self.orderId, //상점에서 생성한 고유 주문번호
-				    name: "현이의 가방끈",
-				    amount: self.priceSum,
-				    buyer_email: "test@portone.io",
-				    buyer_name: "구매자이름",
-				    buyer_tel: "010-1234-5678", //필수 파라미터 입니다.
-				    buyer_addr: "서울특별시 강남구 삼성동",
-				    buyer_postcode: "123-456",
-				  },
-				  function (rsp) {
-					console.log(rsp)
-				    // callback 로직
-				    //* ...중략... *//
-				  },
-				);
-			}
-			,
 			fnRefund(){
 				var self = this;
 				var nparmap = {
-					
+					orderList : JSON.stringify(self.selectedBooks), // bookId, bookQuantity
+					orderId : self.orderId,
+					refundReasonContent : self.refundReasonContent,
+					imp : self.imp
 				};
 				$.ajax({
 					url:"/refund.dox",

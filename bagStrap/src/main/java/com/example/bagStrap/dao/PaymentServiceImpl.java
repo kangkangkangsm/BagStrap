@@ -30,35 +30,69 @@ public class PaymentServiceImpl implements PaymentService{
 	public ResponseEntity<Map> refund(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+			int[] amount = {0};
+			try {
+				System.out.println(refundMap);
+				List<Order> checkList = paymentMapper.checkRefund(refundMap);
+				boolean[] check = {false};
+				if(checkList.size() != 0) {
+					checkList.forEach(item -> {
+						if(item.getCalc() <0) {
+							check[0] = true;
+						}
+					});	
+				}
+				
+				if(check[0]) {
+					System.out.println("어어 음수인데?");
+				}
+				
+				//환불 테이블 생성
+				paymentMapper.refund(refundMap);
 
-		  RestTemplate restTemplate = new RestTemplate();
-	        Gson gson = new Gson();
-	        String token = (String) tokenMap.get("access_token");
+				// 환불 로직
+				List<HashMap<String, Object>> orderList = (List<HashMap<String, Object>>) refundMap.get("orderList");
+				orderList.forEach(item -> {
+					System.out.println(item.get("bookPrice"));
+					int bookPrice = (int) item.get("bookPrice");
+					int bookQuantity  = (int) item.get("bookQuantity");
+					amount[0] += bookPrice*bookQuantity;
+				});
+				
+			  RestTemplate restTemplate = new RestTemplate();
+		        Gson gson = new Gson();
+		        String token = (String) tokenMap.get("access_token");
 
-	        // API 엔드포인트
-	        String url = "https://api.iamport.kr/payments/cancel";
-	        // 요청 헤더 설정
-	        
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_JSON);
-	        headers.setBearerAuth(token); // 인증 토큰 설정
-	        
-	        System.out.println("토큰 값: " + token);
-	        
-	        Map<String, Object> requestBody = new HashMap<>();
-	        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
-	        //requestBody.put("imp_uid", refundMap.get("imp_uid")); // 취소할 결제의 imp_uid
-	        requestBody.put("reason", "구매취소"); // 취소 사유
-	        requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
-	        //requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
-	        String jsonBody = gson.toJson(requestBody);
-	        
-	        // HttpEntity에 본문과 헤더 담기
-	        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
-	        // POST 요청 보내기
-	        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
-	        				
-			return ResponseEntity.ok(response.getBody());
+		        // API 엔드포인트
+		        String url = "https://api.iamport.kr/payments/cancel";
+		        // 요청 헤더 설정
+		        
+		        HttpHeaders headers = new HttpHeaders();
+		        headers.setContentType(MediaType.APPLICATION_JSON);
+		        headers.setBearerAuth(token); // 인증 토큰 설정
+		        
+		        System.out.println("토큰 값: " + token);
+		        
+		        Map<String, Object> requestBody = new HashMap<>();
+		        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
+		        //requestBody.put("imp_uid", refundMap.get("imp_uid")); // 취소할 결제의 imp_uid
+		        requestBody.put("reason", "구매취소"); // 취소 사유
+		        requestBody.put("amount", amount[0]); // 취소 금액 (전체 금액 취소 시 생략 가능)
+		        //requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
+		        String jsonBody = gson.toJson(requestBody);
+		        
+		        // HttpEntity에 본문과 헤더 담기
+		        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
+		        // POST 요청 보내기
+		        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+				return ResponseEntity.ok(response.getBody());
+				
+			} catch(Exception e) {
+				System.out.println(e.getMessage());
+				return ResponseEntity.ok(resultMap);
+
+			}
 		
 	}
 
@@ -76,7 +110,7 @@ public class PaymentServiceImpl implements PaymentService{
 	        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
 	        // POST 요청 보내기
 	        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
-	        System.out.println("hi");
+
 			return ResponseEntity.ok(response.getBody());
 	}
 	@Override

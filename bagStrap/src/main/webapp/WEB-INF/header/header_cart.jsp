@@ -236,9 +236,6 @@
 						});
 					}
 				})
-				
-
-				
 			},
 			toOrder(){
 				var self = this;

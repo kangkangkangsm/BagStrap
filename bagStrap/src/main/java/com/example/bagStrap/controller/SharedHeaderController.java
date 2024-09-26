@@ -36,6 +36,7 @@ public class SharedHeaderController {
 	@RequestMapping("/myshop/refund")
 	public String refund(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("orderId", map.get("orderId"));
+		 request.setAttribute("imp", map.get("imp"));
 		return "/header/header_refund";
 	}
 	@RequestMapping("/myshop/cart")

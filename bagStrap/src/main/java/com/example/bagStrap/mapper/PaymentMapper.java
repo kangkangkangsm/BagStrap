@@ -22,6 +22,10 @@ public interface PaymentMapper {
 	List<Order> selectMyAddress(HashMap<String, Object> map);
 	void changeDefaultYN(HashMap<String, Object> map);
 	void updateSaveYN(HashMap<String, Object> map);
+	
+	List<Order> checkRefund(HashMap<String, Object> map);
+	void refund(HashMap<String, Object> map);
+	
 
 	
 }	

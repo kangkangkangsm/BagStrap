@@ -127,7 +127,7 @@
 							    </div>
 							    <!-- Right Section -->
 							    <div class="right-section">
-									<button class="ordered-button" @click="fnSubmitRefund(items[0].orderId)">교환, 반품 신청</button>
+									<button class="ordered-button" @click="fnSubmitRefund(items[0].orderId, items[0].imp)">교환, 반품 신청</button>
 									<button class="ordered-button">리뷰 작성하기</button>
 							    </div>
 							</div>
@@ -199,11 +199,12 @@
 						console.log(data);
 						self.orderList = data.orderList;
 						self.orderYear = data.orderYear;
+
 					}
 				});
             },
-			fnSubmitRefund(orderId){
-				$.pageChange("/myshop/refund",{orderId : orderId});
+			fnSubmitRefund(orderId, imp){
+				$.pageChange("/myshop/refund",{orderId : orderId, imp : imp});
 			}
         },
         mounted() {
