@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.bagStrap.mapper.JoinMapper;
 import com.example.bagStrap.model.User;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Service
 public class JoinServiceImpl implements JoinService{
@@ -112,15 +114,45 @@ public class JoinServiceImpl implements JoinService{
 			joinMapper.addressInsert(map);
 			System.out.println("map8 : " + map);
 			resultMap.put("result", "success");
-			/* resultMap.put("message", "주소를 별도의 테이블에 저장합니다."); */
+			resultMap.put("message", "주소를 별도의 테이블에 저장합니다."); 
 		}catch(Exception e) {
 			 e.printStackTrace();
 			resultMap.put("result", "fail");
-			/* resultMap.put("message", "주소 저장 실패!!!!"); */
+			resultMap.put("message", "주소 저장 실패!!!!"); 
 		}
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> searchmyInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			User list = joinMapper.myInfoList(map);
+			resultMap.put("result", "success");
+			resultMap.put("messsage", "마이인포성공");
+			resultMap.put("userList", list);
+		}catch(Exception e) {
+			resultMap.put("result", "fail");
+			resultMap.put("messsage", "마이인포실패!!");
+		}
+		return resultMap;
+	}
 
+	@Override
+	public HashMap<String, Object> searchMyinfoAddress(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap2 = new HashMap<>();
+		try {
+			User list = joinMapper.myInfoAddress(map);
+			resultMap2.put("result", "success");
+			resultMap2.put("messsage", "주소별도추가성공");
+			resultMap2.put("addressList", list);
+		}catch(Exception e) {
+			resultMap2.put("result", "fail");
+			resultMap2.put("messsage", "주소별도추가실패");
+		}
+		return resultMap2;
+	}
  
 }

@@ -10,7 +10,6 @@ public class User {
 	private String password;
 	private String email;
 	private String phone;
-	private String cDatetime;
 	private String birth;
 	private String gender;
 	private String addressNo;
@@ -34,19 +33,14 @@ public class User {
 	public String getPhone() {
 		return phone;
 	}
-	public String getcDatetime() {
-		return cDatetime;
-	}
 	public String getbirth() {
 		return birth;
 	}
 	public String getgender() {
-		return gender;
-		
+		return gender;	
 	}
 	public String getstatus() {
-		return status;
-		
+		return status;	
 	}
 	public String getaddressNo() {
 		return addressNo;

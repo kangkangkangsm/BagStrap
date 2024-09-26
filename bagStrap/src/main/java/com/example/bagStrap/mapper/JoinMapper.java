@@ -21,5 +21,7 @@ public interface JoinMapper {
 	/*주소추가*/
 	void addressInsert(HashMap<String, Object> map);
 	
-
+	User myInfoList(HashMap<String, Object> map);
+	
+	User myInfoAddress(HashMap<String, Object> map);
 }

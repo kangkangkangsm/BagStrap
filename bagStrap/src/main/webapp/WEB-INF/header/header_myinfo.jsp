@@ -21,42 +21,29 @@
 	        <div class="content">
 				<div id="app">
 					<div>
-					    <div>
-					        아이디<input type="text" v-model="userId">
-							<button @click=fnCheckuserId>중복검사</button>
-					    </div>
-					    <div>
-					        이름<input type="text" v-model="userName">
-					    </div>
-					    
 						<div>
-					        닉네임<input type="text" v-model="userNickName" >
-							<button @click="fnCheckNickName">중복검사</button>
+							아이디<input type="text" v-model="userList.userId" readonly>
 					    </div>
 					    <div>
-					        비밀번호<input type="password" v-model="password">	
+					        이름<input type="text" v-model="userList.userName" readonly>
 					    </div>
 						<div>
-							비밀번호 재확인<input type="password" v-model="confirmPassword">
-						</div>
+					        닉네임<input type="text" v-model="userList.userNickName" readonly>
+					    </div>
 						<div>
-							이메일<input type="email" v-model="email">
+							이메일<input type="email" v-model="userList.email" readonly>
 						</div>
 					    <div>
-					        주소<input type="text" v-model="address" :disabled=isAddrDisabled>
-							<button @click="fnAddr">주소검색</button>
+					        주소<input type="text" v-model="addressList.address" readonly>
 					    </div>
 						<div>
-							상세주소<input type="text" v-model="addressDetail">
+							상세주소<input type="text" v-model="addressList.addressDetail">
 						</div>
 					    <div>
-					        휴대전화<input type="text" v-model="phone">
+					        휴대전화<input type="text" v-model="userList.phone">
 					    </div>
 					    <div>
-					        생성일<input type="date" v-model="cDatetime">
-					    </div>
-					    <div>
-					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="birth">-<input type="text" v-model="gender">*****
+					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="userList.birth" readonly>-<input type="text" v-model="userList.gender" readonly>*****
 					    </div>
 					    <div>
 					        <button @click="fnSave">제출하기</button>
@@ -80,8 +67,18 @@
     const app = Vue.createApp({
         data() {
             return {
-				
-				list:[]
+				userId:'',
+		        userName: '',
+		        userNickName: '',
+		        email: '',
+		        address: '',
+		        addressDetail: '',
+		        phone: '',
+		        birth: '',
+		        gender: '',
+		        list: [],
+				userList : {},
+				addressList : {}
 			};
         },
         methods: {
@@ -91,20 +88,41 @@
 					
 				};
 				$.ajax({
-					url:"/myinfo.dox",
+					url:"/myinfo2.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
-					success : function(data) { 
-						console.log(data);
+					success : function(data) {
+						console.log("AJAX 응답 데이터:", data); 
+						   self.userList = data.userList;
+						   
 					}
 				});
-           }
+           },
+		   fnGetList2(){
+   				var self = this;
+   				var nparmap = {
+   					
+   				};
+   				$.ajax({
+   					url:"/myinfo2.dox",
+   					dataType:"json",	
+   					type : "POST", 
+   					data : nparmap,
+   					success : function(data) {
+   						console.log("AJAX 응답 데이터2:", data); 
+   						   self.addressList=data.addressList;
+   						   
+   					}
+   				});
+		   }
+		   
    	 },			
 			
         mounted() {
             var self = this;
 			self.fnGetList();
+			self.fnGetList2();
         }
     });
     app.mount('#app');
