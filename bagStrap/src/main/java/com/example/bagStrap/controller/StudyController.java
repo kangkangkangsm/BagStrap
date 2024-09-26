@@ -92,6 +92,11 @@ public class StudyController {
 		 request.setAttribute("boardNo", map.get("boardNo"));
          return "study/study-group-detail";
     }
+	// 나의 마이스터디 상세 페이지 
+	@RequestMapping("/study-mygroup-detail") 
+    public String study_mygroup_detail(Model model) throws Exception{
+         return "study/study-mygroup-detail";
+    }
 	
 	
 	
