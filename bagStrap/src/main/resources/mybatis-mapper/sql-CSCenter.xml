@@ -46,6 +46,12 @@
 		FROM tbl_notice n
 		inner join tbl_user u on n.author=u.user_id
 		order by n.created_at desc
+		offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
+	</select>
+	
+	<select id="CountNoticeList" parameterType="hashmap" resultType="int">
+		select count(*) as cnt
+		from tbl_notice
 	</select>
 	
 	<select id="Noticeinfo" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
@@ -86,4 +92,20 @@
 	    WHERE user_id = #{userId}
 	    order by i.created_at desc
 	</select>
+	
+	<delete id="deleteInqBoard" parameterType="hashmap">
+		DELETE 
+		FROM TBL_INQUIRY
+		WHERE INQUIRY_ID IN 
+		<foreach collection="list" item="item" 
+			open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteInq" parameterType="hashmap">
+		DELETE 
+		FROM tbl_inquiry
+		WHERE inquiry_id = #{inquiryId}
+	</delete>
 </mapper>

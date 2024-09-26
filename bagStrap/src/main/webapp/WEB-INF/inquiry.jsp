@@ -41,9 +41,14 @@
 			<select v-model="category">
 				<option value="all">선택하세요</option>
 				<option value="general">일반 문의</option>
-				<option value="order">주문 관련 </option>
+				<option value="order">주문 관련 </option>	
 				<option value="refund">환불 및 교환 </option>
 			</select>
+			
+			<div v-if="category == 'order'">
+				<label>제품 이름:</label>
+				<input type="text" v-model="productName" placeholder="제품 이름" required>
+			</div>
 			
 			<label>제목:</label>
 			<input type="text" id="title" v-model="title" required>
@@ -51,9 +56,10 @@
 			<label>메시지:</label>
 			<textarea id="message" v-model="message" rows="4" required></textarea>
 
-			<button type="submit" @click="fnSave()">제출하기</button>	
+			<button type="button" @click="fnSave()">문의하기</button>	
 		</form>
 	</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
 <script>
@@ -90,7 +96,7 @@
 				        dataType: "json",	
 				        type: "POST", 
 				        data: nparam,
-				        success: (data) => { 
+				        success: function(data) { 
 				            alert(data.message);
 				            if (data.result === "success") {
 				                location.href = "cscenter"; 
