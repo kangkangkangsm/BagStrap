@@ -113,6 +113,17 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
+	@RequestMapping(value = "/addressUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String addressUpdate(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.reloadAddress(map);
+		System.out.println("resultMap4 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 }	
 	
 	

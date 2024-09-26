@@ -128,13 +128,31 @@ public class JoinServiceImpl implements JoinService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
+			System.out.println("map9 : " + map);
 			User list = joinMapper.myInfoList(map);
+			System.out.println("map10 : " + map);
 			resultMap.put("result", "success");
-			resultMap.put("messsage", "마이인포성공");
+			resultMap.put("messsage", "마이인포성공!!");
 			resultMap.put("userList", list);
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
 			resultMap.put("messsage", "마이인포실패!!");
+			e.printStackTrace();
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> reloadAddress(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			joinMapper.addressUpdate(map);
+			resultMap.put("result", "success");
+			resultMap.put("message","주소업데이트성공!!");
+		}catch(Exception e) {
+			resultMap.put("result", "fail");
+			resultMap.put("message", "주소업데이트실패!!");
 		}
 		return resultMap;
 	}
