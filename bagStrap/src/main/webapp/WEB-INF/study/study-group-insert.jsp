@@ -230,6 +230,20 @@
 	            };
 	        },
 	        methods: {
+				insertStuGroupKingApply(userId,idx){
+					var self = this;
+					var nparmap = { userId : userId , idx : idx
+					};
+					$.ajax({
+						url:"insertStuGroupKingApply.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+						}
+					});
+		        },
 				fnback(){
 					history.back();
 				},
@@ -251,6 +265,7 @@
 						success : function(data) { 
 							console.log(data);
 							var idx = data.idx;
+							self.insertStuGroupKingApply(self.sessionUserId, idx)
 							console.log(idx);
 							if (self.file) {
 								  const formData = new FormData();

@@ -91,4 +91,12 @@ public interface StudyMapper {
 	StudyComm selectStuGroupDetail(HashMap<String, Object> map);
 	//스터디 신청하기
 	void insertStuGroupApply(HashMap<String, Object> map);
+	//스터디 중복신청검사
+	StudyComm selectStuGroupSubscription(HashMap<String, Object> map);
+	//마이페이지 스터디그룹
+	List<StudyComm> selectStuGroupMyPage(HashMap<String, Object> map);
+	//스터디 방장 자동가입
+	void insertStuGroupKingApply(HashMap<String, Object> map);
+	
+
 }

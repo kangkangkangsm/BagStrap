@@ -94,15 +94,9 @@ public class StudyComm {
 		private String stgStudyTime;
 		private int groupCnt;
 		private String studyName;
-//TBL_STUDY_APPS
-		private int applicationId;
-		private int studyid;
-		private String applicantId;
-		private String goal;
-		private String acontent;
-		private String AppStatus;
-		private String createDate;
-		private String updateDdate;
+		private int applyCnt;
+		
+	
 		
 //TBL_STUDY_APPLICATION
 		private int fetchapplicationid;
@@ -114,7 +108,8 @@ public class StudyComm {
 		private String additionalquestions;
 		private String fetchapplication_date;
 		private String fetchapplstatus;
-
+		private int applyY;
+		private int applyN;
 		
 //Book
 		private Long bookId;            // 책 고유번호

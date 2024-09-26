@@ -631,6 +631,7 @@
                                   self.fnView();    
                                   self.filePreview ="";
                                   self.fileName ="";
+								  self.comcontents="";
                               },
                               error: function(jqXHR, textStatus, errorThrown) {
                                   console.error('업로드 실패!', textStatus, errorThrown);
@@ -639,6 +640,9 @@
                       } else{
 						  self.fnReChat();
                           self.fnView();    
+						  self.filePreview ="";
+	                        self.fileName ="";
+						  self.comcontents="";
                       }        
                   }
               });

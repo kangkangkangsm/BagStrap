@@ -67,5 +67,8 @@ public interface StudyService {
 	HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map);	
 	//스터디 신청하기 
 	HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map);	
-	
+	//스터디 중복가입 방지
+	HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map);	
+	//스터디 방장 자동가입
+	HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map);	
 }

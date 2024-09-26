@@ -65,10 +65,12 @@ public class StudyServiceImpl implements StudyService{
 			int countMycommentList = studyMapper.countMycommentList(map);
 			List<StudyComm> selectMyComm = studyMapper.selectMyComm(map);
 			List<StudyComm> selectMyComment = studyMapper.selectMyComment(map);
+			List<StudyComm> selectStuGroupMyPage = studyMapper.selectStuGroupMyPage(map);
 			resultMap.put("countMyCommCnt", countMyCommList);
 			resultMap.put("countMycommentCnt", countMycommentList);
 			resultMap.put("selectMyCommList", selectMyComm);
 			resultMap.put("selectMyCommentList", selectMyComment);
+			resultMap.put("selectStuGroupList", selectStuGroupMyPage);
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
 		
@@ -527,4 +529,36 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	//스터디 중복신청
+	@Override
+	public HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			StudyComm list = studyMapper.selectStuGroupSubscription(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "중복된 신청임");
+			resultMap.put("Subscription", list);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 방장 자동가입
+	@Override
+	public HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertStuGroupKingApply(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "방장 자동가입");
+			
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+}
 }

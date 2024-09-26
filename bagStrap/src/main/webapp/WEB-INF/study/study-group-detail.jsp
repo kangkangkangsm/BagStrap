@@ -268,7 +268,7 @@
                 <div class="details">
                     <span>스터디 방식: {{ detailList.onOffMode }}</span>
                     <span>성별 : {{ detailList.genderGroup }}</span>
-                    <span>👥 {{ detailList.participants }} / {{ detailList.maxparticipants }}</span>
+                    <span>👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }}</span>
                     <span>연령대: {{ detailList.age }}</span>
 					<span> 📅  {{ detailList.stgStudyTime }} </span>
                 </div>
@@ -319,7 +319,7 @@
 			            <label for="additionalQuestions">추가 질문 (선택 사항):</label>
 			            <textarea id="additionalQuestions" name="additionalQuestions" v-model="additionalQuestions" placeholder="궁금한 사항이 있다면 작성해주세요." class="form-control"></textarea>
 			        </div>
-			        <button @click="fnJoin(detailList.studyGroupId,selfIntro,studyGoal,additionalQuestions)">참가 신청하기</button>
+			        <button @click="fnJoinSubscription(detailList.studyGroupId,selfIntro,studyGoal,additionalQuestions)">참가 신청하기</button>
 			</div>
 		</template>
         </div>
@@ -335,10 +335,31 @@
                     sessionUserNickName: '',
                     boardNo: '${boardNo}',
                     detailList: {},
-					applyMode : 'N'
+					applyMode : 'N',
+					Subscription : {}
                 };
             },
             methods: {
+			     fnJoinSubscription(studyGroupId,selfIntro,studyGoal,additionalQuestions){
+					  var self = this;
+		              var nparmap = {userId : self.sessionUserId, studyGroupId : studyGroupId,
+									selfIntro : selfIntro,  studyGoal : studyGoal, 	
+									additionalQuestions : additionalQuestions				
+					   };
+		              $.ajax({
+		                  url:"/selectStuGroupSubscription.dox",
+		                  dataType:"json",    
+		                  type : "POST", 
+		                  data : nparmap,
+		                  success : function(data) { 
+							if(data.Subscription){
+								alert("이미 신청한 스터디 입니다. 방장의 승인을 기다려주세요.")
+							}else{
+								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
+							}				  
+		                  },
+		              });
+		        },
 				fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions){
 					var self = this;
 		              var nparmap = {userId : self.sessionUserId, studyGroupId : studyGroupId,

@@ -8,61 +8,164 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"/>
     <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
     <title>첫번째 페이지</title>
-    <style>
-        /* .stu-comm-myboard- prefixed classes for internal content */
+  <style>
+        /* 기본 스타일 */
+    
+		
+		.content{
+			width:800px;
+		}
+		.hide-link {
+		    margin-left: auto;
+		    color: black;
+		    font-size: 14px;
+		    text-decoration: none;
+		    cursor: pointer;
+		    font-weight: bold;
+		}
+
+		.hide-link:hover {
+		    text-decoration: underline;
+		}
+
+      
+
         .stu-comm-myboard-container {
-            width: 100%;
+            width: 96%;
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
-            
-            box-sizing: border-box;
-        }
-
-        .stu-comm-myboard-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .stu-comm-myboard-h2 {
-            font-size: 24px;
-            color: #555;
-            margin: 0;
-        }
-
-        .stu-comm-myboard-info {
-            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
 
+        .stu-comm-myboard-h3 {
+            font-size: 24px;
+            color: #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stu-comm-myboard-btn {
+            display: block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            margin: 0 auto 20px;
+            max-width: 200px;
+            transition: background-color 0.3s ease;
+        }
+
+        .stu-comm-myboard-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .stu-comm-myboard-forum-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: #fafafa;
+        }
+
+        .stu-comm-myboard-forum-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .stu-comm-myboard-forum-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stu-comm-myboard-forum-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007BFF;
+        }
+
+        .stu-comm-myboard-forum-subtitle {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .stu-comm-myboard-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .stu-comm-myboard-pagination button {
+            padding: 10px 15px;
+            border: none;
+            margin: 0 5px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .stu-comm-myboard-pagination button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        .stu-comm-myboard-pagination button:disabled {
+            background-color: #ccc;
+        }
+
+        .stu-comm-myboard-pagination button.active {
+            background-color: #0056b3;
+        }
+
+        /* 테이블 스타일 */
         .stu-comm-myboard-table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         .stu-comm-myboard-th, .stu-comm-myboard-td {
-            padding: 10px;
-            font-size: 18px;
+            padding: 15px;
+            text-align: center;
         }
 
         .stu-comm-myboard-th {
-            color: black;
-        }
-
-        .stu-comm-myboard-th, .stu-comm-myboard-tr a {
-            color: black;
+            background-color: #f0f0f0;
+            color: #333;
         }
 
         .stu-comm-myboard-td {
             color: #333;
+        }
+
+        .stu-comm-myboard-a {
+            color: #007BFF;
+            text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
 
-        .stu-comm-myboard-h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
+        .stu-comm-myboard-a:hover {
+            text-decoration: underline;
+            color: #0056b3;
         }
 
+        .stu-comm-myboard-post-section, 
+        .stu-comm-myboard-study-section {
+            margin-bottom: 40px;
+        }
+
+        /* 리스트 스타일 */
         .stu-comm-myboard-ul {
             list-style-type: none;
             padding: 0;
@@ -71,17 +174,7 @@
 
         .stu-comm-myboard-li {
             padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .stu-comm-myboard-a {
-            color: #0066cc;
-            text-decoration: none;
-            font-size: 16px;
-        }
-
-        .stu-comm-myboard-a:hover {
-            text-decoration: underline;
+         
         }
 
         .stu-comm-myboard-span {
@@ -90,79 +183,59 @@
             font-size: 14px;
             margin-top: 5px;
         }
-
-        .stu-comm-myboard-btn {
-            margin-left: auto; /* 버튼을 오른쪽으로 정렬 */
-            display: block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .stu-comm-myboard-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .stu-comm-myboard-post-section, 
-        .stu-comm-myboard-study-section {
-            margin-bottom: 30px;
-        }
-
-        .stu-comm-myboard-pagination {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .stu-comm-myboard-pagination button {
-            margin: 0 2px;
-            padding: 5px 10px;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .stu-comm-myboard-pagination button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        .stu-comm-myboard-pagination button.active {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
     <main class="main-container">
-        <!-- 사이드 바 -->		
         <aside class="sidebar">
-            <jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>  
+            <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>  
         </aside>
-        <!-- 메인 컨텐츠 -->
-        <div class="content">
             <div id="app">
                 <div class="content">
                     <div class="stu-comm-myboard-container">
-                    <template v-if="userNickName">
-                        <h2 class="stu-comm-myboard-h2">유저 페이지</h2>
-                    </template>
-                    <template v-else>
-                        <h2 class="stu-comm-myboard-h2">마이페이지</h2>
-                    </template>
-                        <button class="stu-comm-myboard-btn" @click="fnBack">뒤로가기</button>
-                        <div class="stu-comm-myboard-header">
-                            <template v-if="userNickName">
-                                <h2 class="stu-comm-myboard-h2">{{userNickName}}</h2>
-                            </template>
-                            <template v-else>
-                                <h2 class="stu-comm-myboard-h2">{{sessionUserNickName}}</h2>
-                            </template>
+						<!-- 활동중인 스터디 -->
+                        <div class="stu-comm-myboard-post-section">
+                            <h3 class="stu-comm-myboard-h3">활동중인 스터디</h3>
+                            <!-- selectStuGroupList 중 fetchapplstatus가 'Y'인 데이터만 출력 -->
+                            <div class="stu-comm-myboard-forum-container" v-for="item in activeStudies">
+                                <template v-if="item.filePath">
+                                    <img :src="item.filePath" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                </template>
+                                <template v-else>
+                                    <img src="../src/profile.png" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                </template>    
+                                <div class="stu-comm-myboard-forum-text">
+                                    <span class="stu-comm-myboard-forum-title">{{item.studyName}}</span>
+                                    <template v-if="item.studyAdminId === sessionUserId">
+                                        <span class="stu-comm-myboard-forum-subtitle">👑 | 👥 {{item.applyY}} / {{item.maxparticipants}} | 신청내역 : {{item.applyN}}</span>
+                                    </template>
+                                    <template v-else>
+                                        <span class="stu-comm-myboard-forum-subtitle">👥 {{item.applyY}} / {{item.maxparticipants}}</span>
+                                    </template>
+                                </div>
+								<a href="#" class="hide-link">비공개</a>
+                            </div>
                         </div>
-
+                        
+                        <!-- 신청 대기중인 스터디 -->
+                        <div class="stu-comm-myboard-post-section">
+                            <h3 class="stu-comm-myboard-h3">신청 대기중인 스터디</h3>
+                            <!-- selectStuGroupList 중 fetchapplstatus가 'N'인 데이터만 출력 -->
+                            <div class="stu-comm-myboard-forum-container" v-for="item in pendingStudies" >
+                                <template v-if="item.filePath">
+                                    <img :src="item.filePath" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                </template>
+                                <template v-else>
+                                    <img src="../src/profile.png" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                </template>    
+                                <div class="stu-comm-myboard-forum-text">
+                                    <span class="stu-comm-myboard-forum-title">{{item.studyName}}</span>
+                                    <span class="stu-comm-myboard-forum-subtitle"> 신청 대기중</span>
+                                </div>
+                            </div>
+                        </div>
+						
+						<h3 class="stu-comm-myboard-h3">나의 게시글</h3>
                         <div class="stu-comm-myboard-info">
                             <table class="stu-comm-myboard-table">
                                 <tr>
@@ -175,9 +248,8 @@
                                 </tr>
                             </table>
                         </div>
-                        <template v-if="itemMode == 'board'">
-                            <div class="stu-comm-myboard-post-section">
-                                <h3 class="stu-comm-myboard-h3">게시글</h3>
+                        <template v-if="itemMode == 'board'">	
+                            <div class="stu-comm-myboard-post-section">      
                                 <ul class="stu-comm-myboard-ul">
                                     <li class="stu-comm-myboard-li" v-for="item in selectMyCommList" :key="item.boardId">
                                         <a class="stu-comm-myboard-a" href="#" @click="fnBoardDetail(item.boardId)">{{item.title}}</a>
@@ -187,8 +259,7 @@
                             </div>
                         </template>
                         <template v-if="itemMode == 'comment'">
-                            <div class="stu-comm-myboard-study-section">
-                                <h3 class="stu-comm-myboard-h3">댓글</h3>
+                            <div class="stu-comm-myboard-study-section"> 
                                 <ul class="stu-comm-myboard-ul">
                                     <li class="stu-comm-myboard-li" v-for="item in selectMyCommentList" :key="item.postId">
                                         <a class="stu-comm-myboard-a" href="#" @click="fnBoardDetail(item.postId)">{{item.content}}</a>
@@ -196,42 +267,21 @@
                                     </li>
                                 </ul>
                             </div>
-                        </template>	
-
+                        </template>    
                         <div class="stu-comm-myboard-pagination">
+							<template v-if=" totalPages >= 2">
                             <button @click="fnMyCnt(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
-                            <button 
-                                v-for="page in totalPages" 
-                                :key="page" 
-                                :class="{active: page == currentPage}" 
-                                @click="fnMyCnt(page)">
+                            <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnMyCnt(page)">
                                 {{ page }}
                             </button>
                             <button @click="fnMyCnt(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
-                        </div>
-                  
-                        <div class="stu-comm-myboard-post-section">
-                            <h3 class="stu-comm-myboard-h3">내가 활동중인 스터디 목록</h3>
-                            <ul class="stu-comm-myboard-ul">
-                                <li class="stu-comm-myboard-li">
-                                    구현예정임
-                                    <template v-if="hide == 'Y'">
-                                        <a class="stu-comm-myboard-a" href="#">스터디1(공개중)</a> 
-                                        <button class="stu-comm-myboard-btn" @click="fnhide()">숨기기</button>
-                                    </template>
-                                    <template v-if="hide == 'N'">
-                                        <a class="stu-comm-myboard-a" href="#">스터디1(숨김중)</a>
-                                        <button class="stu-comm-myboard-btn" @click="fnhide()">공개하기</button>
-                                    </template>
-                                </li>
-                            </ul>
-                        </div>
+							</template>
+							<button class="stu-comm-myboard-btn" @click="fnBack" style="background-color:black;">뒤로가기</button>
+                        </div>                        
                     </div>
                 </div>
             </div>
-        </div>
     </main>
-
     <jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
@@ -248,14 +298,26 @@
                 selectMyCommList: [],
                 selectMyCommentList: [],
                 itemMode: '${itemMode}',
-                totalPages: 5,
+                totalPages: 0,
                 currentPage: 1,      // 현재 페이지 
-                pageSize: 5,         // 한 페이지에 보여줄 개수 
+                pageSize: 10,         // 한 페이지에 보여줄 개수 
                 hide: "N",
                 author: '${author}',
-                userNickName: '${userNickName}'
+                userNickName: '${userNickName}',
+				selectStuGroupList : []
             };
         },
+		// 여기에 computed 추가
+       computed: {
+           activeStudies() {
+               // '활동중인 스터디'만 필터링
+               return this.selectStuGroupList.filter(item => item.fetchapplstatus === 'Y');
+           },
+           pendingStudies() {
+               // '신청 대기중인 스터디'만 필터링
+               return this.selectStuGroupList.filter(item => item.fetchapplstatus === 'N');
+           }
+       },
         methods: {
             fnBack() {
                 history.back();
@@ -321,6 +383,7 @@
                         self.countMycommentCnt = data.countMycommentCnt;
                         self.selectMyCommList = data.selectMyCommList;
                         self.selectMyCommentList = data.selectMyCommentList;
+						self.selectStuGroupList = data.selectStuGroupList;
                         if(self.itemMode === "board"){
                             self.totalPages = Math.ceil(self.countMyCommCnt / self.pageSize);
                         } else {

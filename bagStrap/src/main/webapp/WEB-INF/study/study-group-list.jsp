@@ -130,12 +130,7 @@
 		                    	<img  src="../src/profile.png" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
 							</template>
 		                    <div class="study-group-list-title" @click="fnDetail(item.studyGroupId)">[{{item.name}}]{{item.studyName}}</div>
-							<template v-if="!item.participants">
-		                   		 <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} |인원 0 / {{item.maxparticipants}}</div>
-							</template>
-							<template v-else>
-		                   		 <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | 인원 {{participants}} / {{item.maxparticipants}}</div>
-							</template>
+		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} |인원 {{item.applyY}} / {{item.maxparticipants}}</div>
 		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">시작일  {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}</div>
 						</template>
 						<template v-if="!item">

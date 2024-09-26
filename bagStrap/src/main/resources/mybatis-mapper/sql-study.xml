@@ -361,10 +361,16 @@
 	</insert>
 	<!-- 스터디 그룹 리스트-->
 	<select id="selectStuGroupListSidebar" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		select TSG.*,TSCBT.*,tb.*,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
-		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT 
-        ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
+		 select TSG.*,TSCBT.*,tb.*,applyY,applyN,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
+		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
         LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = tb.boardno
+        LEFT JOIN 
+        (
+        SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
+        FROM tbl_study_group TSG
+        INNER JOIN tbl_study_application TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+        group by study_group_id
+        ) TCNT ON TSG.STUDY_GROUP_ID = TCNT.STUDY_GROUP_ID
         WHERE 1=1
 	     <!-- 연령 필터 -->
 	    <if test="age != null and age != ''">
@@ -448,14 +454,25 @@
 		    AND (DESCRIPTION LIKE '%' || #{search} || '%' OR STUDY_NAME LIKE '%' || #{search} || '%')
 		</if>
 	</select>			
-	<!-- 스터디 그룹 리스트-->
+	<!-- 스터디 그룹 리스트 상세페이지-->
 	<select id="selectStuGroupDetail" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		select TSG.*,TSCBT.*,tb.*,TBOOK.*,TBOOK.DESCRIPTION AS TBDESCRIPTION,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
-		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT 
-        ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
-        LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = tb.boardno
-        LEFT JOIN TBL_BOOK TBOOK ON TSG.RELATED_BOOK = TBOOK.BOOK_ID
-       	where STUDY_GROUP_ID =  #{studyGroupId}
+	SELECT TSG.*, TSCBT.*, TB.*, TBOOK.*,applyY,applyN, TBOOK.DESCRIPTION AS TBDESCRIPTION, 
+	TO_CHAR(STARTDATE, 'YYYY-MM-DD') AS STGSTARTDATE, 
+	TO_CHAR(ENDDATE, 'YYYY-MM-DD') AS STGENDDATE, 
+	TO_CHAR(STUDYTIME, 'HH24:MI') AS STGSTUDYTIME,
+	applyY, applyN
+	FROM TBL_STUDY_GROUP TSG
+	LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
+	LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = TB.boardno
+	LEFT JOIN TBL_BOOK TBOOK ON TSG.RELATED_BOOK = TBOOK.BOOK_ID
+	LEFT JOIN (
+	    SELECT FETCHAPPSTUDYID, 
+	           COUNT(CASE WHEN FETCHAPPLSTATUS = 'Y' THEN 1 END) AS applyY, 
+	           COUNT(CASE WHEN FETCHAPPLSTATUS = 'N' THEN 1 END) AS applyN
+	    FROM TBL_STUDY_APPLICATION
+	    GROUP BY FETCHAPPSTUDYID
+	) TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+	where TSG.STUDY_GROUP_ID = #{studyGroupId}
 	</select>	
 	<!-- 스터디 신청하기 -->
 	<insert id="insertStuGroupApply" parameterType="hashmap" >
@@ -472,4 +489,42 @@
 	    SYSDATE + (9/24)               
 	)
 	</insert>
+	<!-- 스터디 방장 자동가입 -->
+	<insert id="insertStuGroupKingApply" parameterType="hashmap" >
+	INSERT INTO TBL_STUDY_APPLICATION (
+    FETCHAPPLICATIONID, FETCHAPPSTUDYID, FETCHAPPUSERID, selfIntro, studyGoal, ADDITIONALQUESTIONS, FETCHAPPLICATION_DATE,STUSTATUS,FETCHAPPLSTATUS
+	) 
+	VALUES (
+	    seq_fetchapplicationid.NEXTVAL, 
+	    #{idx},                     
+	    #{userId},                     
+	    '방장 자동가입',   
+	    '방장 자동가입',                
+	    '방장 자동가입',
+	    SYSDATE + (9/24),               
+	    'admin',
+	    'Y'
+	)
+	</insert>
+	<!-- 스터디 중복가입 방지-->
+	<select id="selectStuGroupSubscription" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application
+		where fetchappstudyid = #{studyGroupId} and fetchappuserid = #{userId}
+	</select>	
+	<!-- 마이페이지 나의 스터디 목록-->
+	<select id="selectStuGroupMyPage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+			SELECT * FROM tbl_study_application TSA
+			INNER JOIN tbl_study_group TSG ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+			LEFT JOIN TBL_BOARDFILE TB ON TSA.FETCHAPPSTUDYID = TB.BOARDNO
+            INNER JOIN 
+            (
+            SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
+            FROM tbl_study_group TSG
+            INNER JOIN tbl_study_application TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+            group by study_group_id
+            ) TCNT ON TSA.FETCHAPPSTUDYID = TCNT.STUDY_GROUP_ID
+			WHERE FETCHAPPUSERID = #{userId}
+			ORDER BY STUSTATUS
+	</select>	
+	
 </mapper>

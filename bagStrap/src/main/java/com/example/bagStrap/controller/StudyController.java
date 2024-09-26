@@ -415,5 +415,21 @@ public class StudyController {
 			resultMap = studyService.insertStuGroupApply(map);
 			return new Gson().toJson(resultMap);
 		}
+		//스터디 중복신청
+		@RequestMapping(value = "/selectStuGroupSubscription.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupSubscription(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupSubscription(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 방장 자동가입
+		@RequestMapping(value = "/insertStuGroupKingApply.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String insertStuGroupKingApply(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.insertStuGroupKingApply(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }
