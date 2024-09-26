@@ -455,7 +455,7 @@ li {
     line-height: 19px;
     letter-spacing: -0.01em;
     color: #767676;
-	padding-left: 110px;
+	padding-left: 80px;
 }
 .pw_valid_wrap .pw_valid_list {
     margin-top: 4px;
@@ -593,6 +593,18 @@ a.btn_lg, button.btn_lg {
     line-height: 24px;
     letter-spacing: -0.01em;
     font-weight: 700;
+}
+.input_btn_box .btn_toggle_pw {
+    display: inline-block;
+    position: absolute;
+    right: 14px;
+    top: 11px;
+    width: 22px;
+    height: 20px;
+    background-size: 22px 20px;
+    background-image: url(../src/iz1.png);
+    transition: background 0.2s ease-out;
+	background-color: transparent;
 }
 
 
