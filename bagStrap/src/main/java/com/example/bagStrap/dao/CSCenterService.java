@@ -22,4 +22,8 @@ public interface CSCenterService {
 	HashMap<String, Object> addInquiry(HashMap<String, Object> map);
 	
 	HashMap<String, Object> selectInq(HashMap<String, Object> map);
+	
+	HashMap<String, Object> removeInqBoard(HashMap<String, Object> map);
+	
+	HashMap<String, Object> deleteInq(HashMap<String, Object> map);
 }

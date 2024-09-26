@@ -14,6 +14,8 @@ public interface CSCenterMapper {
 	
 	List<Notice> searchNotice(HashMap<String, Object> map);
 	
+	int CountNoticeList(HashMap<String, Object> map);
+	
 	Notice Noticeinfo(HashMap<String, Object> map);
 	
 	void insertNotice(HashMap<String, Object> map);
@@ -23,4 +25,8 @@ public interface CSCenterMapper {
 	void insertInquiry(HashMap<String, Object> map);
 	
 	List<Notice> searchInqList(HashMap<String, Object> map);
+	
+	void deleteInqBoard(HashMap<String, Object> map);
+	
+	void deleteInq(HashMap<String, Object> map);
 }

@@ -115,7 +115,7 @@
 
                 // 에디터 내용이 변경될 때마다 Vue 데이터 업데이트
                 quill.on('text-change', () => {
-                    this.content = quill.root.innerHTML;
+                    self.content = quill.root.innerHTML;
                 });
             }
         });
