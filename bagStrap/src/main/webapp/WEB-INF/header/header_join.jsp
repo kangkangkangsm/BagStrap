@@ -49,9 +49,6 @@
 					        휴대전화<input type="text" v-model="phone">
 					    </div>
 					    <div>
-					        생성일<input type="date" v-model="cDatetime">
-					    </div>
-					    <div>
 					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="birth">-<input type="text" v-model="gender">*****
 					    </div>
 					    <div>
@@ -86,7 +83,6 @@
 				addressDetail:"",
 				zonecode:"",
 				phone:"",
-				cDatetime:"",
 				birth:"",
 				gender:"",				
 				isUserIdChecked: false,
@@ -202,10 +198,6 @@
 				           alert("휴대전화번호를 입력해주세요.");
 				           return;
 				       }
-				       if (!self.cDatetime) {
-				           alert("회원 생성일을 입력해주세요.");
-				           return;
-				       }
 				       if (!self.birth) {
 				           alert("주민등록번호 앞자리를 입력해주세요.");
 				           return;
@@ -227,7 +219,6 @@
 						zonecode: self.zonecode,
 						addressDetail:self.addressDetail,
 						phone:self.phone,
-						cDatetime:self.cDatetime,
 						birth:self.birth,
 						gender:self.gender
 				};
@@ -240,7 +231,8 @@
 						alert('가입하시겠습니까?');
 						if(data.result == "success") {
 							console.log(data);
-							self.fnGetList();	
+							self.fnGetList();
+							alert("환영합니다.");	
 						}
 						else{
 							console.error("응답 데이터가 null");
