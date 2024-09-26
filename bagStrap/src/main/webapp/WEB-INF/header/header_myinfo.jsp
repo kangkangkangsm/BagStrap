@@ -22,28 +22,28 @@
 				<div id="app">
 					<div>
 						<div>
-							아이디<input type="text" v-model="userList.userId" readonly>
+							아이디<input type="text" v-model="userList.userId" didsabled>
 					    </div>
 					    <div>
-					        이름<input type="text" v-model="userList.userName" readonly>
+					        이름<input type="text" v-model="userList.userName" didsabled>
 					    </div>
 						<div>
-					        닉네임<input type="text" v-model="userList.userNickName" readonly>
+					        닉네임<input type="text" v-model="userList.userNickName" didsabled>
 					    </div>
 						<div>
-							이메일<input type="email" v-model="userList.email" readonly>
+							이메일<input type="email" v-model="userList.email" didsabled>
 						</div>
 					    <div>
-					        주소<input type="text" v-model="addressList.address" readonly>
+					        주소<input type="text" v-model="address" didsabled>
 					    </div>
 						<div>
-							상세주소<input type="text" v-model="addressList.addressDetail">
+							상세주소<input type="text" v-model="addressDetail">
 						</div>
 					    <div>
 					        휴대전화<input type="text" v-model="userList.phone">
 					    </div>
 					    <div>
-					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="userList.birth" readonly>-<input type="text" v-model="userList.gender" readonly>*****
+					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="userList.birth" didsabled>-<input type="text" v-model="userList.gender" didsabled>*****
 					    </div>
 					    <div>
 					        <button @click="fnSave">제출하기</button>
@@ -77,8 +77,7 @@
 		        birth: '',
 		        gender: '',
 		        list: [],
-				userList : {},
-				addressList : {}
+				userList : {}
 			};
         },
         methods: {
@@ -88,7 +87,7 @@
 					
 				};
 				$.ajax({
-					url:"/myinfo2.dox",
+					url:"/myinfo.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparmap,
@@ -98,31 +97,12 @@
 						   
 					}
 				});
-           },
-		   fnGetList2(){
-   				var self = this;
-   				var nparmap = {
-   					
-   				};
-   				$.ajax({
-   					url:"/myinfo2.dox",
-   					dataType:"json",	
-   					type : "POST", 
-   					data : nparmap,
-   					success : function(data) {
-   						console.log("AJAX 응답 데이터2:", data); 
-   						   self.addressList=data.addressList;
-   						   
-   					}
-   				});
-		   }
-		   
+           },   
    	 },			
 			
         mounted() {
             var self = this;
 			self.fnGetList();
-			self.fnGetList2();
         }
     });
     app.mount('#app');
