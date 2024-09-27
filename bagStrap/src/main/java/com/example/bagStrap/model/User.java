@@ -9,8 +9,13 @@ public class User {
 	private String userNickName;
 	private String password;
 	private String email;
-	private String addr;
-	private String ban;
+	private String phone;
+	private String birth;
+	private String gender;
+	private String addressNo;
+	private String address;
+	private String addressDetail;
+	private String zonecode;
 	private String status;
 	private String phone;
 	private String createdDate;
@@ -30,14 +35,14 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-	public String getAddr() {
-		return addr;
+	public String getPhone() {
+		return phone;
 	}
-	public String getBan() {
-		return ban;
+	public String getbirth() {
+		return birth;
 	}
-	public String getStatus() {
-		return status;
+	public String getgender() {
+		return gender;	
 	}
 	public String getPhone() {
 		return phone;
@@ -50,6 +55,17 @@ public class User {
 	}
 	public String getEmail() {
 		return email;
+	public String getstatus() {
+		return status;	
+	}
+	public String getaddressNo() {
+		return addressNo;
+	}
+	public String getaddress() {
+		return address;
+	}
+	public String getaddressDetail() {
+		return zonecode;
 	}
 }
 	

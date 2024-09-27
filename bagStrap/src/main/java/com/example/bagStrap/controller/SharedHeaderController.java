@@ -70,7 +70,7 @@ public class SharedHeaderController {
 				resultMap.put("isLogin", true);
 				resultMap.put("userNickName", user.getUserNickName());
 				resultMap.put("userId", user.getUserId());
-				resultMap.put("isAdmin", user.getStatus().equals("ADMIN")?true : false);
+				resultMap.put("isAdmin", user.getstatus().equals("ADMIN")?true : false);
 			} else {
 				resultMap.put("isLogin", false);
 				resultMap.put("isAdmin", false);

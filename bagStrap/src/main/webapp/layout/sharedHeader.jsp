@@ -51,8 +51,7 @@
 				</div>
             </div>
             <div class="headerCSCenter headerCustomerSub">
-				<!--TODO: 여기 수정해야한다.-->
-				<a href="/myshop/faq"> CSCenter </a>
+                <a class="clickableText" href="cscenter" >CSCenter</a>
             </div>
 			<!--cart-->
             <div class="headerCart headerIcon headerCustomerSub">
@@ -128,8 +127,9 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							self.isLogin = data.isLogin 
-							self.isAdmin = data.isAdmin
+							console.log(data);
+							self.isLogin = data.isLogin; 
+							self.isAdmin = data.isAdmin;
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
@@ -137,8 +137,10 @@
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
 							}
-							window.sessionStorage.setItem("isLogin", self.isLogin)
+							window.sessionStorage.setItem("isLogin", self.isLogin);
+							window.sessionStorage.setItem("isAdmin", self.isAdmin);
 							window.dispatchEvent(new Event('loginStatusChanged'));
+							window.dispatchEvent(new Event('adminStatusChanged'));
 						}
 					});
 	            },
