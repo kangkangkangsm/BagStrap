@@ -98,16 +98,10 @@
         <div class="content">
 			<div id="app">
 				
-				<div>
+				<div class="refund-progress">
 					<span :style="{ color: progress>0 ? 'blue' : 'black' }"> 1 상품 선택</span>
 					<span :style="{ color: progress>1 ? 'blue' : 'black' }"> - 2 사유 선택</span>
 					<span :style="{ color: progress>2 ? 'blue' : 'black' }"> - 3 해결방법 선택</span>
-					<div>{{selectedRadio1}}</div>
-					<div>{{selectedRadio2}}</div>
-					<div>{{refundReasonContent}}</div>
-					<div>{{imp}}</div>
-					
-					
 					
 				</div>		
 				<div class="progress" v-if="progress === 1">			
@@ -213,8 +207,7 @@
 </body>
 </html>
 <script>
-	//localStorage.setItem('data', JSON.stringify(data));
-	// JSON.parse(localStorage.getItem('data')).result
+
     const app = Vue.createApp({
         data() {
             return {
@@ -410,7 +403,12 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						alert(data.body.message);
+						if(data.body.code == -1){
+							alert(data.body.message);	
+						} else {
+							alert('환불이 완료되었습니다.');
+						}
+						
 					}
 				});
 			}
@@ -426,6 +424,7 @@
 					alert('로그인하쇼');
 					self.isLogin = false;
 				};
+				self.fnGetList();
 			});
         }
     });

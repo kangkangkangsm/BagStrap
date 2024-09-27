@@ -39,6 +39,10 @@ public class SharedHeaderController {
 		 request.setAttribute("imp", map.get("imp"));
 		return "/header/header_refund";
 	}
+	@RequestMapping("/myshop/refundList") 
+    public String refundList(Model model) throws Exception{
+		return "/header/header_refund_list";
+    }
 	@RequestMapping("/myshop/cart")
 	public String cart(Model model) throws Exception {
 		return "/header/header_cart";
