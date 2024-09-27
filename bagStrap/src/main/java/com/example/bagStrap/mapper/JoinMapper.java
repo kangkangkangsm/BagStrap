@@ -23,4 +23,6 @@ public interface JoinMapper {
 	
 	User myInfoList(HashMap<String, Object> map);
 	
+	void addressUpdate(HashMap<String, Object> map);
+	
 }

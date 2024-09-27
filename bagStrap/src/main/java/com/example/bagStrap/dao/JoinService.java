@@ -20,6 +20,6 @@ public interface JoinService {
 	
 	HashMap<String, Object> searchmyInfo(HashMap<String, Object> map);
 
-	
+	HashMap<String, Object> reloadAddress(HashMap<String, Object> map);
 
 }

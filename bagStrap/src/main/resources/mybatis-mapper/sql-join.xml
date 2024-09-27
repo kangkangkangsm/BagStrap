@@ -27,21 +27,27 @@
 		WHERE USER_NICKNAME = #{userNickName}
 	</select>
 	
-	<!--주소추가-->
+	<!--주소테이블추가-->
 	<insert id="addressInsert" parameterType="hashmap">
 		INSERT INTO TBL_ADDRESS
 		( USER_ID, USER_NAME, PHONE, ADDRESS, ADDRESS_DETAIL, ZONECODE)
 		VALUES ( #{userId}, #{userName}, #{phone}, #{address}, #{addressDetail}, #{zonecode})
 	</insert>
 
+
+	<!--마이페이지 정보 불러오기-->
 	<select id="myInfoList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
-		SELECT * FROM TBL_USER WHERE USER_ID=#{userId}
-	</select>
-	
-	<select id="myInfoAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
-		SELECT * 
-		FROM TBL_ADDRESS 
-		WHERE USER_ID=#{userId} 
+		SELECT u.user_id, u.user_name, u.user_nickname, u.email, u.phone, u.birth , a.address, a.address_Detail, a.zonecode
+		FROM tbl_user u
+		JOIN tbl_address a ON u.user_id = a.user_id
+		WHERE u.user_id = #{userId}
 	</select>
 
+	<!--업데이트-->
+	<update id="addressUpdate" parameterType="hashmap">
+	UPDATE TBL_ADDRESS
+	SET ADDRESS = #{address}, ZONECODE = #{zonecode}, ADDRESS_DETAIL = #{addressDetail}
+	WHERE USER_ID = #{userId}
+	</update>
+	
 </mapper>
