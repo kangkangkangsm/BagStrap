@@ -128,9 +128,7 @@ public class JoinServiceImpl implements JoinService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
-			System.out.println("map9 : " + map);
 			User list = joinMapper.myInfoList(map);
-			System.out.println("map10 : " + map);
 			resultMap.put("result", "success");
 			resultMap.put("messsage", "마이인포성공!!");
 			resultMap.put("userList", list);
@@ -153,6 +151,38 @@ public class JoinServiceImpl implements JoinService{
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
 			resultMap.put("message", "주소업데이트실패!!");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateNickName(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			joinMapper.nickUpdate(map);
+			resultMap.put("result", "success");
+			resultMap.put("message","닉네임업데이트성공!!");
+		}catch(Exception e) {
+			resultMap.put("result", "fail");
+			resultMap.put("message", "닉네임업데이트실패!!");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> QuitId(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			System.out.println("map9 : " + map);
+			joinMapper.deleteQuit(map);
+			System.out.println("map10 : " + map);
+			resultMap.put("result", "success");
+			resultMap.put("message","회원탈퇴성공!!");
+		}catch(Exception e) {
+			resultMap.put("result", "fail");
+			resultMap.put("message", "회원탈퇴실패!!");
 		}
 		return resultMap;
 	}

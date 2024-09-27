@@ -25,4 +25,7 @@ public interface JoinMapper {
 	
 	void addressUpdate(HashMap<String, Object> map);
 	
+	void nickUpdate(HashMap<String, Object> map);
+	
+	void deleteQuit(HashMap<String, Object> map);
 }
