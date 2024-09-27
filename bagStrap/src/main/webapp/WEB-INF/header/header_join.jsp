@@ -80,7 +80,7 @@
 									<label class="form_label">
 										이름
 										<span class="required">
-											<span class="hidden">필수입력</span>
+											<span class="hidden">필수입력</span> 
 										</span>
 									<label>												
 								</div>
