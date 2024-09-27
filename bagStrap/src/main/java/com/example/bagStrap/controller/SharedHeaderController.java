@@ -53,6 +53,11 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
+    @RequestMapping("/myshop/review") 
+    public String shop_cart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("book", map.get("book"));
+        return "header/header_review";
+    }
 	
 	//sharedHeader 로딩 함수
 	@RequestMapping(value = "/sharedHeader.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

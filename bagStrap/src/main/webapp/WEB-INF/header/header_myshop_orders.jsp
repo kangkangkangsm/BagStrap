@@ -94,7 +94,7 @@
 				<div id="app">
 
 					{{year}}
-	<div v-if="isLogin">
+				<div v-if="isLogin">
 					<div>
 						<input placeholder="주문상품 검색"/>
 					</div>
@@ -117,9 +117,11 @@
 							        <div class="ordered-product" v-for="item in items">
 							            <img class="ordered-product-image" :src="item.image" :alt="item.title">
 										<div class="ordered-product-info">
-							                <div class="ordered-product-name">{{item.title}}</div>
+							                <div class="ordered-product-name">{{item.title}}</div>											
 							                <div class="ordered-product-detail-info">
 							                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
+												<button class="ordered-button" @click="goToReview(item)">리뷰 작성하기</button>
+
 												<button class="ordered-button relative-right">장바구니에 추가</button>
 							                </div>
 							            </div>
@@ -128,7 +130,6 @@
 							    <!-- Right Section -->
 							    <div class="right-section">
 									<button class="ordered-button" @click="fnSubmitRefund(items[0].orderId, items[0].imp)">교환, 반품 신청</button>
-									<button class="ordered-button">리뷰 작성하기</button>
 							    </div>
 							</div>
 						</div>
@@ -156,7 +157,7 @@
         data() {
             return {
 				//가변값 넣어라
-				isLogin : true,
+				isLogin : false,
                 isOrderExists : true,
 				year: '',
 				orderYear: [],
@@ -205,6 +206,10 @@
             },
 			fnSubmitRefund(orderId, imp){
 				$.pageChange("/myshop/refund",{orderId : orderId, imp : imp});
+			},
+			goToReview(book){
+				console.log(book)
+				$.pageChange("/myshop/review",{book : book});
 			}
         },
         mounted() {

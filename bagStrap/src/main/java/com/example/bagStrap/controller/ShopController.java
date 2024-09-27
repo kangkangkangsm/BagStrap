@@ -16,6 +16,7 @@ import com.example.bagStrap.dao.ShopService;
 import com.example.bagStrap.model.User;
 import com.google.gson.Gson;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -38,10 +39,6 @@ public class ShopController {
     @RequestMapping("/shop") 
     public String shop(Model model) throws Exception {
         return "shop/shop_home";
-    }
-    @RequestMapping("/shop_cart") 
-    public String shop_cart(Model model) throws Exception {
-        return "shop/shop_cart";
     }
     
     

@@ -37,6 +37,7 @@ public class Order {
     private String ebook;           // 전자책 여부
     private Date createdDate;       // 책 등록 날짜
     private Date updateDate;        // 책 마지막 수정 날짜
+    private int discount;			// 할인율
     
     //Address
     private Long addressNo;        // NUMBER
