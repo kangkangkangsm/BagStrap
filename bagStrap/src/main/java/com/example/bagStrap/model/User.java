@@ -17,11 +17,8 @@ public class User {
 	private String addressDetail;
 	private String zonecode;
 	private String status;
-	private String phone;
 	private String createdDate;
 	private String updateDate;
-	private int birth;
-	private int gender;
 	
 	public String getUserId() {
 		return userId;
@@ -44,9 +41,6 @@ public class User {
 	public String getgender() {
 		return gender;	
 	}
-	public String getPhone() {
-		return phone;
-	}
 	public String getCreatedDate() {
 		return createdDate;
 	}
@@ -55,6 +49,7 @@ public class User {
 	}
 	public String getEmail() {
 		return email;
+	}
 	public String getstatus() {
 		return status;	
 	}

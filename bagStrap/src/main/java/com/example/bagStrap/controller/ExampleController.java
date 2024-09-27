@@ -2,9 +2,6 @@ package com.example.bagStrap.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.service.DefaultMessageService;
-
 @RestController
 public class ExampleController {
 
