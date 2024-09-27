@@ -262,6 +262,7 @@
 						alert('로그인하쇼');
 						self.isLogin = false;
 					};
+					self.fnGetList();
 				});
 		    }
 		});

@@ -130,6 +130,13 @@
 			</foreach>
 			SELECT * FROM DUAL
 	</insert>
+	<select id="selectRefundList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+				SELECT * 
+				FROM TBL_REFUND R
+				INNER JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID
+				INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
+				WHERE USER_ID = #{userId}
+	</select>
  
 	
 </mapper>

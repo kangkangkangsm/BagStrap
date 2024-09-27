@@ -178,6 +178,27 @@ public class PaymentController {
 
 		return new Gson().toJson(resultMap);
 	}
-	
+	@RequestMapping(value = "/refundList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectRefundList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.selectRefundList(map);
+				
+			} else {
+				resultMap.put("result", false);
+				resultMap.put("message", "로그인 후 이용해주세요");
+			}
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 }
 

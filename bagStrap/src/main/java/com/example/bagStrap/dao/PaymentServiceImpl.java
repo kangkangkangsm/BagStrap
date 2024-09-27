@@ -51,8 +51,6 @@ public class PaymentServiceImpl implements PaymentService{
 					System.out.println("어어 음수인데?");
 					return ResponseEntity.ok(resultMap);
 				}
-				//환불 테이블 생성
-				paymentMapper.refund(refundMap);
 
 				// 환불 로직
 				List<HashMap<String, Object>> orderList = (List<HashMap<String, Object>>) refundMap.get("orderList");
@@ -79,18 +77,22 @@ public class PaymentServiceImpl implements PaymentService{
 		        
 		        Map<String, Object> requestBody = new HashMap<>();
 		        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
-		        //requestBody.put("imp_uid", refundMap.get("imp_uid")); // 취소할 결제의 imp_uid
 		        requestBody.put("reason", "구매취소"); // 취소 사유
 		        requestBody.put("amount", amount[0]); // 취소 금액 (전체 금액 취소 시 생략 가능)
-		        //requestBody.put("amount", refundMap.get("amount")); // 취소 금액 (전체 금액 취소 시 생략 가능)
 		        String jsonBody = gson.toJson(requestBody);
 		        
 		        // HttpEntity에 본문과 헤더 담기
 		        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
 		        // POST 요청 보내기
 		        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+		        
+		        if((int)response.getBody().get("code") != -1) {
+					paymentMapper.refund(refundMap);
+		        	System.out.println("hi");
+		        }
+				//환불 테이블 생성
 				return ResponseEntity.ok(response.getBody());
-				
+
 			} catch(Exception e) {
 				System.out.println(e.getMessage());
 				return ResponseEntity.ok(resultMap);
@@ -99,6 +101,21 @@ public class PaymentServiceImpl implements PaymentService{
 		
 	}
 
+	@Override
+	public HashMap<String, Object> selectRefundList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			List<Order> refundList = paymentMapper.selectRefundList(map);
+			resultMap.put("refundList", refundList);
+			resultMap.put("result", true);
+			
+		} catch(Exception e) {
+			failedResultMap(resultMap, e.getMessage());
+		}
+		return resultMap;
+	}
 	@Override
 	public ResponseEntity<Map> getToken(HashMap<String, Object> map) {
 	        RestTemplate restTemplate = new RestTemplate();
@@ -301,6 +318,7 @@ public class PaymentServiceImpl implements PaymentService{
 		}
 		return true;
 	}
+
 
 	
 	
