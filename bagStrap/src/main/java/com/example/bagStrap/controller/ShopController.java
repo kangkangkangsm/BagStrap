@@ -13,13 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.bagStrap.dao.ShopService;
+import com.example.bagStrap.model.User;
 import com.google.gson.Gson;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ShopController {
 
     @Autowired
     ShopService shopService;
+    @Autowired
+    HttpSession session;
     
     // 이미지 목록 설정
     private List<String> imageUrls = Arrays.asList(
@@ -33,10 +39,6 @@ public class ShopController {
     @RequestMapping("/shop") 
     public String shop(Model model) throws Exception {
         return "shop/shop_home";
-    }
-    @RequestMapping("/shop_cart") 
-    public String shop_cart(Model model) throws Exception {
-        return "shop/shop_cart";
     }
     
     
@@ -58,11 +60,22 @@ public class ShopController {
     @RequestMapping(value = "/insertBookList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String insertBookList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-        System.out.println(map);
         HashMap<String, Object> resultMap = new HashMap<>();
       
-		System.out.println(map);
 		resultMap = shopService.insertBookList(map);
+
+        
+        return new Gson().toJson(resultMap);
+    }
+    
+    @RequestMapping(value = "/deleteCartItem.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String deleteCartItem(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        
+        User user = (User) session.getAttribute("user");
+        map.put("userId", user.getUserId());
+		resultMap = shopService.deleteCartItem(map);
 
         
         return new Gson().toJson(resultMap);

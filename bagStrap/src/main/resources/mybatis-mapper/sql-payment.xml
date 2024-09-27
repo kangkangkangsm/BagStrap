@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.bagStrap.mapper.PaymentMapper">
+	<select id="selectMyAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT *
+	        FROM TBL_ADDRESS
+	        WHERE 
+	        USER_ID = #{userId} AND SAVEYN = 'Y'
+	        ORDER BY DEFAULTYN DESC
+	</select>
+	<select id="selectAddress" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		  SELECT *
+		        FROM TBL_ADDRESS
+		        WHERE 
+		        USER_ID = #{userId}
+ 				<if test='checkSave != null'>
+ 				AND SAVEYN = 'Y'
+ 		        </if>
+	</select>
+	<update id="changeDefaultYN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET DEFAULTYN = CASE
+            WHEN ADDRESS_NO = #{addressNo} THEN 'Y'
+            ELSE 'N'
+            END
+			WHERE USER_ID = #{userId}
+ 	</update>
+	<update id="updateSaveYN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET SAVEYN = 'N'
+			WHERE USER_ID = #{userId} AND ADDRESS_NO = #{addressNo} 
+ 	</update>
+	<update id="updateAddressDefaultToN" parameterType="hashmap">
+			UPDATE TBL_ADDRESS
+			SET DEFAULTYN = 'N'
+			WHERE USER_ID = #{userId}
+ 	</update>
+	<insert id="insertAddress" parameterType="hashmap">
+		   INSERT INTO TBL_ADDRESS (
+            USER_ID,
+            USER_NAME,
+            PHONE,
+            ADDRESS,
+            ADDRESS_DETAIL,
+            ZONECODE,
+            DEFAULTYN,
+            SAVEYN,
+            REQCOMMENT,
+            ENTRANCE_PASSWORD
+        ) VALUES (
+            #{userId},
+            #{userName},
+            #{phone},
+            #{address},
+            #{addressDetail},
+            #{zonecode},
+            #{defaultYN},
+            #{saveYN},
+             #{reqComment},
+             #{entrancePassword}
+        )
+          <selectKey keyProperty="addressNo" resultType="int" order="AFTER">
+		       SELECT ISEQ$$_26662.CURRVAL  FROM DUAL
+		  </selectKey>
+        
+	</insert>
+	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
+				SELECT B.*, #{item.bookQuantity} AS ORDER_QUANTITY 
+				FROM TBL_BOOK B
+				WHERE 
+	    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
+	    	</foreach>
+	</select>
+	
+	<update id="updateBookTable" parameterType="hashmap">
+			UPDATE TBL_BOOK
+			SET QUANTITY = QUANTITY - CASE
+			<foreach item="item" collection="orderList" index="index" separator=" ">
+				WHEN BOOK_ID = #{item.bookId} THEN #{item.bookQuantity}
+			</foreach>
+			END
+			WHERE BOOK_ID IN (
+			<foreach item="item" collection="orderList" index="index" separator=",">
+        		#{item.bookId}
+    		</foreach>
+ 			)
+ 	</update>
+ 	<insert id="createOrder" parameterType="hashmap" >
+			INSERT INTO TBL_ORDER (ORDER_ID, USER_ID, SHIPPING_ADDRESS, IMP)
+			VALUES ( #{orderId}, #{userId}, #{addressNo}, #{imp} )
+	</insert>
+	<insert id="createOrderItem" parameterType="hashmap" >
+			INSERT ALL
+			<foreach item="item" collection="orderList" separator=" ">
+			INTO TBL_ORDER_ITEM (ORDER_ID, BOOK_ID, QUANTITY, PRICE)
+			VALUES ( #{orderId}, #{item.bookId}, #{item.bookQuantity}, #{item.bookPrice} )
+			</foreach>
+			SELECT * FROM DUAL
+	</insert>
+ 	<delete id="deleteCart" parameterType="hashmap" >
+			DELETE FROM TBL_CART
+			WHERE USER_ID = #{userId} AND BOOK_ID IN 
+			<foreach item="item" collection="orderList" open="(" close=")" separator=",">
+			#{item.bookId}
+			</foreach>
+	</delete>
+	<select id="checkRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+				SELECT OI.BOOK_ID, OI.QUANTITY, CASE 
+				<foreach item="item" collection="orderList">   
+				       WHEN RI.BOOK_ID = #{item.bookId} THEN OI.QUANTITY - RI.QUANTITY - #{item.bookQuantity} 
+				</foreach>       
+		        ELSE OI.QUANTITY 
+				END AS CALC 
+				FROM TBL_ORDER O 
+				INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
+				INNER JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID 
+				INNER JOIN TBL_REFUND_ITEM RI ON R.REFUND_ID = RI.REFUND_ID 
+				WHERE O.ORDER_ID = #{orderId}
+	</select>
+	<insert id="refund" parameterType="hashmap" >
+			INSERT ALL
+			INTO TBL_REFUND (REFUND_ID, ORDER_ID, REASON)
+			VALUES (#{refundId}, #{orderId}, #{refundReasonContent})
+			<foreach item="item" collection="orderList">
+				INTO TBL_REFUND_ITEM (REFUND_ID, BOOK_ID, QUANTITY)
+				VALUES (#{refundId}, #{item.bookId}, #{item.bookQuantity})
+			</foreach>
+			SELECT * FROM DUAL
+	</insert>
+ 
+	
+</mapper>

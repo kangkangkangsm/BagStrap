@@ -81,5 +81,22 @@ public class ShopServiceImpl implements ShopService{
 		return null;
 	}
 
+	@Override
+	public HashMap<String, Object> deleteCartItem(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			shopMapper.deleteCartItem(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "해당 상품이 장바구니에서 삭제되었습니다.");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "삭제에 실패했습니다.");
+		}
+
+		return resultMap;
+	}
+
 	
 }

@@ -14,4 +14,7 @@ public interface ShopMapper {
 	List<Item> searchCodes(HashMap<String, Object> map);
 	List<Item> searchBookList(HashMap<String, Object> map);
 	Item insertBookList(HashMap<String, Object> map);
+	void deleteCartItem(HashMap<String, Object> map);
+
+	
 }

@@ -16,7 +16,10 @@ public class Order {
     private Date orderDate;                // 주문 생성 날짜
     private String shippingAddress;        // 배송할 주소
     private String status;                 // 배송상태 / 환불여부
-	
+    private String imp;                 // 배송상태 / 환불여부
+    private int orderQuantity;
+    // 주문하는 책 수량
+    
     //OrderItem
     private Integer quantity;              // 상품수량
     private BigDecimal price;              // 상품가격
@@ -34,5 +37,34 @@ public class Order {
     private String ebook;           // 전자책 여부
     private Date createdDate;       // 책 등록 날짜
     private Date updateDate;        // 책 마지막 수정 날짜
+    private int discount;			// 할인율
+    
+    //Address
+    private Long addressNo;        // NUMBER
+    private String userName;       // VARCHAR2(50 BYTE)
+    private String phone;          // VARCHAR2(15 BYTE)
+    private String address;        // VARCHAR2(255 BYTE)
+    private String addressDetail;  // VARCHAR2(255 BYTE)
+    private Long zonecode;         // NUMBER
+    private String defaultYN;      // CHAR(1 BYTE)
+    private String reqComment;     // VARCHAR2(500 BYTE)
+    private String entrancePassword;// VARCHAR2(100 BYTE)
+    private String saveYN;         // CHAR(1 BYTE)
+    
+    //Refund
+    private int calc;
+    
+    public BigDecimal getPrice() {
+    	return price;
+    }
+    public int getQuantity() {
+    	return quantity;
+    }
+    public int getOrderQuantity() {
+    	return orderQuantity;
+    }
+    public int getCalc() {
+    	return calc;
+    }
 }
 	

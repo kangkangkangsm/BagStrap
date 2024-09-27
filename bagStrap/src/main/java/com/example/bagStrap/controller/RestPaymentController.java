@@ -1,6 +1,8 @@
 package com.example.bagStrap.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -15,8 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bagStrap.dao.PaymentService;
+import com.example.bagStrap.model.User;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
+import jakarta.servlet.http.HttpSession;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
@@ -36,6 +42,8 @@ public class RestPaymentController {
 	
 	@Autowired
 	PaymentService paymentService;
+	@Autowired
+	HttpSession session;
 	
 	@Value("${IMP_API_KEY}")
     private String apiKey;
@@ -47,15 +55,24 @@ public class RestPaymentController {
 	@ResponseBody
 	public String payment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap();
-		ResponseEntity<Map> resultValue = null;		
+		
+		User user = (User) session.getAttribute("user");
+		ResponseEntity<Map> resultValue = null;	
+
 		try {
+			String json = map.get("orderList").toString(); 
+			ObjectMapper mapper = new ObjectMapper();
+			List<HashMap<String, Object>> orderList = mapper.readValue(json, new TypeReference<List<HashMap<String, Object>>>(){});
+			map.put("orderList", orderList);
+			map.put("refundId", user.getUserId()+"_"+LocalDateTime.now());
+
 			HashMap<String, Object> tokenMap = getToken();
 			resultValue = paymentService.refund(map, tokenMap);
 			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
 		}
+		
 		return new Gson().toJson(resultValue);
 	}
 

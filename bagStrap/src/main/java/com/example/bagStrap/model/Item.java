@@ -23,6 +23,7 @@ public class Item {
 	private String quantity;
 	private String category;
 	private String eBook;
+    private int discount;			// 할인율
 	
 }
 

@@ -36,9 +36,13 @@ public class SharedHeaderController {
 	@RequestMapping("/myshop/refund")
 	public String refund(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		 request.setAttribute("orderId", map.get("orderId"));
+		 request.setAttribute("imp", map.get("imp"));
 		return "/header/header_refund";
 	}
-	
+	@RequestMapping("/myshop/cart")
+	public String cart(Model model) throws Exception {
+		return "/header/header_cart";
+	}
 	//아직 만든거 아님
 	@RequestMapping(value = "/myStudy.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -49,6 +53,11 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
+    @RequestMapping("/myshop/review") 
+    public String shop_cart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("book", map.get("book"));
+        return "header/header_review";
+    }
 	
 	//sharedHeader 로딩 함수
 	@RequestMapping(value = "/sharedHeader.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -85,7 +94,6 @@ public class SharedHeaderController {
 				
 				resultMap = sharedHeaderService.selectOrderList(map);
 			} else {
-
 				resultMap.put("result", true);
 				resultMap.put("message", "로그인하쇼");
 			}
@@ -118,6 +126,27 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
-	
+	// 장바구니
+	@RequestMapping(value = "/cartList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectCartList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.selectCartList(map);
+			} else {
+				resultMap.put("result", true);
+				resultMap.put("message", "로그인하쇼");
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 
 }
