@@ -36,7 +36,15 @@
 					        이름<input type="text" v-model="userList.userName" class="hidden-border" disabled>
 					    </div>
 						<div>
-					        닉네임<input type="text" v-model="userList.userNickName" class="hidden-border" disabled>
+							닉네임
+							<template v-if=!NickView>						       
+								<input type="text" v-model="userList.userNickName" class="hidden-border" disabled>
+							</template>
+							<template v-else>
+								<input type="text" v-model="userList.userNickName">
+								<button @click="fnNickUpdate">저장</button><button @click="NickView=!NickView">취소</button>
+							</template>
+							<button @click="NickView=!NickView">변경하기</button>
 					    </div>
 						<div>
 							이메일<input type="email" v-model="userList.email" class="hidden-border" disabled>
@@ -95,6 +103,7 @@
 				userList : {},
 				addressView:false,
 				phoneView:false,
+				NickView:false,
 				userPhone : null,
 				confirmNumb : null,
 				userInputNumb : null,
@@ -194,7 +203,29 @@
 		  				alert("인증실패")
 		  			}
 		  			
-		  		}
+		  		},
+				fnNickUpdate() {
+					var self = this;
+					var nparam = {
+						
+					};
+					$.ajax({
+						url:"/NickUpdate.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) {
+							console.log("AJAX 응답 데이터1:", data); 
+							if(data.result == 'success'){
+								self.NickView = false;
+								} else {
+								self.NickView = true;
+								}
+								alert(data.message);
+										   
+						}
+					});
+				}
 
    	 },			
 			

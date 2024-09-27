@@ -9,14 +9,6 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
-		.hidden-border {
-			border:none;
-			outline:none;
-			background-color:white;
-		}
-		
-		
-		
 	</style>
 </head>
 <body>
@@ -28,12 +20,11 @@
 
 	        <div class="content">
 				<div id="app">
-					<button @click="">회원탈퇴</button>
+					<button @click="fnDeleteUp">탈퇴하기</button>
 				</div>
 			</div>
 	    </main>
 
-		
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
@@ -48,48 +39,29 @@
 			};
         },
         methods: {
-            fnGetList(){
-				var self = this;
-				var nparmap = {
-					
-				};
-				$.ajax({
-					url:"/quit.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) {
-						console.log("AJAX 응답 데이터:")
-						console.log(data); 
-						   self.userList = data.userList;
-						   
-					}
-				});
-           },
-		   fnDelete() {
-				var self = this;
-				var nparmap = {
+		   fnDeleteUp(){
+			var self = this;
+			var nparmap = {
 				
-				};
-				$.ajax({
-					url:"/quit.dox",
-					dataType:"json",	
-					type : "POST", 
-					data : nparmap,
-					success : function(data) {
-						console.log("AJAX 응답 데이터:")
-						console.log(data); 
-						   self.userList = data.userList;
-						   
+			};
+			$.ajax({
+				url:"/deleteQuit.dox",
+				dataType:"json",	
+				type : "POST", 
+				data : nparmap,
+				success : function(data) {
+					console.log("AJAX 응답 데이터1:", data); 
+					if(data.result == 'success'){
+						alert("정말로 탈퇴하시겠습니까?");
+						alert(data.message); 
 					}
-				});
-		   }
-
+				}
+			});
+		 }
    	 },			
 			
         mounted() {
             var self = this;
-			self.fnGetList();
         }
     });
     app.mount('#app');
