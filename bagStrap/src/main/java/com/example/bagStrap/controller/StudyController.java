@@ -445,5 +445,13 @@ public class StudyController {
 			resultMap = studyService.selectStuGroupUserSearch(map);
 			return new Gson().toJson(resultMap);
 		}
+		//마이페이지 -> 스터디그룹 수정
+		@RequestMapping(value = "/updateStuGroup.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroup(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroup(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }

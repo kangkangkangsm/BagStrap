@@ -73,4 +73,6 @@ public interface StudyService {
 	HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map);	
 	//스터디 그룹 사람검색
 	HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map);	
+	//마이페이지 -> 스터디그룹 수정
+	HashMap<String, Object> updateStuGroup(HashMap<String, Object> map);	
 }
