@@ -467,8 +467,8 @@ li {
     line-height: 19px;
     letter-spacing: -0.01em;
     background: url(../src/check.png) left top 2px no-repeat;
-    background-size: 10px 11px;
-	
+	background-repeat: no-repeat;
+	background-size: 10px 11px;
     color: #767676;
 }
 li {
@@ -544,11 +544,26 @@ li {
     vertical-align: top;
     transition: border-color 0.2s ease-out;
 }
-.form_filter_box .form_filter input:checked + label {
-    z-index: 2;
-    border-color: #5055b1;
-    color: #474c98;
+.form_filter_box .form_filter label {
+	padding: 5px 10px; /* 비선택 상태와 선택 상태에서 일관된 패딩 */
+	border: 1px solid #ccc; /* 기본 테두리 색상 */
+	border-radius: 5px;
+	cursor: pointer;
+	display: inline-flex; /* 텍스트가 이동하지 않도록 고정 */
+	align-items: center; /* 텍스트를 가운데 정렬 */
+	justify-content: center; /* 텍스트 가운데 정렬 */
+	
 }
+
+.form_filter_box .form_filter input:checked + label {
+	z-index: 1;
+	border-color: #5055b1; /* 선택된 상태에서의 테두리 색상 */
+	color: #474c98; /* 선택된 상태에서의 글자 색상 */
+	background-color: #e0e1f9; /* 선택된 상태에서의 배경 색상 */
+	padding: 5px 10px;
+	justify-content: center;
+}
+
 .form_filter_box .form_filter input:checked + label .text {
     padding-left: 14px;
 }
@@ -559,6 +574,13 @@ li {
 .form_filter_box .form_filter:last-child input + label {
     border-radius: 0 6px 6px 0;
 }
+.form_filter_box .form_filter input[type="radio"] {
+    display: none; /* 기본 라디오 버튼은 숨김 */
+}
+
+
+
+
 .btn_wrap.justify {
     display: flex;
 }

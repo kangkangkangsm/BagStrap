@@ -114,7 +114,7 @@ public class JoinServiceImpl implements JoinService{
 			joinMapper.addressInsert(map);
 			System.out.println("map8 : " + map);
 			resultMap.put("result", "success");
-			resultMap.put("message", "주소를 별도의 테이블에 저장합니다."); 
+			resultMap.put("message", "상세주소를 입력해주세요."); 
 		}catch(Exception e) {
 			 e.printStackTrace();
 			resultMap.put("result", "fail");
