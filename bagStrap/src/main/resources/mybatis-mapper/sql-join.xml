@@ -9,8 +9,8 @@
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_NO,USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
-		VALUES (user_no_seq_NEXTVAL,#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
 	</insert>
 	
 	<!--아이디 중복검사-->
