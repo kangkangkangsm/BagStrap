@@ -14,6 +14,52 @@
 	    margin: 0;
 	    font-family: Arial, sans-serif;
 	}
+	.study-mygroup-detail-member-container {
+	    display: flex;
+	    justify-content: space-between;
+	    margin: 20px 0;
+	    padding: 20px;
+	    background-color: #f9f9f9;
+	}
+
+	.study-mygroup-detail-member-list, .study-mygroup-detail-member-application-list {
+	    width: 45%;
+	    background: #fff;
+	    border: 1px solid #ddd;
+	    border-radius: 8px;
+	    padding: 15px;
+	}
+
+	.study-mygroup-detail-member-list h3, .study-mygroup-detail-member-application-list h3 {
+	    text-align: center;
+	    font-size: 1.2em;
+	    margin-bottom: 15px;
+	}
+
+	.study-mygroup-detail-member-list ul, .study-mygroup-detail-member-application-list ul {
+	    list-style: none;
+	    padding: 0;
+	}
+
+	.study-mygroup-detail-member-list li, .study-mygroup-detail-member-application-list li {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 10px;
+	    padding: 8px;
+	    border-bottom: 1px solid #eee;
+	}
+
+	.study-mygroup-detail-member-list li img, .study-mygroup-detail-member-application-list li img {
+	    width: 30px;
+	    height: 30px;
+	    border-radius: 50%;
+	    margin-right: 10px;
+	}
+
+	.study-mygroup-detail-member-list li span, .study-mygroup-detail-member-application-list li span {
+	    font-size: 1em;
+	    color: #333;
+	}
    </style>
 <body>
 	<div id="app">
@@ -120,9 +166,41 @@
 							</template>
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <!-- ===========================================회원관리=========================================== -->
-   						   <template v-if = "pageView == '3'">
-   							회원관리
-   							</template>
+						   <template v-if="pageView == '3'">
+						       <div class="study-mygroup-detail-member-container">
+						           <!-- 좌측 회원 리스트 -->
+						           <div class="study-mygroup-detail-member-list">
+						               <h3>회원 리스트</h3>
+						               <ul>
+						                   <li v-for="item in searchjoinGroup">
+						                       <template v-if="item.filePath">
+						                           <img :src="item.filePath" alt="유저 사진" />
+						                       </template>
+						                       <template v-if="!item.filePath">
+						                           <img src="../src/profile.png" alt="유저 사진" />
+						                       </template>
+						                       <span>{{item.userNickName}}</span>
+						                   </li>
+						               </ul>
+						           </div>
+
+						           <!-- 우측 가입 신청 목록 -->
+						           <div class="study-mygroup-detail-member-application-list">
+						               <h3>가입 신청 목록</h3>
+						               <ul>
+						                   <li v-for="item in searchjoinGroup">
+						                       <template v-if="item.filePath">
+						                           <img :src="item.filePath" alt="유저 사진" />
+						                       </template>
+						                       <template v-if="!item.filePath">
+						                           <img src="../src/profile.png" alt="유저 사진" />
+						                       </template>
+						                       <span>{{item.userNickName}}</span>
+						                   </li>
+						               </ul>
+						           </div>
+						       </div>
+						   </template>
    						   <!-- ===========================================회원관리=========================================== -->
 						   <!-- ===========================================그룹관리=========================================== -->
    						   <template v-if = "pageView == '4'">
@@ -215,8 +293,10 @@
 								        <input type="file" style="margin-top:-5px;" @change="fnFileChange"/>
 								        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
 										<div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
+							      <button class="study-group-insert-submit-btn" 
+								  @click="fnGroupUpdate(detailList.studyName,detailList.stgStartDate,detailList.stgEndDate,
+								  detailList.stgStudyTime,detailList.age,detailList.onOffMode,detailList.genderGroup,detailList.bookId,detailList.description)">변경완료</button>
 								  <button class="study-group-insert-submit-btn" @click="fnback()">취소</button>
-							      <button class="study-group-insert-submit-btn" @click="fnGroupInsert()">스터디 생성</button>
 							  </div>
    							</template>
    						   <!-- ===========================================그룹관리=========================================== -->
@@ -253,25 +333,24 @@
 	            };
 	        },
 	        methods: {
-				fnGroupInsert(){
+				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
 					var self = this;
-					var nparmap = { boardTypeId : self.subjectTypeId, userId : self.sessionUserId,
-									studyName : self.studyName, startdate : self.startdate,
-									enddate : self.enddate,  studytime : self.studytime,
-									age : self.age, onOffMode : self.onOffMode, 
-									maxParticipants : self.maxParticipants, genderGroup : self.genderGroup,
-									groupPublic : self.groupPublic, groupPassword : self.groupPassword,
-									relatedBook : self.relatedBook, description : self.description
+					var maxparticipants = self.detailList.maxparticipants;
+					var studyGroupId = self.studyGroupId;
+					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
+									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
+									age : age ,  onOffMode : onOffMode , maxparticipants : maxparticipants, 
+									genderGroup : genderGroup , bookId : bookId , studyGroupId : studyGroupId,
+									description : description
 					};
 					$.ajax({
-						url:"insertStuGroup.dox",
+						url:"updateStuGroup.dox",
 						dataType:"json",	
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
 							console.log(data);
 							var idx = data.idx;
-							self.insertStuGroupKingApply(self.sessionUserId, idx)
 							console.log(idx);
 							if (self.file) {
 								  const formData = new FormData();
@@ -284,8 +363,8 @@
 										processData: false,  
 										contentType: false,  
 										success: function() {
-										 alert("개설 신청이 완료 되었습니다. 관리자 확인후 개설됩니다.");
-										  location.href = "/study-group-list";
+										 alert("수정완료 입니다요~");
+										  self.fnDetail();
 										  self.filePreview = "";
 										},
 										error: function(jqXHR, textStatus, errorThrown) {
@@ -293,7 +372,7 @@
 										}
 								  });		
 							  } else {
-								location.href = "/study-group-list";
+								self.fnDetail();
 							  }		
 						}
 					});
