@@ -33,8 +33,10 @@ public class CSCenterServiceImpl implements CSCenterService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap=new HashMap<String, Object>();
 		List<Notice> list=CSMapper.searchNotice(map);
-		
+		int count = CSMapper.CountNoticeList(map);
+	
 		resultMap.put("list", list);
+		resultMap.put("count", count);
 		resultMap.put("result", "success");
 		
 		return resultMap;
@@ -88,6 +90,87 @@ public class CSCenterServiceImpl implements CSCenterService{
 		
 		resultMap.put("list", list);
 		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> addInquiry(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			CSMapper.insertInquiry(map);
+			
+			resultMap.put("result", "success");
+			resultMap.put("message", "문의가 접수되었습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			resultMap.put("message", "예기치 못한 문제가 발생했습니다. \n나중에 다시 시도해주세요.");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> selectInq(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		List<Notice> list= CSMapper.searchInqList(map);
+		
+		resultMap.put("list", list);
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> removeInqBoard(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			CSMapper.deleteInqBoard(map);
+			resultMap.put("result", "success");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> deleteInq(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			CSMapper.deleteInq(map);
+			resultMap.put("message", "삭제되었습니다.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("message", "예기치 못한 문제가 발생했습니다. \n나중에 다시 시도해주세요.");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> InqList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		List<Notice> list= CSMapper.historyInq(map);
+		int count=CSMapper.CountInqList(map);
+		
+		resultMap.put("list", list);
+		resultMap.put("count", count);
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateInqList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		CSMapper.updateInq(map);
+		resultMap.put("message", "변경 성공");
 		
 		return resultMap;
 	}

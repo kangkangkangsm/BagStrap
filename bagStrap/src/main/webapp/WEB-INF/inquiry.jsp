@@ -9,10 +9,10 @@
 </head>
 <style>
 	.container {
-	  opacity: 1;
-	  margin-top: 50px;
-	  padding-left: 100px;
-	  padding-right: 100px;
+		  opacity: 1;
+		  margin-top: 50px;
+		  padding-left: 100px;
+		  padding-right: 100px;
 	}
 	input, select, textarea {
 		width: 100%;
@@ -41,8 +41,14 @@
 			<select v-model="category">
 				<option value="all">선택하세요</option>
 				<option value="general">일반 문의</option>
-				<option value="order">주문 관련 문의</option>
+				<option value="order">주문 관련 </option>	
+				<option value="refund">환불 및 교환 </option>
 			</select>
+			
+	<!--		<div v-if="category == 'order'">
+				<label>제품 이름:</label>
+				<input type="text" v-model="productName" placeholder="제품 이름" required>
+			</div>-->
 			
 			<label>제목:</label>
 			<input type="text" id="title" v-model="title" required>
@@ -50,23 +56,76 @@
 			<label>메시지:</label>
 			<textarea id="message" v-model="message" rows="4" required></textarea>
 
-			<button type="submit">제출하기</button>	
+			<button type="button" @click="fnSave()">문의하기</button>	
 		</form>
 	</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
 <script>
     const app = Vue.createApp({
         data() {
             return {
-				category:"all"
+				isLogin : false,
+				category : "all",
+				title:"",
+				message:"",
+				sessionUserId : '',
             };
         },
         methods: {
-			
-        },
+			fnSave() {
+					var self=this;
+					if (self.category === "all") {
+					       alert("질문 유형을 선택하세요.");
+					       return;
+					   }
+					if (!self.title || !self.message) {
+					       alert("제목과 메시지를 입력해주세요.");
+					       return;
+					   }
+				    var nparam = {
+						inqcategory: self.category,
+				        inqTitle: self.title, 
+				        message: self.message,
+				        userId: self.sessionUserId
+				    };
+				   
+				    $.ajax({
+				        url: "inquiry-add.dox",
+				        dataType: "json",	
+				        type: "POST", 
+				        data: nparam,
+				        success: function(data) { 
+				            alert(data.message);
+				            if (data.result === "success") {
+				                location.href = "cscenter"; 
+				            }
+				        }
+				    });
+				},
+				fnSession() {
+				    $.ajax({
+				        url: "sharedHeader.dox",
+				        dataType: "json",	
+				        type: "POST", 
+				        success: (data) => {
+				            this.isLogin = data.isLogin;
+				            if (data.isLogin) {
+				                this.sessionUserId = data.userId;
+				               
+				                console.log('세션아이디:', this.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+				            } else {
+				                this.sessionUserId = '';
+				                
+				            }
+				        }
+				    });
+				}
+		},
         mounted() {
-			
+			var self=this;
+			self.fnSession();
         }
     });
     app.mount('#app');

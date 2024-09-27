@@ -18,4 +18,16 @@ public interface CSCenterService {
 	HashMap<String, Object> addNotice(HashMap<String, Object> map);
 	
 	HashMap<String, Object> FaqList(HashMap<String, Object> map);
+	
+	HashMap<String, Object> addInquiry(HashMap<String, Object> map);
+	
+	HashMap<String, Object> selectInq(HashMap<String, Object> map);
+	
+	HashMap<String, Object> removeInqBoard(HashMap<String, Object> map);
+	
+	HashMap<String, Object> deleteInq(HashMap<String, Object> map);
+	
+	HashMap<String, Object> InqList(HashMap<String, Object> map);
+	
+	HashMap<String, Object> updateInqList(HashMap<String, Object> map);
 }

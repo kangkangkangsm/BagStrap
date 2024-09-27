@@ -49,6 +49,7 @@
                     content: "",
 					sessionUserId : '',
 					sessionUserNickName : '',
+					quill : null,
                 };
             },
             methods: {
@@ -59,13 +60,13 @@
                         content: self.content,
                         userId: self.sessionUserId
                     };
-                    console.log(nparam);
+                    //console.log(nparam);
                     $.ajax({
                         url: "notice-add.dox",
                         dataType: "json",	
                         type: "POST", 
                         data: nparam,
-                        success: (data) => { 
+                        success: function(data) { 
                             alert(data.message);
                             if (data.result === "success") {
                                 location.href = "noticelist"; 
@@ -78,7 +79,7 @@
                         url: "sharedHeader.dox",
                         dataType: "json",	
                         type: "POST", 
-                        success: (data) => {
+                        success: (data)  => {
                             this.isLogin = data.isLogin;
                             if (data.isLogin) {
                                 this.sessionUserId = data.userId;
@@ -97,7 +98,7 @@
                 this.fnSession();
 
                 // Quill 에디터 초기화
-                var quill = new Quill('#editor', {
+                self.quill = new Quill('#editor', {
                     theme: 'snow',
                     modules: {
                         toolbar: [
@@ -114,7 +115,7 @@
 
                 // 에디터 내용이 변경될 때마다 Vue 데이터 업데이트
                 quill.on('text-change', () => {
-                    this.content = quill.root.innerHTML;
+                    self.content = quill.root.innerHTML;
                 });
             }
         });

@@ -15,16 +15,22 @@
 <body>
 	<div id="app">
 		<h1>고객센터</h1>
-		<p>※고객 문의는 로그인을 해야 합니다.</p>
+		<span v-if=!isLogin>
+			<p>※고객 문의는 로그인을 해야 합니다.</p>
+		</span>	
 		<nav>
 			<a href="noticelist">공지사항</a><br><hr>
 			<a href="faqlist">자주 묻는 질문</a><br><hr>
 			<span v-if=isLogin>	
-				<a href="inquiry">고객 문의</a><br><hr>
-				<a href="Myinquiry">내가 한 문의</a><br><hr>
-			</span>	
+				<a href="inquiry">문의하기</a><br><hr>
+				<a href="myinquiry">내가 한 문의</a><br><hr>
+			</span>
+			<span v-if=isAdmin>
+				<a href="history">문의 내역</a><br><hr>
+			</span>		
 		</nav>	
 	</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
 <script>
@@ -32,6 +38,7 @@
         data() {
             return {
 				isLogin: false, // 로그인 상태
+				isAdmin: false, //관리자 권한
             };
         },
         methods: {
@@ -44,6 +51,14 @@
 					self.isLogin = true;	
 				} else{
 					self.isLogin = false;
+				};	
+			})
+			
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				} else{
+					self.isAdmin = false;
 				};	
 			})
         }

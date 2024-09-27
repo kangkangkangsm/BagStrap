@@ -46,7 +46,12 @@
 		FROM tbl_notice n
 		inner join tbl_user u on n.author=u.user_id
 		order by n.created_at desc
+		offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
+	</select>
 	
+	<select id="CountNoticeList" parameterType="hashmap" resultType="int">
+		select count(*) as cnt
+		from tbl_notice
 	</select>
 	
 	<select id="Noticeinfo" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
@@ -72,7 +77,58 @@
 		</if>
 	</select>
 	
-	<insert id="insertInquiry" parameterType="hashmap">
-		
+	<insert id="insertInquiry" parameterType="com.example.bagStrap.model.Notice">
+	    INSERT INTO tbl_inquiry (inquiry_id, category, title, message, created_at, user_id)
+	    VALUES (inquiry_seq.nextval, #{inqcategory}, #{inqTitle}, #{message}, SYSDATE + (9/24), #{userId})
 	</insert>
+	
+	<select id="searchInqList" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+	    SELECT i.*, 
+	        CASE
+	            WHEN TRUNC(i.created_at) = TRUNC(SYSDATE) THEN TO_CHAR(i.created_at, 'HH24:MI:SS')
+	            ELSE TO_CHAR(i.created_at, 'YYYY-MM-DD')
+	        END AS createdDateFormatted
+	    FROM tbl_inquiry i
+	    WHERE user_id = #{userId}
+	    order by i.created_at desc
+	</select>
+	
+	<delete id="deleteInqBoard" parameterType="hashmap">
+		DELETE 
+		FROM TBL_INQUIRY
+		WHERE INQUIRY_ID IN 
+		<foreach collection="list" item="item" 
+			open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteInq" parameterType="hashmap">
+		DELETE 
+		FROM tbl_inquiry
+		WHERE inquiry_id = #{inquiryId}
+	</delete>
+	
+	<select id="historyInq" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+	    SELECT i.*,u.*, 
+	        CASE
+	            WHEN TRUNC(i.created_at) = TRUNC(SYSDATE) THEN TO_CHAR(i.created_at, 'HH24:MI:SS')
+	            ELSE TO_CHAR(i.created_at, 'YYYY-MM-DD')
+	        END AS createdDateFormatted
+	    FROM tbl_inquiry i
+	    inner join tbl_user u on i.user_id=u.user_id
+	    order by i.created_at desc
+	    offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
+	</select>
+	
+	<update id="updateInq" parameterType="hashmap">
+	    UPDATE tbl_inquiry
+	    SET answer = #{answer}
+	    WHERE inquiry_id = #{inquiryId}
+	</update>
+	
+	<select id="CountInqList" parameterType="hashmap" resultType="int">
+		select count(*) as cnt
+		from tbl_inquiry
+	</select>
 </mapper>
