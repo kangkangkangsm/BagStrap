@@ -199,18 +199,18 @@
                             <!-- selectStuGroupList 중 fetchapplstatus가 'Y'인 데이터만 출력 -->
                             <div class="stu-comm-myboard-forum-container" v-for="item in activeStudies">
                                 <template v-if="item.filePath">
-                                    <img :src="item.filePath" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                    <img :src="item.filePath" alt="Forum Icon" class="stu-comm-myboard-forum-icon" @click="fnStudyHome(item.studyGroupId)">
                                 </template>
                                 <template v-else>
-                                    <img src="../src/profile.png" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                    <img src="../src/profile.png" alt="Forum Icon" class="stu-comm-myboard-forum-icon" @click="fnStudyHome(item.studyGroupId)">
                                 </template>    
                                 <div class="stu-comm-myboard-forum-text">
-                                    <span class="stu-comm-myboard-forum-title">{{item.studyName}}</span>
+                                    <span class="stu-comm-myboard-forum-title" @click="fnStudyHome(item.studyGroupId)">{{item.studyName}}</span>
                                     <template v-if="item.studyAdminId === sessionUserId">
-                                        <span class="stu-comm-myboard-forum-subtitle">👑 | 👥 {{item.applyY}} / {{item.maxparticipants}} | 신청내역 : {{item.applyN}}</span>
+                                        <span class="stu-comm-myboard-forum-subtitle" @click="fnStudyHome(item.studyGroupId)">👑 | 👥 {{item.applyY}} / {{item.maxparticipants}} | 신청내역 : {{item.applyN}}</span>
                                     </template>
                                     <template v-else>
-                                        <span class="stu-comm-myboard-forum-subtitle">👥 {{item.applyY}} / {{item.maxparticipants}}</span>
+                                        <span class="stu-comm-myboard-forum-subtitle" @click="fnStudyHome(item.studyGroupId)">👥 {{item.applyY}} / {{item.maxparticipants}}</span>
                                     </template>
                                 </div>
 								<a href="#" class="hide-link">비공개</a>
@@ -394,6 +394,9 @@
             },
             fnBoardDetail(boardId) {
                 $.pageChange("/study-comm-detail", { boardId: boardId });
+            },
+			fnStudyHome(studyGroupId) {
+                $.pageChange("/study-mygroup-detail", { studyGroupId: studyGroupId });
             },
         },
         mounted() {

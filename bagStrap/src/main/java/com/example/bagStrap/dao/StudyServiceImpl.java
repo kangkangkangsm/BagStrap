@@ -561,4 +561,25 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 }
+	//스터디 사람검색
+	@Override
+	public HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			StudyComm adminlist = studyMapper.selectStuGroupUserSearch(map);
+			StudyComm selectStuGroupUserApplSearch = studyMapper.selectStuGroupUserApplSearch(map);
+			List<StudyComm> selectStuGroupSubscriptionSearch = studyMapper.selectStuGroupSubscriptionSearch(map);
+			resultMap.put("adminlist", adminlist);
+			resultMap.put("searchUserlist", selectStuGroupUserApplSearch);
+			resultMap.put("searchjoinGroup", selectStuGroupSubscriptionSearch);
+			resultMap.put("result", true);
+			resultMap.put("message", "디테일 정보 검색");
+			
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 }

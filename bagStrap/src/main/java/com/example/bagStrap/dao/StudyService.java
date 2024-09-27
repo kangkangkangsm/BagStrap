@@ -71,4 +71,6 @@ public interface StudyService {
 	HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map);	
 	//스터디 방장 자동가입
 	HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map);	
+	//스터디 그룹 사람검색
+	HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map);	
 }

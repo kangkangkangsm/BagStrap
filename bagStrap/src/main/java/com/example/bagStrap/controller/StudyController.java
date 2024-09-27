@@ -94,10 +94,11 @@ public class StudyController {
     }
 	// 나의 마이스터디 상세 페이지 
 	@RequestMapping("/study-mygroup-detail") 
-    public String study_mygroup_detail(Model model) throws Exception{
+    public String study_mygroup_detail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("studyGroupId", map.get("studyGroupId"));
          return "study/study-mygroup-detail";
     }
-	
+
 	
 	
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -434,6 +435,14 @@ public class StudyController {
 		public String insertStuGroupKingApply(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.insertStuGroupKingApply(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 사람검색
+		@RequestMapping(value = "/selectStuGroupUserSearch.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupUserSearch(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupUserSearch(map);
 			return new Gson().toJson(resultMap);
 		}
 

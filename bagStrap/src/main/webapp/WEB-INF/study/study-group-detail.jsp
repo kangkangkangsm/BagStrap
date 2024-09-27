@@ -336,6 +336,7 @@
                     boardNo: '${boardNo}',
                     detailList: {},
 					applyMode : 'N',
+					typeList:[],
 					Subscription : {}
                 };
             },

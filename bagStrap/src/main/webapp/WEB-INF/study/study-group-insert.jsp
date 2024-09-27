@@ -5,90 +5,10 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
 	<title>첫번째 페이지</title>
 </head>
 <style>
-   
-    .study-group-insert-form-container {
-        width: 800px; /* 폼 컨테이너 너비 조정 */
-        background-color: #fff; /* 배경색 */
-        padding: 30px;
-        border-radius: 10px; /* 테두리 둥글게 */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-        display: flex;
-        flex-wrap: wrap; /* 내용이 넘치면 다음 줄로 */
-        justify-content: space-between; /* 항목 간 간격 설정 */
-    }
-    .study-group-insert-form-group {
-        width: 48%; /* 한 줄에 두 개 항목 배치를 위해 너비 설정 */
-        margin-bottom: 15px;
-    }
-    .study-group-insert-form-group label {
-        display: block;
-        margin-bottom: 5px;
-        color: #555; /* 라벨 색상 */
-    }
-    .study-group-insert-form-group input[type="text"],
-    .study-group-insert-form-group input[type="password"],
-    .study-group-insert-form-group input[type="date"],
-    .study-group-insert-form-group input[type="time"]
-	{
-        width: 94.5%; /* 입력 필드 너비 */
-        padding: 10px;
-        border: 1px solid #ddd; /* 테두리 설정 */
-        border-radius: 5px; /* 입력 필드 둥글게 */
-        font-size: 14px; /* 폰트 크기 */
-    }
-	.study-group-insert-form-group select {
-		width: 100%; /* 입력 필드 너비 */
-        padding: 10px;
-        border: 1px solid #ddd; /* 테두리 설정 */
-        border-radius: 5px; /* 입력 필드 둥글게 */
-        font-size: 14px; /* 폰트 크기 */
-	}
-    .study-group-insert-form-group input[type="radio"] {
-        margin-right: 10px;
-    }
-    .study-group-insert-form-group .study-group-insert-inline-radio,
-    .study-group-insert-form-group .study-group-insert-book-list {
-        display: flex;
-        align-items: center; /* 가로로 정렬 */
-    }
-    .study-group-insert-form-group .study-group-insert-book-list select,
-    .study-group-insert-form-group .study-group-insert-book-list input[type="text"] {
-        margin-right: 10px;
-        flex-grow: 1; /* 남은 공간 채우기 */
-    }
-    .study-group-insert-add-book-btn {
-        background-color: #007bff; /* 버튼 배경색 */
-        color: #fff; /* 글자색 */
-        border: none; /* 테두리 없음 */
-        padding: 8px 12px;
-        border-radius: 5px; /* 버튼 둥글게 */
-        cursor: pointer; /* 클릭 가능한 포인터 모양 */
-    }
-    .study-group-insert-add-book-btn:hover {
-        background-color: #0056b3; /* 호버 시 색상 변경 */
-    }
-    .study-group-insert-submit-btn {
-        width: 100%;
-        padding: 12px;
-        background-color: #ff6700; /* 제출 버튼 색상 */
-        color: #fff; /* 제출 버튼 글자색 */
-        border: none;
-        border-radius: 5px; /* 제출 버튼 둥글게 */
-        cursor: pointer;
-        font-size: 16px; /* 폰트 크기 */
-        margin-top: 20px;
-    }
-    .study-group-insert-submit-btn:hover {
-        background-color: #e55c00; /* 호버 시 색상 변경 */
-    }
-    .study-group-insert-note {
-        color: #888; /* 주석 색상 */
-        font-size: 12px; /* 주석 폰트 크기 */
-        margin-left: 10px;
-    }
 </style>
 <body>
 		<main class="main-container">
@@ -171,16 +91,7 @@
 		            	   <option value="">성별무관</option>
 		          </select>
   			      </div>
-			      <div class="study-group-insert-form-group">
-			          <div class="study-group-insert-inline-radio">
-			          <label>그룹 공개 여부    </label>
-			              <input type="radio" id="public" name="visibility" v-model="groupPublic" value="Y">
-			              <label for="public">공개</label>
-			              <input type="radio" id="private" name="visibility" v-model="groupPublic" value="N">
-			              <label for="private">비공개</label>
-			          </div>
-			          <input type="password" id="groupPassword" placeholder="비밀번호 4자리 (비공개 시 입력)" style="width: 100%;" v-model="groupPassword">
-			      </div>
+
 			      <div class="study-group-insert-form-group">
 			          <label for="book">참고 할 교재</label>
 			          <div class="study-group-insert-book-list">
