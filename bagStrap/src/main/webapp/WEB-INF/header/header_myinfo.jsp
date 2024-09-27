@@ -12,6 +12,7 @@
 		.hidden-border {
 			border:none;
 			outline:none;
+			background-color:white;
 		}
 		
 		
@@ -29,16 +30,16 @@
 				<div id="app">
 					<div>
 						<div>
-							아이디<input type="text" v-model="userList.userId" disabled>
+							아이디<input type="text" v-model="userList.userId" class="hidden-border" disabled>
 					    </div>
 					    <div>
-					        이름<input type="text" v-model="userList.userName" disabled>
+					        이름<input type="text" v-model="userList.userName" class="hidden-border" disabled>
 					    </div>
 						<div>
-					        닉네임<input type="text" v-model="userList.userNickName" disabled>
+					        닉네임<input type="text" v-model="userList.userNickName" class="hidden-border" disabled>
 					    </div>
 						<div>
-							이메일<input type="email" v-model="userList.email" disabled>
+							이메일<input type="email" v-model="userList.email" class="hidden-border" disabled>
 						</div>
 					    <div>
 					        주소
@@ -53,25 +54,20 @@
 								<input type="text" v-model="userList.addressDetail">
 								<button @click="fnUpdate">저장</button> <button @click="addressView=!addressView">취소</button>	
 							</template>
+							<button v-if="!addressView" @click="addressView=!addressView">변경하기</button>
 						</div>
-						<button @click="addressView=!addressView">변경하기</button>
-					    <div>
-					        휴대전화<input type="text" v-model="userList.phone" disabled>
-					    </div>
-						<div>
-							<button @click="fnupload">변경하기</button>
+						<div v-if="aaa == ''">
+							<input placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone">
+							<button @click='makeConfirmNumbAndSendMessage'>휴대폰인증</button>
 						</div>
-					    <div>
-					        주민등록번호<input type="text" placeholder="주민등록번호 앞자리 전체 " v-model="userList.birth" disabled>
-					    </div>
-					    <div>
-					    </div>
+						<div v-else>
+							<div>인증만료시간: {{timer}}</div>
+							<input placeholder="인증번호를 입력해주세요" v-model="userInputNumb">
+							<button @click='confirmInputNumb'>인증하기</button>
+						</div>
 					</div>
-
 				</div>
 			</div>
-
-
 	    </main>
 
 		
@@ -97,7 +93,13 @@
 		        gender: '',
 		        list: [],
 				userList : {},
-				addressView:false
+				addressView:false,
+				phoneView:false,
+				userPhone : null,
+				confirmNumb : null,
+				userInputNumb : null,
+				timer:180,
+				aaa: ''
 			};
         },
         methods: {
@@ -112,7 +114,8 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
-						console.log("AJAX 응답 데이터:", data); 
+						console.log("AJAX 응답 데이터:")
+						console.log(data); 
 						   self.userList = data.userList;
 						   
 					}
@@ -132,10 +135,9 @@
 				type : "POST", 
 				data : nparmap,
 				success : function(data) {
-					console.log("AJAX 응답 데이터:", data); 
+					console.log("AJAX 응답 데이터1:", data); 
 					if(data.result == 'success'){
 						self.addressView = false;
-						self.fnGetList();
 						} else {
 						self.addressView = true;
 						}
@@ -150,12 +152,50 @@
 			        oncomplete: function(data) {
 						self.userList.zonecode = data.zonecode;
 				        self.userList.address = data.address; 
-						
+						self.userList.addressDetail = ''; 
 			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
 			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
 			        }
 			    }).open();
-		  }  
+		  },
+		  makeConfirmNumbAndSendMessage(){
+		  			var self = this;		  			
+		  			var nparmap = {userPhone : self.userPhone}
+		  			$.ajax({
+		  				url:"confirm.dox",
+		  				dataType:"json",	
+		  				type : "POST", 
+		  				data : nparmap,
+		  				success : function(data) { 
+		  					console.log(data);
+		  					alert("인증번호가 발신되었습니다. 핸드폰을 확인해주세요")
+		  					self.aaa = data.confirmNumb;
+							console.log(self);
+							
+
+		  					
+		  					timeCheck = setInterval(() => {
+		  						if(self.timer === 0){
+		  							alert("시간이 만료되었습니다")
+		  							clearInterval(timeCheck);
+		  							location.href="myinfo.do"
+		  						}else {
+		  							self.timer -= 1;	
+		  						}
+		  					}, 1000);
+		  					
+		  				}
+		  			});
+		  		},
+		  		confirmInputNumb(){
+		  			if(self.confirmNumb === self.userInputNumb){
+		  				alert("인증되었습니다!");
+		  			}else{
+		  				alert("인증실패")
+		  			}
+		  			
+		  		}
+
    	 },			
 			
         mounted() {

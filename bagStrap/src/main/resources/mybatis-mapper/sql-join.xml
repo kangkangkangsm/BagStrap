@@ -46,7 +46,7 @@
 	<!--업데이트-->
 	<update id="addressUpdate" parameterType="hashmap">
 	UPDATE TBL_ADDRESS
-	SET ADDRESS = #{address}
+	SET ADDRESS = #{address}, ZONECODE = #{zonecode}, ADDRESS_DETAIL = #{addressDetail}
 	WHERE USER_ID = #{userId}
 	</update>
 	
