@@ -24,7 +24,10 @@
 			<span v-if=isLogin>	
 				<a href="inquiry">문의하기</a><br><hr>
 				<a href="myinquiry">내가 한 문의</a><br><hr>
-			</span>	
+			</span>
+			<span v-if=isAdmin>
+				<a href="history">문의 내역</a><br><hr>
+			</span>		
 		</nav>	
 	</div>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
@@ -35,6 +38,7 @@
         data() {
             return {
 				isLogin: false, // 로그인 상태
+				isAdmin: false, //관리자 권한
             };
         },
         methods: {
@@ -47,6 +51,14 @@
 					self.isLogin = true;	
 				} else{
 					self.isLogin = false;
+				};	
+			})
+			
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				} else{
+					self.isAdmin = false;
 				};	
 			})
         }

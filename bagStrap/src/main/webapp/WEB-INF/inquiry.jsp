@@ -45,10 +45,10 @@
 				<option value="refund">환불 및 교환 </option>
 			</select>
 			
-			<div v-if="category == 'order'">
+	<!--		<div v-if="category == 'order'">
 				<label>제품 이름:</label>
 				<input type="text" v-model="productName" placeholder="제품 이름" required>
-			</div>
+			</div>-->
 			
 			<label>제목:</label>
 			<input type="text" id="title" v-model="title" required>

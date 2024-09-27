@@ -61,6 +61,11 @@ public class CSCenterController {
          return "myinquiry";
     }
 	
+	@RequestMapping("/history") 
+    public String history(Model model) throws Exception{
+         return "history";
+    }
+	
 	@RequestMapping("/cslist") 
     public String cslist(Model model) throws Exception{
          return "cslist";
@@ -142,6 +147,39 @@ public class CSCenterController {
 		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
 		map.put("list", list);
 		csService.removeInqBoard(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/inquiry-remove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String InquiryRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.deleteInq(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/histroy-inq.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String HistoryInq(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.InqList(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/update-inq.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String UpdateInq(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.updateInqList(map);
 
 		return new Gson().toJson(resultMap);
 	}

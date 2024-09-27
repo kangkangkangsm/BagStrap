@@ -108,4 +108,27 @@
 		FROM tbl_inquiry
 		WHERE inquiry_id = #{inquiryId}
 	</delete>
+	
+	<select id="historyInq" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+	    SELECT i.*,u.*, 
+	        CASE
+	            WHEN TRUNC(i.created_at) = TRUNC(SYSDATE) THEN TO_CHAR(i.created_at, 'HH24:MI:SS')
+	            ELSE TO_CHAR(i.created_at, 'YYYY-MM-DD')
+	        END AS createdDateFormatted
+	    FROM tbl_inquiry i
+	    inner join tbl_user u on i.user_id=u.user_id
+	    order by i.created_at desc
+	    offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
+	</select>
+	
+	<update id="updateInq" parameterType="hashmap">
+	    UPDATE tbl_inquiry
+	    SET answer = #{answer}
+	    WHERE inquiry_id = #{inquiryId}
+	</update>
+	
+	<select id="CountInqList" parameterType="hashmap" resultType="int">
+		select count(*) as cnt
+		from tbl_inquiry
+	</select>
 </mapper>

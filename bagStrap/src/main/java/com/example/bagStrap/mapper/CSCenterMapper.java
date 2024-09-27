@@ -29,4 +29,10 @@ public interface CSCenterMapper {
 	void deleteInqBoard(HashMap<String, Object> map);
 	
 	void deleteInq(HashMap<String, Object> map);
+	
+	List<Notice> historyInq(HashMap<String, Object> map);
+	
+	void updateInq(HashMap<String, Object> map);
+	
+	int CountInqList(HashMap<String, Object> map);
 }

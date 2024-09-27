@@ -151,5 +151,29 @@ public class CSCenterServiceImpl implements CSCenterService{
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> InqList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		List<Notice> list= CSMapper.historyInq(map);
+		int count=CSMapper.CountInqList(map);
+		
+		resultMap.put("list", list);
+		resultMap.put("count", count);
+		resultMap.put("result", "success");
+		
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateInqList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		CSMapper.updateInq(map);
+		resultMap.put("message", "변경 성공");
+		
+		return resultMap;
+	}
+
 
 }

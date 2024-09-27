@@ -65,6 +65,7 @@
         methods: {
             fnGetList() {
 				var self = this;
+				
 				if (!this.sessionUserId) {
 				      console.log("로그인 정보가 없습니다.");
 				      return;
@@ -122,6 +123,23 @@
 					}
 				});
         	},
+			fnDelete(num){
+				var self = this;
+				
+				var nparmap = {
+					inquiryId : num
+				};
+				$.ajax({
+					url:"inquiry-remove.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						alert(data.message);
+						self.fnGetList();
+					}
+				});
+			}
         },
         mounted() {
             var self = this;
