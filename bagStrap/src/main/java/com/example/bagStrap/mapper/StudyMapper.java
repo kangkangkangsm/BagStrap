@@ -11,6 +11,9 @@ import com.example.bagStrap.model.StudyComm;
 //
 @Mapper
 public interface StudyMapper {
+	
+	// ------------------------------- 스터디 커뮤니티 --------------------------------------
+	
 	//스터디 커뮤니티 카테고리 타입
 	List<StudyComm> selectStuComm(HashMap<String, Object> map);
 	//스터디 커뮤니티 리스트 
@@ -65,8 +68,41 @@ public interface StudyMapper {
 	void updateComment(HashMap<String, Object> map);
 	// 스터디 커뮤니티  댓글 수정모드 N
 	void updateCommentNO(HashMap<String, Object> map);
-	// 스터디 커뮤니티  댓글 수정모드 Y
-	void updateCommentYES(HashMap<String, Object> map);
+	// 스터디 커뮤니티  답글 세트
+	void updateCommentRENO(HashMap<String, Object> map);
 	// 스터디 커뮤니티 수정완료처리
 	void updateCommentResult(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 모드
+	void updateCommentREY(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 수정완료처리
+	void updateCommentReResult(HashMap<String, Object> map);
+	
+	// ------------------------------- 스터디 그룹 --------------------------------------
+	
+	//스터디 그룹 만들기(책 불러오기)
+	List<StudyComm> selectStuGroupInsertBoardType(HashMap<String, Object> map);
+	//스터디 그룹 만들기
+	void insertStuGroup(HashMap<String, Object> map);	
+	//스터디 그룹 리스트 사이드바
+	List<StudyComm> selectStuGroupListSidebar(HashMap<String, Object> map);
+	//스터디 그룹 개수(페이징)
+	int selectStuGroupListSidebarCnt(HashMap<String, Object> map);
+	//스터디 상세정보
+	StudyComm selectStuGroupDetail(HashMap<String, Object> map);
+	//스터디 신청하기
+	void insertStuGroupApply(HashMap<String, Object> map);
+	//스터디 중복신청검사
+	StudyComm selectStuGroupSubscription(HashMap<String, Object> map);
+	//마이페이지 스터디그룹
+	List<StudyComm> selectStuGroupMyPage(HashMap<String, Object> map);
+	//스터디 방장 자동가입
+	void insertStuGroupKingApply(HashMap<String, Object> map);
+	//마이스터디 -> 상세페이지 스터디 그룹 사람검색
+	StudyComm selectStuGroupUserSearch(HashMap<String, Object> map);
+	//마이스터디 -> 상세페이지 유저 학습목표 가져오기
+	StudyComm selectStuGroupUserApplSearch(HashMap<String, Object> map);
+	//마이페이지 -> 스터디그룹 가입목록 확인
+	List<StudyComm> selectStuGroupSubscriptionSearch(HashMap<String, Object> map);
+	
+	
 }

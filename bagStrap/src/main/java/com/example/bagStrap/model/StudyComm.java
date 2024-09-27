@@ -1,5 +1,7 @@
 package com.example.bagStrap.model;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -30,6 +32,9 @@ public class StudyComm {
 	private String commentstatus;
 	private int commentCnt;
 	private String upMode;
+	private String reMode;
+	private String reUserId;
+	private String reNickName;
 //TBL_STU_COMM_BOARD_TYPES
 	private int boardTypeId;
 	private String name;
@@ -65,6 +70,57 @@ public class StudyComm {
 		private String fileExt;
 		private String thumbnailYN;
 		private String fileCreateDate;
+//TBL_STUDY_GROUP
+		private int studyGroupId;
+		private String studyAdminId;
+		private int subjectTypeId;
+		private String description;
+		private String relatedBook;
+		private String onOffMode;
+		private int participants;
+		private int maxparticipants;
+		private String startdate;
+		private String enddate;
+		private String studytime;
+		private String age;
+		private String groupStatus;
+		private String groupPassword;
+		private String mypageStatus;
+		private String genderGroup;
+		private String groupPublic;
+		private String relatedBookDirect;
+		private String stgStartDate;
+		private String stgEndDate;
+		private String stgStudyTime;
+		private int groupCnt;
+		private String studyName;
+		private int applyCnt;
+		
+	
+		
+//TBL_STUDY_APPLICATION
+		private int fetchapplicationid;
+		private int fetchappstudyid;
+		private String fetchappuserid;
+		private String selfintro;
+		private String studygoal;
+		private String stustatus;
+		private String additionalquestions;
+		private String fetchapplication_date;
+		private String fetchapplstatus;
+		private int applyY;
+		private int applyN;
+		
+//Book
+		private Long bookId;            // 책 고유번호
+	    private String publisher;       // 출판사
+	    private String image;           // 책 이미지
+	    private Long category;          // 카테고리 번호
+	    private String ebook;           // 전자책 여부
+		private String quantity;
+		private String tbDescription;
+		
+		
 	public String getUserId() {
 		return userId;
 	}

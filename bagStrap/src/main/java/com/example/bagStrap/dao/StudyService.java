@@ -3,6 +3,8 @@ package com.example.bagStrap.dao;
 import java.util.HashMap;
 
 public interface StudyService {
+	// ------------------------------- 스터디 커뮤니티 --------------------------------------
+	
 	//스터디 사이드바 커뮤니티 카테고리 타입
 	HashMap<String, Object> selectStuComm(HashMap<String, Object> map);
 	//스터디 사이드바 나의 게시글 개수
@@ -43,8 +45,32 @@ public interface StudyService {
 	HashMap<String, Object> selectgetLikeCount(HashMap<String, Object> map);
 	// 스터디 커뮤니티 댓글 수정모드 
 	HashMap<String, Object> updateComment(HashMap<String, Object> map);
-	// 스터디 커뮤니티  댓글 수정모드 N
+	// 스터디 커뮤니티 댓글 수정모드 N
 	HashMap<String, Object> updateCommentNO(HashMap<String, Object> map);
 	// 스터디 커뮤니티 댓글 수정 완료처리
 	HashMap<String, Object> updateCommentResult(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 세트
+	HashMap<String, Object> updateCommentRENO(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 모드
+	HashMap<String, Object> updateCommentREY(HashMap<String, Object> map);
+	// 스터디 커뮤니티 답글 수정완료처리
+	HashMap<String, Object> updateCommentReResult(HashMap<String, Object> map);
+	// ------------------------------- 스터디 그룹 --------------------------------------
+	
+	//스터디 그룹 만들기(책 불러오기)
+	HashMap<String, Object> selectStuGroupInsertBoardType(HashMap<String, Object> map);
+	//스터디 그룹 만들기
+	HashMap<String, Object> insertStuGroup(HashMap<String, Object> map);	
+	//스터디 그룹 리스트 사이드바
+	HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map);	
+	//스터디 그룹 상세정보
+	HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map);	
+	//스터디 신청하기 
+	HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map);	
+	//스터디 중복가입 방지
+	HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map);	
+	//스터디 방장 자동가입
+	HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map);	
+	//스터디 그룹 사람검색
+	HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map);	
 }

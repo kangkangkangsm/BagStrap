@@ -15,7 +15,8 @@ public class StudyServiceImpl implements StudyService{
 
 	@Autowired
 	StudyMapper studyMapper;
-
+	// ------------------------------- 스터디 커뮤니티 --------------------------------------
+	
 	//스터디 커뮤니티 사이드 
 	@Override
 	public HashMap<String, Object> selectStuComm(HashMap<String, Object> map) {
@@ -64,10 +65,12 @@ public class StudyServiceImpl implements StudyService{
 			int countMycommentList = studyMapper.countMycommentList(map);
 			List<StudyComm> selectMyComm = studyMapper.selectMyComm(map);
 			List<StudyComm> selectMyComment = studyMapper.selectMyComment(map);
+			List<StudyComm> selectStuGroupMyPage = studyMapper.selectStuGroupMyPage(map);
 			resultMap.put("countMyCommCnt", countMyCommList);
 			resultMap.put("countMycommentCnt", countMycommentList);
 			resultMap.put("selectMyCommList", selectMyComm);
 			resultMap.put("selectMyCommentList", selectMyComment);
+			resultMap.put("selectStuGroupList", selectStuGroupMyPage);
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
 		
@@ -358,7 +361,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	// 스터디 커뮤니티  답글 수정모드 세트 바로위에거랑 같이 동작하는거임 일부러 같이 안넣음 
 	@Override
 	public HashMap<String, Object> updateCommentNO(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -374,7 +377,7 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-
+	// 스터디 커뮤니티 수정완료처리
 	@Override
 	public HashMap<String, Object> updateCommentResult(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -390,5 +393,193 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
-	
+	// 스터디 커뮤니티 답글 세트
+	@Override
+	public HashMap<String, Object> updateCommentRENO(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentRENO(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성고옹~");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// 스터디 커뮤니티 답글 모드
+	@Override
+	public HashMap<String, Object> updateCommentREY(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.updateCommentREY(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "성고옹~");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+
+	}
+	//스터디 커뮤니티 답글 마무뤼
+	@Override
+	public HashMap<String, Object> updateCommentReResult(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateCommentReResult(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "답글 완");
+			resultMap.put("idx",map.get("COMMENT_ID"));
+			System.out.println(resultMap);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	// ------------------------------- 스터디 그룹 --------------------------------------
+	//스터디 그룹 리스트(책 불러오기)
+	@Override
+	public HashMap<String, Object> selectStuGroupInsertBoardType(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			List<StudyComm> selectStuGroupInsertBoardType = studyMapper.selectStuGroupInsertBoardType(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "완료");
+			resultMap.put("typeList",selectStuGroupInsertBoardType);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 그룹 만들기(책 불러오기)
+	@Override
+	public HashMap<String, Object> insertStuGroup(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.insertStuGroup(map);
+			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
+			resultMap.put("result", true);
+			resultMap.put("message", "그룹 개설 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 그룹 리스트 
+	@Override
+	public HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			int cntlist= studyMapper.selectStuGroupListSidebarCnt(map);
+			List<StudyComm> list = studyMapper.selectStuGroupListSidebar(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "조회완료");
+			resultMap.put("groupListCnt", cntlist);
+			resultMap.put("groupList", list);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+		
+	}
+	//스터디 그룹 상세정보
+	@Override
+	public HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			StudyComm list = studyMapper.selectStuGroupDetail(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "조회완료");
+			resultMap.put("detailList", list);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 신청하기 
+	@Override
+	public HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertStuGroupApply(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "신청완료 방장의 승인 후 가입되십니다.");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 중복신청
+	@Override
+	public HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			StudyComm list = studyMapper.selectStuGroupSubscription(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "중복된 신청임");
+			resultMap.put("Subscription", list);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 방장 자동가입
+	@Override
+	public HashMap<String, Object> insertStuGroupKingApply(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			studyMapper.insertStuGroupKingApply(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "방장 자동가입");
+			
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+}
+	//스터디 사람검색
+	@Override
+	public HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			StudyComm adminlist = studyMapper.selectStuGroupUserSearch(map);
+			StudyComm selectStuGroupUserApplSearch = studyMapper.selectStuGroupUserApplSearch(map);
+			List<StudyComm> selectStuGroupSubscriptionSearch = studyMapper.selectStuGroupSubscriptionSearch(map);
+			resultMap.put("adminlist", adminlist);
+			resultMap.put("searchUserlist", selectStuGroupUserApplSearch);
+			resultMap.put("searchjoinGroup", selectStuGroupSubscriptionSearch);
+			resultMap.put("result", true);
+			resultMap.put("message", "디테일 정보 검색");
+			
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 }

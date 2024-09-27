@@ -107,7 +107,6 @@
 
 					   <label style="margin-top:10px;"for="file">수정할 파일 업로드</label>
 	   		           <input type="file" @change="fnFileChange"/>
-	   				   <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
 	   				   <div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
 
 			           <div class="stu-comm-insert-buttons">
@@ -266,6 +265,14 @@
             var self = this;
 			self.fnSession();
 			self.fnGetList();
+			window.addEventListener('loginStatusChanged', function(){
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				} else{
+					self.isLogin = false;
+				};
+				self.fnSession();
+			});
 
 			// Quill 에디터 초기화 함수
 			function initQuill() {

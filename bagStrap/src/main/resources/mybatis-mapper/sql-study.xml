@@ -4,55 +4,47 @@
 
 <mapper namespace="com.example.bagStrap.mapper.StudyMapper">
 	
-	<select id="searchItem" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
-		SELECT * FROM TBL_ITEM
-		INNER JOIN TBL_CODE ON CODE = CATEGORY1
-		<if test="selectedCodes.size() != 0">
-			WHERE CODE IN 
-			<foreach collection="selectedCodes" item="item" open="(" close=")" separator=",">
-			#{item}
-			</foreach>
-		</if>
-	</select>
-	<!-- -->
+	<!-- ||||||||||||||||||||||||||||||||||||||스터디 커뮤니티||||||||||||||||||||||||||||||||||||||||| -->
+	
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
-		SELECT * FROM TBL_CODE
+		SELECT * 
+		FROM TBL_CODE
 	</select>
 	<!-- 스터디 커뮤니티 카테고리 타입-->
 	<select id="selectStuComm" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		SELECT * FROM TBL_STU_COMM_BOARD_TYPES
-    ORDER BY BOARD_TYPE_ID
+		SELECT * 
+		FROM TBL_STU_COMM_BOARD_TYPES
+    	ORDER BY BOARD_TYPE_ID
 	</select>
 	<!-- 스터디 커뮤니티 리스트 -->
 	<select id="selectStuCommList" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-	SELECT *
-	FROM TBL_STU_COMM
-	ORDER BY CREATED_DATE DESC
-	FETCH FIRST 5 ROWS ONLY
+		SELECT *
+		FROM TBL_STU_COMM
+		ORDER BY CREATED_DATE DESC
+		FETCH FIRST 5 ROWS ONLY
 	</select>
-
 		<!-- 스터디 컨텐츠 리스트 -->
 	<select id="selectStuCommListBoard" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-   SELECT C.*, U.*, T.*,commLikeCnt,cnt,
-    CASE 
+  	 	SELECT C.*, U.*, T.*,commLikeCnt,cnt,
+   		CASE 
         WHEN TO_CHAR(C.CREATED_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
         THEN TO_CHAR(C.CREATED_DATE, 'HH24:MI:SS')
         ELSE TO_CHAR(C.CREATED_DATE, 'YYYY-MM-DD')
-    END AS CREATEDDATEFORMATTED  
-    FROM TBL_STU_COMM C 
-    LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
-    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
-    LEFT JOIN
-	(
-	SELECT COUNT(*) CNT , POST_ID AS board_id FROM TBL_STU_COMMENTS
-	GROUP BY POST_ID
-	) CCNT ON C.BOARD_ID = CCNT.board_id
-	LEFT JOIN
-	(
-	select targetId,count(*) AS commLikeCnt from tbl_likes 
-	group by targetId
-	) CLIKE ON C.BOARD_ID = CLIKE.targetId
-    WHERE 1=1
+    	END AS CREATEDDATEFORMATTED  
+   		FROM TBL_STU_COMM C 
+    	LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+    	INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
+    	LEFT JOIN
+		(
+		SELECT COUNT(*) CNT , POST_ID AS board_id FROM TBL_STU_COMMENTS
+		GROUP BY POST_ID
+		) CCNT ON C.BOARD_ID = CCNT.board_id
+		LEFT JOIN
+		(
+		select targetId,count(*) AS commLikeCnt from tbl_likes 
+		group by targetId
+		) CLIKE ON C.BOARD_ID = CLIKE.targetId
+    	WHERE 1=1
     <if test="boardTypeId !='' and boardTypeId != null">
         AND (BOARD_TYPE = #{boardTypeId} OR PART = #{boardTypeId} OR FULLVIEW = #{boardTypeId})
     </if>
@@ -80,8 +72,8 @@
     <if test="period == '1year'">
         AND C.CREATED_DATE >= ADD_MONTHS(SYSDATE, -12)
     </if>
-    ORDER BY C.CREATED_DATE DESC
-    OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
+    	ORDER BY C.CREATED_DATE DESC
+    	OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
 	
 	
@@ -171,7 +163,8 @@
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기 댓글 작성-->
 	<insert id="insertViewComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
-	INSERT INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
+	INSERT 
+	INTO TBL_STU_COMMENTS (COMMENT_ID, POST_ID, CONTENT, AUTHOR, CREATED_DATE, UPDATE_DATE, PARENT_COMMENT_ID)
 	VALUES (COMMENT_SEQ.NEXTVAL, #{boardId}, #{contents}, #{userId},SYSDATE + (9/24), NULL, NULL)
 	</insert>
 	<!-- 스터디 커뮤니티 나의 게시글-->
@@ -301,12 +294,6 @@
 	SET UPMODE = 'N'
 	WHERE POST_ID = #{boardId}
 	</update>
-	<!-- 스터디 커뮤니티 댓글 수정모드 세트..-->
-	<update id="updateCommentYES" parameterType="hashmap">
-	UPDATE TBL_STU_COMMENTS 
-	SET UPMODE = 'Y'
-	WHERE POST_ID = #{boardId}
-	</update>
 	<!-- 스터디 커뮤니티 댓글 수정완료처리..-->
 	<update id="updateCommentResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
 	UPDATE TBL_STU_COMMENTS
@@ -316,4 +303,245 @@
 	UPMODE = 'N'
 	WHERE COMMENT_ID = #{commentId}
 	</update>
+	<!-- 스터디 커뮤니티 답글 모드-->
+	<update id="updateCommentREY" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET REMODE = 'Y'
+	WHERE COMMENT_ID = #{commentId}
+	</update>
+	<!-- 스터디 커뮤니티 답글 수정모드 세트 -->
+	<update id="updateCommentRENO" parameterType="hashmap">
+	UPDATE TBL_STU_COMMENTS 
+	SET REMODE = 'N'
+	WHERE POST_ID = #{boardId}
+	</update><!-- 스터디 커뮤니티 답글 수정완료처리..-->
+	<update id="updateCommentReResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
+	INSERT INTO TBL_STU_COMMENTS(COMMENT_ID,POST_ID,CONTENT,AUTHOR,CREATED_DATE,PARENT_COMMENT_ID)
+	VALUES(COMMENT_SEQ.NEXTVAL,#{boardId},#{content}, #{userId},SYSDATE + (9/24),#{commentId})
+	</update>
+	
+	<!-- ||||||||||||||||||||||||||||||||||||||스터디 그룹||||||||||||||||||||||||||||||||||||||||| -->
+	<!-- 스터디 그룹 만들기(책 불러오기)-->
+	<select id="selectStuGroupInsertBoardType" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM TBL_BOOK 
+		WHERE CATEGORY = #{boardTypeId}
+	</select>	
+	<!-- 스터디 그룹 만들기-->
+	<insert id="insertStuGroup" parameterType="hashmap" useGeneratedKeys="true" keyProperty="STUDY_GROUP_ID" keyColumn="STUDY_GROUP_ID" >
+	INSERT INTO TBL_STUDY_GROUP (
+    STUDY_GROUP_ID,
+    STUDY_ADMIN_ID,
+    SUBJECT_TYPE_ID,
+    STUDY_NAME,
+    STARTDATE,
+    ENDDATE,
+    STUDYTIME,
+    AGE,
+    ONOFFMODE,
+    MAX_PARTICIPANTS,
+    GENDERGROUP,
+    RELATED_BOOK,
+    DESCRIPTION
+) VALUES (
+    STUDY_GROUP_ID_SEQ.NEXTVAL,                     
+    #{userId},          
+    #{boardTypeId},                    
+    #{studyName},
+    TO_DATE(#{startdate}, 'YYYY-MM-DD'), 
+    TO_DATE(#{enddate}, 'YYYY-MM-DD'), 
+    TO_DATE(#{studytime}, 'HH24:MI'),
+    #{age},                
+    #{onOffMode},             
+    #{maxParticipants},                 
+    #{genderGroup},                    
+    #{relatedBook},                 
+    #{description}
+)
+	</insert>
+	<!-- 스터디 그룹 리스트-->
+	<select id="selectStuGroupListSidebar" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		 select TSG.*,TSCBT.*,tb.*,applyY,applyN,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
+		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
+        LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = tb.boardno
+        LEFT JOIN 
+        (
+        SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
+        FROM tbl_study_group TSG
+        INNER JOIN tbl_study_application TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+        group by study_group_id
+        ) TCNT ON TSG.STUDY_GROUP_ID = TCNT.STUDY_GROUP_ID
+        WHERE 1=1
+	     <!-- 연령 필터 -->
+	    <if test="age != null and age != ''">
+	        AND (age LIKE '%' || #{age} || '%' )
+	    </if>
+	    
+	    <!-- 온라인/오프라인 필터 -->
+	    <if test="onOffMode != null and onOffMode != ''">
+	        AND (onOffMode LIKE '%' || #{onOffMode} || '%' )
+	    </if>
+	    
+	    <!-- 과목 필터 -->
+	    <if test="subjectTypeId != null and subjectTypeId != ''">
+	        AND (SUBJECT_TYPE_ID LIKE '%' || #{subjectTypeId} || '%' )
+	    </if>
+	    
+	    <!-- 성별 그룹 필터 -->
+	    <if test="genderGroup != null and genderGroup != ''">
+	        AND (genderGroup LIKE '%' || #{genderGroup} || '%' )
+	    </if>
+	    
+	    <!-- 시작 날짜 필터 -->
+	    <if test="startDate != null and startDate != ''">
+	        AND (ENDDATE > TO_DATE(#{startDate}, 'YYYY-MM-DD'))
+	    </if>
+	    <!-- 사람 범위 필터 -->
+	   <if test="participants != null and participants != ''">
+   		   AND (TO_NUMBER(#{participants}) >= MAX_PARTICIPANTS)
+	   </if>
+		<if test="startTime != null and startTime != ''">
+		    AND TO_CHAR(STUDYTIME, 'HH24:MI') >= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+		    AND #{endTime} >= TO_CHAR(STUDYTIME, 'HH24:MI')
+		</if>
+		<if test="search != null and search != ''">
+		    AND (DESCRIPTION LIKE '%' || #{search} || '%' OR STUDY_NAME LIKE '%' || #{search} || '%')
+		</if>
+		OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
+	</select>	
+	<!-- 스터디 그룹 리스트 개수-->
+	<select id="selectStuGroupListSidebarCnt" parameterType="hashmap" resultType="int">
+		select count(*) groupCnt from TBL_STUDY_GROUP TSG
+		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT 
+        ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
+        WHERE 1=1
+	     <!-- 연령 필터 -->
+	    <if test="age != null and age != ''">
+	        AND (age LIKE '%' || #{age} || '%' )
+	    </if>
+	    <!-- 온라인/오프라인 필터 -->
+	    <if test="onOffMode != null and onOffMode != ''">
+	        AND (onOffMode LIKE '%' || #{onOffMode} || '%' )
+	    </if>
+	    
+	    <!-- 과목 필터 -->
+	    <if test="subjectTypeId != null and subjectTypeId != ''">
+	        AND (SUBJECT_TYPE_ID LIKE '%' || #{subjectTypeId} || '%' )
+	    </if>
+	    
+	    <!-- 성별 그룹 필터 -->
+	    <if test="genderGroup != null and genderGroup != ''">
+	        AND (genderGroup LIKE '%' || #{genderGroup} || '%' )
+	    </if>
+	    
+	    <!-- 시작 날짜 필터 -->
+	    <if test="startDate != null and startDate != ''">
+	        AND (ENDDATE > TO_DATE(#{startDate}, 'YYYY-MM-DD'))
+	    </if>
+	    <!-- 사람 범위 필터 -->
+	   <if test="participants != null and participants != ''">
+   		   AND (TO_NUMBER(#{participants}) >= MAX_PARTICIPANTS)
+	   </if>
+		<if test="startTime != null and startTime != ''">
+		    AND TO_CHAR(STUDYTIME, 'HH24:MI') >= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+		    AND #{endTime} >= TO_CHAR(STUDYTIME, 'HH24:MI')
+		</if>
+		<if test="search != null and search != ''">
+		    AND (DESCRIPTION LIKE '%' || #{search} || '%' OR STUDY_NAME LIKE '%' || #{search} || '%')
+		</if>
+	</select>			
+	<!-- 스터디 그룹 리스트 상세페이지-->
+	<select id="selectStuGroupDetail" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT TSG.*, TSCBT.*, TB.*, TBOOK.*,applyY,applyN, TBOOK.DESCRIPTION AS TBDESCRIPTION, 
+	TO_CHAR(STARTDATE, 'YYYY-MM-DD') AS STGSTARTDATE, 
+	TO_CHAR(ENDDATE, 'YYYY-MM-DD') AS STGENDDATE, 
+	TO_CHAR(STUDYTIME, 'HH24:MI') AS STGSTUDYTIME,
+	applyY, applyN
+	FROM TBL_STUDY_GROUP TSG
+	LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
+	LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = TB.boardno
+	LEFT JOIN TBL_BOOK TBOOK ON TSG.RELATED_BOOK = TBOOK.BOOK_ID
+	LEFT JOIN (
+	    SELECT FETCHAPPSTUDYID, 
+	           COUNT(CASE WHEN FETCHAPPLSTATUS = 'Y' THEN 1 END) AS applyY, 
+	           COUNT(CASE WHEN FETCHAPPLSTATUS = 'N' THEN 1 END) AS applyN
+	    FROM TBL_STUDY_APPLICATION
+	    GROUP BY FETCHAPPSTUDYID
+	) TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+	where TSG.STUDY_GROUP_ID = #{studyGroupId}
+	</select>	
+	<!-- 스터디 신청하기 -->
+	<insert id="insertStuGroupApply" parameterType="hashmap" >
+	INSERT INTO TBL_STUDY_APPLICATION (
+    FETCHAPPLICATIONID, FETCHAPPSTUDYID, FETCHAPPUSERID, selfIntro, studyGoal, ADDITIONALQUESTIONS, FETCHAPPLICATION_DATE
+	) 
+	VALUES (
+	    seq_fetchapplicationid.NEXTVAL, 
+	    #{studyGroupId},                     
+	    #{userId},                     
+	    #{selfIntro},   
+	    #{studyGoal},                
+	    #{additionalQuestions},   
+	    SYSDATE + (9/24)               
+	)
+	</insert>
+	<!-- 스터디 방장 자동가입 -->
+	<insert id="insertStuGroupKingApply" parameterType="hashmap" >
+	INSERT INTO TBL_STUDY_APPLICATION (
+    FETCHAPPLICATIONID, FETCHAPPSTUDYID, FETCHAPPUSERID, selfIntro, studyGoal, ADDITIONALQUESTIONS, FETCHAPPLICATION_DATE,STUSTATUS,FETCHAPPLSTATUS
+	) 
+	VALUES (
+	    seq_fetchapplicationid.NEXTVAL, 
+	    #{idx},                     
+	    #{userId},                     
+	    '방장 자동가입',   
+	    '방장 자동가입',                
+	    '방장 자동가입',
+	    SYSDATE + (9/24),               
+	    'admin',
+	    'Y'
+	)
+	</insert>
+	<!-- 스터디 중복가입 방지-->
+	<select id="selectStuGroupSubscription" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application
+		where fetchappstudyid = #{studyGroupId} and fetchappuserid = #{userId}
+	</select>	
+	<!-- 마이페이지 나의 스터디 목록-->
+	<select id="selectStuGroupMyPage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+			SELECT * FROM tbl_study_application TSA
+			INNER JOIN tbl_study_group TSG ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+			LEFT JOIN TBL_BOARDFILE TB ON TSA.FETCHAPPSTUDYID = TB.BOARDNO
+            INNER JOIN 
+            (
+            SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
+            FROM tbl_study_group TSG
+            INNER JOIN tbl_study_application TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
+            group by study_group_id
+            ) TCNT ON TSA.FETCHAPPSTUDYID = TCNT.STUDY_GROUP_ID
+			WHERE FETCHAPPUSERID = #{userId}
+			ORDER BY STUSTATUS
+	</select>	
+	<!-- 마이스터디 에서 그룹누르면 나오는 상세페이지 -->
+	<!-- 마이스터디 -> 상세페이지 유저 검색-->
+	<select id="selectStuGroupUserSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM TBL_USER TU
+    	LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.FILENO
+		WHERE USER_ID = #{userId}
+	</select>
+	<!-- 마이스터디 -> 상세페이지 유저 학습목표 가져오기-->
+	<select id="selectStuGroupUserApplSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * FROM tbl_study_application TSA
+   		LEFT JOIN tbl_user TU ON TSA.FETCHAPPUSERID = TU.USER_ID
+    	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID = #{sessionId} 
+	</select>
+	<select id="selectStuGroupSubscriptionSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} 
+	</select>	
 </mapper>

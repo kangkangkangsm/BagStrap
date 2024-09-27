@@ -21,6 +21,7 @@
 	        <div class="content">
 	            콘텐츠
 				studyhome
+				<button @click="fnmove">임시 스터디커뮤니티 이동 버튼</button>
 	        </div>
 			
 
@@ -46,7 +47,9 @@
             };
         },
         methods: {
-			
+			fnmove(){
+				location.href="study-comm"
+			},
             fnGetList(){
 				var self = this;
 				var nparmap = {
