@@ -569,9 +569,13 @@ public class StudyServiceImpl implements StudyService{
 			StudyComm adminlist = studyMapper.selectStuGroupUserSearch(map);
 			StudyComm selectStuGroupUserApplSearch = studyMapper.selectStuGroupUserApplSearch(map);
 			List<StudyComm> selectStuGroupSubscriptionSearch = studyMapper.selectStuGroupSubscriptionSearch(map);
+			List<StudyComm> selectStuGroupSubscriptionSearchN = studyMapper.selectStuGroupSubscriptionSearchN(map);
+			List<StudyComm> selectStuGroupSubscriptionSearchL = studyMapper.selectStuGroupSubscriptionSearchL(map);
 			resultMap.put("adminlist", adminlist);
 			resultMap.put("searchUserlist", selectStuGroupUserApplSearch);
 			resultMap.put("searchjoinGroup", selectStuGroupSubscriptionSearch);
+			resultMap.put("searchnotjoinGroup", selectStuGroupSubscriptionSearchN);
+			resultMap.put("searchnotLeaveGroup", selectStuGroupSubscriptionSearchL);
 			resultMap.put("result", true);
 			resultMap.put("message", "디테일 정보 검색");
 			
@@ -593,6 +597,72 @@ public class StudyServiceImpl implements StudyService{
 			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
 			resultMap.put("result", true);
 			resultMap.put("message", "그룹 수정 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//마이페이지 -> 스터디 강퇴
+	@Override
+	public HashMap<String, Object> updateStuGroupLeave(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGroupLeave(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "유저 강퇴 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	
+	//마이페이지 -> 스터디 강퇴 모드
+	@Override
+	public HashMap<String, Object> updateStuGroupLeaveMode(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGroupLeaveModeNo(map);
+			studyMapper.updateStuGroupLeaveMode(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "유저 강퇴 사유 입력");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//마이페이지 -> 스터디 차단 풀기
+	@Override
+	public HashMap<String, Object> deleteStuGroupUnblocking(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.deleteStuGroupUnblocking(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "유저 강퇴 사유 입력");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//마이페이지 -> 스터디 그룹장 위임
+	@Override
+	public HashMap<String, Object> updateStuGroupBossDelegation(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGroupBossDelegation(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "그룹장 위임 완료");
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);

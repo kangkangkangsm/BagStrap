@@ -14,51 +14,125 @@
 	    margin: 0;
 	    font-family: Arial, sans-serif;
 	}
-	.study-mygroup-detail-member-container {
-	    display: flex;
-	    justify-content: space-between;
-	    margin: 20px 0;
-	    padding: 20px;
-	    background-color: #f9f9f9;
+	.study-mygroup-detail-member-admin-panel-container {
+	  display: block;
+	  margin: 0 auto;
 	}
 
-	.study-mygroup-detail-member-list, .study-mygroup-detail-member-application-list {
-	    width: 45%;
-	    background: #fff;
-	    border: 1px solid #ddd;
-	    border-radius: 8px;
-	    padding: 15px;
-	}
-
-	.study-mygroup-detail-member-list h3, .study-mygroup-detail-member-application-list h3 {
+	.study-mygroup-detail-member-admin-header {
 	    text-align: center;
-	    font-size: 1.2em;
-	    margin-bottom: 15px;
+	    margin-bottom: 30px;
 	}
 
-	.study-mygroup-detail-member-list ul, .study-mygroup-detail-member-application-list ul {
-	    list-style: none;
-	    padding: 0;
+	.study-mygroup-detail-member-admin-header h2 {
+	    color: #2c3e50;
+	    font-size: 1.8em;
 	}
 
-	.study-mygroup-detail-member-list li, .study-mygroup-detail-member-application-list li {
-	    display: flex;
-	    align-items: center;
-	    margin-bottom: 10px;
-	    padding: 8px;
-	    border-bottom: 1px solid #eee;
-	}
-
-	.study-mygroup-detail-member-list li img, .study-mygroup-detail-member-application-list li img {
-	    width: 30px;
-	    height: 30px;
-	    border-radius: 50%;
-	    margin-right: 10px;
-	}
-
-	.study-mygroup-detail-member-list li span, .study-mygroup-detail-member-application-list li span {
+	.study-mygroup-detail-member-admin-header p {
+	    color: #7f8c8d;
 	    font-size: 1em;
-	    color: #333;
+	}
+
+	/* 콘텐츠 영역 레이아웃 */
+	.study-mygroup-detail-member-admin-content {
+	  display: block; /* 상하 레이아웃으로 변경 */
+	  align-items: center;
+	  justify-content: center;
+	}
+
+	/* 테이블 스타일 */
+	.study-mygroup-detail-member-admin-table {
+	  margin: 20px auto;
+	}
+
+	.study-mygroup-detail-member-admin-table h3 {
+	    margin-bottom: 20px;
+	    color: #2c3e50;
+	    font-size: 1.4em;
+	    text-align: center;
+	}
+
+	/* 테이블 스타일링 */
+	.study-mygroup-detail-member-admin-table table {
+	    width: 100%;
+	    border-collapse: collapse;
+	}
+
+	.study-mygroup-detail-member-admin-table th,
+	.study-mygroup-detail-member-admin-table td {
+	    padding: 10px;
+	    text-align: center;
+	    border-bottom: 1px solid #ecf0f1;
+		line-height: 40px;
+		
+	}
+
+	.study-mygroup-detail-member-admin-table th {
+	    background-color: #f7f9fa;
+	    color: #34495e;
+	    font-weight: bold;
+		line-height: 40px;
+	}
+
+	.study-mygroup-detail-member-admin-table tr:hover {
+	    background-color: #f1f2f6;
+	}
+
+	/* 프로필 이미지 스타일 */
+	.study-mygroup-detail-member-profile-img {
+	    width: 40px;
+	    height: 40px;
+	    border-radius: 50%;
+	}
+
+	/* 버튼 스타일 */
+	.study-mygroup-detail-member-btn {
+	    padding: 8px 8px;
+	    border-radius: 5px;
+	    border: none;
+	    cursor: pointer;
+	    font-size: 0.9em;
+	    color: #fff;
+	    margin: 0 2px;
+	    transition: background-color 0.3s ease;
+	    min-width: 50px;
+	}
+
+	/* 그룹장 위임 버튼 */
+	.study-mygroup-detail-member-assign-btn {
+	    background-color: #3498db;
+	}
+
+	.study-mygroup-detail-member-assign-btn:hover {
+	    background-color: #2980b9;
+	}
+
+	/* 강퇴 버튼 */
+	.study-mygroup-detail-member-remove-btn {
+	    background-color: #e74c3c;
+	}
+
+	.study-mygroup-detail-member-remove-btn:hover {
+	    background-color: #c0392b;
+	}
+
+	/* 승인 버튼 */
+	.study-mygroup-detail-member-approve-btn {
+	    background-color: #2ecc71;
+	}
+
+	.study-mygroup-detail-member-approve-btn:hover {
+	    background-color: #27ae60;
+	}
+
+	/* 거절 버튼 */
+	.study-mygroup-detail-member-reject-btn {
+	    background-color: #e74c3c;
+	}
+
+	.study-mygroup-detail-member-reject-btn:hover {
+	    background-color: #c0392b;
 	}
    </style>
 <body>
@@ -74,46 +148,53 @@
                      <!-- 로그인 유저 이름 -->
                      <div class="session-user-name">{{sessionUserNickName}}님</div>
 
-                     <!-- 상단 메뉴 -->
-                     <div class="study-mygroup-detail2-sidebar-top"> 
-                         <ul>
-                             <li @click="fnSidebar('1')">그룹 정보</li>
-                             <li @click="fnSidebar('2')">자유게시판</li>
-                         </ul>
-                         <ul>
-                             <li @click="fnSidebar('3')">회원 관리</li>
-                             <li @click="fnSidebar('4')">그룹 관리</li>
-                         </ul>
-                     </div>
+			            <!-- 상단 메뉴 -->
+			            <div class="study-mygroup-detail2-sidebar-top"> 
+			                <ul>
+			                    <li @click="fnSidebar('1')">그룹 정보</li>
+			                    <li @click="fnSidebar('2')">자유게시판</li>
+			                </ul>
+							<template v-if="adminlist.userId === sessionUserId">
+			                <ul>
+			                    <li @click="fnSidebar('3')">회원 관리</li>
+			                    <li @click="fnSidebar('4')">그룹 관리</li>
+			                </ul>
+							</template>
+			            </div>
 
-                     <!-- 가입한 유저 목록 -->
-                     <div class="study-mygroup-detail2-sidebar-bottom">
-                         <div class="joined-users-title">가입한 유저 목록</div>
-                         <ul>
-                             <!-- 관리자 -->
-                             <li>
-                           <template v-if="adminlist.filePath">
-                           <img :src="adminlist.filePath" alt="유저 사진" />
-                           </template>
-                           <template v-if="!adminlist.filePath">
-                           <img src="../src/profile.png" alt="유저 사진" />
-                           </template>
-                                 <span>👑 {{adminlist.userNickName}}</span>
-                             </li>
-                             <!-- 일반 유저 목록 -->
-                             <li v-for="item in searchjoinGroup">
-                           <template v-if="item.filePath">
-                           <img :src="item.filePath" alt="유저 사진" />
-                           </template>
-                           <template v-if="!item.filePath">
-                           <img src="../src/profile.png" alt="유저 사진" />
-                           </template>
-                                 <span>{{item.userNickName}}</span>
-                             </li>
-                         </ul>
-                     </div>
-                 </div>
-                 <!-- 사이드바 끝 -->
+			            <!-- 가입한 유저 목록 -->
+			            <div class="study-mygroup-detail2-sidebar-bottom">
+			                <div class="joined-users-title">가입한 유저 목록</div>
+			                <ul>
+			                    <!-- 관리자 -->
+			                    <li>
+									<template v-if="adminlist.filePath">
+									<img :src="adminlist.filePath" alt="유저 사진" />
+									</template>
+									<template v-if="!adminlist.filePath">
+									<img src="../src/profile.png" alt="유저 사진" />
+									</template>
+			                        <span>👑 {{adminlist.userNickName}}</span>
+			                    </li>
+			                    <!-- 일반 유저 목록 -->
+			                    <li v-for="item in searchjoinGroup">
+									<template v-if="item.filePath">
+									<img :src="item.filePath" alt="유저 사진" />
+									</template>
+									<template v-if="!item.filePath">
+									<img src="../src/profile.png" alt="유저 사진" />
+									</template>
+									<template v-if="item.userId === sessionUserId">
+			                        <span>{{item.userNickName}}(나)</span>
+									</template>
+									<template v-else>
+			                        <span>{{item.userNickName}}</span>
+									</template>
+			                    </li>
+			                </ul>
+			            </div>
+			        </div>
+			        <!-- 사이드바 끝 -->
 
                  <!-- 콘텐츠 영역 -->
                  <div class="study-mygroup-detail2-content">
@@ -167,40 +248,157 @@
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <!-- ===========================================회원관리=========================================== -->
 						   <template v-if="pageView == '3'">
-						       <div class="study-mygroup-detail-member-container">
-						           <!-- 좌측 회원 리스트 -->
-						           <div class="study-mygroup-detail-member-list">
-						               <h3>회원 리스트</h3>
-						               <ul>
-						                   <li v-for="item in searchjoinGroup">
-						                       <template v-if="item.filePath">
-						                           <img :src="item.filePath" alt="유저 사진" />
-						                       </template>
-						                       <template v-if="!item.filePath">
-						                           <img src="../src/profile.png" alt="유저 사진" />
-						                       </template>
-						                       <span>{{item.userNickName}}</span>
-						                   </li>
-						               </ul>
-						           </div>
-
-						           <!-- 우측 가입 신청 목록 -->
-						           <div class="study-mygroup-detail-member-application-list">
-						               <h3>가입 신청 목록</h3>
-						               <ul>
-						                   <li v-for="item in searchjoinGroup">
-						                       <template v-if="item.filePath">
-						                           <img :src="item.filePath" alt="유저 사진" />
-						                       </template>
-						                       <template v-if="!item.filePath">
-						                           <img src="../src/profile.png" alt="유저 사진" />
-						                       </template>
-						                       <span>{{item.userNickName}}</span>
-						                   </li>
-						               </ul>
-						           </div>
+						     <div class="study-mygroup-detail-member-admin-panel-container" style="max-width: 800px; width: 100%; margin: auto;">
+						       <!-- 페이지 헤더 -->
+						       <div class="study-mygroup-detail-member-admin-header">
+						         <p>여기에서 그룹원 관리 및 가입 신청을 처리할 수 있습니다.</p>
 						       </div>
+
+						       <!-- 메인 콘텐츠 영역 (상하 레이아웃) -->
+						       <div class="study-mygroup-detail-member-admin-content" style="display: block;">
+						         
+						         <!-- 좌측 회원 리스트 (1단) -->
+						         <details id="memberListfirst" class="study-mygroup-detail-member-admin-table" @toggle="closeOtherDetails('memberListDetails')" style="margin-bottom: 20px; max-width: 800px; width: 100%;">
+						           <summary style="cursor: pointer; padding: 10px; background: #f7f9fa; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+						             회원 리스트
+						           </summary>
+						           
+						           <!-- 드롭다운 내용 -->
+						           <div style="margin-top: 10px;">
+						             <table>
+						               <thead>
+						                 <tr>
+						                   <th>프로필</th>
+						                   <th>닉네임</th>
+						                   <th>활동</th>
+						                 </tr>
+						               </thead>
+						               <tbody>
+						                 <tr>
+						                   <td>
+						                     <template v-if="adminlist.filePath">
+						                       <img :src="adminlist.filePath" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                     </template>
+						                     <template v-if="!adminlist.filePath">
+						                       <img src="../src/profile.png" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                     </template>
+						                   </td>
+						                   <td>👑{{adminlist.userNickName}}</td>
+						                   <td class="study-mygroup-detail-member-action-buttons"> 그룹장</td>
+						                 </tr>
+						                 <tr v-for="item in searchjoinGroup">
+						                   <template v-if="item.rejectionMessage !== 'Y'">
+						                     <td>
+						                       <template v-if="item.filePath">
+						                         <img :src="item.filePath" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                       </template>
+						                       <template v-if="!item.filePath">
+						                         <img src="../src/profile.png" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                       </template>
+						                     </td>
+						                     <td>{{item.userNickName}}</td>
+						                     <td class="study-mygroup-detail-member-action-buttons">
+						                       <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-assign-btn" @click="fnassignLeader(item.fetchappuserid,item.userNickName )">그룹장 위임</button>
+						                       <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-remove-btn" @click="removeMember(item.fetchappuserid)">강퇴</button>
+						                     </td>
+						                   </template>
+						                   <template v-else>
+						                     <td colspan="2">
+						                       <input type="text" style="height:40px; width:100%;" v-model="rejectionMessage" placeholder="강퇴 사유를 입력해주세요." />
+						                     </td>
+						                     <td class="study-mygroup-detail-member-action-buttons">
+						                       <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-remove-btn" @click="removeMemberResult(item.fetchappuserid,item.userNickName)">강퇴</button>
+											   <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-remove-btn" @click="removeMember()">취소</button>
+						                     </td>
+						                   </template>
+						                 </tr>
+						               </tbody>
+						             </table>
+						           </div>
+						         </details>
+
+						         <!-- 우측 가입 신청 목록 (2단) -->
+						         <details id="memberListSecond" class="study-mygroup-detail-member-admin-table" @toggle="closeOtherDetails('memberListSecond')" style="margin-bottom: 20px; max-width: 800px; width: 100%;">
+						           <summary style="cursor: pointer; padding: 10px; background: #f7f9fa; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+						             가입 신청 목록
+						           </summary>
+						           
+						           <!-- 드롭다운 내용 -->
+						           <div style="margin-top: 10px;">
+						             <table>
+						               <thead>
+						                 <tr>
+						                   <th>프로필</th>
+						                   <th>닉네임</th>
+						                   <th>활동</th>
+						                 </tr>
+						               </thead>
+						               <tbody>
+										<template v-for="item in searchnotjoinGroup">
+						                 <tr>
+						                   <td>
+						                     <template v-if="item.filePath">
+						                       <img :src="item.filePath" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                     </template>
+						                     <template v-if="!item.filePath">
+						                       <img src="../src/profile.png" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+						                     </template>
+						                   </td>
+						                   <td>{{item.userNickName}}</td>
+						                   <td class="study-mygroup-detail-member-action-buttons">
+						                     <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-approve-btn" @click="approveMember(item)">승인</button>
+						                     <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-reject-btn" @click="rejectMember(item)">거절</button>
+						                   </td>
+						                 </tr>
+										 </template>
+						               </tbody>
+						             </table>
+						           </div>
+						         </details>
+
+								 <!-- 우측 가입 신청 목록 (하단) -->
+ 						         <details id="memberListthird" class="study-mygroup-detail-member-admin-table" @toggle="closeOtherDetails('memberListthird')" style="margin-bottom: 20px; max-width: 800px; width: 100%;">
+ 						           <summary style="cursor: pointer; padding: 10px; background: #f7f9fa; border: 1px solid #ddd; border-radius: 4px; text-align: center;">
+ 						             가입 차단된 사용자 리스트(강퇴)
+ 						           </summary>
+								   
+								   <!-- 드롭다운 내용 -->
+	   					           <div style="margin-top: 10px;">
+	   					             <table>
+	   					               <thead>
+	   					                 <tr>
+	   					                   <th>프로필</th>
+	   					                   <th>닉네임</th>
+										   <th>차단사유</th>
+	   					                   <th>활동</th>
+	   					                 </tr>
+	   					               </thead>
+	   					               <tbody>
+	   					                 <tr v-for="item in searchnotLeaveGroup">
+	   					                   <td>
+	   					                     <template v-if="item.filePath">
+	   					                       <img :src="item.filePath" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+	   					                     </template>
+	   					                     <template v-if="!item.filePath">
+	   					                       <img src="../src/profile.png" class="study-mygroup-detail-member-profile-img" alt="유저 사진" />
+	   					                     </template>
+	   					                   </td>
+	   					                   <td>{{item.userNickName}}</td>
+										   <td>{{item.rejectionMessage}}</td>
+	   					                   <td class="study-mygroup-detail-member-action-buttons">
+	   					                     <button class="study-mygroup-detail-member-btn study-mygroup-detail-member-approve-btn" @click="fnStuGroupUnblocking(item.fetchappuserid)">차단해제</button>
+	   					                   
+	   					                   </td>
+	   					                 </tr>
+	   					               </tbody>
+	   					             </table>
+	   					           </div>
+	   					         </details>
+								 
+						       </div>
+						     </div>
 						   </template>
+
    						   <!-- ===========================================회원관리=========================================== -->
 						   <!-- ===========================================그룹관리=========================================== -->
    						   <template v-if = "pageView == '4'">
@@ -328,11 +526,91 @@
 					categoryList:[],
 					typeList : [],
 					fileName: '', // 파일명 저장
-	                filePreview: '' // 이미지 미리보기 URL 저장
+	                filePreview: '', // 이미지 미리보기 URL 저장
+					searchnotjoinGroup : [],
+					searchnotLeaveGroup : []
+					
 										
 	            };
 	        },
 	        methods: {
+				fnassignLeader(fetchappuserid,userNickName){
+					var self = this;
+					if(!confirm(userNickName + "님에게 그룹장을 위임합니다. 되돌릴수 없어요!")){
+						return;
+					}
+					var nparmap = { studyGroupId : self.studyGroupId ,fetchappuserid : fetchappuserid, sessionId : self.sessionUserId
+					};
+					$.ajax({
+						url:"updateStuGroupBossDelegation.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							alert("그룹장 위임 완료");
+							self.fnDetail();
+							self.fnSidebar(1);
+						}
+					});
+		        },
+				fnStuGroupUnblocking(fetchappuserid){
+					var self = this;
+					var nparmap = { studyGroupId : self.studyGroupId ,fetchappuserid : fetchappuserid
+					};
+					$.ajax({
+						url:"deleteStuGroupUnblocking.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							alert("차단해제 되었습니다.");
+							self.fnDetail();
+							self.fnSidebar(3);
+							
+						}
+					});
+		        },
+				removeMemberResult(fetchappuserid,userNickName){
+					var self = this;
+					if(!confirm("정말 강퇴 시킵니다?!")){
+						self.rejectionMessage ="";
+						return;
+					}
+					var nparmap = { studyGroupId : self.studyGroupId ,fetchappuserid : fetchappuserid,
+									rejectionMessage : self.rejectionMessage
+					};
+					$.ajax({
+						url:"updateStuGroupLeave.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							alert(userNickName + "님이 강퇴되었습니다.");
+							self.fnDetail();
+							self.fnSidebar(3);
+						}
+					});
+		        },
+				removeMember(fetchappuserid){
+					var self = this;
+					var nparmap = { studyGroupId : self.studyGroupId ,fetchappuserid : fetchappuserid
+					};
+					$.ajax({
+						url:"updateStuGroupLeaveMode.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							self.fnDetail();
+							self.fnSidebar(3);
+							
+						}
+					});
+		        },
 				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
 					var self = this;
 					var maxparticipants = self.detailList.maxparticipants;
@@ -373,6 +651,7 @@
 								  });		
 							  } else {
 								self.fnDetail();
+								
 							  }		
 						}
 					});
@@ -445,8 +724,10 @@
                         success: function(data) {
                             console.log(data);
                             self.adminlist = data.adminlist;
-                     self.searchUserlist = data.searchUserlist;
-                     self.searchjoinGroup = data.searchjoinGroup;
+							self.searchUserlist = data.searchUserlist;
+							self.searchjoinGroup = data.searchjoinGroup;
+							self.searchnotjoinGroup = data.searchnotjoinGroup;
+							self.searchnotLeaveGroup = data.searchnotLeaveGroup;
                         },
                     });
                 },

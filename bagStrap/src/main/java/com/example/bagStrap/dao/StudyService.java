@@ -74,5 +74,13 @@ public interface StudyService {
 	//스터디 그룹 사람검색
 	HashMap<String, Object> selectStuGroupUserSearch(HashMap<String, Object> map);	
 	//마이페이지 -> 스터디그룹 수정
-	HashMap<String, Object> updateStuGroup(HashMap<String, Object> map);	
+	HashMap<String, Object> updateStuGroup(HashMap<String, Object> map);
+	//마이페이지 -> 스터디 강퇴
+	HashMap<String, Object> updateStuGroupLeave(HashMap<String, Object> map);
+	//마이페이지 -> 스터디 강퇴 모드
+	HashMap<String, Object> updateStuGroupLeaveMode(HashMap<String, Object> map);
+	//마이페이지 -> 스터디 차단 풀기
+	HashMap<String, Object> deleteStuGroupUnblocking(HashMap<String, Object> map);
+	//마이페이지 -> 스터디 그룹장 위임
+	HashMap<String, Object> updateStuGroupBossDelegation(HashMap<String, Object> map);
 }
