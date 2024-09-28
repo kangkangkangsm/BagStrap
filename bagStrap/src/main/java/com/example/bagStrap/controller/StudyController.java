@@ -485,5 +485,45 @@ public class StudyController {
 			resultMap = studyService.updateStuGroupBossDelegation(map);
 			return new Gson().toJson(resultMap);
 		}
+		//마이페이지 -> 스터디 가입 승인 
+		@RequestMapping(value = "/updateStuGroupJoin.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroupJoin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroupJoin(map);
+			return new Gson().toJson(resultMap);
+		}
+		//마이페이지 -> 스터디 그룹 삭제  
+		@RequestMapping(value = "/deleteStuGroup.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteStuGroup(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deleteStuGroup(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디긔룹  채팅같은 게시글 쓰기  
+		@RequestMapping(value = "/insertStuGroupMessage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String insertStuGroupMessage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.insertStuGroupMessage(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 채팅 불러오기 
+		@RequestMapping(value = "/selectStuGroupMessage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupMessage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupMessage(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 채팅 삭제
+		@RequestMapping(value = "/deletGroupMessage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deletGroupMessage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deletGroupMessage(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }

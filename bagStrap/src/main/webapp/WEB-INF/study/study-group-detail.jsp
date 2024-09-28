@@ -375,6 +375,9 @@
 		                  success : function(data) { 
 		                      alert(data.message);
 		                 	  self.applyMode = 'N'; 
+							  self.selfIntro ='';
+							  self.studyGoal ='';
+							  self.additionalQuestions ='';
 		                  },
 		              });
 		        },

@@ -176,7 +176,7 @@
 						success : function(data) { 
 							console.log(data);
 							var idx = data.idx;
-							self.insertStuGroupKingApply(self.sessionUserId, idx)
+							self.insertStuGroupKingApply(self.sessionUserId, idx);
 							console.log(idx);
 							if (self.file) {
 								  const formData = new FormData();
