@@ -21,7 +21,7 @@ public class StudyComm {
 	private int cnt;
 	private int cnt2;
 	private int cnt3;
-	
+	private int cnt4;
 //TBL_STU_COMMENTS
 	private String commentId;
 	private String postId;

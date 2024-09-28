@@ -99,6 +99,7 @@
 			    <form class="stu-comm-insert-form">
 			        <label for="category">카테고리</label>
 					<select id="category" class="stu-comm-insert-category" v-model="boardTypeId">
+						<option value="1002" v-if="isAdmin">공지사항</option>
 					    <option v-for="item in categoryList" :value="item.boardTypeId">
 					        {{ item.name }} 
 					    </option>
@@ -144,7 +145,8 @@
 				file: null,
 				categoryList: [],
 				content: "",
-		        filePreview: '' // 이미지 미리보기 URL 저장
+		        filePreview: '' // 이미지 미리보기 URL 저장,
+				
             };
         },
         methods: {
@@ -230,6 +232,7 @@
 						if (data.isLogin) {
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
+							self.isAdmin = data.isAdmin;
 						} else {
 							self.sessionUserId = '';
 							self.sessionUserNickName = '';

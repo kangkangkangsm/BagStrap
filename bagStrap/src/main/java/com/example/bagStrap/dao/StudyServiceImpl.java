@@ -101,12 +101,15 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	//스터디 사이드바 cnt
 	@Override
 	public HashMap<String, Object> sidebarCnt(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
 			int countMyCommList = studyMapper.countMyCommList(map);
 			int countMycommentList = studyMapper.countMycommentList(map);
+			int countMyStudy = studyMapper.countMyStudy(map);
+			resultMap.put("countMyStudyCnt", countMyStudy);
 			resultMap.put("countMyCommCnt", countMyCommList);
 			resultMap.put("countMycommentCnt", countMycommentList);
 			resultMap.put("result", true);

@@ -664,6 +664,12 @@
 	          },
             fnReChat(commentId){
                var self = this;
+			   if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					return;
+				};
                var boardId = self.boardId;
                var nparmap = {boardId : boardId};
                $.ajax({
@@ -835,7 +841,15 @@
                 });
             },            
             fnInsertBoard(){
-                location.href="/commInsert"
+				var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				}else{
+				location.href="commInsert"					
+				}
             },
             fnBack(){
                 history.back();
@@ -884,6 +898,13 @@
             },
             fnSave(){
                 var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					return;
+				};
+
                 var nparmap = {boardId : self.boardId,contents : self.contents,userId : self.sessionUserId };
                 $.ajax({
                     url:"/insertViewComment.dox",
@@ -1005,7 +1026,13 @@
             },                    
             fnLikeCheck(boardId,type) {
                 var self = this;
-                console.log(type);
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					return;
+				};
+
                 var nparmap = {
                     boardId: boardId,
                     userId: self.sessionUserId
@@ -1044,7 +1071,31 @@
             },
 			fnUserboard(author,userNickName){
 		     	 $.pageChange("/study-comm-myboard",{author : author, itemMode : "board", userNickName : userNickName});
-	  	    },    
+	  	    }, 
+			fnLogin(){
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					password : self.password
+
+				};
+				$.ajax({
+					url:"/login.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+						console.log(data); 
+						alert(data.message);
+						if(data.result){
+							document.getElementById('headerLoginModal').close();
+							self.getSharedHeader();
+							self.userId = '',
+							self.password = ''
+						}
+					}
+				});
+            },	   
                 
         },
         mounted() {

@@ -39,7 +39,8 @@ public class StudyController {
 	// 스터디 커뮤니티 
 	@RequestMapping("/study-comm") 
 	 public String study_comm(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		 request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
+		 request.setAttribute("boardTypeId", map.get("boardTypeId")); 
+		request.setAttribute("boardTypeId2", map.get("boardTypeId2"));
 		 request.setAttribute("name2", map.get("name"));
 		return "/study/study-comm";
 	}

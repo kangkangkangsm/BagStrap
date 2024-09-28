@@ -1184,7 +1184,6 @@
 						data : nparmap,
 						success : function(data) { 
 							self.fnDetail();
-							self.fnSidebar(2);
 							console.log(data);
 							self.messagelist = data.messagelist;
 							
@@ -1523,6 +1522,7 @@
             self.fnSession();
             self.fnDetail();
 			self.fnMessageSelect();
+			
             window.addEventListener('loginStatusChanged', function(){
                if(window.sessionStorage.getItem("isLogin") === 'true'){
                   self.isLogin = true;   

@@ -72,7 +72,9 @@
     <if test="period == '1year'">
         AND C.CREATED_DATE >= ADD_MONTHS(SYSDATE, -12)
     </if>
-    	ORDER BY C.CREATED_DATE DESC
+    	ORDER BY 
+		CASE WHEN T.BOARD_TYPE_ID = 1002 THEN 1 ELSE 2 END, 
+		C.CREATED_DATE DESC
     	OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
 	
@@ -190,7 +192,7 @@
 	<!-- 스터디 커뮤니티 게시글 작성하기 카테고리 불러오기-->
 	<select id="selectMyCommCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	SELECT * FROM tbl_stu_comm_board_types
-	WHERE (board_type_id BETWEEN 1001 AND 1999) 
+	WHERE (board_type_id BETWEEN 1003 AND 1999) 
 	OR (board_type_id BETWEEN 2001 AND 2999)
 	OR (board_type_id BETWEEN 3001 AND 3999)
 	OR (board_type_id BETWEEN 4001 AND 4999)
@@ -695,5 +697,9 @@
 	delete from TBL_MESSAGE
 	where messageId = #{messageId}
 	</delete>
-		
+	<!-- 내가 가입한 스터디 개수 -->
+	<select id="countMyStudy" parameterType="hashmap" resultType="int">
+		select count(*) AS cnt4 from tbl_study_application
+		where fetchappuserid = #{userId} AND fetchapplstatus = 'Y'
+	</select>	
 </mapper>

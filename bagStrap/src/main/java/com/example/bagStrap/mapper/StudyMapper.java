@@ -130,5 +130,7 @@ public interface StudyMapper {
 	List<StudyComm> selectStuGroupMessage(HashMap<String, Object> map);
 	//스터디 채팅삭제
 	void deletGroupMessage(HashMap<String, Object> map);
+	// 나의 스터디 개수 
+	int countMyStudy(HashMap<String, Object> map);
 	
 }
