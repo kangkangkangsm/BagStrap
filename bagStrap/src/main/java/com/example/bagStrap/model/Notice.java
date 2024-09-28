@@ -46,4 +46,7 @@ public class Notice {
 	private String inqcDate;
 	private String inquDate;
 	private String inqAnswer;
+
+
 }
+
