@@ -360,9 +360,18 @@
 	</insert>
 	<!-- 스터디 그룹 리스트-->
 	<select id="selectStuGroupListSidebar" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		 select TSG.*,TSCBT.*,tb.*,applyY,applyN,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
+	 	select TSG.*,TSCBT.*,tb.*,applyY,applyN,TO_CHAR(STARTDATE,'YYYY-MM-DD') AS STGSTARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') AS STGENDDATE, TO_CHAR(STUDYTIME,'HH24:MI') AS STGSTUDYTIME from TBL_STUDY_GROUP TSG
 		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
-        LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = tb.boardno
+        LEFT JOIN
+        (    
+        SELECT * FROM 
+        (
+        SELECT t.*, ROW_NUMBER() OVER (PARTITION BY BOARDNO ORDER BY FILECREATEDATE DESC) AS rn
+        FROM TBL_BOARDFILE t
+        ) 
+        WHERE rn = 1
+        )
+        TB ON TSG.STUDY_GROUP_ID = tb.boardno
         LEFT JOIN 
         (
         SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
@@ -462,7 +471,16 @@
 	applyY, applyN
 	FROM TBL_STUDY_GROUP TSG
 	LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
-	LEFT JOIN TBL_BOARDFILE TB ON TSG.STUDY_GROUP_ID = TB.boardno
+	LEFT JOIN 
+    (    
+        SELECT * FROM 
+        (
+        SELECT t.*, ROW_NUMBER() OVER (PARTITION BY BOARDNO ORDER BY FILECREATEDATE DESC) AS rn
+        FROM TBL_BOARDFILE t
+        ) 
+        WHERE rn = 1
+        )
+    TB ON TSG.STUDY_GROUP_ID = TB.boardno
 	LEFT JOIN TBL_BOOK TBOOK ON TSG.RELATED_BOOK = TBOOK.BOOK_ID
 	LEFT JOIN (
 	    SELECT FETCHAPPSTUDYID, 
@@ -512,9 +530,18 @@
 	</select>	
 	<!-- 마이페이지 나의 스터디 목록-->
 	<select id="selectStuGroupMyPage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-			SELECT * FROM tbl_study_application TSA
+			 SELECT * FROM tbl_study_application TSA
 			INNER JOIN tbl_study_group TSG ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
-			LEFT JOIN TBL_BOARDFILE TB ON TSA.FETCHAPPSTUDYID = TB.BOARDNO
+			LEFT JOIN 
+             (    
+            SELECT * FROM 
+            (
+            SELECT t.*, ROW_NUMBER() OVER (PARTITION BY BOARDNO ORDER BY FILECREATEDATE DESC) AS rn
+            FROM TBL_BOARDFILE t
+            ) 
+            WHERE rn = 1
+            )
+            TB ON TSA.FETCHAPPSTUDYID = TB.BOARDNO
             INNER JOIN 
             (
             SELECT study_group_id,count(CASE WHEN fetchapplstatus ='Y' THEN 1 END ) AS applyY,count(CASE WHEN fetchapplstatus ='N' THEN 1 END ) AS applyN
@@ -544,4 +571,20 @@
         LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
 		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} 
 	</select>	
+	<!-- 스터디 그룹 수정-->
+	<update id="updateStuGroup" parameterType="hashmap">
+	UPDATE TBL_STUDY_GROUP
+	SET                 
+	    STUDY_NAME = #{studyName},
+	    STARTDATE = TO_DATE(#{stgStartDate}, 'YYYY-MM-DD'), 
+	    ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'), 
+	    STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
+	    AGE = #{age},                
+	    ONOFFMODE = #{onOffMode},             
+	    MAX_PARTICIPANTS = #{maxParticipants},              
+	    GENDERGROUP = #{genderGroup},                    
+	    RELATED_BOOK = #{bookId},                 
+	    DESCRIPTION = #{description}
+	WHERE STUDY_GROUP_ID = #{studyGroupId}
+	</update>
 </mapper>

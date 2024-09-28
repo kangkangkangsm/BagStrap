@@ -20,7 +20,7 @@
 		
         <div class="content">
 			<div id="app">
-				
+				환불 리스트
 	        </div>
 		</div>
 

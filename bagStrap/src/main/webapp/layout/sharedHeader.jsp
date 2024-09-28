@@ -10,6 +10,66 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"/>
 	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
     <title>웹 페이지 레이아웃</title>
+	<style>
+		.header-menu {
+		    background-color: #333;
+			height: fit-content;
+		}
+
+		.header-menu-list {
+		    list-style: none;
+		    padding: 0;
+		    margin: 0;
+		    display: flex;
+		}
+
+		.header-menu-item {
+		    position: relative;
+		}
+
+		.header-menu-item > a {
+		    display: block;
+		    padding: 15px 20px;
+		    color: white;
+		}
+
+		.header-menu-item > a:hover {
+		    background-color: #555;
+		}
+
+		.header-submenu {
+		    display: none;
+		    position: absolute;
+		    top: 100%;
+		    left: 0;
+		    background-color: #444;
+		    list-style: none;
+		    padding: 0;
+		    margin: 0;
+		}
+
+		.header-submenu-item {
+			width: fit-content;
+		    display: inline-block;
+		}
+
+		.header-submenu-item a {
+		    display: inline-block;
+		    padding: 10px 15px;
+		    color: white;
+			font-family: 'Arial', '돋움', sans-serif; /* 영문과 한글 모두에 적합한 글꼴 지정 */
+			letter-spacing: 0; /* 글자 간격 초기화 */
+			white-space: nowrap; /* 줄바꿈 방지 */
+		}
+
+		.header-submenu-item a:hover {
+		    background-color: #666;
+		}
+
+		.header-menu-item:hover .header-submenu {
+		    display: flex;
+		}
+	</style>
 </head>
 <body>
     <header id="sharedHeader" class="header">
@@ -21,9 +81,30 @@
 			</a>
         </div>
 
-        <nav class="header-menu">
-            메뉴
-        </nav>
+		<nav class="header-menu">
+		    <ul class="header-menu-list">
+				<li class="header-menu-item">
+		            <a href="/intro">Home</a>
+		        </li>
+		        <li class="header-menu-item">
+		            <a href="javascript:;">Shop</a>
+		            <ul class="header-submenu">
+		                <li class="header-submenu-item"><a href="/shop/all">All</a></li>
+		                <li class="header-submenu-item"><a href="/shop/best">Best</a></li>
+		                <li class="header-submenu-item"><a href="/shop/new">New</a></li>
+		                <li class="header-submenu-item"><a href="/shop/sale">Sale</a></li>
+		            </ul>
+		        </li>
+		        <li class="header-menu-item">
+		            <a href="javascript:;">Study</a>
+		            <ul class="header-submenu">
+						<li class="header-submenu-item"><a href="/study/study">Study</a></li>
+		                <li class="header-submenu-item"><a href="/study/community">Community</a></li>
+						<li class="header-submenu-item"><a href="/study/event">Event</a></li>
+		            </ul>
+		        </li>
+		    </ul>
+		</nav>
         
         <div class="headerCustomerMenu">
             <div class="headerloginMainMenu headerCustomerSub">

@@ -9,11 +9,57 @@
    <title>첫번째 페이지</title>
 </head>
 <style>
-   body, html {
-       height: 100%;
-       margin: 0;
-       font-family: Arial, sans-serif;
-   }
+	body, html {
+	    height: 100%;
+	    margin: 0;
+	    font-family: Arial, sans-serif;
+	}
+	.study-mygroup-detail-member-container {
+	    display: flex;
+	    justify-content: space-between;
+	    margin: 20px 0;
+	    padding: 20px;
+	    background-color: #f9f9f9;
+	}
+
+	.study-mygroup-detail-member-list, .study-mygroup-detail-member-application-list {
+	    width: 45%;
+	    background: #fff;
+	    border: 1px solid #ddd;
+	    border-radius: 8px;
+	    padding: 15px;
+	}
+
+	.study-mygroup-detail-member-list h3, .study-mygroup-detail-member-application-list h3 {
+	    text-align: center;
+	    font-size: 1.2em;
+	    margin-bottom: 15px;
+	}
+
+	.study-mygroup-detail-member-list ul, .study-mygroup-detail-member-application-list ul {
+	    list-style: none;
+	    padding: 0;
+	}
+
+	.study-mygroup-detail-member-list li, .study-mygroup-detail-member-application-list li {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 10px;
+	    padding: 8px;
+	    border-bottom: 1px solid #eee;
+	}
+
+	.study-mygroup-detail-member-list li img, .study-mygroup-detail-member-application-list li img {
+	    width: 30px;
+	    height: 30px;
+	    border-radius: 50%;
+	    margin-right: 10px;
+	}
+
+	.study-mygroup-detail-member-list li span, .study-mygroup-detail-member-application-list li span {
+	    font-size: 1em;
+	    color: #333;
+	}
    </style>
 <body>
    <div id="app">
@@ -84,187 +130,256 @@
                            <div class="intro">
                            </div>
 
-                        <span>🔍 그룹 진행 방식</span>
-                           <div class="details">
-                           <span>👑 {{adminlist.userNickName}} </span>
-                               <span>👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }}</span>
-                               <span>스터디 방식: {{ detailList.onOffMode }}</span>
-                               <span>성별 : {{ detailList.genderGroup }}</span>
-                               <span>연령대: {{ detailList.age }}</span>
-                        <span> 스터디 시간:  {{ detailList.stgStudyTime }} </span>
-                           </div>
-                            <span>💡 그룹 소개</span>
-                           <div class="details">
-                        <span>{{ detailList.description }}</span>
-                           </div>
-                        <span>나의학습목표</span>
-                           <div class="details">
-                           <span>{{ searchUserlist.studygoal }}</span>
-                                 </div>
-                           <h2>그룹 관련 도서 정보</h2>
-                           <div class="book-info">
-                               <img :src="detailList.image" alt="책 표지">
-                               <div class="book-details">
-                                   <h3>{{ detailList.title }}</h3>
-                                   <p>저자: {{ detailList.author }}</p>
-                                   <p>평점: ★★★★☆</p>
-                                   <p>소개: {{ detailList.tbDescription }}</p>
-                               </div>
-                           </div>
-                       </div>
-                     </template>
-                     <!-- ===========================================그룹 정보=========================================== -->
-                     <!-- ===========================================자유게시판=========================================== -->
-                     <template v-if = "pageView == '2'">
-                     자유게시판
-                     </template>
-                     <!-- ===========================================자유게시판=========================================== -->
-                     <!-- ===========================================회원관리=========================================== -->
-                        <template v-if = "pageView == '3'">
-                        회원관리
-                        </template>
-                        <!-- ===========================================회원관리=========================================== -->
-                     <!-- ===========================================그룹관리=========================================== -->
-                        <template v-if = "pageView == '4'">
-                     
-                             
-                           <div class="study-group-insert-form-group">
-                               <label for="field">스터디 영역</label>
-                              <input type="text" id="studyName" name="studyName" v-model="detailList.name" maxlength="24" disabled>
-                           </div>
-                          <div class="study-group-insert-form-group">
-                               <label for="studyName">스터디 이름 (24자 이내)</label>
-                               <input type="text" id="studyName" name="studyName" v-model="detailList.studyName" maxlength="24">
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="startDate">스터디 기간 (시작일)</label>
-                               <input type="date" id="startDate" name="startDate" v-model="detailList.stgStartDate">
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="endDate">스터디 기간 (종료일)</label>
-                               <input type="date" id="endDate" name="endDate" v-model="detailList.stgEndDate">
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="time">스터디 시간 설정</label>
-                               <input type="time" id="time" name="time" v-model="detailList.stgStudyTime">
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="ageGroup">연령별</label>
-                               <select id="ageGroup" name="ageGroup" v-model="detailList.age">
-                                   <option value="중딩">중딩</option>
-                                <option value="고딩">고딩</option>
-                                <option value="대딩">대딩</option>
-                                <option value="성딩">성인</option>
-                               </select>
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="studyType">온라인/오프라인</label>
-                               <select id="studyType" name="studyType" v-model="detailList.onOffMode">
-                                   <option value="온라인">온라인</option>
-                                <option value="오프라인">오프라인</option>
-                                <option value="">혼합</option>
-                                   <!-- 온라인/오프라인 추가 -->
-                               </select>
-                           </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="members">모집 인원</label>
-                               <select id="members" name="members" v-model="detailList.maxparticipants">
-                                <option value="2">1:1(과외)</option>
-                                <option value="3">3명</option>
-                                <option value="4">4명</option>
-                                <option value="5">5명</option>
-                                <option value="6">6명</option>
-                                <option value="7">7명</option>
-                                <option value="8">8명</option>
-                                <option value="9">9명</option>
-                                <option value="10">10명</option>
-                                <option value="11">11명</option>
-                                <option value="12">12명</option>
-                                <option value="13">13명</option>
-                                <option value="14">14명</option>
-                                <option value="15">15명</option>
-                                <option value="16">16명</option>
-                                <option value="17">17명</option>
-                                <option value="18">18명</option>
-                                <option value="19">19명</option>
-                                <option value="20">20명</option>
-                              </select>
-                           </div>
-                          <div class="study-group-insert-form-group">
-                                 <label for="gender">성별</label>
-                              <select id="gender" name="gender" v-model="detailList.genderGroup">
-                                  <option value="남성">남성</option>
-                                    <option value="여성">여성</option>
-                                    <option value="">성별무관</option>
-                            </select>
-                             </div>
-                           <div class="study-group-insert-form-group">
-                               <label for="book">참고 할 교재</label>
-                               <div class="study-group-insert-book-list">
-                                   <select id="book" name="book" v-model="﻿detailList.bookId">
-                                       <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
-                                       <!-- 책 리스트 추가 -->
-                                   </select>
-                               </div>
-                           </div>
-                          <div class="study-group-insert-form-group">
-                                 <label for="description">스터디 설명 (50자이내)</label>
-                                 <input type="text" id="description" name="description" v-model="detailList.description" maxlength="50" style="height:67px;">
-                             </div>
-                          <label for="file">변경할 스터디 그룹 이미지</label>
-                                <input type="file" style="margin-top:-5px;" @change="fnFileChange"/>
-                                <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
-                              <div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
-                           <button class="study-group-insert-submit-btn" 
-                          @click="fnGroupUpdate(detailList.studyName,detailList.stgStartDate,detailList.stgEndDate,
-                          detailList.stgStudyTime,detailList.age,detailList.onOffMode,detailList.maxparticipants,detailList.genderGroup,detailList.bookId,detailList.description)">변경완료</button>
-                          <button class="study-group-insert-submit-btn" @click="fnback()">취소</button>
-                       </div>
-                        </template>
-                        <!-- ===========================================그룹관리=========================================== -->
-                    </div>
-                </div>
-            </div>
-           </div>
-       </main>
-   </div>
-   <jsp:include page="/layout/footer.jsp"></jsp:include>
+								<span>🔍 그룹 진행 방식</span>
+				               <div class="details">
+								   <span>👑 {{adminlist.userNickName}} </span>
+				                   <span>👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }}</span>
+				                   <span>스터디 방식: {{ detailList.onOffMode }}</span>
+				                   <span>성별 : {{ detailList.genderGroup }}</span>
+				                   <span>연령대: {{ detailList.age }}</span>
+								<span> 스터디 시간:  {{ detailList.stgStudyTime }} </span>
+				               </div>
+			                   <span>💡 그룹 소개</span>
+				               <div class="details">
+								<span>{{ detailList.description }}</span>
+				               </div>
+							   <span>나의학습목표</span>
+   							   <div class="details">
+   								<span>{{ searchUserlist.studygoal }}</span>
+   	   			               </div>
+				               <h2>그룹 관련 도서 정보</h2>
+				               <div class="book-info">
+				                   <img :src="detailList.image" alt="책 표지">
+				                   <div class="book-details">
+				                       <h3>{{ detailList.title }}</h3>
+				                       <p>저자: {{ detailList.author }}</p>
+				                       <p>평점: ★★★★☆</p>
+				                       <p>소개: {{ detailList.tbDescription }}</p>
+				                   </div>
+				               </div>
+				           </div>
+						   </template>
+						   <!-- ===========================================그룹 정보=========================================== -->
+						   <!-- ===========================================자유게시판=========================================== -->
+						   <template v-if = "pageView == '2'">
+							자유게시판
+							</template>
+						   <!-- ===========================================자유게시판=========================================== -->
+						   <!-- ===========================================회원관리=========================================== -->
+						   <template v-if="pageView == '3'">
+						       <div class="study-mygroup-detail-member-container">
+						           <!-- 좌측 회원 리스트 -->
+						           <div class="study-mygroup-detail-member-list">
+						               <h3>회원 리스트</h3>
+						               <ul>
+						                   <li v-for="item in searchjoinGroup">
+						                       <template v-if="item.filePath">
+						                           <img :src="item.filePath" alt="유저 사진" />
+						                       </template>
+						                       <template v-if="!item.filePath">
+						                           <img src="../src/profile.png" alt="유저 사진" />
+						                       </template>
+						                       <span>{{item.userNickName}}</span>
+						                   </li>
+						               </ul>
+						           </div>
+
+						           <!-- 우측 가입 신청 목록 -->
+						           <div class="study-mygroup-detail-member-application-list">
+						               <h3>가입 신청 목록</h3>
+						               <ul>
+						                   <li v-for="item in searchjoinGroup">
+						                       <template v-if="item.filePath">
+						                           <img :src="item.filePath" alt="유저 사진" />
+						                       </template>
+						                       <template v-if="!item.filePath">
+						                           <img src="../src/profile.png" alt="유저 사진" />
+						                       </template>
+						                       <span>{{item.userNickName}}</span>
+						                   </li>
+						               </ul>
+						           </div>
+						       </div>
+						   </template>
+   						   <!-- ===========================================회원관리=========================================== -->
+						   <!-- ===========================================그룹관리=========================================== -->
+   						   <template v-if = "pageView == '4'">
+							
+									  
+							      <div class="study-group-insert-form-group">
+							          <label for="field">스터디 영역</label>
+							         <input type="text" id="studyName" name="studyName" v-model="detailList.name" maxlength="24" disabled>
+							      </div>
+								  <div class="study-group-insert-form-group">
+							          <label for="studyName">스터디 이름 (24자 이내)</label>
+							          <input type="text" id="studyName" name="studyName" v-model="detailList.studyName" maxlength="24">
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="startDate">스터디 기간 (시작일)</label>
+							          <input type="date" id="startDate" name="startDate" v-model="detailList.stgStartDate">
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="endDate">스터디 기간 (종료일)</label>
+							          <input type="date" id="endDate" name="endDate" v-model="detailList.stgEndDate">
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="time">스터디 시간 설정</label>
+							          <input type="time" id="time" name="time" v-model="detailList.stgStudyTime">
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="ageGroup">연령별</label>
+							          <select id="ageGroup" name="ageGroup" v-model="detailList.age">
+							              <option value="중딩">중딩</option>
+										  <option value="고딩">고딩</option>
+										  <option value="대딩">대딩</option>
+										  <option value="성딩">성인</option>
+							          </select>
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="studyType">온라인/오프라인</label>
+							          <select id="studyType" name="studyType" v-model="detailList.onOffMode">
+							              <option value="온라인">온라인</option>
+										  <option value="오프라인">오프라인</option>
+										  <option value="">혼합</option>
+							              <!-- 온라인/오프라인 추가 -->
+							          </select>
+							      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="members">모집 인원</label>
+							          <select id="members" name="members" v-model="detailList.maxparticipants">
+										  <option value="2">1:1(과외)</option>
+										  <option value="3">3명</option>
+										  <option value="4">4명</option>
+										  <option value="5">5명</option>
+										  <option value="6">6명</option>
+										  <option value="7">7명</option>
+										  <option value="8">8명</option>
+										  <option value="9">9명</option>
+										  <option value="10">10명</option>
+										  <option value="11">11명</option>
+										  <option value="12">12명</option>
+										  <option value="13">13명</option>
+										  <option value="14">14명</option>
+										  <option value="15">15명</option>
+										  <option value="16">16명</option>
+										  <option value="17">17명</option>
+										  <option value="18">18명</option>
+										  <option value="19">19명</option>
+										  <option value="20">20명</option>
+										</select>
+							      </div>
+								  <div class="study-group-insert-form-group">
+				  			    	   <label for="gender">성별</label>
+									   <select id="gender" name="gender" v-model="detailList.genderGroup">
+									 	   <option value="남성">남성</option>
+						            	   <option value="여성">여성</option>
+						            	   <option value="">성별무관</option>
+						          </select>
+				  			      </div>
+							      <div class="study-group-insert-form-group">
+							          <label for="book">참고 할 교재</label>
+							          <div class="study-group-insert-book-list">
+							              <select id="book" name="book" v-model="﻿detailList.bookId">
+							                  <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
+							                  <!-- 책 리스트 추가 -->
+							              </select>
+							          </div>
+							      </div>
+								  <div class="study-group-insert-form-group">
+					  		          <label for="description">스터디 설명 (50자이내)</label>
+					  		          <input type="text" id="description" name="description" v-model="detailList.description" maxlength="50" style="height:67px;">
+					  		      </div>
+								  <label for="file">변경할 스터디 그룹 이미지</label>
+								        <input type="file" style="margin-top:-5px;" @change="fnFileChange"/>
+								        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+										<div><img v-if="filePreview" :src="filePreview" style="margin-top:10px; width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
+							      <button class="study-group-insert-submit-btn" 
+								  @click="fnGroupUpdate(detailList.studyName,detailList.stgStartDate,detailList.stgEndDate,
+								  detailList.stgStudyTime,detailList.age,detailList.onOffMode,detailList.genderGroup,detailList.bookId,detailList.description)">변경완료</button>
+								  <button class="study-group-insert-submit-btn" @click="fnback()">취소</button>
+							  </div>
+   							</template>
+   						   <!-- ===========================================그룹관리=========================================== -->
+				        </div>
+				    </div>
+				</div>
+	        </div>
+	    </main>
+	</div>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
 </html>
 <script>
-   //localStorage.setItem('data', JSON.stringify(data));
-   // JSON.parse(localStorage.getItem('data')).result
-    const app = Vue.createApp({
-           data() {
-               return {
-               isLogin: false,
-               sessionUserId: '',
-               sessionUserNickName: '',
-               studyGroupId: '${studyGroupId}',
-               detailList : {},
-               adminlist : {},
-               searchUserlist : {},
-               pageView : '1',
-               searchjoinGroup : [],
-               categoryList:[],
-               typeList : [],
-               fileName: '', // 파일명 저장
-                   filePreview: '' // 이미지 미리보기 URL 저장
-                              
-               };
-           },
-		   methods: {
-	            fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
-	               var self = this;
-	               var maxparticipants = self.detailList.maxparticipants;
-	               var studyGroupId = self.studyGroupId;
-	               var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
-	                           stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
-	                           age : age ,  onOffMode : onOffMode , maxparticipants : maxparticipants, 
-	                           genderGroup : genderGroup , bookId : bookId , studyGroupId : studyGroupId,
-	                           description : description
-	               };
+	//localStorage.setItem('data', JSON.stringify(data));
+	// JSON.parse(localStorage.getItem('data')).result
+	 const app = Vue.createApp({
+	        data() {
+	            return {
+					isLogin: false,
+					sessionUserId: '',
+					sessionUserNickName: '',
+					studyGroupId: '${studyGroupId}',
+					detailList : {},
+					adminlist : {},
+					searchUserlist : {},
+					pageView : '1',
+					searchjoinGroup : [],
+					categoryList:[],
+					typeList : [],
+					fileName: '', // 파일명 저장
+	                filePreview: '' // 이미지 미리보기 URL 저장
+										
+	            };
+	        },
+	        methods: {
+				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
+					var self = this;
+					var maxparticipants = self.detailList.maxparticipants;
+					var studyGroupId = self.studyGroupId;
+					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
+									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
+									age : age ,  onOffMode : onOffMode , maxparticipants : maxparticipants, 
+									genderGroup : genderGroup , bookId : bookId , studyGroupId : studyGroupId,
+									description : description
+					};
+					$.ajax({
+						url:"updateStuGroup.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+							var idx = data.idx;
+							console.log(idx);
+							if (self.file) {
+								  const formData = new FormData();
+								  formData.append('file1', self.file);
+								  formData.append('idx', idx);
+								  $.ajax({
+										url: '/fileUpload.dox',
+										type: 'POST',
+										data: formData,
+										processData: false,  
+										contentType: false,  
+										success: function() {
+										 alert("수정완료 입니다요~");
+										  self.fnDetail();
+										  self.filePreview = "";
+										},
+										error: function(jqXHR, textStatus, errorThrown) {
+										  console.error('업로드 실패!', textStatus, errorThrown);
+										}
+								  });		
+							  } else {
+								self.fnDetail();
+							  }		
+						}
+					});
+		        },			
+				fnFileChange(event) {
+				    const file = event.target.files[0];
+				    this.file = file;
 
               },         
             fnFileChange(event) {
