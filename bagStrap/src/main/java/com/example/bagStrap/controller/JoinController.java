@@ -45,6 +45,10 @@ public class JoinController {
 	  Exception{ return "/header/header_myinfo"; 
 	  }
 	  
+	  @RequestMapping("/quit.do") public String deleteQuitMyInfo(Model model) throws
+	  Exception{ return "/header/header_quit"; 
+	  }
+	  
 	@RequestMapping(value = "/join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String joinList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -128,6 +132,24 @@ public class JoinController {
 	 * resultMap.put("result", "success"); return new Gson().toJson(resultMap); }
 	 */
 
+	
+	@RequestMapping(value = "/NickUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String NickUpdate1(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.updateNickName(map);
+		System.out.println("resultMap5 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/deleteQuit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String delete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.QuitId(map);
+		System.out.println("resultMap6 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
 	
 	
 	

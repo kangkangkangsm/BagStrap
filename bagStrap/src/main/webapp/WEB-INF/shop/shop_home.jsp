@@ -407,6 +407,14 @@
 			    },
 			    mounted() {
 			        this.fnGetList(); // 컴포넌트가 로드될 때 책 리스트를 불러옴
+					window.addEventListener('loginStatusChanged', function(){
+						if(window.sessionStorage.getItem("isLogin") === 'true'){
+							self.isLogin = true;	
+						} else{
+							self.isLogin = false;
+						};
+						self.fnGetList();	
+					})
 			    }
 			});
 			

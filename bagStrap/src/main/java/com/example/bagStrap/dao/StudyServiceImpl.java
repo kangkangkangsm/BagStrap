@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bagStrap.mapper.StudyMapper;
-import com.example.bagStrap.model.Item;
 import com.example.bagStrap.model.StudyComm;
 
 @Service
@@ -592,6 +592,7 @@ public class StudyServiceImpl implements StudyService{
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		try {
+			
 			studyMapper.updateStuGroup(map);
 			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
 			resultMap.put("result", true);

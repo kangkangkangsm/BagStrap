@@ -589,7 +589,7 @@
 		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'L' 
 	</select>		
 	<!-- 스터디 그룹 수정-->
-	<update id="updateStuGroup" parameterType="hashmap" useGeneratedKeys="true" keyProperty="STUDY_GROUP_ID" keyColumn="STUDY_GROUP_ID" >
+	<update id="updateStuGroup" parameterType="hashmap">
 	UPDATE TBL_STUDY_GROUP
 	SET                 
 	    STUDY_NAME = #{studyName},

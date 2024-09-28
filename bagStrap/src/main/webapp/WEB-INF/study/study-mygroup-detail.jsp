@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
-	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
-	<title>첫번째 페이지</title>
+   <meta charset="UTF-8">
+   <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+   <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+   <title>첫번째 페이지</title>
 </head>
 <style>
 	body, html {
@@ -136,17 +136,17 @@
 	}
    </style>
 <body>
-	<div id="app">
-		<main class="main-container">
-	        <aside class="sidebar">
-			<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
-	        </aside>
-			<div class="study-mygroup-detail2-content">
-			    <div class="study-mygroup-detail2-container">
-			        <!-- 사이드바 시작 -->
-			        <div class="study-mygroup-detail2-sidebar">
-			            <!-- 로그인 유저 이름 -->
-			            <div class="session-user-name">{{sessionUserNickName}}님</div>
+   <div id="app">
+      <main class="main-container">
+           <aside class="sidebar">
+         <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+           </aside>
+         <div class="study-mygroup-detail2-content">
+             <div class="study-mygroup-detail2-container">
+                 <!-- 사이드바 시작 -->
+                 <div class="study-mygroup-detail2-sidebar">
+                     <!-- 로그인 유저 이름 -->
+                     <div class="session-user-name">{{sessionUserNickName}}님</div>
 
 			            <!-- 상단 메뉴 -->
 			            <div class="study-mygroup-detail2-sidebar-top"> 
@@ -196,20 +196,20 @@
 			        </div>
 			        <!-- 사이드바 끝 -->
 
-			        <!-- 콘텐츠 영역 -->
-			        <div class="study-mygroup-detail2-content">
-			            <div class="study-mygroup-detail2-top-bar"></div>
-			            <div class="study-mygroup-detail2-email-list">
-						   <div class="study-meta">
-							
-							<!-- ===========================================그룹정보=========================================== -->
-							<template v-if = "pageView == '1'">
-							<div class="stu-group-detail">
-				               <img src="../src/스터디디테일.png" alt="책 표지" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;">
+                 <!-- 콘텐츠 영역 -->
+                 <div class="study-mygroup-detail2-content">
+                     <div class="study-mygroup-detail2-top-bar"></div>
+                     <div class="study-mygroup-detail2-email-list">
+                     <div class="study-meta">
+                     
+                     <!-- ===========================================그룹정보=========================================== -->
+                     <template v-if = "pageView == '1'">
+                     <div class="stu-group-detail">
+                           <img src="../src/스터디디테일.png" alt="책 표지" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;">
 
-				               <h1>[ {{ detailList.name }} ] {{ detailList.studyName }}</h1>
-				               <div class="intro">
-				               </div>
+                           <h1>[ {{ detailList.name }} ] {{ detailList.studyName }}</h1>
+                           <div class="intro">
+                           </div>
 
 								<span>🔍 그룹 진행 방식</span>
 				               <div class="details">
@@ -660,39 +660,44 @@
 				    const file = event.target.files[0];
 				    this.file = file;
 
-				    // 파일명이 있으면 표시
-				    this.fileName = file.name;
+              },         
+            fnFileChange(event) {
+                const file = event.target.files[0];
+                this.file = file;
 
-				    // 이미지 파일인 경우 미리보기 표시
-				    if (file && file.type.startsWith('image/')) {
-				        const reader = new FileReader();
-				        reader.onload = (e) => {
-				            this.filePreview = e.target.result;
-				        };
-				        reader.readAsDataURL(file); // 이미지 파일을 읽음
-				    } else {
-				        this.filePreview = null; // 이미지가 아니면 미리보기 없음
-				    }
-				},		
-				fnBoardType(boardTypeId){
-					var self = this;
-					var nparmap = { boardTypeId : boardTypeId
-					};
-					$.ajax({
-						url:"selectStuGroupInsertBoardType.dox",
-						dataType:"json",	
-						type : "POST", 
-						data : nparmap,
-						success : function(data) { 
-							console.log(data);
-							self.typeList = data.typeList;
-						}
-					});
-		        },
-				fnSidebar(a){
-					this.pageView = a; 
-				},
-				fnDetail() {
+                // 파일명이 있으면 표시
+                this.fileName = file.name;
+
+                // 이미지 파일인 경우 미리보기 표시
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.filePreview = e.target.result;
+                    };
+                    reader.readAsDataURL(file); // 이미지 파일을 읽음
+                } else {
+                    this.filePreview = null; // 이미지가 아니면 미리보기 없음
+                }
+            },      
+            fnBoardType(boardTypeId){
+               var self = this;
+               var nparmap = { boardTypeId : boardTypeId
+               };
+               $.ajax({
+                  url:"selectStuGroupInsertBoardType.dox",
+                  dataType:"json",   
+                  type : "POST", 
+                  data : nparmap,
+                  success : function(data) { 
+                     console.log(data);
+                     self.typeList = data.typeList;
+                  }
+               });
+              },
+            fnSidebar(a){
+               this.pageView = a; 
+            },
+            fnDetail() {
                     const self = this;
                     const nparmap = { studyGroupId: self.studyGroupId };
                     $.ajax({
@@ -703,12 +708,12 @@
                         success: function(data) {
                             console.log(data);
                             self.detailList = data.detailList;
-							self.fnBoardType(self.detailList.boardTypeId);
-							self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
+                     self.fnBoardType(self.detailList.boardTypeId);
+                     self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
                         },
                     });
                 },
-				fnsGroupAdminSearch(userId,studyGroupId) {
+            fnsGroupAdminSearch(userId,studyGroupId) {
                     const self = this;
                     const nparmap = { userId : userId, sessionId : self.sessionUserId, studyGroupId : studyGroupId   };
                     $.ajax({
@@ -726,46 +731,46 @@
                         },
                     });
                 },
-				fnSession(){
-					var self = this;
-					var nparmap = {
-					};
-					$.ajax({
-						url:"sharedHeader.dox",
-						dataType:"json",	
-						type : "POST", 
-						data : nparmap,
-						success : function(data) {
-								console.log(data);
-							self.isLogin = data.isLogin 
-							if(data.isLogin){
-								self.sessionUserId = data.userId;
-								self.sessionUserNickName = data.userNickName;
-								self.isAdmin = data.isAdmin;
-								console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
-							} else {
-								self.sessionUserId = '';
-								self.sessionUserNickName = '';
-							}
-						
-						}
-					});
-				},
-	        },
-	        mounted() {
-	            var self = this;
-				self.fnSession();
-				self.fnDetail();
-				window.addEventListener('loginStatusChanged', function(){
-					if(window.sessionStorage.getItem("isLogin") === 'true'){
-						self.isLogin = true;	
-					} else{
-						self.isLogin = false;
-					};
-					self.fnSession();
-				});
+            fnSession(){
+               var self = this;
+               var nparmap = {
+               };
+               $.ajax({
+                  url:"sharedHeader.dox",
+                  dataType:"json",   
+                  type : "POST", 
+                  data : nparmap,
+                  success : function(data) {
+                        console.log(data);
+                     self.isLogin = data.isLogin 
+                     if(data.isLogin){
+                        self.sessionUserId = data.userId;
+                        self.sessionUserNickName = data.userNickName;
+                        self.isAdmin = data.isAdmin;
+                        console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+                     } else {
+                        self.sessionUserId = '';
+                        self.sessionUserNickName = '';
+                     }
+                  
+                  }
+               });
+            },
+           },
+           mounted() {
+               var self = this;
+            self.fnSession();
+            self.fnDetail();
+            window.addEventListener('loginStatusChanged', function(){
+               if(window.sessionStorage.getItem("isLogin") === 'true'){
+                  self.isLogin = true;   
+               } else{
+                  self.isLogin = false;
+               };
+               self.fnSession();
+            });
 
-	        }
-	    });
-	    app.mount('#app');
-	</script>
+           }
+       });
+       app.mount('#app');
+   </script>

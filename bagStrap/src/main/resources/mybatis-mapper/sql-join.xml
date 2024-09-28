@@ -45,9 +45,24 @@
 
 	<!--업데이트-->
 	<update id="addressUpdate" parameterType="hashmap">
-	UPDATE TBL_ADDRESS
-	SET ADDRESS = #{address}, ZONECODE = #{zonecode}, ADDRESS_DETAIL = #{addressDetail}
-	WHERE USER_ID = #{userId}
+		UPDATE TBL_ADDRESS
+		SET ADDRESS = #{address}, ZONECODE = #{zonecode}, ADDRESS_DETAIL = #{addressDetail}
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<update id="nickUpdate" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET USER_NICKNAME=#{userNickName}
+		WHERE USER_ID = #{userId}
+	</update>
+	
+	<update id="deleteQuit" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET USER_NICKNAME='0'
+		WHERE USER_ID = #{userId}
 	</update>
 	
 </mapper>
+
+
+

@@ -34,7 +34,7 @@
             <p><strong>MyShop</strong></p>
             <ul>
                 <li><a href="/myshop/orders">내 주문내역</a></li>
-                <li><a href="javascript:;">내 환불내역</a></li>
+                <li><a href="/myshop/refundList">내 환불내역</a></li>
             </ul>
         </div>
         <div>
