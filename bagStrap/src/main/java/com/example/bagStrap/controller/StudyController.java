@@ -98,7 +98,6 @@ public class StudyController {
 		 request.setAttribute("studyGroupId", map.get("studyGroupId"));
          return "study/study-mygroup-detail";
     }
-
 	
 	
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
