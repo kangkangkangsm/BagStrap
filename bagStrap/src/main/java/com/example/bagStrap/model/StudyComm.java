@@ -110,6 +110,7 @@ public class StudyComm {
 		private String fetchapplstatus;
 		private int applyY;
 		private int applyN;
+		private String rejectionMessage;
 		
 //Book
 		private Long bookId;            // 책 고유번호

@@ -206,7 +206,7 @@
                                 </template>    
                                 <div class="stu-comm-myboard-forum-text">
                                     <span class="stu-comm-myboard-forum-title" @click="fnStudyHome(item.studyGroupId)">{{item.studyName}}</span>
-                                    <template v-if="item.studyAdminId === sessionUserId">
+                                    <template v-if="item.stustatus === 'admin'">
                                         <span class="stu-comm-myboard-forum-subtitle" @click="fnStudyHome(item.studyGroupId)">👑 | 👥 {{item.applyY}} / {{item.maxparticipants}} | 신청내역 : {{item.applyN}}</span>
                                     </template>
                                     <template v-else>

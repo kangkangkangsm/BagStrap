@@ -453,5 +453,37 @@ public class StudyController {
 			resultMap = studyService.updateStuGroup(map);
 			return new Gson().toJson(resultMap);
 		}
+		//마이페이지 -> 스터디 강퇴
+		@RequestMapping(value = "/updateStuGroupLeave.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroupLeave(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroupLeave(map);
+			return new Gson().toJson(resultMap);
+		}
+		//마이페이지 -> 스터디 강퇴 모드
+		@RequestMapping(value = "/updateStuGroupLeaveMode.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroupLeaveMode(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroupLeaveMode(map);
+			return new Gson().toJson(resultMap);
+		}
+		//마이페이지 -> 스터디 차단 풀기
+		@RequestMapping(value = "/deleteStuGroupUnblocking.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String deleteStuGroupUnblocking(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.deleteStuGroupUnblocking(map);
+			return new Gson().toJson(resultMap);
+		}
+		//마이페이지 -> 스터디 그룹장 위임
+		@RequestMapping(value = "/updateStuGroupBossDelegation.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroupBossDelegation(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroupBossDelegation(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }

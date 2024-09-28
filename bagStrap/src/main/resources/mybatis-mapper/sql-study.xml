@@ -314,7 +314,8 @@
 	UPDATE TBL_STU_COMMENTS 
 	SET REMODE = 'N'
 	WHERE POST_ID = #{boardId}
-	</update><!-- 스터디 커뮤니티 답글 수정완료처리..-->
+	</update>
+	<!-- 스터디 커뮤니티 답글 수정완료처리..-->
 	<update id="updateCommentReResult" parameterType="hashmap" useGeneratedKeys="true" keyProperty="COMMENT_ID" keyColumn="COMMENT_ID">
 	INSERT INTO TBL_STU_COMMENTS(COMMENT_ID,POST_ID,CONTENT,AUTHOR,CREATED_DATE,PARENT_COMMENT_ID)
 	VALUES(COMMENT_SEQ.NEXTVAL,#{boardId},#{content}, #{userId},SYSDATE + (9/24),#{commentId})
@@ -553,11 +554,12 @@
 			ORDER BY STUSTATUS
 	</select>	
 	<!-- 마이스터디 에서 그룹누르면 나오는 상세페이지 -->
-	<!-- 마이스터디 -> 상세페이지 유저 검색-->
+	<!-- 마이스터디 -> 상세페이지 방장검색-->
 	<select id="selectStuGroupUserSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-		SELECT * FROM TBL_USER TU
-    	LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.FILENO
-		WHERE USER_ID = #{userId}
+		Select * from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'admin' AND FETCHAPPSTUDYID = #{studyGroupId}
 	</select>
 	<!-- 마이스터디 -> 상세페이지 유저 학습목표 가져오기-->
 	<select id="selectStuGroupUserApplSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
@@ -565,12 +567,27 @@
    		LEFT JOIN tbl_user TU ON TSA.FETCHAPPUSERID = TU.USER_ID
     	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID = #{sessionId} 
 	</select>
+	<!-- 마이스터디 -> 상세페이지 가입유저-->
 	<select id="selectStuGroupSubscriptionSearch" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 		select * from tbl_study_application TSA
         INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
         LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
-		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} 
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'Y' 
 	</select>	
+	<!-- 마이스터디 -> 상세페이지 미가입유저-->
+	<select id="selectStuGroupSubscriptionSearchN" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'N' 
+	</select>
+	<!-- 마이스터디 -> 상세페이지 강퇴된 유저-->
+	<select id="selectStuGroupSubscriptionSearchL" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'L' 
+	</select>		
 	<!-- 스터디 그룹 수정-->
 	<update id="updateStuGroup" parameterType="hashmap" useGeneratedKeys="true" keyProperty="STUDY_GROUP_ID" keyColumn="STUDY_GROUP_ID" >
 	UPDATE TBL_STUDY_GROUP
@@ -580,11 +597,48 @@
 	    ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'), 
 	    STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
 	    AGE = #{age},                
-	    ONOFFMODE = #{onOffMode},             
-	    MAX_PARTICIPANTS = #{maxParticipants},              
+	    ONOFFMODE = #{onOffMode},                        
 	    GENDERGROUP = #{genderGroup},                    
 	    RELATED_BOOK = #{bookId},                 
 	    DESCRIPTION = #{description}
 	WHERE STUDY_GROUP_ID = #{studyGroupId}
+	</update>
+	 <!--스터디 강퇴 관련 -->
+	<!-- 스터디 강퇴-->
+	<update id="updateStuGroupLeave" parameterType="hashmap" >
+	update tbl_study_application
+	set 
+	fetchapplstatus = 'L',
+	REJECTIONMESSAGE = #{rejectionMessage}
+	where fetchappstudyid = #{studyGroupId} and fetchappuserid = #{fetchappuserid}
+	</update>
+	<!-- 스터디 강퇴 모드-->
+	<update id="updateStuGroupLeaveMode" parameterType="hashmap" >
+	update tbl_study_application
+	set 
+	REJECTIONMESSAGE = 'Y'
+	where fetchappstudyid = #{studyGroupId} and fetchappuserid = #{fetchappuserid}
+	</update>
+	<!-- 스터디 강퇴 모드 풀기-->
+	<update id="updateStuGroupLeaveModeNo" parameterType="hashmap" >
+	update tbl_study_application
+	set 
+	REJECTIONMESSAGE = ''
+	where fetchappstudyid = #{studyGroupId} AND REJECTIONMESSAGE = 'Y'
+	</update>
+	<!-- 스터디 차단 풀기-->
+	<delete id="deleteStuGroupUnblocking" parameterType="hashmap" >
+	delete from tbl_study_application
+	where fetchappstudyid = #{studyGroupId} AND fetchappuserid = #{fetchappuserid}
+	</delete>
+	<!-- /스터디 강퇴 관련-->
+	<!-- 스터디 그룹장 위임-->
+	<update id="updateStuGroupBossDelegation" parameterType="hashmap" >
+	UPDATE tbl_study_application
+	SET STUSTATUS = CASE 
+    WHEN FETCHAPPUSERID = #{fetchappuserid} THEN 'admin'
+    WHEN FETCHAPPUSERID = #{sessionId} THEN 'user'
+	END
+	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID IN (#{fetchappuserid}, #{sessionId})
 	</update>
 </mapper>
