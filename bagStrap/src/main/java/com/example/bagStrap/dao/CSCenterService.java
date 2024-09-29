@@ -30,4 +30,6 @@ public interface CSCenterService {
 	HashMap<String, Object> InqList(HashMap<String, Object> map);
 	
 	HashMap<String, Object> updateInqList(HashMap<String, Object> map);
+	
+	HashMap<String, Object> addInqAnswer(HashMap<String, Object> map);
 }

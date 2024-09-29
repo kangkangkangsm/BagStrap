@@ -46,4 +46,12 @@ public class Notice {
 	private String inqcDate;
 	private String inquDate;
 	private String inqAnswer;
+
+
+	//tbl_answer
+ 	private int answerId;
+    private String answerMessage; // 답변 내용
+    private String createdAt; // 생성일
+    private String updatedAt; // 수정일
 }
+

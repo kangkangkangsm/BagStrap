@@ -66,6 +66,11 @@ public class CSCenterController {
          return "history";
     }
 	
+	@RequestMapping("/answerinq") 
+    public String answerinq(Model model) throws Exception{
+         return "answerinq";
+    }
+	
 	@RequestMapping("/cslist") 
     public String cslist(Model model) throws Exception{
          return "cslist";
@@ -180,6 +185,17 @@ public class CSCenterController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		resultMap=csService.updateInqList(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/answer-inq.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String answerInq(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.addInqAnswer(map);
 
 		return new Gson().toJson(resultMap);
 	}
