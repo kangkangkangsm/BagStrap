@@ -755,4 +755,55 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	//마이페이지 내 스터디 숨기기
+	@Override
+	public HashMap<String, Object> updateStuGroupHide(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGroupHide(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "처리완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "채팅 인서트 에러. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 나의 학습목표 수정하기
+	@Override
+	public HashMap<String, Object> updateStuGoal(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGoal(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "수정완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "채팅 인서트 에러. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//노트필기 경쟁대회 수상 
+	@Override
+	public HashMap<String, Object> selectEvent3001(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			System.out.println(map);
+			List<StudyComm> list = studyMapper.selectEvent3001(map);
+			List<StudyComm> list2 = studyMapper.selectEvent3002(map);
+			resultMap.put("event3001", list);
+			resultMap.put("event3002", list2);
+			resultMap.put("result", true);
+			resultMap.put("message", "수상목록 확인");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "수상 에러");
+		}
+		return resultMap;
+	}
 }

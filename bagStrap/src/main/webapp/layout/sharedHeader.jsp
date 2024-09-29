@@ -100,7 +100,7 @@
 		            <ul class="header-submenu">
 						<li class="header-submenu-item"><a href="/study-group-list">Study</a></li>
 		                <li class="header-submenu-item"><a href="/study-comm">Community</a></li>
-						<li class="header-submenu-item"><a href="/study/event">Event</a></li>
+						<li class="header-submenu-item"><a href="/study-group-event">Event</a></li>
 		            </ul>
 		        </li>
 		    </ul>

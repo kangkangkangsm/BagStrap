@@ -132,5 +132,12 @@ public interface StudyMapper {
 	void deletGroupMessage(HashMap<String, Object> map);
 	// 나의 스터디 개수 
 	int countMyStudy(HashMap<String, Object> map);
-	
+	//마이페이지 내 스터디 숨기기
+	void updateStuGroupHide(HashMap<String, Object> map);
+	//스터디 나의 학습목표 수정하기
+	void updateStuGoal(HashMap<String, Object> map);
+	//노트필기 경쟁대회 수상 3001
+	List<StudyComm> selectEvent3001(HashMap<String, Object> map);
+	//오답노트 3002  
+	List<StudyComm> selectEvent3002(HashMap<String, Object> map);
 }

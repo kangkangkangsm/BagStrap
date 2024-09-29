@@ -93,4 +93,11 @@ public interface StudyService {
 	HashMap<String, Object> selectStuGroupMessage(HashMap<String, Object> map);
 	//스터디 채팅삭제 
 	HashMap<String, Object> deletGroupMessage(HashMap<String, Object> map);
+	//마이페이지 내 스터디 숨기기
+	HashMap<String, Object> updateStuGroupHide(HashMap<String, Object> map);
+	//스터디 나의 학습목표 수정하기
+	HashMap<String, Object> updateStuGoal(HashMap<String, Object> map);
+	//노트필기 경쟁대회 수상 3001
+	HashMap<String, Object> selectEvent3001(HashMap<String, Object> map);
+	
 }

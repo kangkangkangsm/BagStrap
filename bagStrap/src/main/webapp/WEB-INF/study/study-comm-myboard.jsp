@@ -193,7 +193,10 @@
             <div id="app">
                 <div class="content">
                     <div class="stu-comm-myboard-container">
-						<!-- 활동중인 스터디 -->
+						<div v-if="sessionUserId === author"> 마이페이지</div>
+						<div v-if="sessionUserId !== author"> {{userNickName}}님의 정보</div>
+						<!-- 활동중인 스터디 (마이페이지)-->
+						<template v-if="sessionUserId === author">
                         <div class="stu-comm-myboard-post-section">
                             <h3 class="stu-comm-myboard-h3">활동중인 스터디</h3>
                             <!-- selectStuGroupList 중 fetchapplstatus가 'Y'인 데이터만 출력 -->
@@ -213,11 +216,48 @@
                                         <span class="stu-comm-myboard-forum-subtitle" @click="fnStudyHome(item.studyGroupId)">👥 {{item.applyY}} / {{item.maxparticipants}}</span>
                                     </template>
                                 </div>
-								<a href="#" class="hide-link">비공개</a>
+								<template v-if="item.sgHide === 'Y'">
+									<a href="#" class="hide-link" @click="fnStudyHide(item.studyGroupId,item.fetchappuserid)">비공개 (현재 공개중)</a>
+								</template>
+								<template v-if="item.sgHide === 'N'">
+									<a href="#" class="hide-link" @click="fnStudyHide(item.studyGroupId,item.fetchappuserid)">공개하기 (현재 비공개중)</a>
+								</template>
                             </div>
                         </div>
+						</template>
+						
+						<!-- 활동중인 스터디 (상대방)-->
+						<template v-if="sessionUserId !== author">
+                        <div class="stu-comm-myboard-post-section">
+                            <h3 class="stu-comm-myboard-h3">활동중인 스터디</h3>
+                            <!-- selectStuGroupList 중 fetchapplstatus가 'Y'인 데이터만 출력 -->
+                            <div class="stu-comm-myboard-forum-container" v-for="item in activeStudies">
+								<template v-if="item.sgHide === 'Y'">	
+                                <template v-if="item.filePath">
+                                    <img :src="item.filePath" alt="Forum Icon" class="stu-comm-myboard-forum-icon" >
+                                </template>
+                                <template v-else>
+                                    <img src="../src/profile.png" alt="Forum Icon" class="stu-comm-myboard-forum-icon">
+                                </template>    
+                                <div class="stu-comm-myboard-forum-text">
+                                    <span class="stu-comm-myboard-forum-title" >{{item.studyName}}</span>
+                                    <template v-if="item.stustatus === 'admin'">
+                                        <span class="stu-comm-myboard-forum-subtitle">👑 | 👥 {{item.applyY}} / {{item.maxparticipants}} | 신청내역 : {{item.applyN}}</span>
+                                    </template>
+                                    <template v-else>
+                                        <span class="stu-comm-myboard-forum-subtitle">👥 {{item.applyY}} / {{item.maxparticipants}}</span>
+                                    </template>
+                                </div>
+								</template>
+									<template v-if="item.sgHide === 'N'">	
+										<span class="stu-comm-myboard-forum-title" style="font-size:15px;">사용자가 비공개한 스터디그룹 입니다.</span>
+									</template>
+                            </div>
+                        </div>
+						</template>
                         
                         <!-- 신청 대기중인 스터디 -->
+					<template v-if="sessionUserId === author">
                         <div class="stu-comm-myboard-post-section">
                             <h3 class="stu-comm-myboard-h3">신청 대기중인 스터디</h3>
                             <!-- selectStuGroupList 중 fetchapplstatus가 'N'인 데이터만 출력 -->
@@ -234,7 +274,7 @@
                                 </div>
                             </div>
                         </div>
-						
+					</template>
 						<h3 class="stu-comm-myboard-h3">나의 게시글</h3>
                         <div class="stu-comm-myboard-info">
                             <table class="stu-comm-myboard-table">
@@ -286,7 +326,7 @@
 </body>
 </html>
 <script>
-    const app = Vue.createApp({
+    var app = Vue.createApp({
         data() {
             return {
                 user: '${sessionScope.user}',
@@ -319,6 +359,20 @@
            }
        },
         methods: {
+			fnStudyHide(studyGroupId,fetchappuserid){
+			   var self = this;
+               var nparmap = {studyGroupId : studyGroupId, fetchappuserid : fetchappuserid};
+               $.ajax({
+                   url: "updateStuGroupHide.dox",
+                   dataType: "json",	
+                   type: "POST", 
+                   data: nparmap,
+                   success: function(data) {
+                      console.log(data);
+					  self.fnMyCnt();
+                   }
+               });
+            },
             fnBack() {
                 history.back();
             },
@@ -340,8 +394,8 @@
                 this.fnboardList(1);
             },
             fnSession() {
-                const self = this;
-                const nparmap = {};
+                var self = this;
+                var nparmap = {};
                 $.ajax({
                     url: "sharedHeader.dox",
                     dataType: "json",	
@@ -362,12 +416,12 @@
                 });
             },
             fnMyCnt(page = 1) {
-                const self = this;
-                const sessionUserId = self.author ? self.author : self.sessionUserId;
-                const startIndex = (page - 1) * self.pageSize;
-                const outputNumber = self.pageSize;
+                var self = this;
+                var sessionUserId = self.author ? self.author : self.sessionUserId;
+                var startIndex = (page - 1) * self.pageSize;
+                var outputNumber = self.pageSize;
                 self.currentPage = page;
-                const nparmap = { 
+                var nparmap = { 
                     userId: sessionUserId, 
                     startIndex: startIndex, 
                     outputNumber: outputNumber 
@@ -400,7 +454,7 @@
             },
         },
         mounted() {
-            const self = this;
+            var self = this;
             window.addEventListener('loginStatusChanged', function(){
                 if(window.sessionStorage.getItem("isLogin") === 'true'){
                     self.isLogin = true;	

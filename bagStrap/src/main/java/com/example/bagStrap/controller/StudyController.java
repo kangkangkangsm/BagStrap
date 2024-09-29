@@ -99,7 +99,12 @@ public class StudyController {
 		 request.setAttribute("studyGroupId", map.get("studyGroupId"));
          return "study/study-mygroup-detail";
     }
-
+	// 스터디 그룹 이벤트
+	@RequestMapping("/study-group-event") 
+    public String study_group_event(Model model) throws Exception{
+         return "study/study-group-event";
+    }
+	
 	
 	
 	@RequestMapping(value = "/study.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -524,6 +529,30 @@ public class StudyController {
 		public String deletGroupMessage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 			HashMap<String, Object> resultMap = new HashMap();
 			resultMap = studyService.deletGroupMessage(map);
+			return new Gson().toJson(resultMap);
+		}
+		//마이페이지 내 스터디 숨기기
+		@RequestMapping(value = "/updateStuGroupHide.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGroupHide(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGroupHide(map);
+			return new Gson().toJson(resultMap);
+		}
+		//스터디 나의 학습목표 수정하기
+		@RequestMapping(value = "/updateStuGoal.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String updateStuGoal(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.updateStuGoal(map);
+			return new Gson().toJson(resultMap);
+		}
+		//노트필기 경쟁대회 수상 
+		@RequestMapping(value = "/selectEvent3001.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectEvent3001(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectEvent3001(map);
 			return new Gson().toJson(resultMap);
 		}
 

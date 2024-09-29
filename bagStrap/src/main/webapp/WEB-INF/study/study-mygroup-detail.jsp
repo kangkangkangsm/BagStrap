@@ -751,7 +751,7 @@
 					         <p>{{ detailList.genderGroup }}</p>
 					       </div>
 						   <div class="info-card">
-	   				         <span>👫 시작날짜</span>
+	   				         <span>🗓️ 시작날짜</span>
 	   				         <p>{{ detailList.stgStartDate }}</p>
 	   				       </div>
 						   <div class="info-card">
@@ -763,9 +763,17 @@
 					     <!-- 학습 목표 및 도서 정보 섹션 -->
 					     <div class="additional-info-container">
 					       <div class="goal-card">
-					         <h3>나의 학습 목표</h3>
-					         <p>{{ searchUserlist.studygoal }}</p>
-					       </div>
+					         <h3>나의 학습 목표 </h3>
+							 <template v-if="editgoal == 'N'">
+							 <a href="#" @click="fneditgoal()">✏️ 수정하기</a>
+					         <div style="margin-top:10px;"><p>{{ searchUserlist.studygoal }}</p></div>
+							</template>
+							<template v-if="editgoal == 'Y'">
+							 <a href="#" @click="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)">✏️ 수정완료</a>
+					         <div style="margin-top:10px;"><textarea v-model="searchUserlist.studygoal" style="width:95%; height:170px;" @keyup.enter="fneditgoalresult(searchUserlist.fetchapplicationid,studygoal)"></textarea></div>
+							</template>
+				 	       </div>
+				
 					       <div class="book-card">
 					         <h3> 관련 도서 정보</h3>
 					         <img :src="detailList.image" alt="도서 이미지" class="book-image">
@@ -1121,7 +1129,7 @@
 							</div>
    							</template>
    						   <!-- ===========================================그룹관리=========================================== -->
-				        </div>
+				        </div>s
 				    </div>
 				</div>
 	        </div>
@@ -1152,13 +1160,33 @@
 	                filePreview: '', // 이미지 미리보기 URL 저장
 					searchnotjoinGroup : [],
 					searchnotLeaveGroup : [],
-					messagelist : []
+					messagelist : [],
+					editgoal : "N"
 					
 					
 										
 	            };
 	        },
 	        methods: {
+				fneditgoalresult(fetchapplicationid,studygoal){
+					var self = this;
+					var nparmap = {fetchapplicationid : fetchapplicationid,studygoal : studygoal };
+					$.ajax({
+						url:"updateStuGoal.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) {
+							alert("수정완료");
+							self.editgoal = "N"; 
+							self.fnDetail();
+							self.fnSidebar(1);
+						}
+					});
+		        },
+				fneditgoal(){
+					this.editgoal = "Y";
+				},
 				fnDeleteMessage(messageId){
 					var self = this;
 					var nparmap = {messageId : messageId};
@@ -1260,6 +1288,13 @@
 				},
 				fnJoinMember(fetchappuserid,userNickName){
 					var self = this;
+					// 인원 초과시 거절 
+					var a = self.detailList.applyY;
+					var b = self.detailList.maxparticipants; 
+					if(a >= b){
+						alert("인원 초과입니다.");
+						return;
+					};
 					var nparmap = { studyGroupId : self.studyGroupId ,fetchappuserid : fetchappuserid
 					};
 					$.ajax({
@@ -1370,11 +1405,10 @@
 		        },
 				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
 					var self = this;
-					var maxparticipants = self.detailList.maxparticipants;
 					var studyGroupId = self.studyGroupId;
 					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
 									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
-									age : age ,  onOffMode : onOffMode , maxparticipants : maxparticipants, 
+									age : age ,  onOffMode : onOffMode,
 									genderGroup : genderGroup , bookId : bookId , studyGroupId : studyGroupId,
 									description : description
 					};
