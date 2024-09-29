@@ -8,243 +8,389 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-	/* Pagination 스타일 */
-    .stu-comm-list-pagination {
-        margin-top: 10px;
+    /* 전체 레이아웃 */
+    .main-container {
         display: flex;
-        justify-content: center;
+        min-height: 100vh;
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f6f9;
     }
 
-    .stu-comm-list-pagination a {
-        text-decoration: none;
-        color: #007bff;
-        margin: 0 5px;
+    /* 사이드 바 */
+    .sidebar {
+        width: 250px;
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     }
 
-    .stu-comm-list-pagination span {
-        color: #666;
-        margin: 0 5px;
+    /* 메인 컨텐츠 */
+    .content {
+        flex: 1;
+        padding: 40px;
+        background-color: #ffffff;
     }
 
-	/* 테이블 스타일 */
-    .stu-comm-list-table {
-	    width: 100%;
-	    border-collapse: collapse;
-	    margin-top: 20px;
-	    font-size: 14px;
-	}
+    /* 페이지 헤더 */
+    .content .page-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 30px;
+    }
 
-    .stu-comm-list-table th, .stu-comm-list-table td {
-	    padding: 10px;
-	    text-align: left;
-	    border-bottom: 1px solid #ddd;
-	}
+    .content .page-header div {
+        font-size: 1.8em; /* 글자 크기 조정 */
+        color: #333;
+        margin-bottom: 10px;
+    }
 
-    .stu-comm-list-table th {
-	    background-color: #f2f2f2;
-	    font-weight: bold;
-	}
+    /* 게시물 수 선택 */
+    .post-count {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
 
-    .stu-comm-list-table tr:hover {
-	    background-color: #f5f5f5;
-	}
+    .post-count label {
+        margin-right: 15px;
+        font-size: 1.1em; /* 글자 크기 조정 */
+        font-weight: bold;
+        color: #555;
+    }
 
-    .stu-comm-list-table td a {
-	    text-decoration: none;
-	    color: #007bff;
-	}
+    .post-count select {
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: #fff;
+        cursor: pointer;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
 
-    .stu-comm-list-table td a:hover {
-	    text-decoration: underline;
-	}
-
-    .stu-comm-list-table td:last-child {
-	    text-align: center;
-	}
-
-	/* 검색 및 정렬 섹션 스타일 */
+    /* 검색 및 정렬 섹션 */
     .stu-comm-list-search-container {
-	    display: flex;
-	    justify-content: space-between;
-	    margin-bottom: 10px;
-	}
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 15px;
+    }
+
+    .stu-comm-list-search-container select,
+    .stu-comm-list-search-container input[type="text"],
+    .stu-comm-list-search-container button {
+        padding: 10px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
+
+    .stu-comm-list-search-container select {
+        width: 200px;
+    }
 
     .stu-comm-list-search-container input[type="text"] {
-	    width: 200px;
-	    padding: 5px;
-	}
+        flex: 1;
+        min-width: 200px;
+        padding-right: 40px;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
 
-    .stu-comm-list-search-container select, 
     .stu-comm-list-search-container button {
-	    padding: 5px 10px;
-	    margin-left: 5px;
-	}
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
 
-	/* 페이징 스타일 */
-	.stu-comm-list-pagination {
-	    justify-content: center;
-	    align-items: center;
-	    margin: 20px 0;
-	}
+    .stu-comm-list-search-container button:hover {
+        background-color: #0056b3;
+    }
+
+    /* 테이블 스타일 */
+    .stu-comm-list-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .stu-comm-list-table th, .stu-comm-list-table td {
+        padding: 15px 20px;
+        text-align: left;
+    }
+
+    .stu-comm-list-table th {
+        background-color: #343a40;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.1em; /* 글자 크기 조정 */
+    }
+
+    .stu-comm-list-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .stu-comm-list-table tr:hover {
+        background-color: #e9ecef;
+    }
+
+    /* <a> 태그 스타일: 파란색 및 검은색 */
+    /* 기본 <a> 태그 스타일: 파란색 */
+    .stu-comm-list-table td a {
+        color: #007bff; /* 파란색 */
+        text-decoration: none;
+        transition: color 0.3s;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
+
+    /* <a> 태그 호버 시 색상 변경: 진한 파란색 */
+    .stu-comm-list-table td a:hover {
+        color: #0056b3; /* 진한 파란색 */
+        text-decoration: underline;
+    }
+
+    /* 검은색 <a> 태그를 위한 클래스 */
+    .stu-comm-list-table td a.black-link {
+        color: #000000; /* 검은색 */
+    }
+
+    /* 검은색 <a> 태그 호버 시 색상 변경: 어두운 회색 */
+    .stu-comm-list-table td a.black-link:hover {
+        color: #333333; /* 어두운 회색 */
+        text-decoration: underline;
+    }
+
+    .stu-comm-list-table td:last-child {
+        text-align: center;
+    }
+
+    /* Pagination 스타일 */
+    .stu-comm-list-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px 0;
+        gap: 10px;
+    }
 
     .stu-comm-list-pagination button {
-	    background-color: #f8f9fa;
-	    border: 1px solid #dee2e6;
-	    color: #007bff;
-	    padding: 8px 12px;
-	    margin: 0 2px;
-	    cursor: pointer;
-	    transition: background-color 0.3s, color 0.3s;
-	    border-radius: 4px;
-	}
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #007bff;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+        border-radius: 4px;
+        font-size: 1em; /* 글자 크기 조정 */
+    }
 
     .stu-comm-list-pagination button:hover {
-	    background-color: #007bff;
-	    color: white;
-	}
+        background-color: #007bff;
+        color: #fff;
+    }
 
     .stu-comm-list-pagination button.active {
-	    background-color: #007bff;
-	    color: white;
-	    cursor: default;
-	}
+        background-color: #007bff;
+        color: #fff;
+        cursor: default;
+    }
 
     .stu-comm-list-pagination button:disabled {
-	    background-color: #e9ecef;
-	    color: #6c757d;
-	    cursor: not-allowed;
-	    border: 1px solid #dee2e6;
-	}
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+        border: 1px solid #dee2e6;
+    }
 
-    .stu-comm-list-pagination button:not(.active):not(:disabled):hover {
-	    background-color: #0056b3;
-	    color: white;
-	}
+    /* 반응형 디자인 */
+    @media (max-width: 992px) {
+        .content .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .post-count {
+            margin-top: 15px;
+        }
+
+        .stu-comm-list-search-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .stu-comm-list-search-container select,
+        .stu-comm-list-search-container input[type="text"],
+        .stu-comm-list-search-container button {
+            width: 100%;
+        }
+
+        .stu-comm-list-search-container input[type="text"] {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .content {
+            padding: 20px;
+        }
+
+        .stu-comm-list-table th, .stu-comm-list-table td {
+            padding: 10px 15px;
+        }
+
+        .stu-comm-list-search-container {
+            gap: 10px;
+        }
+
+        .stu-comm-list-search-container select,
+        .stu-comm-list-search-container input[type="text"],
+        .stu-comm-list-search-container button {
+            padding: 8px 12px;
+            font-size: 0.9em; /* 글자 크기 조정 */
+        }
+
+        .post-count label {
+            font-size: 1em; /* 글자 크기 조정 */
+        }
+
+        .post-count select {
+            font-size: 0.9em; /* 글자 크기 조정 */
+        }
+    }
 </style>
 <body>
 	<main class="main-container">
 		<!-- 사이드 바 -->		
 		<aside class="sidebar">
 			<jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>  
-        </aside>
+	    </aside>
 
 		<!-- 메인 컨텐츠 -->
 		<div id="app" class="content">
 			<!-- 페이지 헤더 -->
-			<div style="font-size:30px;" v-if="name2">{{name2}}</div>
-			<div style="font-size:30px;" v-else>{{name}}</div>
-
-			<!-- 게시물 수 선택 -->
-			<div>게시물 수:
-				<select v-model="pageSize" @change="fnboardList(1)">
-					<option value='10'>10개씩</option>
-					<option value='15'>15개씩</option>
-					<option value='20'>20개씩</option>
-				</select>
-			</div>
-
-			<!-- 게시물 목록 테이블 -->
-			<table class="stu-comm-list-table">
-				<tr>
-					<th>카테고리</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>좋아요</th>
-					<th>조회수</th>
-				</tr>
-				<tr v-for="item in commlist">
-					<template v-if="item.boardstatus === 'N'">
-						<!-- 카테고리 -->
-						<td>
-							<a href="#" @click="fnView(item.boardId)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.name}}
-							</a>
-						</td>
-
-						<!-- 제목 -->
-						<td>
-							<a href="#" @click="fnView(item.boardId)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.title}}
-							</a>
-							<template v-if="item.cnt">
-								<strong style="color:red;">[{{item.cnt}}]</strong>
-							</template>
-						</td>
-
-						<!-- 작성자 -->
-						<td>
-							<a href="#" @click="fnUserboard(item.author, item.userNickName)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.userNickName}}
-							</a>
-						</td>
-
-						<!-- 작성일 -->
-						<td>
-							<a href="#" @click="fnView(item.boardId)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.createdDateFormatted}}
-							</a>
-						</td>
-
-						<!-- 좋아요 -->
-						<td>
-							<a href="#" @click="fnView(item.boardId)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.commLikeCnt}}
-							</a>
-						</td>
-
-						<!-- 조회수 -->
-						<td>
-							<a href="#" @click="fnView(item.boardId)" 
-							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
-							   {{item.views}}
-							</a>
-						</td>
-					</template>
-					<template v-if="item.boardstatus === 'Y' && isAdmin">
-						<td colspan="5"><a href="#" @click="fnView(item.boardId)" style="color:black;">관리자에 의해 숨김 처리된 게시글입니다.</a></td>
-					</template>
-					<template v-if="item.boardstatus === 'Y' && !isAdmin">
-						<td colspan="5"><a style="color:black;">관리자에 의해 숨김 처리된 게시글입니다.</a></td>
-					</template>
-				</tr>
-			</table>
-
-			
-			<div class="stu-comm-list-pagination">
-			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
-			    <button v-for="page in totalPages" :class="{active: page == currentPage}" @click="fnboardList(page)">
-			        {{ page }}
-			    </button>
-			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
+			<div class="page-header">
+				<div style="font-size:30px;" v-if="name2">{{name2}}</div>
+				<div style="font-size:30px;" v-else>{{name}}</div>
+				<!-- 게시물 수 선택 -->
+				<div class="post-count">
+					<label for="pageSize">게시물 수:</label>
+					<select id="pageSize" v-model="pageSize" @change="fnboardList(1)">
+						<option value='10'>10개씩</option>
+						<option value='15'>15개씩</option>
+						<option value='20'>20개씩</option>
+					</select>
+				</div>
 			</div>
 
 			<!-- 검색 및 정렬 섹션 -->
 			<div class="stu-comm-list-search-container">
-				<select v-model="selectedPeriod">
-					<option value="all" @change="fnboardList(1)">전체기간</option>
+				<select v-model="selectedPeriod" @change="fnboardList(1)">
+					<option value="all">전체기간</option>
 					<option value="1day">1일</option>
 					<option value="1week">1주</option>
 					<option value="1month">1개월</option>
 					<option value="6months">6개월</option>
 					<option value="1year">1년</option>
 				</select>
-				<select v-model="boardSearch">
-					<option value="all" @change="fnboardList(1)">제목+내용</option>
+				<select v-model="boardSearch" @change="fnboardList(1)">
+					<option value="all">제목+내용</option>
 					<option value="title">제목만</option>
 					<option value="author">작성자</option>
 				</select>
-				<input type="text" v-model="search" @keyup.enter="fnboardList(1)">
+				<input type="text" v-model="search" placeholder="검색어를 입력하세요" @keyup.enter="fnboardList(1)">
 				<button @click="fnboardList()">검색</button>
+			</div>
+
+			<!-- 게시물 목록 테이블 -->
+			<table class="stu-comm-list-table">
+				<thead>
+					<tr>
+						<th>카테고리</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>좋아요</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in commlist" :key="item.boardId">
+						<template v-if="item.boardstatus === 'N'">
+							<!-- 카테고리 -->
+							<td>
+								<a href="#" @click.prevent="fnView(item.boardId)" 
+								   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+								   {{item.name}}
+								</a>
+							</td>
+
+							<!-- 제목 -->
+							<td>
+								<a href="#" @click.prevent="fnView(item.boardId)" 
+								   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+								   {{item.title}}
+								</a>
+								<template v-if="item.cnt">
+									<strong style="color:red;">[{{item.cnt}}]</strong>
+								</template>
+							</td>
+
+							<!-- 작성자 -->
+							<td>
+								<a href="#" @click.prevent="fnUserboard(item.author, item.userNickName)" 
+								   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+								   {{item.userNickName}}
+								</a>
+							</td>
+
+							<!-- 작성일 -->
+							<td>
+								{{item.createdDateFormatted}}
+							</td>
+
+							<!-- 좋아요 -->
+							<td>
+								{{item.commLikeCnt}}
+							</td>
+
+							<!-- 조회수 -->
+							<td>
+								{{item.views}}
+							</td>
+						</template>
+						<template v-if="item.boardstatus === 'Y' && isAdmin">
+							<td colspan="6">
+								<a href="#" @click.prevent="fnView(item.boardId)" style="color:black;">관리자에 의해 숨김 처리된 게시글입니다.</a>
+							</td>
+						</template>
+						<template v-if="item.boardstatus === 'Y' && !isAdmin">
+							<td colspan="6">
+								<span style="color:black;">관리자에 의해 숨김 처리된 게시글입니다.</span>
+							</td>
+						</template>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- 페이징 -->
+			<div class="stu-comm-list-pagination">
+			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
+			    <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnboardList(page)">
+			        {{ page }}
+			    </button>
+			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
 			</div>
 		</div>
 	</main>
-
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
@@ -258,7 +404,7 @@
 				boardList: [],
 				commlist: [],
 				currentPage: 1,      // 현재 페이지
-				pageSize: 10,        // 한 페이지에 보여줄 개수
+				pageSize: 15,        // 한 페이지에 보여줄 개수
 				totalPages: 5,
 				cnt: '',
 				name: "전체글보기",

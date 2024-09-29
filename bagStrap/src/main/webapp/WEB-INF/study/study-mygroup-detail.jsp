@@ -770,7 +770,7 @@
 							</template>
 							<template v-if="editgoal == 'Y'">
 							 <a href="#" @click="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)">✏️ 수정완료</a>
-					         <div style="margin-top:10px;"><textarea v-model="searchUserlist.studygoal" style="width:95%; height:170px;" @keyup.enter="fneditgoalresult(searchUserlist.fetchapplicationid,studygoal)"></textarea></div>
+					         <div style="margin-top:10px;"><textarea v-model="searchUserlist.studygoal" style="width:95%; height:170px;" @keyup.enter="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)"></textarea></div>
 							</template>
 				 	       </div>
 				
@@ -1129,7 +1129,7 @@
 							</div>
    							</template>
    						   <!-- ===========================================그룹관리=========================================== -->
-				        </div>s
+				        </div>
 				    </div>
 				</div>
 	        </div>
@@ -1434,6 +1434,7 @@
 										success: function() {
 										self.filePreview = "";
 										self.fileName = "";
+										self.file = "";
 										self.fnDetail();
 		  								self.fnSidebar(1);
 		  								alert("정보변경 완료");
@@ -1445,6 +1446,8 @@
 							  } else {
 								self.fnDetail();
 								self.fnSidebar(1);
+								self.filePreview = "";
+								self.fileName = "";
 								alert("정보변경 완료");
 								
 							  }		

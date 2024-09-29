@@ -10,114 +10,131 @@
     <title>Document</title>
 </head>
   <style>
-        .study-group-sidebar-container {
-            width: 280px;
-            padding: 10px;
-            margin-left : -10px;
-           
-        }
+	.study-group-sidebard-h3 {
+	    margin: 10px 0;
+	    font-size: 15px;
+	    color: #ffffff;
+	    background-color: #444;
+	    padding: 5px 10px;
+	    text-align: left;
+	    border-radius: 5px;
+	}
 
-        .study-group-sidebar-h3 {
-			margin-top:10px;
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #ddd;
-        }
+	.study-group-sidebard-section {
+	    margin-bottom: 10px;
+	    padding: 10px;
+	    background-color: #333;
+	    border: 1px solid #555;
+	    border-radius: 5px;
+	}
 
-        .study-group-sidebar-button {
-            display: inline-block;
-            margin-right: 5px;
-            padding: 8px 12px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-		.study-group-sidebar-button:active {
-		    background-color: #e0e0e0; 
-		}
-        .study-group-sidebar-button:hover {
-            background-color: #e9e9e9;
-        }
+	.study-group-sidebard-button {
+	    display: inline-block;
+	    width: 23%;
+	    margin: 5px 1%;
+	    padding: 8px;
+	    font-size: 12px;
+	    color: #fff;
+	    background-color: #5a5a5a;
+	    border: 1px solid #444;
+	    border-radius: 4px;
+	    text-align: center;
+	    transition: all 0.3s ease-in-out;
+	}
 
-        .study-group-sidebar-input {
-            width: 100%;
-            padding: 8px;
-            margin: 0;
-            box-sizing: border-box;
-        }
+	.study-group-sidebard-button:hover {
+	    background-color: #007bff;
+	    color: white;
+	    border-color: #007bff;
+	}
 
-        .study-group-sidebar-label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-            font-size: 14px;
-        }
+	.study-group-sidebard-input {
+	    width: 90%;
+	    padding: 6px;
+	    margin: 5px 7%;
+	    border: 1px solid #444;
+	    border-radius: 5px;
+	    background-color: #f7f7f7;
+	}
 
-        .study-group-sidebar-range {
-            margin-top: 1px;
-            padding: 10px 0;
-        }
+	.study-group-sidebard-time {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	}
 
-        .study-group-sidebar-range p {
-            font-size: 12px;
-            color: #555;
-        }
+	.study-group-sidebard-time input {
+	    width: 80%;
+	    border: 1px solid #444;
+	    background-color: #f0f0f0;
+	}
+
+	.study-group-sidebard-range {
+	    font-size: 12px;
+	    color: #ccc;
+	    text-align: center;
+	    padding-top: 5px;
+	}
+
     </style>
 </head>
 <body>
-    <aside id="studygroupsidebar" class="study-group-sidebar-container">
-        <h3 class="study-group-sidebar-h3">연령별</h3>
-        <div>
-            <button class="study-group-sidebar-button" @click="fnMoveAge('')">전체</button>
-            <button class="study-group-sidebar-button" @click="fnMoveAge('중딩')">중딩</button>
-            <button class="study-group-sidebar-button" @click="fnMoveAge('고딩')">고딩</button>
-            <button class="study-group-sidebar-button" @click="fnMoveAge('대딩')">대딩</button>
-            <button class="study-group-sidebar-button" @click="fnMoveAge('성인')">성인</button>
-        </div>
-        <h3 class="study-group-sidebar-h3">온라인/오프라인</h3>
-        <div>
-            <button class="study-group-sidebar-button" @click="fnMoveOnOff('')">전체</button>
-            <button class="study-group-sidebar-button" @click="fnMoveOnOff('온라인')">온라인</button>
-            <button class="study-group-sidebar-button" @click="fnMoveOnOff('오프라인')">오프라인</button>
-            <button class="study-group-sidebar-button" @click="fnMoveOnOff('혼합')">혼합</button>
-        </div>
-        <h3 class="study-group-sidebar-h3">과목</h3>
-			<button class="study-group-sidebar-button" @click="fnMoveSubject('')">전체</button>
-        <template v-for="item in categoryList">
-			<template v-if="item.boardTypeId >= '2000' && item.boardTypeId <= '2999'">
-            <button class="study-group-sidebar-button" @click="fnMoveSubject(item.boardTypeId)">{{item.name}}</button>
-    		</template>    
-		</template>
-        <h3 class="study-group-sidebar-h3">성별</h3>
-        <div>
-            <button class="study-group-sidebar-button" @click="fnMoveGender('')">전체</button>
-            <button class="study-group-sidebar-button" @click="fnMoveGender('남성')">남자</button>
-            <button class="study-group-sidebar-button" @click="fnMoveGender('여성')">여자</button>
-            <button class="study-group-sidebar-button" @click="fnMoveGender('혼성')">혼성</button>
-        </div>
-		<div class="study-group-sidebar-range">
-		    <h3 class="study-group-sidebar-h3">스터디 시작 날짜</h3>
-		    <input type="date" id="startDate" name="startDate" class="study-group-sidebar-input"
-		           v-model="startDate" @change="fnMoveStartDate">
-		</div>
-        <div class="study-group-sidebar-range">
-             <h3 class="study-group-sidebar-h3">스터디 시간</h3>
-            <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="startTime" @change="fnMoveStartime(startTime,endTime)"> ~ 
-            <input style="width:45%" type="time" id="time" name="time" class="study-group-sidebar-input" v-model="endTime" @change="fnMoveStartime(startTime,endTime)">
-        </div>
-		<div class="study-group-sidebar-range">
-		    <h3 class="study-group-sidebar-h3">참여자 수
-				<template v-if="participants">
-					: <span>{{ participants }}</span>명 이하</h3>
-				</template>
-		    <input type="range" id="participantsRange" min="2" max="20" v-model="participants" class="study-group-sidebar-input" @change="fnmaxparticipants(participants)">
-		    <p>{{ minParticipants }}명~{{ maxParticipants }}명</p>
-		</div>
-    </aside>
+	<aside id="studygroupsidebar">
+	    <h3 class="study-group-sidebard-h3">연령별</h3>
+	    <div class="study-group-sidebard-section">
+	        <button class="study-group-sidebard-button" @click="fnMoveAge('')">전체</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveAge('중딩')">중딩</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveAge('고딩')">고딩</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveAge('대딩')">대딩</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveAge('성인')">성인</button>
+	    </div>
+	    
+	    <h3 class="study-group-sidebard-h3">온라인/오프라인</h3>
+	    <div class="study-group-sidebard-section">
+	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('')">전체</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('온라인')">온라인</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('오프라인')">오프</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('혼합')">혼합</button>
+	    </div>
+
+	    <h3 class="study-group-sidebard-h3">과목</h3>
+	    <div class="study-group-sidebard-section">
+	        <button class="study-group-sidebard-button" @click="fnMoveSubject('')">전체</button>
+	        <template v-for="item in categoryList">
+	            <template v-if="item.boardTypeId >= '2000' && item.boardTypeId <= '2999'">
+	                <button class="study-group-sidebard-button" @click="fnMoveSubject(item.boardTypeId)">{{item.name}}</button>
+	            </template>
+	        </template>
+	    </div>
+
+	    <h3 class="study-group-sidebard-h3">성별</h3>
+	    <div class="study-group-sidebard-section">
+	        <button class="study-group-sidebard-button" @click="fnMoveGender('')">전체</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveGender('남성')">남자</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveGender('여성')">여자</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveGender('혼성')">혼성</button>
+	    </div>
+
+	    <div class="study-group-sidebard-section">
+	        <h3 class="study-group-sidebard-h3">스터디 시작 날짜</h3>
+	        <input type="date" id="startDate" name="startDate" style="margin-left:3px;" class="study-group-sidebard-input" v-model="startDate" @change="fnMoveStartDate">
+	    </div>
+
+	    <div class="study-group-sidebard-section">
+	        <h3 class="study-group-sidebard-h3">스터디 시간</h3>
+	        <div class="study-group-sidebard-time">
+	            <div><input type="time" id="startTime" name="startTime" style="margin-left:1px;"class="study-group-sidebard-input" v-model="startTime" @change="fnMoveStartime(startTime,endTime)"></div>
+	           <div><input type="time" id="endTime" name="endTime" class="study-group-sidebard-input" v-model="endTime" @change="fnMoveStartime(startTime,endTime)"></div>
+	        </div>
+	    </div>
+
+	    <div class="study-group-sidebard-section">
+	        <h3 class="study-group-sidebard-h3">참여자 수: {{ participants }}명</h3>
+	        <input type="range" id="participantsRange" min="2" max="20" v-model="participants" class="study-group-sidebard-input" style="margin-left : 3px;" @input="fnmaxparticipants(participants)">
+	        <p class="study-group-sidebard-range">{{ minParticipants }}명 ~ {{ maxParticipants }}명</p>
+	    </div>
+	</aside>
+
 </body>
 </html>
 <script>
