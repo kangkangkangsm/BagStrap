@@ -59,7 +59,7 @@
 				<th>수정</th>
 				<th>답변</th>
 			</tr>
-			<tr v-for="item in list">
+			<tr v-for="item in list" :key="item.inquiryId">
 				<td>{{item.inquiryId}}</td>
 				<td>{{item.title}}</td>
 				<td>{{item.message}}</td>
@@ -86,7 +86,7 @@
 					</div>
 				</td>
 				<td>
-					<button @click="AnswerInq">답변하기</button>
+					<button @click="fnAnswerInq(item.inquiryId)">답변하기</button>
 				</td>
 			</tr>	
 		</table>
@@ -194,8 +194,8 @@
 					}
 				});
 			},
-			AnswerInq() {
-			    location.href = "answerinq"; // 공지사항 추가 페이지로 이동
+			fnAnswerInq(inquiryId) {
+				$.pageChange("answerinq",{inquiryId: inquiryId});
 			}
         },
         mounted() {
