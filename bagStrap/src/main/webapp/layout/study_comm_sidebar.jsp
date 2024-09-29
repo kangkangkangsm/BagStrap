@@ -157,7 +157,7 @@
 					document.getElementById('inputId').focus();
 					
 				}else{
-				 $.pageChange("/study-comm-myboard",{itemMode : "board"});
+				 $.pageChange("/study-comm-myboard",{itemMode : "board", author : self.sessionUserId});
 				}
 		    },
 			fnMycomment(){

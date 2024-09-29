@@ -22,6 +22,7 @@ public class StudyComm {
 	private int cnt2;
 	private int cnt3;
 	private int cnt4;
+	private int cntLike;
 //TBL_STU_COMMENTS
 	private String commentId;
 	private String postId;
@@ -41,6 +42,7 @@ public class StudyComm {
 	
 //USERS
 	private String userId;
+	private String userNo;
 	private String userName;
 	private String userNickName;
 	private String password;
@@ -66,6 +68,7 @@ public class StudyComm {
 		private String fileName;
 		private String fileOrgName;
 		private String filePath;
+		private String userFile;
 		private String fileSize;
 		private String fileExt;
 		private String thumbnailYN;
@@ -111,6 +114,7 @@ public class StudyComm {
 		private int applyY;
 		private int applyN;
 		private String rejectionMessage;
+		private String sgHide;
 		
 //Book
 		private Long bookId;            // 책 고유번호

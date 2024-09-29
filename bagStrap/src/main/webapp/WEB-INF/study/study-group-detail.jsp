@@ -266,11 +266,17 @@
 
 					<span>🔍 그룹 진행 방식</span>
                 <div class="details">
-                    <span>스터디 방식: {{ detailList.onOffMode }}</span>
-                    <span>성별 : {{ detailList.genderGroup }}</span>
-                    <span>👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }}</span>
-                    <span>연령대: {{ detailList.age }}</span>
-					<span> 📅  {{ detailList.stgStudyTime }} </span>
+					<span>🗓️ {{ detailList.stgStartDate }} ~ {{ detailList.stgEndDate }} </span>
+					<span>⏰ {{ detailList.stgStudyTime }} </span>
+                    <span>🧒 {{ detailList.age }}</span>
+                    <span>🗂️ {{ detailList.onOffMode }}</span>
+                    <span>👫 {{ detailList.genderGroup }} </span> 
+					<template v-if="detailList.applyY == detailList.maxparticipants">
+                    <span style="color:red;">👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }} <a style="color:red;"> (참여 인원 마감)</a></span>
+					</template>
+					<template v-if="detailList.applyY != detailList.maxparticipants">
+					<span>👥 {{ detailList.applyY }} / {{ detailList.maxparticipants }}</span>
+					</template>
                 </div>
 		<template v-if="applyMode ==='N'">
                     <span>💡 그룹 소개</span>
@@ -287,17 +293,21 @@
                         <p>소개: {{ detailList.tbDescription }}</p>
                     </div>
                 </div>
-
-                <h2>📌 가입 방법</h2>
-                <div class="application-instructions">
+				<span>📌 가입 방법</span>
+	             <div class="details">
 					<ol>
 	                    <li><strong>모임 참가하기:</strong> 하단에 "모임 참가하기" 버튼을 클릭하세요.</li>
 	                    <li><strong>자기 소개:</strong> 간단한 자기소개 및 학습 목표를 작성해주세요.</li>
 	                    <li><strong>언제부터?</strong> 방장 승인 후 참여가 가능합니다.</li>
 	                </ol>    
-                </div>
+	             </div>
                 <div class="buttons">
-                    <button class="join-btn" @click="joinGroup">모임 참가하기</button>
+					<template v-if="detailList.applyY != detailList.maxparticipants">
+			         <button class="join-btn" @click="joinGroup">모임 참가하기</button>
+					</template>
+					<template v-if="detailList.applyY == detailList.maxparticipants">
+			         <button class="join-btn" style="background:gray;">인원 마감</button>
+					</template>
                     <button class="share-btn" @click="shareGroup">공유하기</button>
                 </div>
                 <div class="back-btn" @click="fnBack()">돌아가기</div>
