@@ -194,7 +194,15 @@
 					self.fnGetList();
 				},
 				fnStudyCreate(){
-					location.href="/study-group-insert";
+					var self = this;
+					if(!self.isLogin){
+						alert("로그인 먼저 하세요.");
+						document.getElementById('headerLoginModal').showModal();
+						document.getElementById('inputId').focus();
+						return;
+					}else{
+					location.href="/study-group-insert";						
+					}
 				},
 				fnGetList(page = 1){
 					var self = this;

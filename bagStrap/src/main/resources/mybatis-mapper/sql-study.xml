@@ -72,7 +72,9 @@
     <if test="period == '1year'">
         AND C.CREATED_DATE >= ADD_MONTHS(SYSDATE, -12)
     </if>
-    	ORDER BY C.CREATED_DATE DESC
+    	ORDER BY 
+		CASE WHEN T.BOARD_TYPE_ID = 1002 THEN 1 ELSE 2 END, 
+		C.CREATED_DATE DESC
     	OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
 	
@@ -190,7 +192,7 @@
 	<!-- 스터디 커뮤니티 게시글 작성하기 카테고리 불러오기-->
 	<select id="selectMyCommCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	SELECT * FROM tbl_stu_comm_board_types
-	WHERE (board_type_id BETWEEN 1001 AND 1999) 
+	WHERE (board_type_id BETWEEN 1003 AND 1999) 
 	OR (board_type_id BETWEEN 2001 AND 2999)
 	OR (board_type_id BETWEEN 3001 AND 3999)
 	OR (board_type_id BETWEEN 4001 AND 4999)
@@ -588,20 +590,20 @@
         LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
 		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'L' 
 	</select>		
-	<!-- 스터디 그룹 수정-->
-	<update id="updateStuGroup" parameterType="hashmap">
-	UPDATE TBL_STUDY_GROUP
-	SET                 
-	    STUDY_NAME = #{studyName},
-	    STARTDATE = TO_DATE(#{stgStartDate}, 'YYYY-MM-DD'), 
-	    ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'), 
-	    STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
-	    AGE = #{age},                
-	    ONOFFMODE = #{onOffMode},                        
-	    GENDERGROUP = #{genderGroup},                    
-	    RELATED_BOOK = #{bookId},                 
-	    DESCRIPTION = #{description}
-	WHERE STUDY_GROUP_ID = #{studyGroupId}
+<!-- 스터디 그룹 수정 -->
+	<update id="updateStuGroup" parameterType="hashmap" useGeneratedKeys="true" keyProperty="STUDY_GROUP_ID" keyColumn="STUDY_GROUP_ID">
+    UPDATE TBL_STUDY_GROUP
+    SET
+        STUDY_NAME = #{studyName},
+        STARTDATE = TO_DATE(#{stgStartDate}, 'YYYY-MM-DD'),
+        ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'),
+        STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
+        AGE = #{age},
+        ONOFFMODE = #{onOffMode},
+        GENDERGROUP = #{genderGroup},
+        RELATED_BOOK = #{bookId},
+        DESCRIPTION = #{description}
+    WHERE STUDY_GROUP_ID = #{studyGroupId}
 	</update>
 	 <!--스터디 강퇴 관련 -->
 	<!-- 스터디 강퇴-->
@@ -641,4 +643,63 @@
 	END
 	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID IN (#{fetchappuserid}, #{sessionId})
 	</update>
+	<!-- 스터디 가입 승인 -->
+	<update id="updateStuGroupJoin" parameterType="hashmap" >
+	update tbl_study_application
+	set 
+	fetchapplstatus = 'Y'
+	where FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID = #{fetchappuserid}
+	</update>
+	<!-- 스터디그룹  해체-->
+	<delete id="deleteStuGroup" parameterType="hashmap">
+    DELETE FROM tbl_study_group
+    WHERE study_group_id = #{studyGroupId}
+	</delete>
+    <delete id="deleteStuGroup2" parameterType="hashmap">
+    DELETE FROM TBL_STUDY_APPLICATION
+    WHERE FETCHAPPSTUDYID = #{studyGroupId}
+	</delete>
+    <!-- 스터디 채팅같은 게시판 -->
+    <insert id="insertStuGroupMessage" parameterType="hashmap" useGeneratedKeys="true" keyProperty="MESSAGEID" keyColumn="MESSAGEID" >
+	    INSERT INTO TBL_MESSAGE (
+	    MESSAGEID, 
+	    MESSAGESTUDYGROUPID, 
+	    MESSAGEUSERID, 
+	    MESSAGECONTENT, 
+	    MESSAGECREATEDDATE, 
+	    MESSAGEISDELETED
+	) VALUES (
+	    MESSAGESEQ.NEXTVAL,      
+	    #{studyGroupId},                       
+	    #{sessionId},              
+	    #{messageContent},                  
+	    SYSDATE + (9/24),        
+	    'N'                       
+	)
+    </insert>
+	<!-- 스터디 채팅 -->
+	<select id="selectStuGroupMessage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		 SELECT TM.MESSAGEID,TU.USER_NICKNAME,TM.MESSAGEUSERID, TB.FILEPATH, TM.MESSAGECONTENT, TU.USER_ID,MTB.FILEPATH AS MFILEPATH,
+       CASE 
+           WHEN TO_CHAR(TM.MESSAGECREATEDDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
+           THEN TO_CHAR(TM.MESSAGECREATEDDATE, 'HH24:MI:SS')
+           ELSE TO_CHAR(TM.MESSAGECREATEDDATE, 'YYYY-MM-DD')
+       END AS MESSAGECREATEDDATE
+    FROM TBL_MESSAGE TM
+    INNER JOIN TBL_USER TU ON TM.MESSAGEUSERID = TU.USER_ID
+    LEFT JOIN TBL_BOARDFILE TB ON TB.BOARDNO = TU.USER_NO
+    LEFT JOIN TBL_BOARDFILE MTB ON TM.MESSAGEID = MTB.BOARDNO
+		WHERE MESSAGESTUDYGROUPID = #{studyGroupId}
+		ORDER BY MESSAGECREATEDDATE
+	</select>
+	<!-- 채팅삭제-->
+	<delete id="deletGroupMessage" parameterType="hashmap" >
+	delete from TBL_MESSAGE
+	where messageId = #{messageId}
+	</delete>
+	<!-- 내가 가입한 스터디 개수 -->
+	<select id="countMyStudy" parameterType="hashmap" resultType="int">
+		select count(*) AS cnt4 from tbl_study_application
+		where fetchappuserid = #{userId} AND fetchapplstatus = 'Y'
+	</select>	
 </mapper>

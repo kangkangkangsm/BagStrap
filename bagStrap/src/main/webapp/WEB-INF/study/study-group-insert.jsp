@@ -96,11 +96,11 @@
 			          <label for="book">참고 할 교재</label>
 			          <div class="study-group-insert-book-list">
 			              <select id="book" name="book" v-model="﻿relatedBook">
+							
 			                  <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
 			                  <!-- 책 리스트 추가 -->
 			              </select>
 			          </div>
-			          <input type="text" id="customBook" placeholder="직접 입력 (없으면 안 써도 됨)" style="width: 91.5%; margin-top: 10px;" v-model="relatedBookDirect">
 			      </div>
 				  <div class="study-group-insert-form-group">
 	  		          <label for="description">스터디 설명 (50자이내)</label>
@@ -176,7 +176,7 @@
 						success : function(data) { 
 							console.log(data);
 							var idx = data.idx;
-							self.insertStuGroupKingApply(self.sessionUserId, idx)
+							self.insertStuGroupKingApply(self.sessionUserId, idx);
 							console.log(idx);
 							if (self.file) {
 								  const formData = new FormData();

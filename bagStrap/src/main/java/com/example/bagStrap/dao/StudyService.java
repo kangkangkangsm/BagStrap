@@ -83,4 +83,14 @@ public interface StudyService {
 	HashMap<String, Object> deleteStuGroupUnblocking(HashMap<String, Object> map);
 	//마이페이지 -> 스터디 그룹장 위임
 	HashMap<String, Object> updateStuGroupBossDelegation(HashMap<String, Object> map);
+	//마이페이지 -> 스터디 가입 승인 
+	HashMap<String, Object> updateStuGroupJoin(HashMap<String, Object> map);
+	//마이페이지 -> 스터디그룹 해체 
+	HashMap<String, Object> deleteStuGroup(HashMap<String, Object> map);
+	//스터디긔룹 채팅같은 게시글 쓰기
+	HashMap<String, Object> insertStuGroupMessage(HashMap<String, Object> map);
+	//스터디 채팅 불러오기 
+	HashMap<String, Object> selectStuGroupMessage(HashMap<String, Object> map);
+	//스터디 채팅삭제 
+	HashMap<String, Object> deletGroupMessage(HashMap<String, Object> map);
 }

@@ -101,12 +101,15 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	//스터디 사이드바 cnt
 	@Override
 	public HashMap<String, Object> sidebarCnt(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
 			int countMyCommList = studyMapper.countMyCommList(map);
 			int countMycommentList = studyMapper.countMycommentList(map);
+			int countMyStudy = studyMapper.countMyStudy(map);
+			resultMap.put("countMyStudyCnt", countMyStudy);
 			resultMap.put("countMyCommCnt", countMyCommList);
 			resultMap.put("countMycommentCnt", countMycommentList);
 			resultMap.put("result", true);
@@ -592,9 +595,8 @@ public class StudyServiceImpl implements StudyService{
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		try {
-			
 			studyMapper.updateStuGroup(map);
-			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
+			resultMap.put("idx",map.get("studyGroupId"));
 			resultMap.put("result", true);
 			resultMap.put("message", "그룹 수정 완료");
 		} catch (Exception e) {
@@ -667,6 +669,89 @@ public class StudyServiceImpl implements StudyService{
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//마이페이지 -> 스터디 가입 승인
+	@Override
+	public HashMap<String, Object> updateStuGroupJoin(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.updateStuGroupJoin(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "그룹 승인 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//마이페이지 -> 스터디그룹 해체 
+	@Override
+	public HashMap<String, Object> deleteStuGroup(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.deleteStuGroup(map);
+			studyMapper.deleteStuGroup2(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "그룹 삭제 완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디긔룹  채팅같은 게시글 쓰기 
+	@Override
+	public HashMap<String, Object> insertStuGroupMessage(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.insertStuGroupMessage(map);
+			resultMap.put("idx",map.get("MESSAGEID"));
+			resultMap.put("result", true);
+			resultMap.put("message", "채팅작성완룡");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "채팅 인서트 에러. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 채팅 불러오기 
+	@Override
+	public HashMap<String, Object> selectStuGroupMessage(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			List<StudyComm> list = studyMapper.selectStuGroupMessage(map);
+			resultMap.put("messagelist", list);
+			resultMap.put("result", true);
+			resultMap.put("message", "불러오기완료");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "채팅불러오기에러. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	//스터디 채팅삭제 
+	@Override
+	public HashMap<String, Object> deletGroupMessage(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			studyMapper.deletGroupMessage(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "채팅삭제");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "채팅 인서트 에러. 에러 코드를 확인해주세요");
 		}
 		return resultMap;
 	}

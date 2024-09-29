@@ -249,6 +249,7 @@
 						if (data.isLogin) {
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
+							self.isAdmin = data.isAdmin;
 							console.log('세션아이디:', self.sessionUserId); 
 						} else {
 							self.sessionUserId = '';

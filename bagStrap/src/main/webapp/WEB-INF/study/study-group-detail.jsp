@@ -375,6 +375,9 @@
 		                  success : function(data) { 
 		                      alert(data.message);
 		                 	  self.applyMode = 'N'; 
+							  self.selfIntro ='';
+							  self.studyGoal ='';
+							  self.additionalQuestions ='';
 		                  },
 		              });
 		        },
@@ -382,7 +385,15 @@
                     history.back();
                 },
 				joinGroup(){
-					this.applyMode = 'Y';
+					var self = this;
+					if(!self.isLogin){
+						alert("로그인 먼저 하세요.");
+						document.getElementById('headerLoginModal').showModal();
+						document.getElementById('inputId').focus();
+						return;
+					}else{
+					self.applyMode = 'Y';						
+					}
 				},
                 fnDetail() {
                     const self = this;

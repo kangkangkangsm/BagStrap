@@ -21,7 +21,7 @@ public class StudyComm {
 	private int cnt;
 	private int cnt2;
 	private int cnt3;
-	
+	private int cnt4;
 //TBL_STU_COMMENTS
 	private String commentId;
 	private String postId;
@@ -121,7 +121,17 @@ public class StudyComm {
 		private String quantity;
 		private String tbDescription;
 		
-		
+//TBL_MESSAGE
+		private int messageId;           
+	    private int messageStudyGroupId;       
+	    private String messageUserId;           
+	    private String messageContent;         
+	    private String messageType;           
+		private String messageReplyToId;
+		private String messageCreatedDate;
+		private String messageIsDeleted;
+		private String mFilepath;
+						
 	public String getUserId() {
 		return userId;
 	}

@@ -155,17 +155,56 @@
 				</tr>
 				<tr v-for="item in commlist">
 					<template v-if="item.boardstatus === 'N'">
-						<td><a href="#" @click="fnView(item.boardId)">{{item.name}}</a></td>
+						<!-- 카테고리 -->
 						<td>
-							<a href="#" style="color:black;" @click="fnView(item.boardId)">{{item.title}}</a> 
+							<a href="#" @click="fnView(item.boardId)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.name}}
+							</a>
+						</td>
+
+						<!-- 제목 -->
+						<td>
+							<a href="#" @click="fnView(item.boardId)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.title}}
+							</a>
 							<template v-if="item.cnt">
 								<strong style="color:red;">[{{item.cnt}}]</strong>
 							</template>
 						</td>
-						<td><a href="#" @click="fnUserboard(item.author, item.userNickName)">{{item.userNickName}}</a></td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.createdDateFormatted}}</a></td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.commLikeCnt}}</a></td>
-						<td><a href="#" @click="fnView(item.boardId)">{{item.views}}</a></td>
+
+						<!-- 작성자 -->
+						<td>
+							<a href="#" @click="fnUserboard(item.author, item.userNickName)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.userNickName}}
+							</a>
+						</td>
+
+						<!-- 작성일 -->
+						<td>
+							<a href="#" @click="fnView(item.boardId)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.createdDateFormatted}}
+							</a>
+						</td>
+
+						<!-- 좋아요 -->
+						<td>
+							<a href="#" @click="fnView(item.boardId)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.commLikeCnt}}
+							</a>
+						</td>
+
+						<!-- 조회수 -->
+						<td>
+							<a href="#" @click="fnView(item.boardId)" 
+							   :style="{ color: item.boardTypeId === 1002 ? 'red' : 'black' }">
+							   {{item.views}}
+							</a>
+						</td>
 					</template>
 					<template v-if="item.boardstatus === 'Y' && isAdmin">
 						<td colspan="5"><a href="#" @click="fnView(item.boardId)" style="color:black;">관리자에 의해 숨김 처리된 게시글입니다.</a></td>
@@ -176,7 +215,7 @@
 				</tr>
 			</table>
 
-			<!-- 페이지네이션 -->
+			
 			<div class="stu-comm-list-pagination">
 			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
 			    <button v-for="page in totalPages" :class="{active: page == currentPage}" @click="fnboardList(page)">
@@ -218,7 +257,6 @@
 				boardTypelist: [],
 				boardList: [],
 				commlist: [],
-				boardTypeId: 1000,
 				currentPage: 1,      // 현재 페이지
 				pageSize: 10,        // 한 페이지에 보여줄 개수
 				totalPages: 5,
@@ -232,6 +270,7 @@
 				sessionUserId: '',
 				userId: '',
 				password: '',
+				boardTypeId: '${boardTypeId}',
 				boardTypeId2: '${boardTypeId2}',
 				countMyCommCnt: '',
 				countMycommentCnt: '',
@@ -278,6 +317,7 @@
 					type: "POST", 
 					data: nparmap,
 					success: function(data) {
+						console.log(data);
 						self.commlist = data.commlist;
 						self.cnt = data.cnt;
 						self.totalPages = Math.ceil(self.cnt / self.pageSize);
@@ -306,7 +346,7 @@
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
 							self.isAdmin = data.isAdmin;
-							self.fnMyCnt();
+							
 						} else {
 							self.sessionUserId = '';
 							self.sessionUserNickName = '';
