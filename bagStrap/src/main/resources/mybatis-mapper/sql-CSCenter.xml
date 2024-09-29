@@ -131,4 +131,9 @@
 		select count(*) as cnt
 		from tbl_inquiry
 	</select>
+	
+	<insert id="insertInqAnswer" parameterType="com.example.bagStrap.model.Notice">
+		INSERT INTO tbl_answer (answer_id,inquiry_id, answer_message, created_at)
+   		VALUES (answer_seq.nextval, #{inquiryId}, #{answerMessage}, CURRENT_TIMESTAMP)
+	</insert>
 </mapper>

@@ -130,8 +130,13 @@
 		                    	<img  src="../src/profile.png" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
 							</template>
 		                    <div class="study-group-list-title" @click="fnDetail(item.studyGroupId)">[{{item.name}}]{{item.studyName}}</div>
+							<template v-if="item.applyY != item.maxparticipants">
 		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} |인원 {{item.applyY}} / {{item.maxparticipants}}</div>
-		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">시작일  {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}</div>
+		                    </template>
+							<template v-if="item.applyY == item.maxparticipants">
+		                    <div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} | <a style="color:red;">참여 인원 마감</a></div>
+		                    </template>
+							<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">시작일  {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}</div>
 						</template>
 						<template v-if="!item">
 						<div>검색된 결과가 없습니다.</div>
@@ -194,7 +199,15 @@
 					self.fnGetList();
 				},
 				fnStudyCreate(){
-					location.href="/study-group-insert";
+					var self = this;
+					if(!self.isLogin){
+						alert("로그인 먼저 하세요.");
+						document.getElementById('headerLoginModal').showModal();
+						document.getElementById('inputId').focus();
+						return;
+					}else{
+					location.href="/study-group-insert";						
+					}
 				},
 				fnGetList(page = 1){
 					var self = this;

@@ -72,7 +72,9 @@
     <if test="period == '1year'">
         AND C.CREATED_DATE >= ADD_MONTHS(SYSDATE, -12)
     </if>
-    	ORDER BY C.CREATED_DATE DESC
+    	ORDER BY 
+		CASE WHEN T.BOARD_TYPE_ID = 1002 THEN 1 ELSE 2 END, 
+		C.CREATED_DATE DESC
     	OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>
 	
@@ -126,6 +128,10 @@
 		SELECT *
 		FROM TBL_STU_COMM C
 		LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
+        LEFT JOIN (
+			    SELECT TB2.BOARDNO,TB2.FILEPATH AS USERFILE, ROW_NUMBER() OVER (PARTITION BY TB2.BOARDNO ORDER BY TB2.FILECREATEDATE DESC) AS RN
+			    FROM TBL_BOARDFILE TB2
+        ) TB2 ON U.USER_NO = TB2.BOARDNO AND TB2.RN = 1
 		INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON T.BOARD_TYPE_ID = C.BOARD_TYPE
 		LEFT JOIN (
 		    SELECT BF.*, ROW_NUMBER() OVER (PARTITION BY BF.BOARDNO ORDER BY BF.FILECREATEDATE DESC) AS RN
@@ -190,7 +196,7 @@
 	<!-- 스터디 커뮤니티 게시글 작성하기 카테고리 불러오기-->
 	<select id="selectMyCommCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 	SELECT * FROM tbl_stu_comm_board_types
-	WHERE (board_type_id BETWEEN 1001 AND 1999) 
+	WHERE (board_type_id BETWEEN 1003 AND 1999) 
 	OR (board_type_id BETWEEN 2001 AND 2999)
 	OR (board_type_id BETWEEN 3001 AND 3999)
 	OR (board_type_id BETWEEN 4001 AND 4999)
@@ -588,20 +594,20 @@
         LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
 		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'L' 
 	</select>		
-	<!-- 스터디 그룹 수정-->
-	<update id="updateStuGroup" parameterType="hashmap">
-	UPDATE TBL_STUDY_GROUP
-	SET                 
-	    STUDY_NAME = #{studyName},
-	    STARTDATE = TO_DATE(#{stgStartDate}, 'YYYY-MM-DD'), 
-	    ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'), 
-	    STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
-	    AGE = #{age},                
-	    ONOFFMODE = #{onOffMode},                        
-	    GENDERGROUP = #{genderGroup},                    
-	    RELATED_BOOK = #{bookId},                 
-	    DESCRIPTION = #{description}
-	WHERE STUDY_GROUP_ID = #{studyGroupId}
+<!-- 스터디 그룹 수정 -->
+	<update id="updateStuGroup" parameterType="hashmap" useGeneratedKeys="true" keyProperty="STUDY_GROUP_ID" keyColumn="STUDY_GROUP_ID">
+    UPDATE TBL_STUDY_GROUP
+    SET
+        STUDY_NAME = #{studyName},
+        STARTDATE = TO_DATE(#{stgStartDate}, 'YYYY-MM-DD'),
+        ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'),
+        STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
+        AGE = #{age},
+        ONOFFMODE = #{onOffMode},
+        GENDERGROUP = #{genderGroup},
+        RELATED_BOOK = #{bookId},
+        DESCRIPTION = #{description}
+    WHERE STUDY_GROUP_ID = #{studyGroupId}
 	</update>
 	 <!--스터디 강퇴 관련 -->
 	<!-- 스터디 강퇴-->
@@ -641,4 +647,226 @@
 	END
 	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID IN (#{fetchappuserid}, #{sessionId})
 	</update>
+	<!-- 스터디 가입 승인 -->
+	<update id="updateStuGroupJoin" parameterType="hashmap" >
+	update tbl_study_application
+	set 
+	fetchapplstatus = 'Y'
+	where FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID = #{fetchappuserid}
+	</update>
+	<!-- 스터디그룹  해체-->
+	<delete id="deleteStuGroup" parameterType="hashmap">
+    DELETE FROM tbl_study_group
+    WHERE study_group_id = #{studyGroupId}
+	</delete>
+    <delete id="deleteStuGroup2" parameterType="hashmap">
+    DELETE FROM TBL_STUDY_APPLICATION
+    WHERE FETCHAPPSTUDYID = #{studyGroupId}
+	</delete>
+    <!-- 스터디 채팅같은 게시판 -->
+    <insert id="insertStuGroupMessage" parameterType="hashmap" useGeneratedKeys="true" keyProperty="MESSAGEID" keyColumn="MESSAGEID" >
+	    INSERT INTO TBL_MESSAGE (
+	    MESSAGEID, 
+	    MESSAGESTUDYGROUPID, 
+	    MESSAGEUSERID, 
+	    MESSAGECONTENT, 
+	    MESSAGECREATEDDATE, 
+	    MESSAGEISDELETED
+	) VALUES (
+	    MESSAGESEQ.NEXTVAL,      
+	    #{studyGroupId},                       
+	    #{sessionId},              
+	    #{messageContent},                  
+	    SYSDATE + (9/24),        
+	    'N'                       
+	)
+    </insert>
+	<!-- 스터디 채팅 -->
+	<select id="selectStuGroupMessage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		 SELECT TM.MESSAGEID,TU.USER_NICKNAME,TM.MESSAGEUSERID, TB.FILEPATH, TM.MESSAGECONTENT, TU.USER_ID,MTB.FILEPATH AS MFILEPATH,
+       CASE 
+           WHEN TO_CHAR(TM.MESSAGECREATEDDATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
+           THEN TO_CHAR(TM.MESSAGECREATEDDATE, 'HH24:MI:SS')
+           ELSE TO_CHAR(TM.MESSAGECREATEDDATE, 'YYYY-MM-DD')
+       END AS MESSAGECREATEDDATE
+    FROM TBL_MESSAGE TM
+    INNER JOIN TBL_USER TU ON TM.MESSAGEUSERID = TU.USER_ID
+    LEFT JOIN TBL_BOARDFILE TB ON TB.BOARDNO = TU.USER_NO
+    LEFT JOIN TBL_BOARDFILE MTB ON TM.MESSAGEID = MTB.BOARDNO
+		WHERE MESSAGESTUDYGROUPID = #{studyGroupId}
+		ORDER BY TM.MESSAGECREATEDDATE
+	</select>
+	<!-- 채팅삭제-->
+	<delete id="deletGroupMessage" parameterType="hashmap" >
+	delete from TBL_MESSAGE
+	where messageId = #{messageId}
+	</delete>
+	<!-- 내가 가입한 스터디 개수 -->
+	<select id="countMyStudy" parameterType="hashmap" resultType="int">
+		select count(*) AS cnt4 from tbl_study_application
+		where fetchappuserid = #{userId} AND fetchapplstatus = 'Y'
+	</select>	
+	<!-- 마이페이지 내 스터디 숨기기 -->
+	<update id="updateStuGroupHide" parameterType="hashmap" >
+	UPDATE tbl_study_application
+	SET SGHIDE = CASE 
+	WHEN SGHIDE = 'Y' THEN 'N' 
+	ELSE 'Y' 
+	END
+	WHERE FETCHAPPSTUDYID = #{studyGroupId} AND FETCHAPPUSERID  = #{fetchappuserid}
+	</update>
+	<!-- 스터디 나의 학습목표 수정하기 -->
+	<update id="updateStuGoal" parameterType="hashmap" >
+	update tbl_study_application
+	set STUDYGOAL = #{studygoal}
+	WHERE fetchapplicationid = #{fetchapplicationid}
+	</update>
+	<!-- 노트필기 경쟁대회 수상 3001  -->
+	<select id="selectEvent3001" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM 
+	(
+	SELECT * FROM TBL_STU_COMM TSC 
+	LEFT JOIN TBL_USER TU ON TSC.AUTHOR = TU.USER_ID
+	LEFT JOIN (
+			    SELECT TB2.BOARDNO,TB2.FILEPATH AS USERFILE, ROW_NUMBER() OVER (PARTITION BY TB2.BOARDNO ORDER BY TB2.FILECREATEDATE DESC) AS RN
+			    FROM TBL_BOARDFILE TB2
+	) TB2 ON TU.USER_NO = TB2.BOARDNO AND TB2.RN = 1
+	LEFT JOIN (
+			    SELECT TB.*, ROW_NUMBER() OVER (PARTITION BY TB.BOARDNO ORDER BY TB.FILECREATEDATE DESC) AS RN
+			    FROM TBL_BOARDFILE TB
+	) TB ON TSC.BOARD_ID = TB.BOARDNO AND TB.RN = 1
+	LEFT JOIN 
+	(
+	SELECT count(*) AS cntLike, TARGETID 
+	FROM TBL_LIKES
+	GROUP BY TARGETID
+	) TL ON TL.TARGETID = TSC.BOARD_ID
+	WHERE TSC.BOARD_TYPE = 3001
+	<if test="month == '01month'">
+    AND TSC.CREATED_DATE > TO_DATE('24/01/01', 'YY/MM/DD') AND TO_DATE('24/01/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '02month'">
+	 AND TSC.CREATED_DATE > TO_DATE('24/02/01', 'YY/MM/DD') AND TO_DATE('24/02/29', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '03month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/03/01', 'YY/MM/DD') AND TO_DATE('24/03/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '04month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/04/01', 'YY/MM/DD') AND TO_DATE('24/04/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '05month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/05/01', 'YY/MM/DD') AND TO_DATE('24/05/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '06month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/06/01', 'YY/MM/DD') AND TO_DATE('24/06/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '07month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/07/01', 'YY/MM/DD') AND TO_DATE('24/07/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '08month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/08/01', 'YY/MM/DD') AND TO_DATE('24/08/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '09month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/09/01', 'YY/MM/DD') AND TO_DATE('24/09/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '10month'">
+	  AND TSC.CREATED_DATE > TO_DATE('24/10/01', 'YY/MM/DD') AND TO_DATE('24/10/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '11month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/11/01', 'YY/MM/DD') AND TO_DATE('24/11/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '12month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/12/01', 'YY/MM/DD') AND TO_DATE('24/12/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	)
+	WHERE 3 >= ROWNUM
+	</select>	
+	<!-- 오답노트 3002  -->
+	<select id="selectEvent3002" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM (
+	SELECT * FROM TBL_STU_COMMENTS TSC 
+	LEFT JOIN TBL_USER TU ON TSC.AUTHOR = TU.USER_ID
+	INNER JOIN 
+	(
+	SELECT TS.BOARD_TYPE AS BOARDTYPE, TSC.COMMENT_ID AS COMMENTID FROM TBL_STU_COMMENTS TSC
+	INNER JOIN TBL_STU_COMM TS ON TS.BOARD_ID = TSC.POST_ID
+	) CIR ON TSC.COMMENT_ID = CIR.COMMENTID
+	LEFT JOIN 
+	(
+	SELECT count(*) AS cntLike, TARGETID 
+	FROM TBL_LIKES
+	GROUP BY TARGETID
+	) TL ON TL.TARGETID = TSC.COMMENT_ID
+	LEFT JOIN (
+			    SELECT TB2.BOARDNO,TB2.FILEPATH AS USERFILE, ROW_NUMBER() OVER (PARTITION BY TB2.BOARDNO ORDER BY TB2.FILECREATEDATE DESC) AS RN
+			    FROM TBL_BOARDFILE TB2
+	) TB2 ON TU.USER_NO = TB2.BOARDNO AND TB2.RN = 1
+	INNER JOIN (
+			    SELECT TB.*, ROW_NUMBER() OVER (PARTITION BY TB.BOARDNO ORDER BY TB.FILECREATEDATE DESC) AS RN
+			    FROM TBL_BOARDFILE TB
+	) TB ON TSC.COMMENT_ID = TB.BOARDNO AND TB.RN = 1 
+	WHERE BOARDTYPE = 3002 
+	<if test="month == '01month'">
+    AND TSC.CREATED_DATE > TO_DATE('24/01/01', 'YY/MM/DD') AND TO_DATE('24/01/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '02month'">
+	 AND TSC.CREATED_DATE > TO_DATE('24/02/01', 'YY/MM/DD') AND TO_DATE('24/02/29', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '03month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/03/01', 'YY/MM/DD') AND TO_DATE('24/03/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '04month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/04/01', 'YY/MM/DD') AND TO_DATE('24/04/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '05month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/05/01', 'YY/MM/DD') AND TO_DATE('24/05/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '06month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/06/01', 'YY/MM/DD') AND TO_DATE('24/06/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '07month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/07/01', 'YY/MM/DD') AND TO_DATE('24/07/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '08month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/08/01', 'YY/MM/DD') AND TO_DATE('24/08/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '09month'">
+	   AND TSC.CREATED_DATE > TO_DATE('24/09/01', 'YY/MM/DD') AND TO_DATE('24/09/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '10month'">
+	  AND TSC.CREATED_DATE > TO_DATE('24/10/01', 'YY/MM/DD') AND TO_DATE('24/10/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '11month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/11/01', 'YY/MM/DD') AND TO_DATE('24/11/30', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+	
+	<if test="month == '12month'">
+	    AND TSC.CREATED_DATE > TO_DATE('24/12/01', 'YY/MM/DD') AND TO_DATE('24/12/31', 'YY/MM/DD') > TSC.CREATED_DATE 
+	</if>
+
+	ORDER BY cntLike DESC
+	)
+	WHERE 3 >= ROWNUM
+	</select>	
 </mapper>

@@ -34,7 +34,7 @@
 			<div class="stu-comm-activity-item">
                <span class="stu-comm-activity-icon">👥</span>
                <a href="#" @click="fnMyboard">가입중인 그룹</a>
-               <a class="stu-comm-activity-count" href="#" @click="fnMyboard">2개</a>
+               <a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyStudyCnt}}개</a>
            </div>
         </div>
         <nav class="stu-comm-menu">
@@ -92,8 +92,8 @@
 					data : nparmap,
 					success : function(data) {
 							console.log(data);
-						self.isLogin = data.isLogin 
 						if(data.isLogin){
+							self.isLogin = data.isLogin; 
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
 							self.isAdmin = data.isAdmin;
@@ -121,6 +121,7 @@
 						console.log(data);
 						self.countMyCommCnt=data.countMyCommCnt;
 						self.countMycommentCnt=data.countMycommentCnt;
+						self.countMyStudyCnt = data.countMyStudyCnt;
 
 				}
 			});
@@ -149,29 +150,77 @@
 				 $.pageChange("/study-comm-detail",{boardId : boardId});
 			},
 			fnMyboard(){
-				 $.pageChange("/study-comm-myboard",{itemMode : "board"});
+				var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				}else{
+				 $.pageChange("/study-comm-myboard",{itemMode : "board", author : self.sessionUserId});
+				}
 		    },
 			fnMycomment(){
-				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});
+				var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				}else{
+				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});				
+				}
 		    },
 			fnInsertComm(){
-				location.href="commInsert"
+				var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				}else{
+				location.href="commInsert"					
+				}
 			},
-			
+			fnLogin(){
+				var self = this;
+				var nparmap = {
+					userId : self.userId,
+					password : self.password
+
+				};
+				$.ajax({
+					url:"/login.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) {
+						console.log(data); 
+						alert(data.message);
+						if(data.result){
+							document.getElementById('headerLoginModal').close();
+							self.getSharedHeader();
+							self.userId = '',
+							self.password = ''
+						}
+					}
+				});
+            },	
         },
         mounted() {
             var self = this;
 			self.fnboardtypeList();
 			self.fnSession();
 			window.addEventListener('loginStatusChanged', function(){
-				if(window.sessionStorage.getItem("isLogin") === 'true'){
-					self.isLogin = true;	
-				} else{
-					self.isLogin = false;
-				};
-				self.fnSession();	
-			})
-        }
-    });
+              if(window.sessionStorage.getItem("isLogin") === 'true'){
+                 self.isLogin = true;   
+              } else{
+                 self.isLogin = false;
+              };
+              self.fnSession();
+           });
+
+          }
+      });
     studycommsidebarApp.mount('#studycommsidebar');
 </script>
