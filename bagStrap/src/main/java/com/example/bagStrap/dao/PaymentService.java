@@ -25,6 +25,7 @@ public interface PaymentService {
 	HashMap<String, Object> changeDefaultYN(HashMap<String, Object> map);
 	HashMap<String, Object> updateSaveYN(HashMap<String, Object> map);
 	HashMap<String, Object> selectRefundList(HashMap<String, Object> map);
+	ResponseEntity<Map> updateRefundStatus(HashMap<String, Object> refundMap, HashMap<String, Object> tokenMap);
 
 	
 	

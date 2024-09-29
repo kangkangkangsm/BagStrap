@@ -108,35 +108,70 @@
 			</foreach>
 	</delete>
 	<select id="checkRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-				SELECT OI.BOOK_ID, OI.QUANTITY, CASE 
+				SELECT OI.BOOK_ID, OI.QUANTITY, O.STATUS, RI.STATUS AS REFUND_STATUS ,CASE 
 				<foreach item="item" collection="orderList">   
 				       WHEN RI.BOOK_ID = #{item.bookId} THEN OI.QUANTITY - RI.QUANTITY - #{item.bookQuantity} 
 				</foreach>       
 		        ELSE OI.QUANTITY 
 				END AS CALC 
 				FROM TBL_ORDER O 
-				INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
-				INNER JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID 
-				INNER JOIN TBL_REFUND_ITEM RI ON R.REFUND_ID = RI.REFUND_ID 
+				LEFT JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
+				LEFT JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID 
+				LEFT JOIN TBL_REFUND_ITEM RI ON R.REFUND_ID = RI.REFUND_ID 
 				WHERE O.ORDER_ID = #{orderId}
 	</select>
-	<insert id="refund" parameterType="hashmap" >
-			INSERT ALL
-			INTO TBL_REFUND (REFUND_ID, ORDER_ID, REASON)
-			VALUES (#{refundId}, #{orderId}, #{refundReasonContent})
-			<foreach item="item" collection="orderList">
-				INTO TBL_REFUND_ITEM (REFUND_ID, BOOK_ID, QUANTITY)
-				VALUES (#{refundId}, #{item.bookId}, #{item.bookQuantity})
-			</foreach>
-			SELECT * FROM DUAL
+	<insert id="insertRefund" parameterType="hashmap" useGeneratedKeys="true" keyProperty="refundFile" keyColumn="REFUND_FILE">
+	  INSERT INTO TBL_REFUND (REFUND_ID, ORDER_ID, REASON, REFUND_FILE)
+	  VALUES (#{refundId}, #{orderId}, #{refundReasonContent}, REFUND_FILE_SEQ.NEXTVAL)
 	</insert>
-	<select id="selectRefundList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-				SELECT * 
-				FROM TBL_REFUND R
-				INNER JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID
-				INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
-				WHERE USER_ID = #{userId}
+
+	<insert id="insertRefundItem" parameterType="hashmap">
+	INSERT ALL
+	  <foreach item="item" collection="orderList" >
+	    INTO TBL_REFUND_ITEM (REFUND_ID, BOOK_ID, QUANTITY)
+	    VALUES (#{refundId}, #{item.bookId}, #{item.bookQuantity})
+	  </foreach>
+	  SELECT * FROM DUAL
+	</insert>
+<!--TODO -->
+	<select id="selectRefundListCount" parameterType="hashmap" resultType="int">
+		    SELECT CEIL(COUNT(*)/#{pageSize})
+			FROM TBL_REFUND R
+			INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
+			INNER JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID
+			INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID AND I.BOOK_ID = OI.BOOK_ID 
+			INNER JOIN TBL_BOOK B ON B.BOOK_ID = I.BOOK_ID
+			WHERE USER_ID = #{userId}
+			ORDER BY R.CREATED_DATE DESC
+
 	</select>
- 
-	
+	<select id="selectRefundList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+			SELECT R.REFUND_ID, R.CREATED_DATE, O.ORDER_DATE, B.TITLE, B.DESCRIPTION, I.QUANTITY, OI.PRICE, I.STATUS, B.IMAGE, B.AUTHOR, I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, REFUND_FILE
+			FROM TBL_REFUND R
+			INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
+			INNER JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID
+			INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID AND I.BOOK_ID = OI.BOOK_ID 
+			INNER JOIN TBL_BOOK B ON B.BOOK_ID = I.BOOK_ID
+			WHERE USER_ID = #{userId}
+			ORDER BY R.CREATED_DATE DESC
+			OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+
+	</select>
+	 <update id="updateOrderStatus" parameterType="hashmap">
+				UPDATE TBL_ORDER
+				SET STATUS = #{newStatus}
+				WHERE ORDER_ID = #{orderId}
+ 	</update>
+	<select id="updateRefundStatus" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+				SELECT OI.BOOK_ID, RI.STATUS AS STATUS, OI.PRICE ,CASE
+				<foreach item="item" collection="orderList">   
+				 WHEN RI.BOOK_ID = #{item.bookId} THEN #{item.quantity}
+ 				</foreach>       
+				ELSE 1	END AS QUANTITY 
+					FROM TBL_REFUND_ITEM RI 
+					LEFT JOIN TBL_REFUND R ON R.REFUND_ID = RI.REFUND_ID 
+	                LEFT JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID 
+	                LEFT JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
+					WHERE R.REFUND_ID = #{refundId} AND RI.STATUS = '승인됨'
+	</select>
 </mapper>

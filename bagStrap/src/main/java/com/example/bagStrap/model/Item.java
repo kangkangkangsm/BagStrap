@@ -24,7 +24,12 @@ public class Item {
 	private String category;
 	private String eBook;
     private int discount;			// 할인율
-	
+    
+    
+	//category
+
+    private int boardTypeId;
+    private String name;
 }
 
 	

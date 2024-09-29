@@ -40,6 +40,18 @@ public class ShopController {
     public String shop(Model model) throws Exception {
         return "shop/shop_home";
     }
+
+    @RequestMapping("/shop/list") 
+    public String shopList(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("category", map.get("category"));
+        return "shop/shop_list";
+    }
+    @RequestMapping("/shop/detail") 
+    public String shopDetail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		 request.setAttribute("bookId", map.get("bookId"));
+        return "shop/shop_detail";
+    }
+    
     
     
 
@@ -76,6 +88,57 @@ public class ShopController {
         User user = (User) session.getAttribute("user");
         map.put("userId", user.getUserId());
 		resultMap = shopService.deleteCartItem(map);
+
+        
+        return new Gson().toJson(resultMap);
+    }
+
+    @RequestMapping(value = "/insertCartItem.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String insertCartItem(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        
+        User user = (User) session.getAttribute("user");
+        if(user.getUserId() != null) {
+            map.put("userId", user.getUserId());
+    		resultMap = shopService.insertCartItem(map);	
+        }
+
+        
+        return new Gson().toJson(resultMap);
+    }
+    @RequestMapping(value = "/changeCartItem.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String changeCartItem(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        
+        User user = (User) session.getAttribute("user");
+        if(user.getUserId() != null) {
+            map.put("userId", user.getUserId());
+    		resultMap = shopService.changeCartItem(map);	
+        }
+
+        
+        return new Gson().toJson(resultMap);
+    }
+    @RequestMapping(value = "/getBookCat.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String getBookCat(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> resultMap = new HashMap<>();
+
+
+    		resultMap = shopService.getBookCat(map);	
+
+        
+        return new Gson().toJson(resultMap);
+    }
+    @RequestMapping(value = "/selectBookDetail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String selectBookDetail(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+        HashMap<String, Object> resultMap = new HashMap<>();
+
+
+    		resultMap = shopService.selectBookDetail(map);	
 
         
         return new Gson().toJson(resultMap);

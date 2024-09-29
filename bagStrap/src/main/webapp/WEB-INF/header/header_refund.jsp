@@ -145,7 +145,14 @@
 										<textarea rows="15" cols="120" placeholder="내용을 입력해주세요" v-model="refundReasonContent"></textarea>
 									</div>
 									<div class="refund-file-upload" v-if="item2.fileUpload === 'Y'">
-										<input type="file"/>(50MB 이하)
+										<label for="file">파일 업로드</label>
+								        <input type="file" @change="fnFileChange"/>
+								        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+										(50MB 이하)
+								        <!-- 이미지 미리보기 -->
+								        <div v-if="filePreview">
+								            <img :src="filePreview" class="stu-comm-insert-image-preview" />
+								        </div>
 									</div>
 					                
 									
@@ -160,7 +167,16 @@
 												<textarea rows="15" cols="120" placeholder="내용을 입력해주세요" v-model="refundReasonContent"></textarea>
 											</div>
 											<div class="refund-file-upload" v-if="item3.fileUpload === 'Y'">
-												<input type="file"/>(50MB 이하)
+												<div class="refund-file-upload" v-if="item2.fileUpload === 'Y'">
+													<label for="file">파일 업로드</label>
+											        <input type="file" @change="fnFileChange"/>
+											        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+													(50MB 이하)
+											        <!-- 이미지 미리보기 -->
+											        <div v-if="filePreview">
+											            <img :src="filePreview" class="stu-comm-insert-image-preview" />
+											        </div>
+												</div>											
 											</div>
 										</div>
 					                </div>
@@ -226,7 +242,9 @@
 				refundReasonList2: [],
 				refundReasonList3: [],
 				selectedReason: '',
-				refundReasonContent: '',
+				refundReasonContent: '',				
+				file: null,
+				filePreview: null,
 				
 				data : {
 					storeId: "${store_id}",
@@ -370,10 +388,14 @@
 					self.selectedRadio2='';	
 				}
 				
-				self.refundReasonContent='';
+				self.refundReasonContent='';4
 				document.querySelectorAll(".refund-textarea").innerHTML ='';
 				self.reasonSelectLogic(reasonId)
 				self.file=null;
+				self.filePreview=null;
+				document.querySelectorAll("input[type='file']").forEach(function(input) {
+				    input.value = '';
+				});
 			},
 			isItemChecked(){
 				var self = this;
@@ -402,16 +424,62 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
+						console.log('data');
 						console.log(data);
 						if(data.body.code == -1){
 							alert(data.body.message);	
 						} else {
-							alert('환불이 완료되었습니다.');
+							var idx = data.body.idx;
+							var message = data.body.message;	
+							console.log("idx:" + idx);
+							if (self.file) {
+								  const formData = new FormData();
+								  formData.append('file1', self.file);
+								  formData.append('idx', idx);
+								  $.ajax({
+										url: '/fileUpload.dox',
+										type: 'POST',
+										data: formData,
+										processData: false,  
+										contentType: false,  
+										success: function() {
+											alert(message);
+										  
+										  //	location.href = "/myshop/refundList";
+										  	self.filePreview = "";
+										},
+										error: function(jqXHR, textStatus, errorThrown) {
+										  	console.error('업로드 실패!', textStatus, errorThrown);
+										}
+								  });		
+							  } else {
+								alert(message);
+								//location.href = "/myshop/refundList";
+							  }		
 						}
 						
 					}
 				});
-			}
+			},
+			fnFileChange(event) {
+			    const file = event.target.files[0];
+			    this.file = file;
+				console.log(file)
+
+			    // 파일명이 있으면 표시
+			    this.fileName = file.name;
+
+			    // 이미지 파일인 경우 미리보기 표시
+			    if (file && file.type.startsWith('image/')) {
+			        const reader = new FileReader();
+			        reader.onload = (e) => {
+			            this.filePreview = e.target.result;
+			        };
+			        reader.readAsDataURL(file); // 이미지 파일을 읽음
+			    } else {
+			        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+			    }
+			}	
         },
         mounted() {
             var self = this;

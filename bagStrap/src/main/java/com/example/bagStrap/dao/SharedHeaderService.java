@@ -7,5 +7,11 @@ public interface SharedHeaderService {
 	HashMap<String, Object> selectOrderList(HashMap<String, Object> map);
 	HashMap<String, Object> selectCartList(HashMap<String, Object> map);
 	HashMap<String, Object> selectOrderListForRefund(HashMap<String, Object> map);
-
+	HashMap<String, Object> selectAdminOrderList(HashMap<String, Object> map);
+	HashMap<String, Object> updateOrderStatus(HashMap<String, Object> map);
+	HashMap<String, Object> selectMyReview(HashMap<String, Object> map);
+	HashMap<String, Object> insertMyReview(HashMap<String, Object> map);
+	HashMap<String, Object> updateMyReview(HashMap<String, Object> map);
+	HashMap<String, Object> deleteMyReview(HashMap<String, Object> map);
+	
 }

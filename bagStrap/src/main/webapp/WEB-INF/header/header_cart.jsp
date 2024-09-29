@@ -110,7 +110,7 @@
 					<div class="ordered-list-container round">
 					    <div class="left-section">
 					        <div class="ordered-product" v-for="item in cartList" :key="item.bookId">
-								<input :id="item.bookId" type="checkbox" @change="isItemChecked()"/>
+								<input :id="item.bookId" type="checkbox" @change="isItemChecked(-1)"/>
 
 					            <img class="ordered-product-image" :src="item.image" :alt="item.title">
 								<div class="ordered-product-info">
@@ -118,7 +118,7 @@
 					                <div class="ordered-product-detail-info">
 					                    <span>{{item.price}}</span> / 
 										<span>
-											<input  type="number" v-model="item.quantity"  @change="isItemChecked()"/>
+											<input  type="number" v-model="item.quantity"  @change="isItemChecked(item.bookId)"/>
 										</span> 
 										<button class="ordered-button relative-right" @click="deleteCartItem(item.bookId)">장바구니에서 제거</button>
 					                </div>
@@ -224,7 +224,7 @@
 					}
 				});
             },
-			isItemChecked(){
+			isItemChecked(flg){
 				var self = this;
 				self.selectedBooks = [];
 				self.cartList.forEach(item => {
@@ -236,6 +236,22 @@
 						});
 					}
 				})
+				if(flg !== -1){
+					const item = self.cartList.filter(item => item.bookId === flg);
+					var nparmap = {
+						bookId : item[0].bookId,
+						quantity : item[0].quantity
+					};
+					$.ajax({
+						url:"/changeCartItem.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) { 
+							console.log(data);
+						}
+					});
+				}
 			},
 			toOrder(){
 				var self = this;

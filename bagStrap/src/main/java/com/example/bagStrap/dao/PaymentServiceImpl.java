@@ -11,13 +11,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.bagStrap.mapper.PaymentMapper;
+import com.example.bagStrap.mapper.SharedHeaderMapper;
 import com.example.bagStrap.model.Order;
 import com.google.gson.Gson;
-
-import jakarta.transaction.Transactional;
 
 
 @Service
@@ -25,89 +25,196 @@ public class PaymentServiceImpl implements PaymentService{
 
 	@Autowired
 	PaymentMapper paymentMapper;
+	@Autowired
+	SharedHeaderMapper sharedHeaderMapper;
 
+
+	@Override
+	public ResponseEntity<Map> updateRefundStatus(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap) {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			
+			//status update
+			System.out.println(refundMap);
+			sharedHeaderMapper.updateRefundStatus(refundMap);
+			List<Order> orderList = paymentMapper.updateRefundStatus(refundMap);
+			refundMap.put("orderList", orderList);
+			resultMap.put("result", true);
+			resultMap.put("message", "처리되었습니다.");
+
+			return refundLogic(refundMap, tokenMap, true);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+			response.getBody().put("message","환불 처리 중 오류가 발생했습니다.");
+			return response;
+		}
+
+	}
+	
+	@Transactional
 	@Override
 	public ResponseEntity<Map> refund(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		
 			int[] amount = {0};
 			try {
-				System.out.println(refundMap);
+				//실제 주문개수와 환불신청개수 확인 및 즉시 환불 가능 여부 체크
 				List<Order> checkList = paymentMapper.checkRefund(refundMap);
-				boolean[] check = {false};
-				System.out.println(checkList);
+				boolean[] check = {false, false}; // 0: 환불 수량 에러 , 1: 즉시 환불 불가 = 테이블만 생성
+				
 				if(checkList.size() != 0) {
 					checkList.forEach(item -> {
-						System.out.println(item.getCalc());
+						System.out.println("calc: " + item.getCalc());
 						if(item.getCalc() <0) {
 							check[0] = true;
 						}
+						if(!item.getStatus().equals("주문 완료")) {
+							check[1] = true;
+						}
 					});	
-				}
-				
-				if(check[0]) {
-					resultMap.put("message","어어 진짜 음수인데?");
-					System.out.println("어어 음수인데?");
-					return ResponseEntity.ok(resultMap);
-				}
+				}else {
+					check[1] = true;
+				} 
 
-				// 환불 로직
+				if(check[0]) {
+					ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+					response.getBody().put("message","구매한 수량보다 많은 책은 환불 할 수 없습니다.");
+					return response;
+				} else if(check[1]) {
+			        //환불 테이블 생성
+					ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+					makeRefundTable(refundMap);
+		        	//updateOrderStatus(refundMap,"중");
+					response.getBody().put("idx", refundMap.get("refundFile"));
+					response.getBody().put("message", "이미 배송이 시작된 주문입니다. 관리자 확인 후 환불 처리됩니다.");
+					
+					return response;
+				}
+			
+				return refundLogic(refundMap, tokenMap, false);
+
+			} catch(Exception e) {
+				e.printStackTrace();
+				ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+				response.getBody().put("message","환불 처리 중 오류가 발생했습니다.");
+				return response;
+			}
+	}
+	//실제 환불 진행
+	private ResponseEntity<Map> refundLogic(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap, boolean admin) {
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		int[] amount = {0};
+		try {
+			// 환불 로직
+			if (!admin) {
 				List<HashMap<String, Object>> orderList = (List<HashMap<String, Object>>) refundMap.get("orderList");
 				orderList.forEach(item -> {
 					System.out.println(item.get("bookPrice"));
-					int bookPrice = (int) item.get("bookPrice");
-					int bookQuantity  = (int) item.get("bookQuantity");
+					int bookPrice = (item.get("bookPrice") != null) ? (int) item.get("bookPrice") : (int) item.get("price");
+					int bookQuantity = (item.get("bookQuantity") != null) ? (int) item.get("bookQuantity") : (int) item.get("quantity");
 					amount[0] += bookPrice*bookQuantity;
 				});
-				
-			  RestTemplate restTemplate = new RestTemplate();
-		        Gson gson = new Gson();
-		        String token = (String) tokenMap.get("access_token");
-
-		        // API 엔드포인트
-		        String url = "https://api.iamport.kr/payments/cancel";
-		        // 요청 헤더 설정
-		        
-		        HttpHeaders headers = new HttpHeaders();
-		        headers.setContentType(MediaType.APPLICATION_JSON);
-		        headers.setBearerAuth(token); // 인증 토큰 설정
-		        
-		        System.out.println("토큰 값: " + token);
-		        
-		        Map<String, Object> requestBody = new HashMap<>();
-		        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
-		        requestBody.put("reason", "구매취소"); // 취소 사유
-		        requestBody.put("amount", amount[0]); // 취소 금액 (전체 금액 취소 시 생략 가능)
-		        String jsonBody = gson.toJson(requestBody);
-		        
-		        // HttpEntity에 본문과 헤더 담기
-		        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
-		        // POST 요청 보내기
-		        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
-		        
-		        if((int)response.getBody().get("code") != -1) {
-					paymentMapper.refund(refundMap);
-		        	System.out.println("hi");
-		        }
-				//환불 테이블 생성
-				return ResponseEntity.ok(response.getBody());
-
-			} catch(Exception e) {
-				System.out.println(e.getMessage());
-				return ResponseEntity.ok(resultMap);
-
+			} else {
+				List<Order> orderList = (List<Order>) refundMap.get("orderList");
+				orderList.forEach(item -> {
+					int bookPrice = item.getPrice().intValue();
+					int bookQuantity =  item.getQuantity();
+					amount[0] += bookPrice*bookQuantity;
+				});
 			}
-		
+
+			if (amount[0] == 0) {
+				ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+				response.getBody().put("message", "처리되었습니다. 환불금액은 0원입니다.");
+				
+				return response;
+			}
+		  RestTemplate restTemplate = new RestTemplate();
+	        Gson gson = new Gson();
+	        String token = (String) tokenMap.get("access_token");
+
+	        // API 엔드포인트
+	        String url = "https://api.iamport.kr/payments/cancel";
+	        // 요청 헤더 설정
+	        
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+	        headers.setBearerAuth(token); // 인증 토큰 설정
+	        
+	        System.out.println("토큰 값: " + token);
+	        
+	        Map<String, Object> requestBody = new HashMap<>();
+	        requestBody.put("imp_uid", refundMap.get("imp")); // 취소할 결제의 imp_uid
+	        requestBody.put("reason", "구매취소"); // 취소 사유
+	        requestBody.put("amount", amount[0]); // 취소 금액 (전체 금액 취소 시 생략 가능)
+	        String jsonBody = gson.toJson(requestBody);
+	        
+	        // HttpEntity에 본문과 헤더 담기
+	        HttpEntity<String> requestEntity = new HttpEntity<>(jsonBody, headers);
+	        // POST 요청 보내기
+	        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+			
+	        if((int)response.getBody().get("code") != -1) {
+		        //환불 테이블 생성
+	        	if(!admin) {
+	        		makeRefundTable(refundMap);	
+	        	}
+	        	//TODO 부분 환불됨 결제되면 무조건 처리돼
+	        	//updateOrderStatus(refundMap, "됨");
+				response.getBody().put("idx", refundMap.get("refundFile"));
+				//response.getBody().put("message","환불되었습니다.");
+
+	        }
+	        System.out.println(response.getBody());
+			return ResponseEntity.ok(response.getBody());
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return ResponseEntity.ok(resultMap);
+		}
+	}
+	public void  makeRefundTable(HashMap<String, Object> refundMap) {
+		// TODO Auto-generated method stub		
+		try {
+			paymentMapper.insertRefund(refundMap);
+        	paymentMapper.insertRefundItem(refundMap);
+        	
+        	// 환불 수량 체크하기
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	/*
+	 * public void updateOrderStatus(HashMap<String, Object> refundMap, String str)
+	 * { HashMap<String, Object> map = new HashMap<String, Object>();
+	 * map.putAll(refundMap); List<HashMap<String, Object>> orderList =
+	 * (List<HashMap<String, Object>>) map.get("orderList");
+	 * System.out.println("check해야함"); System.out.println(map);
+	 * orderList.forEach(item -> {
+	 * 
+	 * item.put("bookQuantity", 0); }); System.out.println(map); boolean[] check =
+	 * {false}; List<Order> checkList = paymentMapper.checkRefund(map);
+	 * if(checkList.size() != 0) { checkList.forEach(item -> {
+	 * System.out.println("calc: " + item.getCalc()); if(item.getCalc() > 0) {
+	 * check[0] = true; } }); } if(check[0]) { refundMap.put("newStatus", "부분 환불 " +
+	 * str); } else { refundMap.put("newStatus", "환불 " + str); }
+	 * 
+	 * paymentMapper.updateOrderStatus(refundMap); }
+	 */
 	@Override
 	public HashMap<String, Object> selectRefundList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		
 		try {
+			int totalPages = paymentMapper.selectRefundListCount(map);
 			List<Order> refundList = paymentMapper.selectRefundList(map);
+			resultMap.put("totalPages", totalPages);
 			resultMap.put("refundList", refundList);
 			resultMap.put("result", true);
 			

@@ -89,10 +89,10 @@
 		        <li class="header-menu-item">
 		            <a href="javascript:;">Shop</a>
 		            <ul class="header-submenu">
-		                <li class="header-submenu-item"><a href="/shop/all">All</a></li>
-		                <li class="header-submenu-item"><a href="/shop/best">Best</a></li>
-		                <li class="header-submenu-item"><a href="/shop/new">New</a></li>
-		                <li class="header-submenu-item"><a href="/shop/sale">Sale</a></li>
+						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('All')">All</a></li>
+						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Best')">Best</a></li>
+						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('New')">New</a></li>
+						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Sale')">Sale</a></li>
 		            </ul>
 		        </li>
 		        <li class="header-menu-item">
@@ -125,7 +125,7 @@
 					<a href="javascript:;" @click="fnPageChange('/myshop/orders')"> MyShop </a>
 					</div>
                 <div v-if="isAdmin" class="headerloginSubMenu clickableMenu">
-					<a href="javascript:;">Admin</a>
+					<a href="/admin/orders">Admin</a>
 					</div>
                 <div v-if="isLogin" class="headerloginSubMenu clickableMenu">
 					<a href="javascript:;" @click="fnLogout()">Logout</a>
@@ -229,6 +229,9 @@
 					document.getElementById('headerLoginModal').showModal();
 					document.getElementById('inputId').focus();
 					
+				},
+				fnToShop(categoryStr){
+					$.pageChange("/shop/list",{category : categoryStr});	
 				},
 	            fnLogin(){
 					var self = this;

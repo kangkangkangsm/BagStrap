@@ -4,21 +4,138 @@
 
 <mapper namespace="com.example.bagStrap.mapper.ShopMapper">
 
-
-	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
-		    SELECT * FROM TBL_BOOK 
-    		WHERE (#{keyword} IS NULL OR #{keyword} = '' OR TITLE LIKE '%' || #{keyword} || '%' OR AUTHOR LIKE '%' || #{keyword} || '%')
+	<select id="searchBookListSize" parameterType="hashmap" resultType="Integer">
+		    SELECT CEIL(COUNT(*)/#{pageSize})
+		    FROM TBL_BOOK B
+		    LEFT JOIN 
+		        (SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
+		         FROM TBL_REVIEW 
+		         GROUP BY BOOK_ID) R 
+		    ON B.BOOK_ID = R.BOOK_ID
+		    WHERE (#{keyword} IS NULL OR #{keyword} = '' OR TITLE LIKE '%' || #{keyword} || '%' OR AUTHOR LIKE '%' || #{keyword} || '%')
+			<if test='category2 != "2000"'>
+		    	AND TO_CHAR(B.CATEGORY) = #{category2} 
+		    </if>		    		    
+		    AND #{highPrice} >= PRICE 
+		    AND NVL(R.RATING, 0) >= #{rating} 
+		    <if test='category == "Sale"'>
+		        AND B.DISCOUNT != 0
+		    </if>
+		
+		    ORDER BY 
+		    <choose>
+		        <when test='category == "Sale"'>
+		            B.DISCOUNT DESC, B.PRICE DESC 
+		        </when>
+		        <when test='category == "Best"'>
+		            NVL(R.RATING, 0) DESC 
+		        </when>
+		        <when test='category == "New"'>
+		            B.CREATED_AT DESC 
+		        </when>
+		        <otherwise>
+		            B.BOOK_ID
+		        </otherwise>
+		    </choose>
+	    </select>
+	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT NVL(RATING, 0) AS RATING, B.*
+		    FROM TBL_BOOK B
+		    LEFT JOIN 
+		        (SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
+		         FROM TBL_REVIEW 
+		         GROUP BY BOOK_ID) R 
+		    ON B.BOOK_ID = R.BOOK_ID
+		    WHERE (#{keyword} IS NULL OR #{keyword} = '' OR TITLE LIKE '%' || #{keyword} || '%' OR AUTHOR LIKE '%' || #{keyword} || '%') 
+			<if test='category2 != "2000"'>
+		    	AND TO_CHAR(B.CATEGORY) = #{category2} 
+		    </if>		    
+		    AND #{highPrice} >= PRICE 
+		    AND NVL(R.RATING, 0) >= #{rating} 
+		    <if test='category == "Sale"'>
+		        AND B.DISCOUNT != 0
+		    </if>
+		
+		    ORDER BY 
+		    <choose>
+		        <when test='category == "Sale"'>
+		            B.DISCOUNT DESC, B.PRICE DESC 
+		        </when>
+		        <when test='category == "Best"'>
+		            NVL(R.RATING, 0) DESC 
+		        </when>
+		        <when test='category == "New"'>
+		            B.CREATED_AT DESC 
+		        </when>
+		        <otherwise>
+		            B.BOOK_ID
+		        </otherwise>
+		    </choose>
+		    
+		    OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
+
+
 	<delete id="deleteCartItem" parameterType="hashmap">
 		    DELETE FROM TBL_CART
 		    WHERE BOOK_ID = #{bookId} AND USER_ID = #{userId}
 	</delete>
-	
-	
-	
-	
-	
-	
+	<insert id="insertCartItem" parameterType="hashmap">
+		    INSERT INTO TBL_CART(USER_ID, BOOK_ID, QUANTITY)
+			VALUES(#{userId}, #{bookId}, #{quantity})	
+	</insert>
+	<select id="selectCartItem" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT *
+		    FROM TBL_CART
+		    WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
+	</select>
+	<update id="updateCartItem" parameterType="hashmap">
+		    UPDATE TBL_CART
+		    SET QUANTITY = QUANTITY + #{quantity}
+		    WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
+	</update>
+	<select id="selectBookCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT NAME, BOARD_TYPE_ID    
+			FROM TBL_STU_COMM_BOARD_TYPES
+			WHERE PART = 2000
+			ORDER BY BOARD_TYPE_ID
+	</select>
+	<update id="changeCartItem" parameterType="hashmap">
+		    UPDATE TBL_CART
+		    SET QUANTITY = #{quantity}
+		    WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
+	</update>
+	<select id="selectMaxPrice" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT 0 AS MIN, CEIL(MAX(PRICE)/10000)*10000 AS MAX
+			FROM TBL_BOOK
+	</select>
+	<select id="selectBookDetail" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT NVL(RATING,0) AS RATING, G.*,B.* 
+			FROM TBL_BOOK B
+			LEFT JOIN TBL_STUDY_GROUP G ON B.CATEGORY = G.SUBJECT_TYPE_ID
+			LEFT JOIN 
+			(SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
+			FROM TBL_REVIEW 
+			GROUP BY BOOK_ID) R 
+			ON B.BOOK_ID = R.BOOK_ID
+			
+			WHERE B.BOOK_ID = #{bookId}
+			ORDER BY G.STARTDATE DESC
+	</select>
+	<select id="selectreviewListCount" parameterType="hashmap" resultType="int">
+		    SELECT CEIL(COUNT(*)/#{pageSize})
+			FROM TBL_REVIEW 
+			WHERE BOOK_ID = #{bookId}
+			ORDER BY CREATED_AT DESC
+	</select>
+	<select id="selectreviewList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT * 
+			FROM TBL_REVIEW 
+			WHERE BOOK_ID = #{bookId}
+			ORDER BY CREATED_AT DESC
+		    OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+
+	</select>
 	
 	
 	
