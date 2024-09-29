@@ -10,5 +10,6 @@ import com.example.bagStrap.model.Item;
 
 @Mapper
 public interface BookSearchMapper {
-	void insertBooks(List<HashMap<String, Object>> bookList);
+	void insertBooks(HashMap<String, Object> bookList);
+	List<Item> selectCategory();
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.bagStrap.mapper.BookSearchMapper;
+import com.example.bagStrap.model.Item;
 
 @Service
 public class BookSearchService {
@@ -45,7 +46,16 @@ public class BookSearchService {
         return response.getBody();
     
     }
-    public void insertBooks(List<HashMap<String, Object>> bookList) {
+    public void insertBooks(HashMap<String, Object> bookList) {
     	bookSearchMapper.insertBooks(bookList);
     }
+
+    public HashMap<String,Object> selectCategory() {
+    	HashMap<String, Object> resultMap = new HashMap<>();
+    	List<Item> list = bookSearchMapper.selectCategory();
+    	resultMap.put("list", list);
+    	return resultMap;
+    	
+    }
+    
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +29,10 @@ public class SharedHeaderController {
 	@RequestMapping("/myStudy")
 	public String main(Model model) throws Exception {
 		return "/header/myStudy";
+	}
+	@RequestMapping("/admin/orders")
+	public String adminOrders(Model model) throws Exception {
+		return "/admin/admin_order_list";
 	}
 	@RequestMapping("/myshop/orders")
 	public String orders(Model model) throws Exception {
@@ -86,6 +91,7 @@ public class SharedHeaderController {
 		return new Gson().toJson(resultMap);
 	}
 	//내가 주문한 상품 리스트
+	@Transactional
 	@RequestMapping(value = "/orderList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String selectOrderList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -152,5 +158,121 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
+	//관리자 오더 관리
+	@RequestMapping(value = "/adminOrderList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String adminOrderList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
 
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.selectAdminOrderList(map);
+			} else {
+				resultMap.put("result", true);
+				resultMap.put("message", "로그인하쇼");
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	//update order
+	@RequestMapping(value = "/updateOrderStatus.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateOrderStatus(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.updateOrderStatus(map);
+			} else {
+				resultMap.put("result", true);
+				resultMap.put("message", "로그인하쇼");
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	//Review
+	@RequestMapping(value = "/selectMyReview.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectMyReview(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.selectMyReview(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/insertMyReview.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String insertMyReview(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.insertMyReview(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/updateMyReview.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateMyReview(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.updateMyReview(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/deleteMyReview.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteMyReview(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.deleteMyReview(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 }

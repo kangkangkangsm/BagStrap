@@ -96,8 +96,15 @@
 					{{year}}
 				<div v-if="isLogin">
 					<div>
-						<input placeholder="주문상품 검색"/>
+						<input placeholder="주문상품 검색 : 미구현"/>
 					</div>
+
+					<select v-model="pageSize" @change="fnGetList(1)">
+						<option value="5">5개씩</option>	
+						<option value="10">10개씩</option>	
+						<option value="20">20개씩</option>	
+					</select>
+					
 					<div v-if="isOrderExists">
 						
 						<div id="selected-orders-date">
@@ -106,7 +113,8 @@
 						</div>
 						<!--날짜별로 오더리스트 출력-->
 						<div id="order-list-by-date" v-for="(items, date) in groupedByDate" :key="date">
-							<span class="ordered-date">주문: {{date}}</span>
+							<span class="ordered-date">주문 번호: {{date}}</span>
+							<div class="ordered-date">주문일: {{items[0].orderdateYear}}</div	>
 							<div class="ordered-list-container round">
 							    <!-- Left Section -->
 							    <div class="left-section">
@@ -120,7 +128,9 @@
 							                <div class="ordered-product-name">{{item.title}}</div>											
 							                <div class="ordered-product-detail-info">
 							                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
-												<button class="ordered-button" @click="goToReview(item)">리뷰 작성하기</button>
+												<button class="ordered-button" @click="goToReview(item)">
+													 {{ item.rating === 0 ? '리뷰 작성하기' : '리뷰 수정하기' }}
+												</button>
 
 												<button class="ordered-button relative-right">장바구니에 추가</button>
 							                </div>
@@ -133,7 +143,11 @@
 							    </div>
 							</div>
 						</div>
-						
+						<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+					    <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
+					        {{ page }}
+					    </button>
+					    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
 					</div>
 					<div v-if="!isOrderExists">
 						주문내역이 존재하지 않습니다..
@@ -165,17 +179,37 @@
 				list : {},
 				codeList : {},
 				selectedCodes : [],
+				currentPage: 1,
+				totalPages: 1,
+				pageSize: 10,
+				maxPageDisplay: 10
 				
             };
         },
 		computed: {
+			startPage() {
+			    // 현재 페이지 기준으로 시작 페이지 계산
+			    return Math.floor((this.currentPage - 1) / this.maxPageDisplay) * this.maxPageDisplay + 1;
+			  },
+			endPage() {
+			    // 끝 페이지 계산 (총 페이지 수를 넘지 않도록 제한)
+			    return Math.min(this.startPage + this.maxPageDisplay - 1, this.totalPages);
+			  },
+			pagesToShow() {
+			    // 시작 페이지부터 끝 페이지까지 배열 생성
+			    let pages = [];
+			    for (let i = this.startPage; i <= this.endPage; i++) {
+			      pages.push(i);
+			    }
+			    return pages;
+			},
 		    groupedByDate() {
 				var self = this;
 		        return self.orderList.reduce((acc, item) => {
-		            if (!acc[item.orderdateYear]) {
-		                acc[item.orderdateYear] = [];
+		            if (!acc[item.orderId]) {
+		                acc[item.orderId] = [];
 		            }
-		            acc[item.orderdateYear].push(item);
+		            acc[item.orderId].push(item);
 		            return acc;
 		        }, {});
 		    }
@@ -184,12 +218,14 @@
 			fnChangeYear(year){
 				var self = this;
 				self.year = year;
-				self.fnGetList();
+				self.fnGetList(1);
 			},
-            fnGetList(){
+            fnGetList(currentPage){
 				var self = this;
 				var nparmap = {
-					year : self.year
+					year : self.year,
+					currentPage: currentPage, 
+					pageSize: self.pageSize
 				};
 				$.ajax({
 					url:"/orderList.dox",
@@ -198,8 +234,13 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
+						if(data.orderList){
 						self.orderList = data.orderList;
 						self.orderYear = data.orderYear;
+						self.currentPage = currentPage;
+						self.totalPages = data.totalPages;
+							
+						}
 
 					}
 				});
@@ -214,30 +255,22 @@
         },
         mounted() {
             var self = this;
-			self.fnGetList();
+			self.fnGetList(self.currentPage);
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	
 				} else{
 					self.isLogin = false;
 				};
-				self.fnGetList();	
+				self.fnGetList(self.currentPage);	
 			});
-			window.addEventListener('loginStatusChanged', function(){
-				if(window.sessionStorage.getItem("isAdmin") === 'true'){
-					self.isAdmin = true;	
-				} else{
-					self.isAdmin = false;
-				};
-				self.fnGetList();	
-			})
 			window.addEventListener('adminStatusChanged', function(){
 				if(window.sessionStorage.getItem("isAdmin") === 'true'){
 					self.isAdmin = true;	
 				} else{
 					self.isAdmin = false;
 				};
-				self.fnGetList();	
+				self.fnGetList(self.currentPage);	
 			})
         }
     });

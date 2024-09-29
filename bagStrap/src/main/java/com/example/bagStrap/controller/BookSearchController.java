@@ -1,5 +1,7 @@
 package com.example.bagStrap.controller;
 
+import java.util.HashMap;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -7,8 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
+import com.example.bagStrap.model.User;
+import com.google.gson.Gson;
 
 @Controller
 public class BookSearchController {
@@ -38,6 +46,5 @@ public class BookSearchController {
         model.addAttribute("books", response.getBody());
         return "result";  // 검색 결과를 보여줄 JSP 파일
     }
-    
     
 }

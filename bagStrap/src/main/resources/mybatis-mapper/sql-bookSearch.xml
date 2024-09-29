@@ -4,7 +4,27 @@
 
 <mapper namespace="com.example.bagStrap.mapper.BookSearchMapper">
 	
-	<insert id="insertBooks" parameterType="java.util.List">
+	<insert id="insertBooks" parameterType="hashmap">
+	    MERGE INTO TBL_BOOK target
+	    USING (SELECT #{isbn} AS isbn FROM dual) src
+	    ON (target.BOOK_ID = src.isbn)
+	    WHEN MATCHED THEN
+	        UPDATE SET 
+	            TITLE = #{title},
+	            DESCRIPTION = #{description},
+	            AUTHOR = #{author},
+	            PUBLISHER = #{publisher},
+	            PRICE = #{price},
+	            IMAGE = #{image},
+	            QUANTITY = #{quantity},
+	            CATEGORY = #{category},
+	            EBOOK = #{ebook}
+	    WHEN NOT MATCHED THEN
+	        INSERT (BOOK_ID, TITLE, DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK)
+	        VALUES (#{isbn}, #{title}, #{description}, #{author}, #{publisher}, #{price}, #{image}, #{quantity}, #{category}, #{ebook})
+	</insert>
+	
+	<!--<insert id="insertBooks" parameterType="java.util.List">
 		INSERT ALL
 		<foreach collection="list" item="item" separator="">
 		     INTO TBL_BOOK (
@@ -33,7 +53,13 @@
 		</foreach>
 	    SELECT * FROM dual
 
-	</insert>
-
+	</insert>-->
 	
+	
+	<select id="selectCategory" resultType="com.example.bagStrap.model.Item">
+		SELECT * 
+		FROM TBL_STU_COMM_BOARD_TYPES
+		WHERE PART = 2000
+		ORDER BY BOARD_TYPE_ID
+	</select>
 </mapper>

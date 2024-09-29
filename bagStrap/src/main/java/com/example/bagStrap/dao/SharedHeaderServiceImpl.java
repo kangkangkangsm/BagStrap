@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bagStrap.mapper.SharedHeaderMapper;
 import com.example.bagStrap.model.Item;
@@ -44,18 +45,20 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		return resultMap;
 	}
 
-	
+	@Transactional
 	@Override
 	public HashMap<String, Object> selectOrderList(HashMap<String, Object> map) {
 
 		HashMap<String, Object> resultMap = new HashMap();
 
 		try {
+			int totalPages = sharedHeaderMapper.selectOrderListCount(map);
 			List<Order> orderList = sharedHeaderMapper.selectOrderList(map);
 			List<Integer> orderYear = sharedHeaderMapper.selectOrderYear(map);
 			
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
+			resultMap.put("totalPages", totalPages);
 			resultMap.put("orderList", orderList);
 			resultMap.put("orderYear", orderYear);
 			
@@ -73,6 +76,7 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 	@Override
 	public HashMap<String, Object> selectOrderListForRefund(HashMap<String, Object> map) {
 
+		
 		HashMap<String, Object> resultMap = new HashMap();
 
 		try {
@@ -118,5 +122,130 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		
 		return resultMap;
 	}
-	
+
+
+	@Override
+	public HashMap<String, Object> selectAdminOrderList(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			
+			int totalPages= sharedHeaderMapper.selectAdminOrderListCount(map);
+			List<Order> orderList = sharedHeaderMapper.selectAdminOrderList(map);
+			orderList.forEach(item -> {
+				if(item.getRejectComment() == null) {
+					item.setRejectComment("");
+				}
+			});
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "selectAdminOrderList");
+			resultMap.put("orderList", orderList);
+			resultMap.put("totalPages", totalPages);
+			
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+
+
+		
+		return resultMap;
+	}
+
+
+	@Override
+	public HashMap<String, Object> updateOrderStatus(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			sharedHeaderMapper.updateOrderStatus(map);
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "주문 상태 변경됨");
+			
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		
+		return resultMap;
+	}
+
+
+	@Override
+	public HashMap<String, Object> selectMyReview(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			Order myReview = sharedHeaderMapper.selectMyReview(map);
+			if(myReview != null) {
+				resultMap.put("result", true);
+				resultMap.put("myReview", myReview);	
+				resultMap.put("message", "exist my review");
+
+			} else {
+				resultMap.put("result", false);
+				resultMap.put("message", "don't exist my review");
+			}
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> insertMyReview(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			sharedHeaderMapper.insertMyReview(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "작성되었습니다.");
+
+
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateMyReview(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			sharedHeaderMapper.updateMyReview(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "수정되었습니다.");
+
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+	@Override
+	public HashMap<String, Object> deleteMyReview(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			sharedHeaderMapper.deleteMyReview(map);
+				resultMap.put("result", true);
+				resultMap.put("message", "삭제되었습니다.");
+
+		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
 }

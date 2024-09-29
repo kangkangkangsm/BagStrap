@@ -9,6 +9,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bagStrap.dao.PaymentService;
+import com.example.bagStrap.model.Order;
 import com.example.bagStrap.model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +52,37 @@ public class RestPaymentController {
 	 
     @Value("${IMP_API_SECRETKEY}")
     private String secretKey;
-	
+
+	@Transactional
+	@RequestMapping(value = "/finishRefundApplication.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String finishRefundApplication(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		User user = (User) session.getAttribute("user");
+		ResponseEntity<Map> resultValue = null;	
+
+		try {
+
+			if(user != null) {
+
+				String json = map.get("orderList").toString(); 
+				ObjectMapper mapper = new ObjectMapper();
+				List<Object> orderList = mapper.readValue(json, new TypeReference<List<Object>>(){});
+				map.put("orderList", orderList);
+				map.put("userId", user.getUserId());
+
+				System.out.println(map);
+				HashMap<String, Object> tokenMap = getToken();
+				resultValue = paymentService.updateRefundStatus(map, tokenMap);
+				
+			} 
+		} catch(NullPointerException e) {
+			e.printStackTrace();
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultValue);
+	}
 	@RequestMapping(value = "/refund.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String payment(Model model, @RequestParam HashMap<String, Object> map) throws Exception {

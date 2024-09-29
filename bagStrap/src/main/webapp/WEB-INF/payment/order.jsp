@@ -235,6 +235,8 @@
 							self.data.phone = data.phone;
 							self.addressNo = data.addressNo;
 							self.fnImp();
+							//self.imp = 'rsp.imp_uid';
+							//self.completeOrder();
 						} else {
 							alert(data.message);
 						}
@@ -329,9 +331,11 @@
 				self.reqComment  = self.myAddressList[idx].reqComment ;
 				self.entrancePassword  = self.myAddressList[idx].entrancePassword ;
 				self.userName = self.myAddressList[idx].userName ;
-				
-				if(self.myAddressList[idx].defaultYN) {
+
+				if(self.myAddressList[idx].defaultYN === 'Y') {
 					document.querySelector("#defaultYN").checked = true;
+				} else {
+					document.querySelector("#defaultYN").checked = false;
 				}
 				document.querySelector("#saveYN").checked = true;
 				self.defaultYN = document.querySelector("#defaultYN").checked ? 'Y' : 'N'

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,13 +43,23 @@ public class NaverBookSearchController {
         // 요청으로 받은 bookList 처리
         List<HashMap<String, Object>> bookList = (List<HashMap<String, Object>>) map.get("bookList");
         
-		bookSearchService.insertBooks(bookList);
+        bookList.forEach(item -> {
+        	bookSearchService.insertBooks(item);
+        });
+		
 
         // 데이터 처리 (예: DB에 저장 등)
         resultMap.put("status", "success");
 
         return new Gson().toJson(resultMap);
     }
-    
+
+    @RequestMapping(value = "/selectCategory.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectCategory(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		resultMap = bookSearchService.selectCategory();
+		return new Gson().toJson(resultMap);
+	}
 }
     

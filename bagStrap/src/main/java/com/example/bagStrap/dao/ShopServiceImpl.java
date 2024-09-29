@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bagStrap.mapper.ShopMapper;
 import com.example.bagStrap.model.Item;
+import com.example.bagStrap.model.Order;
 
 
 @Service
@@ -17,43 +19,25 @@ public class ShopServiceImpl implements ShopService{
 	ShopMapper shopMapper;
 
 
-	@Override
-	public HashMap<String, Object> searchItem(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap();
-		
-		try {
-			List<Item> list = shopMapper.searchItem(map);
-			List<Item> codeList = shopMapper.searchCodes(map);
-			
-			resultMap.put("result", true);
-			resultMap.put("message", "성공~");
-			resultMap.put("list", list);
-			resultMap.put("codeList", codeList);
-			
-		} catch(Exception e) {
-			System.out.println("Exception : " + e);
-			resultMap.put("result", false);
-			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
-		}
-	
-		return resultMap;
-	}
-	
+	@Transactional
 	@Override
 	public HashMap<String, Object> searchBookList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		
 		try {
-			List<Item> bookList = shopMapper.searchBookList(map);
+			System.out.println(map);
+			int totalPages = shopMapper.searchBookListSize(map);
+			List<Order> bookList = shopMapper.searchBookList(map);
 			
 			resultMap.put("result", true);
 			resultMap.put("message", "성공~");
 			resultMap.put("bookList", bookList);
+			resultMap.put("totalPages", totalPages);
 			
 		} catch(Exception e) {
 			System.out.println("Exception : " + e);
+			e.printStackTrace();
 			resultMap.put("result", false);
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
 		}
@@ -93,6 +77,90 @@ public class ShopServiceImpl implements ShopService{
 			e.printStackTrace();
 			resultMap.put("result", false);
 			resultMap.put("message", "삭제에 실패했습니다.");
+		}
+
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> insertCartItem(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			map.put("quantity", 1);
+			if(shopMapper.selectCartItem(map) != null) {
+				shopMapper.updateCartItem(map);
+			} else {
+				shopMapper.insertCartItem(map);
+			}
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "해당 상품이 장바구니에 추가되었습니다.");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "장바구니 추가에 실패했습니다.");
+		}
+
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> getBookCat(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<Order> categoryList = shopMapper.selectBookCategory(map);
+			List<Order> minMaxPrice = shopMapper.selectMaxPrice(map);
+			
+			resultMap.put("categoryList", categoryList);
+			resultMap.put("minMaxPrice", minMaxPrice);
+			resultMap.put("result", true);
+			resultMap.put("message", "load category");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "shop sidebar exception");
+		}
+
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> changeCartItem(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			shopMapper.changeCartItem(map);
+			
+			resultMap.put("result", true);
+			resultMap.put("message", "update cartItem");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "update cartItem exception");
+		}
+
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> selectBookDetail(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<Order> detailList = shopMapper.selectBookDetail(map);
+			int totalPages = shopMapper.selectreviewListCount(map);
+			List<Order> reviewList = shopMapper.selectreviewList(map);
+			
+			//TODO 리뷰 정보도 불러와야함
+			
+			resultMap.put("detailList", detailList);
+			resultMap.put("totalPages", totalPages);
+			resultMap.put("reviewList", reviewList);
+			resultMap.put("result", true);
+			resultMap.put("message", "select bookDetail");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "select bookDetail exception");
 		}
 
 		return resultMap;
