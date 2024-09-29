@@ -20,8 +20,7 @@
 		    margin: 0 auto;
 		    background-color: white;
 		    padding: 20px;
-		    border-radius: 8px;
-		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		   
 		}
 
 		/* 메인 컨테이너 스타일 */
@@ -41,7 +40,7 @@
 		    background-color: #9E9E9E; /* 사이드바 배경색 */
 		    padding: 20px;
 		    box-sizing: border-box;
-		    border-radius: 8px;
+		    
 		    margin-right: 20px;
 		}
 
