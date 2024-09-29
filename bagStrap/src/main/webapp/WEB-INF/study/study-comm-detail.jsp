@@ -603,6 +603,10 @@
         methods: {
 			fnupdateCommentReResult(commentId,comcontents,boardId){
               var self = this;
+			  if(!comcontents){
+				alert("내용을 입력하세요");
+				return;
+			  };
               var nparmap = { 
                   commentId : commentId,
                   content : comcontents,
@@ -636,6 +640,7 @@
                                   self.fnView();    
                                   self.filePreview ="";
                                   self.fileName ="";
+								  self.file = "";
 								  self.comcontents="";
                               },
                               error: function(jqXHR, textStatus, errorThrown) {
@@ -733,6 +738,7 @@
                                     self.fnView();    
                                     self.filePreview ="";
                                     self.fileName ="";
+									self.file = "";
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     console.error('업로드 실패!', textStatus, errorThrown);
