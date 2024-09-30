@@ -132,8 +132,23 @@
 		from tbl_inquiry
 	</select>
 	
-	<insert id="insertInqAnswer" parameterType="com.example.bagStrap.model.Notice">
-		INSERT INTO tbl_answer (answer_id,inquiry_id, message, created_at)
-   		VALUES (answer_seq.nextval, #{inquiryId}, #{message}, SYSDATE + (9/24))
+	<insert id="insertInqAnswer" parameterType="hashmap">
+		INSERT INTO tbl_answer (answer_id,inquiry_id, answer_message, created)
+   		VALUES (answer_seq.nextval, #{inquiryId}, #{answerMessage}, SYSDATE + (9/24))
 	</insert>
+	
+	<select id="Answerinfo" parameterType="hashmap" resultType="com.example.bagStrap.model.Notice">
+		select a.*,i.*,
+	        CASE
+	            WHEN TRUNC(i.created_at) = TRUNC(SYSDATE) THEN TO_CHAR(i.created_at, 'HH24:MI:SS')
+	            ELSE TO_CHAR(i.created_at, 'YYYY-MM-DD')
+	        END AS createdDateFormatted,
+			CASE
+	            WHEN TRUNC(a.created) = TRUNC(SYSDATE) THEN TO_CHAR(a.created, 'HH24:MI:SS')
+	            ELSE TO_CHAR(a.created, 'YYYY-MM-DD')
+	        END AS DateFormatted
+		from tbl_answer a
+        inner join tbl_inquiry i on a.inquiry_id=i.inquiry_id
+		where a.inquiry_id = #{keyword}
+	</select>
 </mapper>

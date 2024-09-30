@@ -8,8 +8,53 @@
 	<title>view 기본 세팅 파일</title>
 </head>
 <style>
-	nav>a, span>a, nav>a:hover{
-		color:black;
+	body {
+	    font-family: 'Roboto', sans-serif;
+	    background-color: #eef2f3;
+	    color: #333;
+	    margin: 0;
+	    padding: 20px;
+	}
+	h1 {
+	    text-align: center;
+	    margin-bottom: 30px;
+	    color: #2c3e50;
+	    font-size: 2.5em;
+	    font-weight: bold;
+	}
+	nav {
+	    background-color: #ffffff;
+	    border-radius: 8px;
+	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	    padding: 30px;
+	    margin: 0 auto;
+	    width: 90%;
+	    max-width: 400px;
+	}
+	nav a {
+	    display: block;
+	    padding: 15px;
+	    color: #2980b9;
+	    text-decoration: none;
+	    border-radius: 5px;
+	    margin-bottom: 10px;
+	    transition: background-color 0.3s, color 0.3s;
+	    font-size: 1.1em;
+	}
+	nav a:hover {
+	    background-color: #2980b9;
+	    color: white;
+	}
+	nav hr {
+	    border: none;
+	    border-top: 1px solid #e0e0e0;
+	    margin: 10px 0;
+	}
+	p {
+	    text-align: center;
+	    color: #7f8c8d;
+	    font-size: 1em;
+	    margin-bottom: 20px;
 	}
 </style>
 <body>
