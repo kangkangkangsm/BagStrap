@@ -16,17 +16,9 @@
         background-color: #f4f6f9;
     }
 
-    /* 사이드 바 */
-    .sidebar {
-        width: 250px;
-        background-color: #ffffff;
-        padding: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-
     /* 메인 컨텐츠 */
     .content {
-        flex: 1;
+        width:100%;
         padding: 40px;
         background-color: #ffffff;
     }
@@ -50,7 +42,7 @@
     .post-count {
         display: flex;
         align-items: center;
-        margin-top: 10px;
+      margin-bottom : -30px;
     }
 
     .post-count label {
@@ -66,7 +58,8 @@
         border-radius: 4px;
         background-color: #fff;
         cursor: pointer;
-        font-size: 1em; /* 글자 크기 조정 */
+        font-size: 0.5em; /* 글자 크기 조정 */s
+	
     }
 
     /* 검색 및 정렬 섹션 */
@@ -212,60 +205,7 @@
     }
 
     /* 반응형 디자인 */
-    @media (max-width: 992px) {
-        .content .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .post-count {
-            margin-top: 15px;
-        }
-
-        .stu-comm-list-search-container {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .stu-comm-list-search-container select,
-        .stu-comm-list-search-container input[type="text"],
-        .stu-comm-list-search-container button {
-            width: 100%;
-        }
-
-        .stu-comm-list-search-container input[type="text"] {
-            margin-bottom: 10px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .content {
-            padding: 20px;
-        }
-
-        .stu-comm-list-table th, .stu-comm-list-table td {
-            padding: 10px 15px;
-        }
-
-        .stu-comm-list-search-container {
-            gap: 10px;
-        }
-
-        .stu-comm-list-search-container select,
-        .stu-comm-list-search-container input[type="text"],
-        .stu-comm-list-search-container button {
-            padding: 8px 12px;
-            font-size: 0.9em; /* 글자 크기 조정 */
-        }
-
-        .post-count label {
-            font-size: 1em; /* 글자 크기 조정 */
-        }
-
-        .post-count select {
-            font-size: 0.9em; /* 글자 크기 조정 */
-        }
-    }
+  
 </style>
 <body>
 	<main class="main-container">
@@ -278,11 +218,11 @@
 		<div id="app" class="content">
 			<!-- 페이지 헤더 -->
 			<div class="page-header">
-				<div style="font-size:30px;" v-if="name2">{{name2}}</div>
-				<div style="font-size:30px;" v-else>{{name}}</div>
+				<div style="font-size:23px;" v-if="name2">{{name2}}</div>
+				<div style="font-size:23px;" v-else>{{name}}</div>
 				<!-- 게시물 수 선택 -->
 				<div class="post-count">
-					<label for="pageSize">게시물 수:</label>
+					<label for="pageSize" style="font-size:20px;">게시물 수:</label>
 					<select id="pageSize" v-model="pageSize" @change="fnboardList(1)">
 						<option value='10'>10개씩</option>
 						<option value='15'>15개씩</option>

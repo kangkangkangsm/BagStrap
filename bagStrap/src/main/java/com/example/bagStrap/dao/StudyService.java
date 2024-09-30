@@ -99,5 +99,7 @@ public interface StudyService {
 	HashMap<String, Object> updateStuGoal(HashMap<String, Object> map);
 	//노트필기 경쟁대회 수상 3001
 	HashMap<String, Object> selectEvent3001(HashMap<String, Object> map);
+	//마이스터디 -> 상세페이지 가입유저(페이징처리)
+	HashMap<String, Object> selectStuGroupSubscriptionSearchPage(HashMap<String, Object> map);
 	
 }

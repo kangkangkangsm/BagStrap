@@ -11,6 +11,133 @@
 	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
     <title>Document</title>
 </head>
+<style>
+
+	/* 프로필 섹션 스타일 */
+	.stu-comm-profile {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 20px;
+	}
+
+	.stu-comm-profile-img {
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    cursor: pointer;
+	    transition: transform 0.3s;
+	}
+
+	.stu-comm-profile-img:hover {
+	    transform: scale(1.1);
+	}
+
+	.stu-comm-profile-info {
+	    margin-left: 15px;
+	}
+
+	.stu-comm-profile-info p {
+	    font-size: 16px;
+	    color: #333;
+	    margin: 0;
+	    cursor: pointer;
+	}
+
+	.stu-comm-profile-info p:hover {
+	    text-decoration: underline;
+	}
+
+	/* 사용자 활동 섹션 스타일 */
+	.stu-comm-user-activity {
+	    margin-bottom: 30px;
+	}
+
+	.stu-comm-activity-item {
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    margin-bottom: 10px;
+	}
+
+	.stu-comm-activity-icon {
+	    font-size: 20px;
+	    margin-right: 10px;
+	}
+
+	.stu-comm-activity-item a {
+	    font-size: 14px;
+	    color: #555;
+	    text-decoration: none;
+	    margin-right: 5px;
+	    cursor: pointer;
+	}
+
+	.stu-comm-activity-item a:hover {
+	    color: #3a8ee6;
+	    text-decoration: underline;
+	}
+
+	.stu-comm-activity-count {
+	    font-weight: bold;
+	    font-size: 14px;
+	    color: #3a8ee6;
+	}
+
+	/* 메뉴 스타일 */
+	.stu-comm-menu {
+	    margin-top: 20px;
+	}
+
+	.stu-comm-menu button {
+	    width: 100%;
+	    padding: 10px;
+	    margin-bottom: 20px;
+	    background-color: #3a8ee6;
+	    border: none;
+	    color: #ffffff;
+	    border-radius: 5px;
+	    font-weight: bold;
+	    cursor: pointer;
+	    transition: background-color 0.3s;
+	}
+
+	.stu-comm-menu button:hover {
+	    background-color: #337ab7;
+	}
+
+	/* 메뉴 항목 스타일 */
+	.stu-comm-menu ul {
+	    list-style: none;
+	    padding: 0;
+	    margin: 0;
+	}
+
+	.stu-comm-menu li {
+	    margin-bottom: 10px;
+	}
+
+	.stu-comm-menu li a {
+	    display: block;
+	    font-size: 14px;
+	    color: #333;
+	    text-decoration: none;
+	    padding: 8px 10px;
+	    border-radius: 5px;
+	    transition: background 0.3s, color 0.3s;
+	}
+
+	.stu-comm-menu li a:hover {
+	    background-color: #3a8ee6;
+	    color: #ffffff;
+	}
+	/* 메뉴 구분선 */
+	.stu-comm-menu hr {
+	    border: none;
+	    height: 1px;
+	    background-color: #e0e0e0;
+	    margin: 15px 0;
+	}	
+	</style>
 <body>
 	<aside id="studycommsidebar">
 		<div class="stu-comm-profile">
@@ -28,8 +155,8 @@
             </div>
             <div class="stu-comm-activity-item">
                 <span class="stu-comm-activity-icon">💬</span>
-                <a href="#" @click="fnMycomment" >내가 쓴 댓글</a>
-                <a class="stu-comm-activity-count" href="#" @click="fnMycomment">{{countMycommentCnt}}개</a>
+                <a href="#" @click="fnMyboard" >내가 쓴 댓글</a>
+				<a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyCommCnt}}개</a>
             </div>
 			<div class="stu-comm-activity-item">
                <span class="stu-comm-activity-icon">👥</span>
@@ -70,6 +197,9 @@
 				user: '${sessionScope.user}',
 				isLogin : false,
 				sessionUserId : '',
+				countMyCommCnt: null,
+				countMycommentCnt: null,
+				countMyStudyCnt: null
             };
         },
         methods: {
@@ -103,13 +233,13 @@
 							self.sessionUserId = '';
 							self.sessionUserNickName = '';
 						}
-					
 					}
 				});
 			},
 			fnMyCnt(){
 				var self = this;
 				var sessionUserId = self.sessionUserId;
+				alert(sessionUserId);
 				var nparmap = { userId : sessionUserId
 				};
 				$.ajax({
@@ -118,11 +248,9 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
-						console.log(data);
 						self.countMyCommCnt=data.countMyCommCnt;
 						self.countMycommentCnt=data.countMycommentCnt;
 						self.countMyStudyCnt = data.countMyStudyCnt;
-
 				}
 			});
 	       },
@@ -209,18 +337,14 @@
         },
         mounted() {
             var self = this;
+			self.fnMyCnt();
 			self.fnboardtypeList();
-			self.fnSession();
-			window.addEventListener('loginStatusChanged', function(){
-              if(window.sessionStorage.getItem("isLogin") === 'true'){
-                 self.isLogin = true;   
-              } else{
-                 self.isLogin = false;
-              };
-              self.fnSession();
-           });
-
-          }
-      });
+			self.fnSession();  // **초기 세션 정보 로드**
+	        // (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+	        window.addEventListener('loginStatusChanged', function () {
+	            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+	        });
+	    }
+	});
     studycommsidebarApp.mount('#studycommsidebar');
 </script>

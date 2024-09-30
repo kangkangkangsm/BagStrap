@@ -103,6 +103,10 @@ public interface StudyMapper {
 	StudyComm selectStuGroupUserApplSearch(HashMap<String, Object> map);
 	//마이페이지 -> 스터디그룹 가입목록 확인
 	List<StudyComm> selectStuGroupSubscriptionSearch(HashMap<String, Object> map);
+	//마이페이지 -> 스터디그룹 가입목록 확인(페이징)
+	List<StudyComm> selectStuGroupSubscriptionSearchPage(HashMap<String, Object> map);
+	//마이페이지 -> 스터디그룹 가입목록 인원수 확인 (페이징)
+	int selectStuGroupSubscriptionSearchCnt(HashMap<String, Object> map);
 	//마이페이지 -> 스터디그룹 미가입목록 확인
 	List<StudyComm> selectStuGroupSubscriptionSearchN(HashMap<String, Object> map);
 	//마이페이지 -> 스터디그룹 강퇴목록 확인
