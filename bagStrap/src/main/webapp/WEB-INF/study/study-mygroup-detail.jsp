@@ -264,7 +264,7 @@
 	}
 
 	.user-list {
-	  max-height: 400px;
+	  max-height: 550px;
 	
 	}
 
@@ -313,7 +313,7 @@
 
 	/* 그룹 헤더 스타일 */
 	.group-header {
-	background: linear-gradient(45deg, #FFC107, #2196F3, #FF5722);
+	background: linear-gradient(45deg, #FFC107 0%, #FFC107 10%, #2196F3 30%, #2196F3 70% , #FF5722 85% );
 	  text-align: center;
 	  padding: 40px;
 	  border-radius: 15px;
@@ -432,7 +432,7 @@
 	/* 전체 채팅 컨테이너 스타일 */
 	.chat-container {
 	  width: 100%;
-	  height: 950px; /* 전체 컨테이너 높이 설정 */
+	  height: 1110px; /* 전체 컨테이너 높이 설정 */
 	  border: 1px solid #ddd;
 	  border-radius: 8px;
 	  display: flex;
@@ -639,6 +639,43 @@
 	.user-name {
 	  font-weight: bold;
 	}
+	/* Pagination 스타일 */
+	.study-mygroup-detail-pagination {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin: 30px 0;
+	    gap: 10px;
+	}
+
+	.study-mygroup-detail-pagination button {
+	    background-color: #f8f9fa;
+	    border: 1px solid #dee2e6;
+	    color: #007bff;
+	    padding: 10px 15px;
+	    cursor: pointer;
+	    transition: background-color 0.3s, color 0.3s;
+	    border-radius: 4px;
+	    font-size: 1em; /* 글자 크기 조정 */
+	}
+
+	.study-mygroup-detail-pagination button:hover {
+	    background-color: #007bff;
+	    color: #fff;
+	}
+
+	.study-mygroup-detail-pagination button.active {
+	    background-color: #007bff;
+	    color: #fff;
+	    cursor: default;
+	}
+
+	.study-mygroup-detail-pagination button:disabled {
+	    background-color: #e9ecef;
+	    color: #6c757d;
+	    cursor: not-allowed;
+	    border: 1px solid #dee2e6;
+	}
    </style>
 <body>
    <div id="app">
@@ -665,7 +702,7 @@
 				   </nav>
 
 				   <!-- 유저 목록 영역 -->
-				   <div class="joined-users-title">가입한 유저 목록</div>
+				   <div class="joined-users-title">가입한 유저 목록 ({{applyY + 1}} 명)</div>
 				   <div class="user-list">
 				     <ul class="user-cards">
 				       <!-- 관리자 -->
@@ -685,7 +722,7 @@
 				       </li>
 
 				       <!-- 일반 유저 목록 -->
-				       <li v-for="item in searchjoinGroup" class="user-card">
+				       <li v-for="item in userList" class="user-card">
 				         <template v-if="item.filePath">
 				           <img :src="item.filePath" alt="유저 사진" class="user-profile-img"/>
 				         </template>
@@ -701,11 +738,19 @@
 				       </li>
 				     </ul>
 				   </div>
+				   <!-- 페이징 -->
+				 <template v-if=" totalPages >= 2">
+		   			<div class="study-mygroup-detail-pagination">
+		   			    <button @click="fnUserList(currentPage - 1)" :disabled="currentPage <= 1">⇦</button>
+		   			    <button @click="fnUserList(currentPage + 1)" :disabled="currentPage >= totalPages">⇨</button>
+		   			</div>
+				</template>
 				 </div>
+		
 			        <!-- 사이드바 끝 -->
 
                  <!-- 콘텐츠 영역 -->
-                 <div class="study-mygroup-detail2-content">
+                 <div class="study-mygroup-detail2-content" style="margin-top : -60px;">
                      <div class="study-mygroup-detail2-top-bar"></div>
                      <div class="study-mygroup-detail2-email-list">
                      <div class="study-meta">
@@ -780,7 +825,6 @@
 					         <div class="book-details">
 					           <h4>{{ detailList.title }}</h4>
 					           <p>저자: {{ detailList.author }}</p>
-					           <p>소개: {{ detailList.tbDescription }}</p>
 					         </div>
 					       </div>
 					     </div>
@@ -789,7 +833,7 @@
 						   <!-- ===========================================그룹 정보=========================================== -->
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <template v-if="pageView == '2'">
-						     <div class="chat-container">
+						     <div class="chat-container" style="margin-top:40px;">
 						       <!-- 채팅 메시지 리스트 -->
 						       <div id="chat-messages" class="chat-messages">
 						         <!-- 메시지 한 개의 예시 -->
@@ -846,7 +890,7 @@
 						   <template v-if="pageView == '3'">
 						     <div class="study-mygroup-detail-member-admin-panel-container" style="max-width: 800px; width: 100%; margin: auto;">
 						       <!-- 페이지 헤더 -->
-						       <div class="study-mygroup-detail-member-admin-header">
+						       <div class="study-mygroup-detail-member-admin-header" style="margin-top:40px;">
 						         <p>여기에서 그룹원 관리 및 가입 신청을 처리할 수 있습니다.</p>
 						       </div>
 
@@ -1011,7 +1055,9 @@
 						   <!-- ===========================================그룹관리=========================================== -->
    						   <template v-if = "pageView == '4'">
 							<div class="study-group-insert-container">
-							  <h2>스터디 그룹 관리</h2>
+								<div class="study-mygroup-detail-member-admin-header" style="margin-top:10px;">
+							         <p>여기에서 그룹 정보 수정 및 삭제가 가능합니다.</p>
+							       </div>
 							  <div class="study-group-insert-form">
 							    <div class="study-group-insert-row">
 							      <div class="study-group-insert-form-group">
@@ -1119,7 +1165,8 @@
 							    <div class="study-group-insert-actions">
 							      <button class="study-group-insert-submit-btn" 
 							        @click="fnGroupUpdate(detailList.studyName,detailList.stgStartDate,detailList.stgEndDate,
-							        detailList.stgStudyTime,detailList.age,detailList.onOffMode,detailList.genderGroup,detailList.bookId,detailList.description)">
+							        detailList.stgStudyTime,detailList.age,detailList.onOffMode,detailList.genderGroup,detailList.bookId,detailList.description
+									,detailList.maxparticipants)">
 							        변경완료
 							      </button>
 							      <button class="study-group-insert-submit-btn" @click="fnhomeback()">취소</button>
@@ -1161,13 +1208,40 @@
 					searchnotjoinGroup : [],
 					searchnotLeaveGroup : [],
 					messagelist : [],
-					editgoal : "N"
+					editgoal : "N",
+					userList : [],
+					currentPage: 1,      // 현재 페이지
+					pageSize: 7,        // 한 페이지에 보여줄 개수
+					totalPages: 5,
+					file : null
 					
 					
 										
 	            };
 	        },
 	        methods: {
+				fnUserList(page = 1){
+					var self = this;
+					var startIndex = (page - 1) * self.pageSize;
+					var outputNumber = self.pageSize;
+					self.currentPage = page;
+					var nparmap = {studyGroupId : self.studyGroupId,
+								   startIndex: startIndex, 
+								   outputNumber: outputNumber, };
+					$.ajax({
+						url:"selectStuGroupSubscriptionSearchPage.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) {
+							console.log(data);
+							self.userList = data.userList;
+							self.applyY = data.applyY;
+							self.totalPages = Math.ceil(self.applyY / self.pageSize);
+							
+						}
+					});
+		        },
 				fneditgoalresult(fetchapplicationid,studygoal){
 					var self = this;
 					var nparmap = {fetchapplicationid : fetchapplicationid,studygoal : studygoal };
@@ -1212,7 +1286,7 @@
 						data : nparmap,
 						success : function(data) { 
 							self.fnDetail();
-							console.log(data);
+							 
 							self.messagelist = data.messagelist;
 							
 						}
@@ -1228,7 +1302,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							self.messageContent ="";
 							var idx = data.idx;
 							console.log(idx);
@@ -1274,7 +1348,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							alert("그룹 삭제 완료..bye bye~");
 							$.pageChange("/study-comm-myboard", { itemMode: "board"});
 							
@@ -1303,10 +1377,11 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							alert(userNickName +"님 가입 완료");
 							self.fnDetail();
 							self.fnSidebar(3);
+							self.fnUserList(page = 1);
 							
 						}
 					});
@@ -1324,10 +1399,11 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							alert("그룹장 위임 완료");
 							self.fnDetail();
 							self.fnSidebar(1);
+							self.fnUserList(page = 1);
 						}
 					});
 		        },
@@ -1351,7 +1427,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							if(a == '1'){
 							alert("차단해제 되었습니다.");								
 							};
@@ -1379,10 +1455,11 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							alert(userNickName + "님이 강퇴되었습니다.");
 							self.fnDetail();
 							self.fnSidebar(3);
+							self.fnUserList(page = 1);
 						}
 					});
 		        },
@@ -1396,21 +1473,22 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							self.fnDetail();
 							self.fnSidebar(3);
+							self.fnUserList(page = 1);
 							
 						}
 					});
 		        },
-				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description){
+				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description,maxparticipants){
 					var self = this;
 					var studyGroupId = self.studyGroupId;
 					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
 									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
 									age : age ,  onOffMode : onOffMode,
 									genderGroup : genderGroup , bookId : bookId , studyGroupId : studyGroupId,
-									description : description
+									description : description, maxParticipants : maxparticipants
 					};
 					$.ajax({
 						url:"updateStuGroup.dox",
@@ -1418,7 +1496,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							 
 							var idx = data.idx;
 							console.log(idx);
 							if (self.file) {
@@ -1482,7 +1560,7 @@
                   type : "POST", 
                   data : nparmap,
                   success : function(data) { 
-                     console.log(data);
+                      
                      self.typeList = data.typeList;
                   }
                });
@@ -1490,6 +1568,7 @@
             fnSidebar(a){
 			   var self = this;
                self.pageView = a; 
+			   self.file = "";
 			   //if(a == '2'){
 				//self.fnMessageSelect();
 			   //}
@@ -1503,7 +1582,7 @@
                         type: "POST",
                         data: nparmap,
                         success: function(data) {
-                            console.log(data);
+                             
                             self.detailList = data.detailList;
                      self.fnBoardType(self.detailList.boardTypeId);
                      self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
@@ -1519,7 +1598,7 @@
                         type: "POST",
                         data: nparmap,
                         success: function(data) {
-                            console.log(data);
+                             
                             self.adminlist = data.adminlist;
 							self.searchUserlist = data.searchUserlist;
 							self.searchjoinGroup = data.searchjoinGroup;
@@ -1538,7 +1617,7 @@
                   type : "POST", 
                   data : nparmap,
                   success : function(data) {
-                        console.log(data);
+                         
                      self.isLogin = data.isLogin 
                      if(data.isLogin){
                         self.sessionUserId = data.userId;
@@ -1559,6 +1638,8 @@
             self.fnSession();
             self.fnDetail();
 			self.fnMessageSelect();
+			self.fnUserList(1);
+			
 			
             window.addEventListener('loginStatusChanged', function(){
                if(window.sessionStorage.getItem("isLogin") === 'true'){

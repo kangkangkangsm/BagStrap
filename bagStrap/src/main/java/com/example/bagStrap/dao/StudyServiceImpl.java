@@ -102,6 +102,7 @@ public class StudyServiceImpl implements StudyService{
 		return resultMap;
 	}
 	//스터디 사이드바 cnt
+	@Transactional
 	@Override
 	public HashMap<String, Object> sidebarCnt(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -183,7 +184,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> deleteBoard(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.deleteBoard(map);
 			resultMap.put("result", true);
@@ -199,7 +200,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStatusBoard(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStatusBoard(map);
 			resultMap.put("resultHide",map.get("BOARD_STATUS"));
@@ -235,7 +236,7 @@ public class StudyServiceImpl implements StudyService{
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
 			studyMapper.updateStatusBoardComment(map);
-			System.out.println(map);
+			 
 			resultMap.put("commentStatus",map.get("COMMENTSTATUS"));
 			resultMap.put("result", true);
 			resultMap.put("message", "게시글 업데이트 완료");
@@ -269,7 +270,7 @@ public class StudyServiceImpl implements StudyService{
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
 			studyMapper.insertCommLike(map);
-			System.out.println(map);
+			 
 			resultMap.put("result", true);
 			resultMap.put("message", "좋아요!");
 			System.out.println(resultMap);
@@ -431,7 +432,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateCommentReResult(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateCommentReResult(map);
 			resultMap.put("result", true);
@@ -450,7 +451,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> selectStuGroupInsertBoardType(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			List<StudyComm> selectStuGroupInsertBoardType = studyMapper.selectStuGroupInsertBoardType(map);
 			resultMap.put("result", true);
@@ -467,7 +468,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> insertStuGroup(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.insertStuGroup(map);
 			resultMap.put("idx",map.get("STUDY_GROUP_ID"));
@@ -484,7 +485,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> selectStuGroupListSidebar(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			int cntlist= studyMapper.selectStuGroupListSidebarCnt(map);
 			List<StudyComm> list = studyMapper.selectStuGroupListSidebar(map);
@@ -504,7 +505,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> selectStuGroupDetail(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			StudyComm list = studyMapper.selectStuGroupDetail(map);
 			resultMap.put("result", true);
@@ -574,11 +575,13 @@ public class StudyServiceImpl implements StudyService{
 			List<StudyComm> selectStuGroupSubscriptionSearch = studyMapper.selectStuGroupSubscriptionSearch(map);
 			List<StudyComm> selectStuGroupSubscriptionSearchN = studyMapper.selectStuGroupSubscriptionSearchN(map);
 			List<StudyComm> selectStuGroupSubscriptionSearchL = studyMapper.selectStuGroupSubscriptionSearchL(map);
+			int selectStuGroupSubscriptionSearchCnt = studyMapper.selectStuGroupSubscriptionSearchCnt(map);
 			resultMap.put("adminlist", adminlist);
 			resultMap.put("searchUserlist", selectStuGroupUserApplSearch);
 			resultMap.put("searchjoinGroup", selectStuGroupSubscriptionSearch);
 			resultMap.put("searchnotjoinGroup", selectStuGroupSubscriptionSearchN);
 			resultMap.put("searchnotLeaveGroup", selectStuGroupSubscriptionSearchL);
+			resultMap.put("applyY", selectStuGroupSubscriptionSearchCnt);
 			resultMap.put("result", true);
 			resultMap.put("message", "디테일 정보 검색");
 			
@@ -593,7 +596,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroup(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroup(map);
 			resultMap.put("idx",map.get("studyGroupId"));
@@ -610,7 +613,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroupLeave(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroupLeave(map);
 			resultMap.put("result", true);
@@ -627,7 +630,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroupLeaveMode(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroupLeaveModeNo(map);
 			studyMapper.updateStuGroupLeaveMode(map);
@@ -644,7 +647,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> deleteStuGroupUnblocking(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.deleteStuGroupUnblocking(map);
 			resultMap.put("result", true);
@@ -660,7 +663,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroupBossDelegation(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroupBossDelegation(map);
 			resultMap.put("result", true);
@@ -676,7 +679,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroupJoin(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroupJoin(map);
 			resultMap.put("result", true);
@@ -692,7 +695,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> deleteStuGroup(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.deleteStuGroup(map);
 			studyMapper.deleteStuGroup2(map);
@@ -709,7 +712,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> insertStuGroupMessage(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.insertStuGroupMessage(map);
 			resultMap.put("idx",map.get("MESSAGEID"));
@@ -726,7 +729,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> selectStuGroupMessage(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			List<StudyComm> list = studyMapper.selectStuGroupMessage(map);
 			resultMap.put("messagelist", list);
@@ -743,7 +746,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> deletGroupMessage(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.deletGroupMessage(map);
 			resultMap.put("result", true);
@@ -759,7 +762,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGroupHide(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGroupHide(map);
 			resultMap.put("result", true);
@@ -775,7 +778,7 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> updateStuGoal(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
-		System.out.println(map);
+		 
 		try {
 			studyMapper.updateStuGoal(map);
 			resultMap.put("result", true);
@@ -792,7 +795,7 @@ public class StudyServiceImpl implements StudyService{
 	public HashMap<String, Object> selectEvent3001(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
-			System.out.println(map);
+			 
 			List<StudyComm> list = studyMapper.selectEvent3001(map);
 			List<StudyComm> list2 = studyMapper.selectEvent3002(map);
 			resultMap.put("event3001", list);
@@ -803,6 +806,25 @@ public class StudyServiceImpl implements StudyService{
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
 			resultMap.put("message", "수상 에러");
+		}
+		return resultMap;
+	}
+	//유저목록 페이징
+	@Override
+	public HashMap<String, Object> selectStuGroupSubscriptionSearchPage(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			System.out.println(map);
+			List<StudyComm> list = studyMapper.selectStuGroupSubscriptionSearchPage(map);
+			int list2 = studyMapper.selectStuGroupSubscriptionSearchCnt(map);
+			resultMap.put("userList", list);
+			resultMap.put("applyY", list2);
+			resultMap.put("result", true);
+			resultMap.put("message", "유저목록 페이징처리");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "페이징실패");
 		}
 		return resultMap;
 	}

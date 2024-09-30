@@ -220,7 +220,11 @@
 							}
 							window.sessionStorage.setItem("isLogin", self.isLogin);
 							window.sessionStorage.setItem("isAdmin", self.isAdmin);
+							//( 선민 추가) 아래 3줄 
+							window.sessionStorage.setItem("sessionUserId", self.sessionUserId);
+		                    window.sessionStorage.setItem("sessionUserNickName", self.sessionUserNickName);
 							window.dispatchEvent(new Event('loginStatusChanged'));
+							
 							window.dispatchEvent(new Event('adminStatusChanged'));
 						}
 					});
@@ -253,6 +257,8 @@
 								self.getSharedHeader();
 								self.userId = '',
 								self.password = ''
+								// (선민 추가) 로그인 후 페이지 새로고침
+		                        window.location.reload();
 							}
 						}
 					});
@@ -270,6 +276,8 @@
 							console.log(data); 
 							alert(data.message);
 							self.getSharedHeader();
+							// (선민 추가) 로그인 후 페이지 새로고침
+	                        window.location.reload();
 						}
 					});
 	            }

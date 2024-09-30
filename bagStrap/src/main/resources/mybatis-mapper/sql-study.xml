@@ -80,7 +80,7 @@
 	
 	
 	<!-- 페이지 cnt-->
-	<select id="countCommList" parameterType="hashmap" resultType="int">       
+	<select id="countCommList" parameterType="hashmap" resultType="Integer">       
     SELECT COUNT(*) AS CNT 
     FROM TBL_STU_COMM C 
     LEFT JOIN TBL_USER U ON C.AUTHOR = U.USER_ID
@@ -116,11 +116,11 @@
     
 	</select>
 	<!-- 내가 쓴 게시글 개수-->
-	<select id="countMyCommList" parameterType="hashmap" resultType="int">
+	<select id="countMyCommList" parameterType="hashmap" resultType="Integer">
 		SELECT count(*) AS CNT3 FROM TBL_STU_COMM WHERE AUTHOR = #{userId}
 	</select>
 	<!-- 내가 쓴 댓글 개수 -->
-	<select id="countMycommentList" parameterType="hashmap" resultType="int">
+	<select id="countMycommentList" parameterType="hashmap" resultType="Integer">
 		SELECT count(*) AS CNT2 FROM TBL_STU_COMMENTS WHERE AUTHOR = #{userId}
 	</select>
 	<!-- 스터디 커뮤니티 게시글 상세보기-->
@@ -579,7 +579,22 @@
         INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
         LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
 		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'Y' 
-	</select>	
+	</select>
+	<!-- 마이스터디 -> 상세페이지 가입유저(페이징처리)-->
+	<select id="selectStuGroupSubscriptionSearchPage" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		select * from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'Y' 
+		OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
+	</select>
+	<!-- 마이스터디 -> 상세페이지 가입유저 개수(페이징)-->
+	<select id="selectStuGroupSubscriptionSearchCnt" parameterType="hashmap" resultType="int">
+		select count(*) AS applyY from tbl_study_application TSA
+        INNER JOIN TBL_USER TU ON TU.USER_ID = TSA.FETCHAPPUSERID
+        LEFT JOIN TBL_BOARDFILE TB ON TU.USER_NO = TB.BOARDNO
+		where STUSTATUS = 'user' AND fetchappstudyid = #{studyGroupId} AND fetchapplstatus = 'Y' 
+	</select>		
 	<!-- 마이스터디 -> 상세페이지 미가입유저-->
 	<select id="selectStuGroupSubscriptionSearchN" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
 		select * from tbl_study_application TSA
@@ -603,6 +618,7 @@
         ENDDATE = TO_DATE(#{stgEndDate}, 'YYYY-MM-DD'),
         STUDYTIME = TO_DATE(#{stgStudyTime}, 'HH24:MI'),
         AGE = #{age},
+        MAX_PARTICIPANTS = #{maxParticipants},
         ONOFFMODE = #{onOffMode},
         GENDERGROUP = #{genderGroup},
         RELATED_BOOK = #{bookId},

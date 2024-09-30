@@ -555,5 +555,13 @@ public class StudyController {
 			resultMap = studyService.selectEvent3001(map);
 			return new Gson().toJson(resultMap);
 		}
+		//유저목록 페이징 
+		@RequestMapping(value = "/selectStuGroupSubscriptionSearchPage.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectStuGroupSubscriptionSearchPage(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectStuGroupSubscriptionSearchPage(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }
