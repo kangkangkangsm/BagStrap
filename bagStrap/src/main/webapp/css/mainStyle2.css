@@ -1,0 +1,99 @@
+	body{
+	        font-family: 'GmarketSansMedium';
+	        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+	        font-weight: normal;
+	        font-style: normal;
+	        margin: 0;
+	    }
+
+    @font-face{
+        font-family: 'GmarketSansMedium';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .wrapper {
+        position: relative;
+        min-width: 1459px;
+        min-height: 100vh;
+        overflow: hidden;
+        background-color: #f0f0f0;
+    }
+
+    .welcome_banner_wrap {
+        position: relative;
+        padding-top: 60px;
+        background-color: #fff;
+    }
+
+    .swiper-container {
+        width: 100%;
+        height: 450px; /* 배너 높이 설정 */
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    .swiper-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out; /* 슬라이드 이동 애니메이션 */
+    }
+
+    .swiper-slide {
+        min-width: 100%; /* 각 슬라이드가 화면 전체를 차지 */
+        height: 450px; /* 슬라이드 높이 설정 */
+        box-sizing: border-box;
+    }
+
+    .swiper-slide img {
+        width: 100%; /* 이미지가 슬라이드 전체에 맞춰지도록 설정 */
+        height: 100%; /* 이미지가 슬라이드 높이에 맞춰지도록 설정 */
+        object-fit: cover; /* 이미지가 슬라이드 크기에 맞춰 잘림 없이 채워지도록 설정 */
+    }
+
+    .slide-btn {
+        position: absolute;
+        top: 50%;
+        width: 48px;
+        height: 48px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        cursor: pointer;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+    .slide-indicator {
+        position: absolute;
+        bottom: 15px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .slide-indicator > div {
+        width: 12px;
+        height: 12px;
+        background: #ddd;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .slide-indicator > div.selected {
+        background: #333;
+	}
+		
+   
