@@ -1,5 +1,6 @@
 package com.example.bagStrap.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,6 +169,8 @@ public class PaymentServiceImpl implements PaymentService{
 				//response.getBody().put("message","환불되었습니다.");
 
 	        }
+			response.getBody().put("message", "환불되었습니다.");
+
 	        System.out.println(response.getBody());
 			return ResponseEntity.ok(response.getBody());
 
@@ -263,6 +266,7 @@ public class PaymentServiceImpl implements PaymentService{
 			
 			resultMap.put("result", true);
 		} catch(Exception e) {
+			e.printStackTrace();
 			System.out.println("Exception e : " + e);
 		}
 		return resultMap;
@@ -424,6 +428,33 @@ public class PaymentServiceImpl implements PaymentService{
 			return false;
 		}
 		return true;
+	}
+	
+	@Transactional
+	@Override
+	public HashMap<String, Object> selectOrderComplete(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		try {
+			System.out.println("selectOrderComplete: "+map);
+			List<Order> selectOrderComplete = paymentMapper.selectOrderComplete(map);
+			List<Integer> categories = new ArrayList<>();
+			selectOrderComplete.forEach(item -> {
+				if(!categories.contains(item.getCategory())) {
+					categories.add(item.getCategory());
+				};
+			});
+			map.put("categories", categories);
+			
+			System.out.println("selectOrderComplete-categories: "+map);
+			List<Order> selectOrderCompleteStudy = paymentMapper.selectOrderComplete(map);
+			
+			resultMap.put("selectOrderComplete", selectOrderComplete);
+			resultMap.put("selectOrderCompleteStudy", selectOrderCompleteStudy);
+	
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return resultMap;
 	}
 
 

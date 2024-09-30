@@ -149,12 +149,15 @@ public class ShopServiceImpl implements ShopService{
 			List<Order> detailList = shopMapper.selectBookDetail(map);
 			int totalPages = shopMapper.selectreviewListCount(map);
 			List<Order> reviewList = shopMapper.selectreviewList(map);
+			map.put("category", detailList.get(0).getCategory());
+			List<Order> recommendList = shopMapper.selectRecommendedList(map);
 			
 			//TODO 리뷰 정보도 불러와야함
 			
 			resultMap.put("detailList", detailList);
 			resultMap.put("totalPages", totalPages);
 			resultMap.put("reviewList", reviewList);
+			resultMap.put("recommendList", recommendList);
 			resultMap.put("result", true);
 			resultMap.put("message", "select bookDetail");
 		}catch(Exception e) {

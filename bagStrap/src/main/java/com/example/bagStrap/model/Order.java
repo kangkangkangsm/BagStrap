@@ -44,7 +44,7 @@ public class Order {
     private String author;          // 책 작가이름
     private String publisher;       // 출판사
     private String image;           // 책 이미지
-    private Long category;          // 카테고리 번호
+    private int category;          // 카테고리 번호
     private String ebook;           // 전자책 여부
     private Date createdDate;       // 책 등록 날짜
     private Date updateDate;        // 책 마지막 수정 날짜
@@ -134,6 +134,9 @@ public class Order {
 
     public String getRefundStatus() {
     	return refundStatus;
+    }
+    public int getCategory() {
+    	return category;
     }
 }
 	

@@ -137,85 +137,76 @@
 		
 		<div class="content">
 			<div id="app">
-
+				
+				
 				<div class="shop-detail-container">
-				        <!-- 도서 기본 정보: 책 이미지와 도서 정보 병렬 배치 -->
-				        <div class="shop-detail-header">
-				            <div class="shop-detail-info">
-				                <div class="shop-detail-title">책 제목 예시</div>
-				                <div class="shop-detail-author">저자: 홍길동</div>
-				                <div class="shop-detail-item"><strong>출판사:</strong> 예문당</div>
-				                <div class="shop-detail-item"><strong>출판일:</strong> 2024년 5월 3일</div>
-				                <div class="shop-detail-item"><strong>ISBN:</strong> 978-1234567890</div>
-				                <div class="shop-detail-item"><strong>페이지 수:</strong> 320 페이지</div>
-				                <div class="shop-detail-item"><strong>카테고리:</strong> 소설</div>
-				            </div>
-				            
-				            <div class="shop-detail-image">
-				                <img src="https://via.placeholder.com/150x220" alt="책 표지">
-				            </div>
-				        </div>
-
-				        <!-- 도서 설명 -->
-				        <div class="shop-detail-description">
-				            <h3>도서 설명</h3>
-				            이 책은 현대 사회의 다양한 문제들을 날카롭게 다루며, 독자들에게 깊은 통찰력을 제공한다. 흥미로운 서사와 매력적인 캐릭터가 돋보이며, 사회 비판적 메시지를 담고 있다.
-				        </div>
-
-				        <!-- 비슷한 책 추천 섹션 -->
-				        <div class="shop-detail-related-books">
-				            <h3>비슷한 책 추천</h3>
-				            <div class="shop-detail-related-books-list">
-				                <div class="shop-detail-related-book-item">
-				                    <img src="https://via.placeholder.com/100x150" alt="관련 도서 1">
-				                    <h4>관련 도서 제목 1</h4>
-				                    <div class="price">₩ 12,000</div>
-				                </div>
-				                <div class="shop-detail-related-book-item">
-				                    <img src="https://via.placeholder.com/100x150" alt="관련 도서 2">
-				                    <h4>관련 도서 제목 2</h4>
-				                    <div class="price">₩ 13,000</div>
-				                </div>
-				            </div>
-				        </div>
-
-				        <!-- 관련 스터디 목록 섹션 -->
-				        <div class="shop-detail-study-section">
-				            <h3>관련 스터디 목록</h3>
-				            <div class="shop-detail-study-list">
-				                <div class="shop-detail-study-item">
-				                    <img src="https://via.placeholder.com/100x150" alt="스터디 이미지">
-				                    <h4>스터디 그룹 1</h4>
-				                    <div class="study-info">진행 기간: 2024-10-01 ~ 2024-11-30</div>
-				                </div>
-				                <div class="shop-detail-study-item">
-				                    <img src="https://via.placeholder.com/100x150" alt="스터디 이미지">
-				                    <h4>스터디 그룹 2</h4>
-				                    <div class="study-info">진행 기간: 2024-12-01 ~ 2025-01-30</div>
-				                </div>
-				            </div>
-				        </div>
-
-				        <!-- 구매 및 장바구니 버튼 -->
-				        <div class="shop-detail-purchase-section">
-				            <button class="shop-detail-btn-buy">구매하기</button>
-				            <button class="shop-detail-btn-add-cart">장바구니에 추가</button>
-				        </div>
-
-				        <!-- 사용자 리뷰 -->
-				        <div class="shop-detail-reviews">
-				            <h3>사용자 리뷰</h3>
-				            <div class="shop-detail-review-item">
-				                <strong>사용자1</strong> <span class="shop-detail-rating">★★★★★</span>
-				                <p>정말 재미있게 읽었어요! 책의 구성도 훌륭하고, 깊이 있는 이야기였습니다.</p>
-				            </div>
-				            <div class="shop-detail-review-item">
-				                <strong>사용자2</strong> <span class="shop-detail-rating">★★★★☆</span>
-				                <p>전체적으로 좋았지만, 중간에 약간 늘어지는 부분이 있었습니다.</p>
-				            </div>
-				        </div>
-				    </div>
-
+			        <div class="shop-detail-header">
+						<div class="shop-detail-image">
+			                <img :src="book[0]?.image || 'a-yo'" alt="책 표지">
+			            </div>
+						<div class="shop-detail-info">
+			                <div class="shop-detail-title">{{ book[0]?.title || '제목이 없습니다.' }}</div>
+			                <div class="shop-detail-author">저자: 홍길동</div>
+			                <div class="shop-detail-item"><strong>출판사:</strong> {{ book[0]?.publisher || 'publisher가 없습니다.' }}</div>
+			                <div class="shop-detail-item"><strong>ISBN:</strong> {{book[0]?.bookId || 'isbn이 없습니다.'}}</div>
+			                <div class="shop-detail-item"><strong>카테고리:</strong> {{recommendList[0]?.name || 'category가 없습니다.'}}</div>
+							<a href="#shop-detail-reviews">
+							<svg v-for="number in 5" :fill="(book[0]?.rating !== undefined && book[0]?.rating >= number) ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
+							<span>리뷰 보러 가기</span>
+							</a>
+			            </div>
+			        </div>
+					<div class="shop-detail-purchase-section">
+			            <!--<button class="shop-detail-btn-buy">구매하기</button>-->
+			            <button class="shop-detail-btn-add-cart" @click="insertCartItem()">장바구니에 추가</button>
+			        </div>
+			        <div class="shop-detail-description">
+			            <h3>도서 설명</h3>
+			            {{book[0]?.description || '몰라인마'}}
+			        </div>
+	
+			        <div class="shop-detail-related-books">
+			            <h3>비슷한 책 추천</h3>
+			            <div class="shop-detail-related-books-list">
+			                <div class="shop-detail-related-book-item" v-for="item in recommendList">
+								<a href="javascript:;" @click="goToOtherBook(item.bookId)">
+				                    <img :src="item.image" :alt="item.bookId">
+				                    <h4>{{item.title}}</h4>
+				                    <div class="price">₩ {{item.price}}</div>
+								</a>
+			                </div>
+			            </div>
+			        </div>
+	
+			        <div class="shop-detail-study-section">
+			            <h3>관련 스터디 목록</h3>
+			            <div class="shop-detail-study-list">
+			                <div class="shop-detail-study-item" v-for="item in detailList">
+								<a href="javascript:;" @click="goToStudy(item.studyGroupId)">
+			                    <img src="https://via.placeholder.com/100x150" alt="스터디 이미지">
+			                    <h4>{{item.studyName}}</h4>
+			                    <div class="study-info">진행 기간: {{item.startdate}} ~ {{item.enddate}}</div>
+								</a>
+			                </div>
+			            </div>
+			        </div>
+	
+			        <div id="shop-detail-reviews" class="shop-detail-reviews">
+			            <h3>사용자 리뷰</h3>
+			            <div class="shop-detail-review-item" v-for="item in reviewList" :key="item.rating">
+			                <strong>{{item.userId}}</strong> 
+							<span class="shop-detail-rating">
+								<svg v-for="number in 5" :fill="item.rating >= number ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
+							</span>
+			                <p>{{item.reviewComment}}</p>
+			            </div>
+			        </div>			
+						
+				</div>
+				
+				
+			</div>
+		</div>
 	</main>
 
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
@@ -230,6 +221,8 @@
 						bookId: '${bookId}',
 			            detailList: [],
 						reviewList: [],
+						recommendList: [],
+						book: [],
 						currentPage: 1,
 						totalPages: 5,
 						pageSize: 10,
@@ -275,12 +268,17 @@
 			                data: nparmap, // 검색어 데이터를 함께 전송
 			                success: function(data) {
 								console.log(data);
-								if(data.detailList){
+								if(data.result){
 								self.detailList = data.detailList;
 								self.reviewList = data.reviewList;
+								self.recommendList = data.recommendList;
 								self.currentPage = currentPage;
 								self.totalPages = data.totalPages;	
-								
+								self.book = data.detailList.filter((item) => {
+									if(item.title != null && item.title != undefined)
+									 return item
+								 })
+								console.log(self.book)
 									
 								}								
 			                },
@@ -290,30 +288,35 @@
 			            });
 			        },
 					insertCartItem(){
-					var self = this;
-					if(!self.isLogin){
-						alert('로그인 후 이용해주세요');
-						return;
-					}
-					$.ajax({
-					    url: "/insertCartItem.dox", // 서버의 URL
-					    type: "POST", // GET 방식으로 전송
-					    data: { bookId: self.bookId }, // bookIds를 전송
-					    success: function(data) {
-							console.log(data)
-							if(data.result){
-								if(confirm(data.message +'장바구니로 이동하시겠습니까?')){
-									$.pageChange("/myshop/cart", {});	
+						var self = this;
+						if(!self.isLogin){
+							alert('로그인 후 이용해주세요');
+							return;
+						}
+						$.ajax({
+						    url: "/insertCartItem.dox", // 서버의 URL
+						    type: "POST", // GET 방식으로 전송
+						    data: { bookId: self.bookId }, // bookIds를 전송
+						    success: function(data) {
+								console.log(data)
+								if(data.result){
+									if(confirm(data.message +'장바구니로 이동하시겠습니까?')){
+										$.pageChange("/myshop/cart", {});	
+									}
+								} else {
+									alert(data.message);
 								}
-							} else {
-								alert(data.message);
-							}
-					    },
-					    error: function(error) {
-					        console.error("장바구니 추가 중 오류 발생", error);
-					    }
-					});
-						
+						    },
+						    error: function(error) {
+						        console.error("장바구니 추가 중 오류 발생", error);
+						    }
+						});
+					},
+					goToOtherBook(bookId){
+						$.pageChange("/shop/detail", {bookId : bookId})
+					},
+					goToStudy(boardId) {
+						$.pageChange("/study-group-detail", { boardNo: boardId });
 					}
 			    },
 			    mounted() {

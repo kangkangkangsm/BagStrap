@@ -68,7 +68,7 @@
 	</insert>
 	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
-				SELECT B.*, #{item.bookQuantity} AS ORDER_QUANTITY 
+				SELECT B.BOOK_ID, TITLE, DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK, CREATED_AT, UPDATED_AT, DISCOUNT, #{item.bookQuantity} AS ORDER_QUANTITY 
 				FROM TBL_BOOK B
 				WHERE 
 	    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
@@ -154,7 +154,7 @@
 			INNER JOIN TBL_BOOK B ON B.BOOK_ID = I.BOOK_ID
 			WHERE USER_ID = #{userId}
 			ORDER BY R.CREATED_DATE DESC
-			OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+			OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	 <update id="updateOrderStatus" parameterType="hashmap">
@@ -174,4 +174,44 @@
 	                LEFT JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
 					WHERE R.REFUND_ID = #{refundId} AND RI.STATUS = '승인됨'
 	</select>
+	<select id="selectOrderComplete" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+				SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, O.STATUS, ARRIVED_DATE, B.TITLE, OI.PRICE, OI.QUANTITY, B.IMAGE, B.CATEGORY
+				FROM
+				    (SELECT *
+				     FROM
+				        (SELECT *
+				         FROM TBL_ORDER 
+				         ORDER BY ORDER_DATE DESC)
+				         WHERE ROWNUM = 1) O 
+				INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID
+				INNER JOIN TBL_BOOK B ON B.BOOK_ID = OI.BOOK_ID
+				where user_id = #{userId}
+	</select>
+	<select id="selectOrderCompleteStudy" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+				SELECT * 
+				FROM
+				    (SELECT *
+				    FROM TBL_STUDY_GROUP
+				    WHERE
+				    SUBJECT_TYPE_ID IN  
+    				<foreach item="item" collection="categories" open="(" close=")" separator=", ">   
+				    	#{item}
+     				</foreach>       
+					AND ENDDATE-SYSDATE > 30 
+				    ORDER BY DBMS_RANDOM.RANDOM)
+				WHERE 4 > ROWNUM
+				
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

@@ -72,7 +72,7 @@
 		        </otherwise>
 		    </choose>
 		    
-		    OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
 
 
@@ -110,17 +110,23 @@
 			FROM TBL_BOOK
 	</select>
 	<select id="selectBookDetail" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		    SELECT NVL(RATING,0) AS RATING, G.*,B.* 
-			FROM TBL_BOOK B
-			LEFT JOIN TBL_STUDY_GROUP G ON B.CATEGORY = G.SUBJECT_TYPE_ID
-			LEFT JOIN 
-			(SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
-			FROM TBL_REVIEW 
-			GROUP BY BOOK_ID) R 
-			ON B.BOOK_ID = R.BOOK_ID
-			
-			WHERE B.BOOK_ID = #{bookId}
-			ORDER BY G.STARTDATE DESC
+		    SELECT *
+			FROM
+			   (SELECT * 
+			    FROM 
+			        (SELECT B.*, G.STUDY_NAME, TO_CHAR(G.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(G.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, STUDY_GROUP_ID
+			        FROM TBL_STUDY_GROUP G
+			        LEFT JOIN
+			            (SELECT TITLE, PUBLISHER, BOOK_ID, DESCRIPTION, CATEGORY, IMAGE
+			            FROM TBL_BOOK 
+			            WHERE BOOK_ID = #{bookId}) B ON B.CATEGORY = g.subject_type_id
+			        LEFT JOIN 
+			            (SELECT BOOK_ID AS BID, AVG(NVL(RATING, 0)) AS RATING 
+			            FROM TBL_REVIEW 
+			            GROUP BY BOOK_ID) R ON B.BOOK_ID = R.BID
+			        ORDER BY enddate)
+			    ORDER BY  BOOK_ID)
+			WHERE 5 > ROWNUM
 	</select>
 	<select id="selectreviewListCount" parameterType="hashmap" resultType="int">
 		    SELECT CEIL(COUNT(*)/#{pageSize})
@@ -133,11 +139,19 @@
 			FROM TBL_REVIEW 
 			WHERE BOOK_ID = #{bookId}
 			ORDER BY CREATED_AT DESC
-		    OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
+	<select id="selectRecommendedList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		    SELECT * FROM (
+			    SELECT * FROM TBL_BOOK B
+			    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON B.CATEGORY = T.BOARD_TYPE_ID
+			    WHERE B.CATEGORY = #{category}
+			    ORDER BY DBMS_RANDOM.RANDOM
+			) WHERE 5 > ROWNUM
+	</select>
 	
-	
+
 	
 	
 	
