@@ -87,7 +87,7 @@
 		            <a href="/intro">Home</a>
 		        </li>
 		        <li class="header-menu-item">
-		            <a href="javascript:;">Shop</a>
+		            <a href="javascript:;" @click="fnToShop('All')">Shop</a>
 		            <ul class="header-submenu">
 						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('All')">All</a></li>
 						<li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Best')">Best</a></li>

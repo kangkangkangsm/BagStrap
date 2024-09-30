@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +17,6 @@ import com.example.bagStrap.model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,9 +37,18 @@ public class PaymentController {
 		request.setAttribute("orderList", map.get("orderList"));
 		request.setAttribute("priceSum", map.get("priceSum"));
         
-		return "/payment/order";
+		return "/payment/payment_order";
     }
 
+	@RequestMapping("/payment/complete") 
+    public String payment_complete(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		request.setAttribute("orderList", map.get("orderList"));
+		request.setAttribute("priceSum", map.get("priceSum"));
+		request.setAttribute("orderId", map.get("orderId"));
+        
+		return "/payment/payment_complete";
+    }
+	
 	@RequestMapping(value = "/order.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String order(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -188,6 +197,29 @@ public class PaymentController {
 			if(user.getUserNickName() != null) {
 				map.put("userId", user.getUserId());
 				resultMap = paymentService.selectRefundList(map);
+				
+			} else {
+				resultMap.put("result", false);
+				resultMap.put("message", "로그인 후 이용해주세요");
+			}
+		} catch(NullPointerException e) {
+			System.out.println(e);
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@Transactional
+	@RequestMapping(value = "/selectOrderComplete.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectOrderComplete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserNickName() != null) {
+				map.put("userId", user.getUserId());
+				resultMap = paymentService.selectOrderComplete(map);
 				
 			} else {
 				resultMap.put("result", false);

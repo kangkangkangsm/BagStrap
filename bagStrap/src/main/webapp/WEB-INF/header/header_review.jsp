@@ -119,7 +119,6 @@
 						    <!-- Right Section -->
 						    <div class="right-section">
 								<textarea style="width:100%;height:400px" placeholder="다른 고객님에게 도움이 되도록 상품에 대한 솔직한 평가를 남겨주세요" v-model="reviewComment"></textarea>
-								{{reviewComment}}
 						    </div>
 						</div>
 						<button type="button" v-if="isFirst" @click="insertReview">리뷰 작성하기</button>

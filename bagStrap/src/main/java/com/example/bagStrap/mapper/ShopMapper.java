@@ -25,6 +25,7 @@ public interface ShopMapper {
 	List<Order> selectBookDetail(HashMap<String, Object> map);
 	int selectreviewListCount(HashMap<String, Object> map);
 	List<Order> selectreviewList(HashMap<String, Object> map);
-
+	List<Order> selectRecommendedList(HashMap<String, Object> map);
+	
 	
 }

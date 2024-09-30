@@ -4,11 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
+    <!--<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://localhost:8080/js/jquery.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">-->
+	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
     <title>첫번째 페이지</title>
 </head>
 <style>

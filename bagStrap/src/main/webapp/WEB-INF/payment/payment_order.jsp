@@ -21,7 +21,6 @@
 <body>
 	<div id="app">
 		<main class="main-container">
-			<div>{{defaultYN}}{{saveYN}}{{priceSum}}</div>
 
 	        <div class="content">
 
@@ -56,16 +55,10 @@
 					<input type="text" id="entrance_password" name="entrance_password" v-model="entrancePassword"><br><br>
 
 					<input type="button" @click="fnOrder()" value="주문하기">
-
 			   </div>
 
 				
 	        </div>
-			<aside class="sidebar">
-				<button @click="fnImp()"> 결제하기 </button>
-				<button @click="fnRefund()"> 환불하기 </button>
-	        </aside>
-
 
 	    </main>
 		
@@ -234,9 +227,9 @@
 							self.data.userEmail = data.userEmail;
 							self.data.phone = data.phone;
 							self.addressNo = data.addressNo;
-							self.fnImp();
-							//self.imp = 'rsp.imp_uid';
-							//self.completeOrder();
+						//	self.fnImp();
+							self.imp = 'rsp.imp_uid';
+							self.completeOrder();
 						} else {
 							alert(data.message);
 						}
@@ -283,6 +276,7 @@
 					success : function(data) { 
 						console.log(data);
 						alert(data.message);
+						$.pageChange("/payment/complete", {orderId: self.data.paymentId, orderList: self.orderList, priceSum: self.priceSum})
 					}
 				});
 			},

@@ -42,7 +42,7 @@
         LEFT JOIN TBL_REVIEW RE ON I.BOOK_ID = RE.BOOK_ID AND O.USER_ID = RE.USER_ID
 		WHERE O.USER_ID = #{userId} and TO_CHAR(ORDER_DATE, 'YYYY') LIKE '%'|| #{year} || '%' 
 		ORDER BY ORDER_DATE DESC
-		OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
 	
 	<select id="selectOrderListForRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
@@ -92,7 +92,7 @@
 		LEFT JOIN TBL_BOARDFILE F ON R.REFUND_FILE = F.BOARDNO
 		INNER JOIN TBL_BOOK B ON B.BOOK_ID = OI.BOOK_ID
 		ORDER BY O.ORDER_DATE DESC
-		OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	

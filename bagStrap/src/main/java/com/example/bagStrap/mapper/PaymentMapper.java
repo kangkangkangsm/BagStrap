@@ -29,6 +29,8 @@ public interface PaymentMapper {
 	List<Order> selectRefundList(HashMap<String, Object> map);
 	void updateOrderStatus(HashMap<String, Object> map);
 	List<Order> updateRefundStatus(HashMap<String, Object> map);
+	List<Order> selectOrderComplete(HashMap<String, Object> map);
+	List<Order> selectOrderCompleteStudy(HashMap<String, Object> map);
 
 	
 }	
