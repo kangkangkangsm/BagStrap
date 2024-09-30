@@ -37,4 +37,6 @@ public interface CSCenterMapper {
 	int CountInqList(HashMap<String, Object> map);
 	
 	void insertInqAnswer(HashMap<String, Object> map);
+	
+	Notice Answerinfo(HashMap<String, Object> map);
 }

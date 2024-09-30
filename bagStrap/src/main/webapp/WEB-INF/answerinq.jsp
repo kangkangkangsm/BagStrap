@@ -36,7 +36,7 @@
 <body>
 	<div id="app">
 	<h1>답변</h1>
-<!-- 	번호:{{inquriyId}} -->
+	<!--번호:{{info.inquriyId}} -->
 		<form class="container">
 			
 			<label>답변:</label>
@@ -53,7 +53,7 @@
         data() {
             return {
 				isLogin : false,
-				inquiryId:'${inquriyId}',
+				inquiryId: '${inquiryId}',
 				message:"",
 				sessionUserId : '',
             };
@@ -64,7 +64,7 @@
 
 				    var nparam = {
 				    	inquiryId : self.inquiryId,
-				        message: self.message,
+				        answerMessage : self.message,
 				        userId: self.sessionUserId
 				    };
 				   
@@ -76,9 +76,9 @@
 				        success: function(data) {
 				        	console.log(data);
 				            alert(data.message);
-/* 				            if (data.result === "success") {
+ 				            if (data.result === "success") {
 				                location.href = "history"; 
-				            } */
+				            } 
 				        }
 				    });
 				},

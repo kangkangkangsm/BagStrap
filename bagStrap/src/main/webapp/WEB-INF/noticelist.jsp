@@ -8,44 +8,77 @@
 	<title>공지사항</title>
 </head>
 <style>
-	.list-item {
-		padding: 10px;
-		border-bottom: 1px solid #ccc;
+	body {
+	    font-family: 'Arial', sans-serif;
+	    background-color: #f4f4f4;
+	    color: #333;
+	    margin: 0;
+	    padding: 20px;
 	}
-	.list-item:last-child {
-		border-bottom: none;
+	h1 {
+	    text-align: center;
+	    margin-bottom: 20px;
+	    color: #2c3e50;
+	}
+	select {
+	    margin: 20px 0;
+	    padding: 10px;
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    font-size: 1em;
+	}
+	.list-item {
+	    background-color: white;
+	    padding: 15px;
+	    border-radius: 5px;
+	    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	    margin-bottom: 15px;
+	    transition: transform 0.2s;
+	}
+	.list-item:hover {
+	    transform: scale(1.02);
 	}
 	.list-item a {
-		text-decoration: none;
-		color: black;
+	    text-decoration: none;
+	    color: #2980b9;
+	    font-weight: bold;
 	}
-	.add-button{
-		padding: 10px 15px; /* 버튼 패딩 */
-		background-color: #007BFF; /* 버튼 배경색 */
-		color: white; /* 버튼 글자색 */
-		border: none; /* 테두리 없애기 */
-		border-radius: 5px; /* 모서리 둥글게 */
-		cursor: pointer; /* 커서 모양 변경 */
-		transition: background-color 0.3s; /* 배경색 전환 효과 */
+	.list-item a:hover {
+	    text-decoration: underline;
+	}
+	.add-button {
+	    padding: 10px 15px;
+	    background-color: #007BFF;
+	    color: white;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition: background-color 0.3s;
 	}
 	.add-button:hover {
-	    background-color: #0056b3; /* 호버 시 배경색 변화 */
+	    background-color: #0056b3;
 	}
 	.pagination {
-		margin-top: 20px;
-		text-align: center;
+	    margin-top: 20px;
+	    text-align: center;
 	}
 	.pagination button {
-		margin: 0 5px;
-		padding: 10px;
-		border: 1px solid #007BFF;
-		background-color: white;
-		color: #007BFF;
-		cursor: pointer;
+	    margin: 0 5px;
+	    padding: 10px;
+	    border: 1px solid #007BFF;
+	    background-color: white;
+	    color: #007BFF;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: background-color 0.3s;
+	}
+	.pagination button:hover {
+	    background-color: #007BFF;
+	    color: white;
 	}
 	.pagination button.active {
-		background-color: #007BFF;
-		color: white;
+	    background-color: #007BFF;
+	    color: white;
 	}
 </style>
 

@@ -188,7 +188,7 @@
 <body>
     <main class="main-container">
         <aside class="sidebar">
-            <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>  
+            <jsp:include page="/layout/header_sidebar3.jsp"></jsp:include>  
         </aside>
             <div id="app">
                 <div class="content">

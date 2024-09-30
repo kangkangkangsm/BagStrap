@@ -484,11 +484,6 @@
 			        alert("주민등록번호 앞자리는 6자리 숫자만 입력해야 합니다.");
 			        return;
 			    }
-			    var genderRegex = /^\d{1}$/;
-			    if(!genderRegex.test(self.gender)){
-			        alert("주민등록번호 뒷자리의 맨 앞자리는 숫자 한자리만 입력해야 합니다.");
-			        return; 
-			    }
 			    if (self.password !== self.confirmPassword) {
 			        self.passwordError = "비밀번호가 일치하지 않습니다."; // passwordError 설정
 			        return;
