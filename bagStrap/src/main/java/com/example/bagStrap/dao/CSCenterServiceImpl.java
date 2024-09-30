@@ -180,9 +180,13 @@ public class CSCenterServiceImpl implements CSCenterService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		try {
+			System.out.println(map);
 			CSMapper.insertInqAnswer(map);
+			System.out.println("test" + map);
+			
+			//resultMap.put("info", map.get("inquiryId"));
 			resultMap.put("result", "success");
-			resultMap.put("message", "문의가 접수되었습니다.");
+			resultMap.put("message", "답변완료.");
 		} catch (Exception e) {
 			// TODO: handle exception
 			resultMap.put("result", "fail");
@@ -191,5 +195,26 @@ public class CSCenterServiceImpl implements CSCenterService{
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> searchAnswerInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			System.out.println(map);
+			Notice notice=CSMapper.Answerinfo(map);
+			System.out.println(map);
+			
+			resultMap.put("info", notice);
+			
+			resultMap.put("result", "success");
+			resultMap.put("message", "검색되었습니다.");
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			resultMap.put("result", "fail");
+			resultMap.put("message", "예기치 못한 문제가 발생했습니다. \n나중에 다시 시도해주세요.");
+		}
+		return resultMap;
+	}
 
 }

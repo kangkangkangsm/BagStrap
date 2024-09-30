@@ -67,8 +67,17 @@ public class CSCenterController {
     }
 	
 	@RequestMapping("/answerinq") 
-    public String answerinq(Model model) throws Exception{
-         return "answerinq";
+    public String answerinq(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		System.out.println(map);
+		request.setAttribute("inquiryId", map.get("inquiryId"));
+        return "answerinq";
+    }
+	
+	@RequestMapping("/answerdetail") 
+    public String answerdetail(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		 System.out.println(map);
+		 request.setAttribute("inquiryId", map.get("inquiryId"));
+         return "answerdetail";
     }
 	
 	@RequestMapping("/cslist") 
@@ -196,6 +205,17 @@ public class CSCenterController {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		System.out.println(map);
 		resultMap=csService.addInqAnswer(map);
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/answer-detail.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String AnswerDetail( Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println(map);
+		resultMap=csService.searchAnswerInfo(map);
 
 		return new Gson().toJson(resultMap);
 	}

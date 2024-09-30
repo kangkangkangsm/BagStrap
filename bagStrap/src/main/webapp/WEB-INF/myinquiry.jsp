@@ -10,7 +10,7 @@
 <style>
 	table {
 		margin: 20px auto;
-		width: 80%;
+		width: auto;
 	}
 	td > a, li > a {
 		color: black;
@@ -32,7 +32,7 @@
 				<th>제목</th>
 				<th>내용</th>
 				<th>작성일</th>
-				<th>상태</th>
+				<th>답변</th>
 				<th>삭제</th>
 			</tr>
 			<tr v-for="item in list" :key="item.inquiryId">
@@ -40,7 +40,10 @@
 					<input type="checkbox" v-model="selectItem" :value="item.inquiryId">
 				</td>
 				<td>{{item.title}}</td>
-				<td>{{item.message}}</td>
+				<td>
+					<a href="#" @click="fnView(item.inquiryId)">
+					{{item.message}}</a>(답변 완료시 내용 클릭)
+				</td>
 				<td>{{item.createdDateFormatted}}</td>
 				<td>{{item.answer}}</td>
 				<td>
@@ -139,6 +142,9 @@
 						self.fnGetList();
 					}
 				});
+			},
+			fnView(inquiryId){
+				$.pageChange("answerdetail",{inquiryId: inquiryId});
 			}
         },
         mounted() {

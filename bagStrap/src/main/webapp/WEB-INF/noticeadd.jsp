@@ -49,7 +49,7 @@
                     content: "",
 					sessionUserId : '',
 					sessionUserNickName : '',
-					quill : null,
+					
                 };
             },
             methods: {
@@ -98,7 +98,7 @@
                 this.fnSession();
 
                 // Quill 에디터 초기화
-                self.quill = new Quill('#editor', {
+                var quill = new Quill('#editor', {
                     theme: 'snow',
                     modules: {
                         toolbar: [

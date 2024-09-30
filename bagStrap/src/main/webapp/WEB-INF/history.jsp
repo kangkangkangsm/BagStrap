@@ -9,7 +9,7 @@
 </head>
 <style>
 	table {
-		margin: 20px auto;
+		margin: auto;
 		width: auto;
 	}
 	td > a, li > a {
@@ -55,8 +55,8 @@
 				<th>내용</th>
 				<th>작성자</th>
 				<th>작성일</th>
-				<th>상태</th>
-				<th>수정</th>
+				<th>처리</th>
+				<th>수정/변경</th>
 				<th>답변</th>
 			</tr>
 			<tr v-for="item in list" :key="item.inquiryId">
