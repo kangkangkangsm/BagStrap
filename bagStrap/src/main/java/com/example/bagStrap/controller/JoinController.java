@@ -133,7 +133,7 @@ public class JoinController {
 	 */
 
 	
-	@RequestMapping(value = "/NickUpdate.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/NickUpdate1.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String NickUpdate1(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<>();
@@ -142,16 +142,44 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	@RequestMapping(value = "/deleteQuit.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/deleteQuit1.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String delete(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		HashMap<String, Object> resultMap = new HashMap<>();
-		resultMap = joinService.QuitId(map);
-		System.out.println("resultMap6 : " + resultMap);
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserId() != null) {
+				map.put("userId", user.getUserId());
+			resultMap = joinService.QuitId(map);
+			} else {
+				
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin2", false);
+		}
+
 		return new Gson().toJson(resultMap);
 	}
 	
-	
+	@RequestMapping(value = "/recheckPassword.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String recheck(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserId() != null) {
+				map.put("userId", user.getUserId());
+				map.put("password", user.getPassword());
+			resultMap = joinService.PasswordCheck(map);
+			} else {
+				
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin3", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 	
 }	
 	

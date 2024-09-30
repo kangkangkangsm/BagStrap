@@ -9,8 +9,8 @@
 	
 	<insert id="joinInsert" parameterType="hashmap">
 		INSERT INTO TBL_USER 
-		(USER_NO,USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
-		VALUES (user_no_seq_NEXTVAL,#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
 	</insert>
 	
 	<!--아이디 중복검사-->
@@ -37,22 +37,22 @@
 
 	<!--마이페이지 정보 불러오기-->
 	<select id="myInfoList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
-		SELECT u.user_id, u.user_name, u.user_nickname, u.email, u.phone, u.birth , a.address, a.address_Detail, a.zonecode
+		SELECT u.user_id, u.user_name, u.user_nickname, u.email, u.phone, u.birth , a.address, a.address_Detail, a.zonecode, a.defaultyn
 		FROM tbl_user u
 		JOIN tbl_address a ON u.user_id = a.user_id
-		WHERE u.user_id = #{userId}
+		WHERE u.user_id = #{userId} AND a.defaultyn = 'Y'
 	</select>
 
 	<!--업데이트-->
 	<update id="addressUpdate" parameterType="hashmap">
 		UPDATE TBL_ADDRESS
 		SET ADDRESS = #{address}, ZONECODE = #{zonecode}, ADDRESS_DETAIL = #{addressDetail}
-		WHERE USER_ID = #{userId}
+		WHERE USER_ID = #{userId} AND defaultyn = 'Y'
 	</update>
 	
 	<update id="nickUpdate" parameterType="hashmap">
 		UPDATE TBL_USER
-		SET USER_NICKNAME=#{userNickName}
+		SET USER_NICKNAME = #{userNickName}
 		WHERE USER_ID = #{userId}
 	</update>
 	
@@ -61,6 +61,13 @@
 		SET USER_NICKNAME='0'
 		WHERE USER_ID = #{userId}
 	</update>
+	
+	<!--탈퇴시 비밀번호 일치 확인-->
+	<select id="confirmPassword" parameterType="hashmap">
+		SELECT COUNT(*) AS count
+		FROM TBL_USER
+		WHERE USER_ID=#{userId} AND PASSWORD=#{password}
+	</select>
 	
 </mapper>
 

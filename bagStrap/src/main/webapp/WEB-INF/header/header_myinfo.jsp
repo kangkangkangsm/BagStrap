@@ -14,9 +14,58 @@
 			outline:none;
 			background-color:white;
 		}
+		table {
+			width:80%;
+			border-collapse:collapse;
+			margin:auto;
+			
+		}
+		td {
+			border:1px solid black;
+			padding: 10px;
+			
+		}
+		td:first-child {
+			text-align:center;
+			vertical-align:middle;
+			background-color:#F0F0F0;
+			color:black;
+		}
+		.small-input {
+			width:50px;
+		}
+		.small2-input {
+			width:163px;
+		}
+		.phone-margin {
+			margin-right:10px;
+		}
+		.zone-input {
+			width:30px;
+		}
+		.addr-input {
+			width:230px;
+		}
+		button {
+			background-color:#FF8C00;
+			color:white;
+			border:none;
+			border-radius:4px;
+		}
 		
-		
-		
+		button:hover {
+			background-color:#FFA726;
+			color:black;
+		}
+		.save-margin {
+			margin-right:5px;
+		}
+		.input-size {
+			width:40px;
+		}
+		.input-size2 {
+			width:300px;
+		}
 	</style>
 </head>
 <body>
@@ -29,50 +78,69 @@
 	        <div class="content">
 				<div id="app">
 					<div>
-						<div>
-							아이디<input type="text" v-model="userList.userId" class="hidden-border" disabled>
-					    </div>
-					    <div>
-					        이름<input type="text" v-model="userList.userName" class="hidden-border" disabled>
-					    </div>
-						<div>
-							닉네임
-							<template v-if=!NickView>						       
-								<input type="text" v-model="userList.userNickName" class="hidden-border" disabled>
-							</template>
-							<template v-else>
-								<input type="text" v-model="userList.userNickName">
-								<button @click="fnNickUpdate">저장</button><button @click="NickView=!NickView">취소</button>
-							</template>
-							<button @click="NickView=!NickView">변경하기</button>
-					    </div>
-						<div>
-							이메일<input type="email" v-model="userList.email" class="hidden-border" disabled>
-						</div>
-					    <div>
-					        주소
-							<template v-if="!addressView">
-								<input type="text" v-model="userList.zonecode" class="hidden-border" disabled><br>
-								<input type="text" v-model="userList.address" class="hidden-border"disabled><br>
-								<input type="text" v-model="userList.addressDetail" class="hidden-border" disabled>
-							</template>
-							<template v-else>
-								<input type="text" v-model="userList.zonecode"><button type="button" @click="fnAddr">주소검색</button><br>
-								<input type="text" v-model="userList.address"><br>
-								<input type="text" v-model="userList.addressDetail">
-								<button @click="fnUpdate">저장</button> <button @click="addressView=!addressView">취소</button>	
-							</template>
-							<button v-if="!addressView" @click="addressView=!addressView">변경하기</button>
-						</div>
-						<div v-if="aaa == ''">
-							<input placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone">
-							<button @click='makeConfirmNumbAndSendMessage'>휴대폰인증</button>
-						</div>
-						<div v-else>
-							<div>인증만료시간: {{timer}}</div>
-							<input placeholder="인증번호를 입력해주세요" v-model="userInputNumb">
-							<button @click='confirmInputNumb'>인증하기</button>
-						</div>
+						<table>
+						    <tr>
+						        <td>아이디</td>
+						        <td><input type="text" v-model="userList.userId" class="hidden-border" disabled></td>
+						    </tr>
+						    <tr>
+						        <td>이름</td>
+						        <td><input type="text" v-model="userList.userName" class="hidden-border" disabled></td>
+						    </tr>
+						    <tr>
+						        <td>닉네임</td>
+						        <td>
+						            <template v-if="!NickView">
+						                <input type="text" v-model="userList.userNickName" class="hidden-border small-input" disabled>
+						            </template>
+						            <template v-else>
+						                <input type="text" v-model="userList.userNickName" class="save-margin">
+						                <button @click="fnNickUpdate" class="save-margin">저장</button>
+						                <button @click="NickView=!NickView" class="save-margin">취소</button>
+						            </template>
+						            <button @click="NickView=!NickView">변경하기</button>
+						        </td>
+						    </tr>
+						    <tr>
+						        <td>이메일</td>
+						        <td><input type="email" v-model="userList.email" class="hidden-border" disabled></td>
+						    </tr>
+						    <tr>
+						        <td>주소</td>
+						        <td>
+						            <template v-if="!addressView">
+						                <input type="text" v-model="userList.zonecode" class="hidden-border zone-input" disabled><br>
+						                <input type="text" v-model="userList.address" class="hidden-border addr-input" disabled><br>
+						                <input type="text" v-model="userList.addressDetail" class="hidden-border small2-input" disabled>
+						            </template>
+						            <template v-else>
+						                <input type="text" v-model="userList.zonecode" class="save-margin input-size">
+						                <button type="button" @click="fnAddr" class="save-margin">주소검색</button><br>
+						                <input type="text" v-model="userList.address" class="input-size2"><br>
+						                <input type="text" v-model="userList.addressDetail" class="save-margin input-size2">
+						                <button @click="fnUpdate" class="save-margin">저장</button>
+						                <button @click="addressView=!addressView" class="save-margin">취소</button>
+						            </template>
+						            <button v-if="!addressView" @click="addressView=!addressView">변경하기</button>
+						        </td>
+						    </tr>
+						    <tr v-if="aaa == ''">
+						        <td>핸드폰 번호</td>
+						        <td>
+						            <input class="phone-margin" placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone">
+						            <button @click='makeConfirmNumbAndSendMessage'>휴대폰인증</button>
+						        </td>
+						    </tr>
+						    <tr v-else>
+						        <td>인증번호</td>
+						        <td>
+						            <div>인증만료시간: {{timer}}</div>
+						            <input placeholder="인증번호를 입력해주세요" v-model="userInputNumb">
+						            <button @click='confirmInputNumb'>인증하기</button>
+						        </td>
+						    </tr>
+						</table>
+
 					</div>
 				</div>
 			</div>
@@ -115,7 +183,7 @@
             fnGetList(){
 				var self = this;
 				var nparmap = {
-					
+					userId:self.userList.userId
 				};
 				$.ajax({
 					url:"/myinfo.dox",
@@ -124,12 +192,19 @@
 					data : nparmap,
 					success : function(data) {
 						console.log("AJAX 응답 데이터:")
-						console.log(data); 
-						   self.userList = data.userList;
-						   
-					}
-				});
-           },
+						console.log(data);
+						console.log(data.userList); 
+						if (data.userList) {
+				                self.userList = data.userList[0]; // userList가 유효한지 확인
+				            } else {
+				                console.error("userList가 존재하지 않습니다.");
+				            }
+				        },
+				        error: function(xhr, status, error) {
+				            console.error("AJAX 요청 실패:", status, error);
+				        }
+				    });
+				},
 		   fnUpdate(){
 			var self = this;
 			var nparmap = {
@@ -207,22 +282,25 @@
 				fnNickUpdate() {
 					var self = this;
 					var nparam = {
-						
+						userId:self.userList.userId,
+						userNickName:self.userList.userNickName
 					};
+					
 					$.ajax({
-						url:"/NickUpdate.dox",
+						url:"/NickUpdate1.dox",
 						dataType:"json",	
 						type : "POST", 
-						data : nparmap,
+						data : nparam,
 						success : function(data) {
-							console.log("AJAX 응답 데이터1:", data); 
+							console.log("AJAX 응답 데이터2:", data);
+							console.log(data.userList); 
+							console.log("닉네임 업데이트 데이터:", nparam);
 							if(data.result == 'success'){
 								self.NickView = false;
 								} else {
 								self.NickView = true;
 								}
-								alert(data.message);
-										   
+								alert(data.message);			   
 						}
 					});
 				}

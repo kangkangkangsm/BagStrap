@@ -128,7 +128,7 @@ public class JoinServiceImpl implements JoinService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
-			User list = joinMapper.myInfoList(map);
+			List<User> list	 = joinMapper.myInfoList(map);
 			resultMap.put("result", "success");
 			resultMap.put("messsage", "마이인포성공!!");
 			resultMap.put("userList", list);
@@ -160,12 +160,16 @@ public class JoinServiceImpl implements JoinService{
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
+			System.out.println("map11 : " + map);
 			joinMapper.nickUpdate(map);
+			System.out.println("map12 : " + map);
 			resultMap.put("result", "success");
 			resultMap.put("message","닉네임업데이트성공!!");
 		}catch(Exception e) {
+			System.err.println("예외 발생: " + e.getMessage());
 			resultMap.put("result", "fail");
 			resultMap.put("message", "닉네임업데이트실패!!");
+			e.printStackTrace();
 		}
 		return resultMap;
 	}
@@ -183,10 +187,30 @@ public class JoinServiceImpl implements JoinService{
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
 			resultMap.put("message", "회원탈퇴실패!!");
+			e.printStackTrace();
 		}
 		return resultMap;
 	}
 
-	
- 
+	@Override
+	public HashMap<String, Object> PasswordCheck(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			System.out.println("map13" + map);
+			int count3 = joinMapper.confirmPassword(map);
+			System.out.println("map14" + map);
+			if(count3>0) {
+				resultMap.put("result", "success");
+				resultMap.put("message", "비밀번호가 일치합니다.");
+			} else {
+				resultMap.put("result", "fail");
+				resultMap.put("message", "비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+			}
+		}catch(Exception e) {
+			resultMap.put("result", "fail");  
+	        resultMap.put("message", "서버 오류가 발생했습니다.");
+		}
+		return resultMap;
+	}
 }

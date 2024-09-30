@@ -21,11 +21,14 @@ public interface JoinMapper {
 	/*주소추가*/
 	void addressInsert(HashMap<String, Object> map);
 	
-	User myInfoList(HashMap<String, Object> map);
+	List<User> myInfoList(HashMap<String, Object> map);
 	
 	void addressUpdate(HashMap<String, Object> map);
 	
 	void nickUpdate(HashMap<String, Object> map);
 	
 	void deleteQuit(HashMap<String, Object> map);
+	
+	/* 탈퇴시 비밀번호 일치 확인 */
+	int confirmPassword (HashMap<String, Object> map);
 }
