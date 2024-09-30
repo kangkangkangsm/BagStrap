@@ -293,9 +293,11 @@
 		                        <div><a href="#" @click="fnUserboard(viewList.author,viewList.userNickName)"><strong>{{viewList.userNickName}} 님</strong></a></div>
 		                        <div><a href="#" @click="fnUserboard(viewList.author,viewList.userNickName)">{{viewList.createdDate}} 조회 : {{viewList.views}}</a></div>
 		                    </div>
+		                    <!-- 좋아요 버튼을 하트 아이콘으로 변경 -->
+		                    <button @click="fnLikeCheck(viewList.boardId,'게시글')" style="background: none; border: none; cursor: pointer; font-size: 24px; color: red;">&#10084; {{viewList.likeCnt}}</button>
 		                    <!-- 드롭다운 버튼 시작 -->
 		                    <div class="dropdown">
-		                        <button class="dropdown-button">⋮</button>
+		                        <button class="dropdown-button" style="background:#F1F1F1; color:black;" >⋮</button>
 		                        <div class="dropdown-content">
 		                            <button @click="fnInsertBoard()">글쓰기</button>
 		                            <button @click="fnBack()">목록</button>
@@ -311,8 +313,6 @@
 		                            </template>
 		                        </div>
 		                    </div>
-		                    <!-- 좋아요 버튼을 하트 아이콘으로 변경 -->
-		                    <button @click="fnLikeCheck(viewList.boardId,'게시글')" style="background: none; border: none; cursor: pointer; font-size: 24px; color: red;">&#10084; {{viewList.likeCnt}}</button>
 		                </div>
 		            </div>
 
@@ -1006,6 +1006,11 @@
             var self = this;
             self.fnView();
             self.fnSession();
+			
+	// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+	        window.addEventListener('loginStatusChanged', function () {
+	            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+	        });
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	

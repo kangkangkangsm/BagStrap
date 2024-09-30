@@ -455,6 +455,10 @@
         },
         mounted() {
             var self = this;
+			// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+			        window.addEventListener('loginStatusChanged', function () {
+			            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+			        });
             window.addEventListener('loginStatusChanged', function(){
                 if(window.sessionStorage.getItem("isLogin") === 'true'){
                     self.isLogin = true;	

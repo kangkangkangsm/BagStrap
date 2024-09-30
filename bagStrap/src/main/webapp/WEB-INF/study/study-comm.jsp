@@ -29,7 +29,7 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 30px;
+        margin-bottom: 5px;
     }
 
     .content .page-header div {
@@ -42,7 +42,7 @@
     .post-count {
         display: flex;
         align-items: center;
-      margin-bottom : -30px;
+     
     }
 
     .post-count label {
@@ -118,7 +118,7 @@
 
     .stu-comm-list-table th, .stu-comm-list-table td {
         padding: 15px 20px;
-        text-align: left;
+        text-align: center;
     }
 
     .stu-comm-list-table th {
@@ -221,6 +221,8 @@
 				<div style="font-size:23px;" v-if="name2">{{name2}}</div>
 				<div style="font-size:23px;" v-else>{{name}}</div>
 				<!-- 게시물 수 선택 -->
+			</div>	
+			<div class="page-header">
 				<div class="post-count">
 					<label for="pageSize" style="font-size:20px;">게시물 수:</label>
 					<select id="pageSize" v-model="pageSize" @change="fnboardList(1)">
@@ -247,7 +249,8 @@
 					<option value="author">작성자</option>
 				</select>
 				<input type="text" v-model="search" placeholder="검색어를 입력하세요" @keyup.enter="fnboardList(1)">
-				<button @click="fnboardList()">검색</button>
+				<button @click="fnboardList()" style="background:#343A40">검색</button>
+				<button @click="fnInsertComm()" style="background:#343A40">글쓰기</button>
 			</div>
 
 			<!-- 게시물 목록 테이블 -->
@@ -323,11 +326,11 @@
 
 			<!-- 페이징 -->
 			<div class="stu-comm-list-pagination">
-			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
-			    <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnboardList(page)">
+			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1"style="color:#343A40">이전</button>
+			    <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnboardList(page)" style="color:#343A40">
 			        {{ page }}
 			    </button>
-			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages">다음</button>
+			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages" style="color:#343A40">다음</button>
 			</div>
 		</div>
 	</main>
@@ -446,12 +449,27 @@
 			fnUserboard(author, userNickName) {
 				$.pageChange("/study-comm-myboard", { author: author, itemMode: "board", userNickName: userNickName });
 			},
+			fnInsertComm(){
+				var self = this;
+				if(!self.isLogin){
+					alert("로그인 먼저 하세요.");
+					document.getElementById('headerLoginModal').showModal();
+					document.getElementById('inputId').focus();
+					
+				}else{
+				location.href="commInsert"					
+				}
+			},
         },
         mounted() {
             var self = this;
 			self.fnboardList(1);
 			self.fnboardtypeList();
 			self.fnSession();
+	// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+	        window.addEventListener('loginStatusChanged', function () {
+	            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+	        });
 			window.addEventListener('loginStatusChanged', function() {
 				if (window.sessionStorage.getItem("isLogin") === 'true') {
 					self.isLogin = true;
