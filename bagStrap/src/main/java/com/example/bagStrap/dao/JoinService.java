@@ -25,4 +25,6 @@ public interface JoinService {
 	HashMap<String, Object> updateNickName(HashMap<String, Object> map);
 	
 	HashMap<String, Object> QuitId(HashMap<String, Object> map);
+	
+	HashMap<String, Object> PasswordCheck(HashMap<String, Object> map);
 }

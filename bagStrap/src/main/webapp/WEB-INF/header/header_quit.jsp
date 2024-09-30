@@ -9,6 +9,17 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
+		.content {
+			
+		}
+		button {
+			background-color:#FF8C00;
+			border:none;
+			color:white;
+		}
+		button:hover {
+			background-color:#FFA726;
+		}
 	</style>
 </head>
 <body>
@@ -20,7 +31,12 @@
 
 	        <div class="content">
 				<div id="app">
-					<button @click="fnDeleteUp">탈퇴하기</button>
+					<div class=content>
+						<div>정말로 떠나시는 건가요?</div>
+						<div>본인 확인을 위해 비밀번호를 입력한 후, <strong>"탈퇴하기"</strong> 버튼을 눌러주세요.</div>
+						<div><input type="password"></div>
+						<button @click="fnConfrimPw">탈퇴하기</button>
+					</div>
 				</div>
 			</div>
 	    </main>
@@ -35,24 +51,45 @@
     const app = Vue.createApp({
         data() {
             return {
-				
+				userId: '',
+				password:''
 			};
         },
         methods: {
+			fnConfrimPw() {
+				var self=this;
+				var nparam={
+					userId:self.userId,
+					password:self.password
+				};
+				$.ajax({
+					url:"/recheckPassword.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparam,
+					success : function(data) {
+						console.log("AJAX 응답 데이터4:", data); 
+						if(data.result == 'success'){
+							alert("정말로 탈퇴하시겠습니까?");
+							self.fnDeleteUp();
+							alert(data.message); 
+						}
+					}
+				});
+			},
 		   fnDeleteUp(){
 			var self = this;
 			var nparmap = {
-				
+				userId:self.userId
 			};
 			$.ajax({
-				url:"/deleteQuit.dox",
+				url:"/deleteQuit1.dox",
 				dataType:"json",	
 				type : "POST", 
 				data : nparmap,
 				success : function(data) {
-					console.log("AJAX 응답 데이터1:", data); 
+					console.log("AJAX 응답 데이터3:", data); 
 					if(data.result == 'success'){
-						alert("정말로 탈퇴하시겠습니까?");
 						alert(data.message); 
 					}
 				}
@@ -62,6 +99,7 @@
 			
         mounted() {
             var self = this;
+			self.fnConfrimPw();
         }
     });
     app.mount('#app');
