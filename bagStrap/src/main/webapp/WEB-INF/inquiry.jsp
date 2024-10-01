@@ -8,29 +8,56 @@
 	<title>문의하기</title>
 </head>
 <style>
+	body {
+	    font-family: 'Roboto', sans-serif; /* 깔끔한 폰트 */
+	    background-color: #f4f7fa; /* 부드러운 배경색 */
+	    color: #333; /* 기본 텍스트 색상 */
+	    margin: 0;
+	    padding: 20px;
+	}
+
 	.container {
-		  opacity: 1;
-		  margin-top: 50px;
-		  padding-left: 100px;
-		  padding-right: 100px;
+	    opacity: 1;
+	    margin: 50px auto; /* 중앙 정렬 */
+	    padding: 30px; /* 내부 패딩 추가 */
+	    max-width: 600px; /* 최대 너비 설정 */
+	    background-color: #fff; /* 흰색 배경 */
+	    border-radius: 8px; /* 둥근 모서리 */
+	    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 	}
+
+	h1 {
+	    text-align: center; /* 제목 중앙 정렬 */
+	    color: #4a90e2; /* 제목 색상 */
+	    margin-bottom: 20px; /* 제목과 폼 간의 간격 */
+	}
+
 	input, select, textarea {
-		width: 100%;
-		padding: 10px;
-		margin: 10px 0;
-		border: 1px solid #ccc;
-		border-radius: 4px;
+	    width: 100%;
+	    padding: 10px;
+	    margin: 10px 0;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    transition: border-color 0.3s; /* 경계선 색상 부드러운 전환 */
 	}
+
+	input:focus, select:focus, textarea:focus {
+	    border-color: #4a90e2; /* 포커스 시 경계선 색상 변화 */
+	}
+
 	button {
-		background-color: #5cb85c;
-		color: white;
-		padding: 10px 15px;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
+	    background-color: #5cb85c;
+	    color: white;
+	    padding: 10px 15px;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    width: 100%; /* 버튼 전체 너비 사용 */
+	    transition: background-color 0.3s; /* 배경색 부드러운 전환 */
 	}
+
 	button:hover {
-		background-color: #4cae4c;
+	    background-color: #4cae4c; /* 호버 시 어두운 색상 */
 	}
 </style>
 <body>

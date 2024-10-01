@@ -9,7 +9,7 @@
 </head>
 <style>
 	body {
-	    font-family: 'Arial', sans-serif;
+	    font-family: 'Roboto', sans-serif;
 	    background-color: #f4f7fa; /* 부드러운 배경색 */
 	    color: #333; /* 기본 텍스트 색상 */
 	    margin: 0;
