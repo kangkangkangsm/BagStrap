@@ -680,10 +680,7 @@
 <body>
    <div id="app">
       <main class="main-container">
-           <aside class="sidebar">
-         <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
-           </aside>
-         <div class="study-mygroup-detail2-content">
+         <div class="content">
              <div class="study-mygroup-detail2-container">
                  <!-- 사이드바 시작 -->
 				 <div class="study-mygroup-detail2-sidebar">

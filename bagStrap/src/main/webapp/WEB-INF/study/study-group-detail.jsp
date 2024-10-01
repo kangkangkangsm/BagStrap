@@ -249,10 +249,6 @@
 </head>
 <body>
     <main class="main-container">
-        <aside class="sidebar">
-            <jsp:include page="/layout/study-sidebar.jsp"></jsp:include>
-        </aside>
-
         <div id="app" class="content">
             <div class="stu-group-detail">
               
@@ -306,10 +302,8 @@
 					<template v-if="detailList.applyY == detailList.maxparticipants">
 			         <button class="join-btn" style="background:gray;">인원 마감</button>
 					</template>
-                    <button class="share-btn" @click="shareGroup">공유하기</button>
+                    <button class="back-btn" @click="fnBack()">돌아가기</button>
                 </div>
-                <div class="back-btn" @click="fnBack()">돌아가기</div>
-            </div>
 		</template>
 		<template v-if="applyMode ==='Y'">
 			<div class="application-form">
@@ -327,7 +321,10 @@
 			            <label for="additionalQuestions">추가 질문 (선택 사항):</label>
 			            <textarea id="additionalQuestions" name="additionalQuestions" v-model="additionalQuestions" placeholder="궁금한 사항이 있다면 작성해주세요." class="form-control"></textarea>
 			        </div>
-			        <button @click="fnJoinSubscription(detailList.studyGroupId,selfIntro,studyGoal,additionalQuestions)">참가 신청하기</button>
+					<div class="buttons">
+					<button class="join-btn" @click="fnJoinSubscription(detailList.studyGroupId,selfIntro,studyGoal,additionalQuestions)">참가 신청하기</button>
+					<button class="back-btn" @click="fncancle()">취소하기</button>
+					</div>
 			</div>
 		</template>
 		</div>
@@ -350,6 +347,10 @@
                 };
             },
             methods: {
+				fncancle(){
+					var self = this;
+					self.applyMode = 'N';
+				},
 			     fnJoinSubscription(studyGroupId,selfIntro,studyGoal,additionalQuestions){
 					  var self = this;
 					  if (!self.selfIntro) {
