@@ -9,7 +9,7 @@
 </head>
 <style>
 	body {
-	    font-family: 'Arial', sans-serif;
+	    font-family: 'Roboto', sans-serif;
 	    background-color: #f4f4f4;
 	    color: #333;
 	    margin: 0;
@@ -139,15 +139,15 @@
 				var self = this;
 				self.pageSize = self.selectSize;
 				self.currentPage = page;
-				var startIndex = (page-1) * self.pageSize;
-				var outputNumber = self.pageSize;
+				var startIndex = (page-1) * self.selectSize;
+				var outputNumber = self.selectSize;
 				
 				var nparmap = {
 					author: self.sessionId,
 					startIndex: startIndex,
 					outputNumber: outputNumber,
 				};
-				//console.log(nparmap); // 확인용
+				
 				$.ajax({
 					url:"notice-list.dox",
 					dataType:"json",	
@@ -156,7 +156,7 @@
 					success : function(data) { 
 						console.log(data);
 						self.list = data.list;	
-						self.totalPages = Math.ceil(data.count/self.pageSize); //올림, 동적 생성 
+						self.totalPages = Math.ceil(data.count/self.selectSize); //올림, 동적 생성 
 						
 					}
 				});

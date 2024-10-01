@@ -8,17 +8,61 @@
 	<title>내 문의</title>
 </head>
 <style>
+	body {
+	    font-family: 'Roboto', sans-serif; /* 깔끔한 폰트 */
+	    background-color: #f4f7fa; /* 부드러운 배경색 */
+	    color: #333; /* 기본 텍스트 색상 */
+	    margin: 0;
+	    padding: 20px;
+	}
+
+	h1 {
+	    text-align: center; /* 제목 중앙 정렬 */
+	    color: #4a90e2; /* 제목 색상 */
+	    margin-bottom: 20px; /* 제목과 버튼 간의 간격 */
+	}
+
+	button {
+	    background-color: #5cb85c; /* 버튼 기본 색상 */
+	    color: white; /* 버튼 텍스트 색상 */
+	    padding: 10px 15px; /* 버튼 패딩 */
+	    border: none; /* 테두리 없음 */
+	    border-radius: 4px; /* 둥근 모서리 */
+	    cursor: pointer; /* 포인터 커서 */
+	    margin-bottom: 20px; /* 버튼과 테이블 간의 간격 */
+	    display: block; /* 버튼을 블록 요소로 */
+	    width: 100%; /* 전체 너비 사용 */
+	    max-width: 200px; /* 최대 너비 설정 */
+	    margin: 0 auto; /* 중앙 정렬 */
+	}
+
+	button:hover {
+	    background-color: #4cae4c; /* 호버 시 어두운 색상 */
+	}
+
 	table {
-		margin: 20px auto;
-		width: auto;
+	    margin: 20px auto; /* 테이블 중앙 정렬 */
+	    width: 90%; /* 테이블 너비 설정 */
+	    border-collapse: collapse; /* 테두리 합치기 */
 	}
-	td > a, li > a {
-		color: black;
+
+	th, td {
+	    border: 1px solid #ccc; /* 연한 테두리 */
+	    padding: 10px; /* 패딩 */
+	    text-align: center; /* 텍스트 중앙 정렬 */
 	}
-	table, tr, th, td {
-		border: 1px solid black;
-		padding: 5px 5px;
-		border-collapse: collapse;
+
+	th {
+	    background-color: #e0f7fa; /* 헤더 배경색 */
+	}
+
+	td > a {
+	    color: #007bff; /* 링크 색상 */
+	    text-decoration: none; /* 밑줄 없음 */
+	}
+
+	td > a:hover {
+	    text-decoration: underline; /* 호버 시 밑줄 */
 	}
 </style>
 

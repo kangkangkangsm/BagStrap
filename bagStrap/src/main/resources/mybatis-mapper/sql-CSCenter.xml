@@ -45,7 +45,7 @@
 		    END AS createdDateFormatted
 		FROM tbl_notice n
 		inner join tbl_user u on n.author=u.user_id
-		order by n.created_at desc
+		order by n.created_at desc, n.notice_id desc
 		offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
 	</select>
 	

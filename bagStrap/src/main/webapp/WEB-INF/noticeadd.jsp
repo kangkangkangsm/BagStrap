@@ -9,17 +9,60 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <title>공지사항 추가</title>
     <style>
-        table {
-            margin: 20px;
-        }
-        table, tr, th, td {
-            border: 1px solid black;
-            padding: 5px 5px;
-            border-collapse: collapse;
-        }
-        #editor {
-            height: 300px;
-        }
+		body {
+		    font-family: 'Roboto', sans-serif;
+		    background-color: #f4f6f9; /* 부드러운 배경색 */
+		    color: #333;
+		    margin: 0;
+		    padding: 20px;
+		}
+
+		h1 {
+		    text-align: center;
+		    color: #2c3e50; /* 제목 색상 */
+		    margin-bottom: 30px;
+		}
+
+		table {
+		    margin: 20px auto; /* 가운데 정렬 */
+		    width: 80%; /* 넓이 조정 */
+		    border-collapse: collapse; /* 경계선 조정 */
+		    background-color: #ffffff; /* 테이블 배경색 */
+		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+		    border-radius: 8px; /* 테이블 테두리 둥글게 */
+		}
+
+		th {
+		    background-color: #3498db; /* 헤더 색상 */
+		    color: white; /* 헤더 텍스트 색상 */
+		}
+
+		td {
+		    padding: 10px; /* 패딩 조정 */
+		}
+
+		#editor {
+		    height: 300px;
+		    border: 1px solid #ddd; /* 에디터 테두리 */
+		    border-radius: 5px; /* 에디터 둥글게 */
+		}
+
+		button {
+		    display: block;
+		    margin: 20px auto; /* 버튼 가운데 정렬 */
+		    padding: 10px 20px;
+		    background-color: #007BFF; /* 버튼 배경색 */
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease; /* 부드러운 호버 효과 */
+		    font-size: 1.1em; /* 버튼 글자 크기 */
+		}
+
+		button:hover {
+		    background-color: #0056b3; /* 버튼 호버 색상 */
+		}
     </style>
 </head>
 <body>
