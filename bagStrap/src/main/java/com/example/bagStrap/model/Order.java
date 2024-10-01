@@ -109,7 +109,8 @@ public class Order {
   		private String studyName;
   		private int applyCnt;
   		
-  		
+  		private Date createdAt;
+  		private Date updatedAt;
     public String getRejectComment() {
 		return rejectComment;
 	}

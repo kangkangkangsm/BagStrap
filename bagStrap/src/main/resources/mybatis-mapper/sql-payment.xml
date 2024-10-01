@@ -66,14 +66,34 @@
 		  </selectKey>
         
 	</insert>
-	<select id="selectBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-			<foreach item="item" collection="orderList" index="index" separator=" UNION ">
-				SELECT B.BOOK_ID, TITLE, DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK, CREATED_AT, UPDATED_AT, DISCOUNT, #{item.bookQuantity} AS ORDER_QUANTITY 
-				FROM TBL_BOOK B
-				WHERE 
-	    		(BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
-	    	</foreach>
-	</select>
+	
+<resultMap id="clobDataResult" type="com.example.bagStrap.model.Order">
+    <result property="bookId" column="BOOK_ID"/>
+    <result property="title" column="TITLE"/>
+    <result property="description" column="DESCRIPTION" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <result property="author" column="AUTHOR"/>
+    <result property="publisher" column="PUBLISHER"/>
+    <result property="price" column="PRICE"/>
+    <result property="image" column="IMAGE"/>
+    <result property="quantity" column="QUANTITY"/>
+    <result property="category" column="CATEGORY"/>
+    <result property="ebook" column="EBOOK"/>
+    <result property="createdAt" column="CREATED_AT"/>
+    <result property="updatedAt" column="UPDATED_AT"/>
+    <result property="discount" column="DISCOUNT"/>
+    <result property="orderQuantity" column="ORDER_QUANTITY"/>
+</resultMap>
+
+<select id="selectBookList" parameterType="map" resultMap="clobDataResult">
+    <foreach item="item" collection="orderList" index="index" separator=" UNION ">
+        SELECT B.BOOK_ID, TITLE, DBMS_LOB.SUBSTR(DESCRIPTION, 1, 4000) AS DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK, CREATED_AT, UPDATED_AT, DISCOUNT, #{item.bookQuantity} AS ORDER_QUANTITY 
+        FROM TBL_BOOK B
+        WHERE 
+            (BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
+    </foreach>
+</select>
+
+
 	
 	<update id="updateBookTable" parameterType="hashmap">
 			UPDATE TBL_BOOK
@@ -175,7 +195,7 @@
 					WHERE R.REFUND_ID = #{refundId} AND RI.STATUS = '승인됨'
 	</select>
 	<select id="selectOrderComplete" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-				SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, O.STATUS, ARRIVED_DATE, B.TITLE, OI.PRICE, OI.QUANTITY, B.IMAGE, B.CATEGORY
+				SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, O.STATUS, ARRIVED_DATE, B.TITLE, OI.PRICE, OI.QUANTITY, B.IMAGE, B.CATEGORY, B.BOOK_ID
 				FROM
 				    (SELECT *
 				     FROM
@@ -191,20 +211,17 @@
 				SELECT * 
 				FROM
 				    (SELECT *
-				    FROM TBL_STUDY_GROUP
+				    FROM TBL_STUDY_GROUP G
+			        INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
 				    WHERE
 				    SUBJECT_TYPE_ID IN  
     				<foreach item="item" collection="categories" open="(" close=")" separator=", ">   
 				    	#{item}
      				</foreach>       
-					AND ENDDATE-SYSDATE > 30 
-				    ORDER BY DBMS_RANDOM.RANDOM)
+				    ORDER BY STARTDATE DESC)
 				WHERE 4 > ROWNUM
 				
 	</select>
-	
-	
-	
 	
 	
 	
