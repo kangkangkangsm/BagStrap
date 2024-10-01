@@ -446,7 +446,7 @@ public class PaymentServiceImpl implements PaymentService{
 			map.put("categories", categories);
 			
 			System.out.println("selectOrderComplete-categories: "+map);
-			List<Order> selectOrderCompleteStudy = paymentMapper.selectOrderComplete(map);
+			List<Order> selectOrderCompleteStudy = paymentMapper.selectOrderCompleteStudy(map);
 			
 			resultMap.put("selectOrderComplete", selectOrderComplete);
 			resultMap.put("selectOrderCompleteStudy", selectOrderCompleteStudy);

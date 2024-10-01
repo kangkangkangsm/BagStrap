@@ -195,7 +195,7 @@
 					WHERE R.REFUND_ID = #{refundId} AND RI.STATUS = '승인됨'
 	</select>
 	<select id="selectOrderComplete" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-				SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, O.STATUS, ARRIVED_DATE, B.TITLE, OI.PRICE, OI.QUANTITY, B.IMAGE, B.CATEGORY
+				SELECT O.ORDER_ID, TO_CHAR(O.ORDER_DATE, 'YYYY-MM-DD') AS ORDER_DATE, O.STATUS, ARRIVED_DATE, B.TITLE, OI.PRICE, OI.QUANTITY, B.IMAGE, B.CATEGORY, B.BOOK_ID
 				FROM
 				    (SELECT *
 				     FROM
@@ -211,20 +211,17 @@
 				SELECT * 
 				FROM
 				    (SELECT *
-				    FROM TBL_STUDY_GROUP
+				    FROM TBL_STUDY_GROUP G
+			        INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
 				    WHERE
 				    SUBJECT_TYPE_ID IN  
     				<foreach item="item" collection="categories" open="(" close=")" separator=", ">   
 				    	#{item}
      				</foreach>       
-					AND ENDDATE-SYSDATE > 30 
-				    ORDER BY DBMS_RANDOM.RANDOM)
+				    ORDER BY STARTDATE DESC)
 				WHERE 4 > ROWNUM
 				
 	</select>
-	
-	
-	
 	
 	
 	

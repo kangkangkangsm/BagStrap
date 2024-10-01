@@ -49,8 +49,8 @@
             <hr>
             <p><strong>Admin/vif</strong></p>
             <ul>
-                <li><a href="javascript:;">환불신청 관리</a></li>
-                <li><a href="javascript:;">고객문의 관리</a></li>
+				<li><a href="/admin/studyList">스터디 그룹 생성 신청</a></li>
+				<li><a href="javascript:;">고객문의 관리</a></li>
                 <li><a href="javascript:;">공지사항 관리?</a></li>
             </ul>
         </div>

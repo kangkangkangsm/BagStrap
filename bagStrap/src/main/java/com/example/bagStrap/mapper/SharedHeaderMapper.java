@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.bagStrap.model.Item;
 import com.example.bagStrap.model.Order;
 import com.example.bagStrap.model.RefundReason;
+import com.example.bagStrap.model.StudyComm;
 
 
 @Mapper
@@ -28,6 +29,9 @@ public interface SharedHeaderMapper {
 	void insertMyReview(HashMap<String, Object> map);
 	void updateMyReview(HashMap<String, Object> map);
 	void deleteMyReview(HashMap<String, Object> map);
+	List<StudyComm> selectStudyGroupForAdmin(HashMap<String, Object> map);
+	void updateStudyGroupForAdmin(HashMap<String, Object> map);
+	void deleteStudyGroupForAdmin(HashMap<String, Object> map);
 
 	
 }

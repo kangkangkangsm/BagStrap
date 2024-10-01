@@ -139,5 +139,22 @@
 		DELETE FROM TBL_REVIEW
 		WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
 	</delete>
-	
+	<select id="selectStudyGroupForAdmin" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * 
+		FROM
+		(SELECT *
+		FROM TBL_STUDY_GROUP G
+		INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
+		ORDER BY STARTDATE DESC)
+		ORDER BY GROUPSTATUS
+	</select>
+	<update id="updateStudyGroupForAdmin" parameterType="hashmap">
+		UPDATE TBL_STUDY_GROUP
+		SET GROUPSTATUS = 'Y'
+		WHERE STUDY_GROUP_ID = ${studyGroupId}
+	</update>
+	<delete id="deleteStudyGroupForAdmin" parameterType="hashmap">
+		DELETE FROM TBL_STUDY_GROUP
+		WHERE STUDY_GROUP_ID = ${studyGroupId}
+	</delete>
 </mapper>
