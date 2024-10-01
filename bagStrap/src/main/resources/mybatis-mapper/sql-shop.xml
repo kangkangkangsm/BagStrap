@@ -170,4 +170,12 @@
 	<select id="searchCodes" parameterType="hashmap" resultType="com.example.bagStrap.model.Item">
 		SELECT * FROM TBL_CODE
 	</select>
+	
+	<select id="selectIntroBook" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+	    select*from
+		(
+		select * from tbl_book
+		order by created_at desc
+		) WHERE 6 > ROWNUM
+	</select>
 </mapper>

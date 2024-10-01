@@ -71,9 +71,9 @@
 
 	/* 소개 섹션 */
 	.about {
-		padding: 200px 20px;
+		padding-top : 160px;
 	    text-align: center;
-	    background-color: rgba(255, 255, 255, 0.95);
+	    background-color: rgba(255, 255, 255, 0.75);
 		height:200px;
 	}
 
@@ -86,15 +86,16 @@
 	.about p {
 	    max-width: 800px;
 	    margin: 0 auto;
-	    font-size: 1.1em;
+	    font-size: 1.5em;
 	    color: #555;
 	}
 
 	/* 서비스 섹션 */
 	.services {
-	    padding: 60px 20px;
+	    padding: 0px 20px;
 	    text-align: center;
-		background-color: rgba(255, 255, 255, 0.9);
+		background-color: rgba(255, 255, 255, 0.75);
+		height:40%;
 	}
 
 	.services h2 {
@@ -145,7 +146,8 @@
 	.gallery {
 	    padding: 60px 20px;
 	    text-align: center;
-	    background-color: rgba(255, 255, 255, 0.6);
+	    background-color: rgba(255, 255, 255, 0.75);
+		height:60%;
 	}
 
 	.gallery h2 {
@@ -261,35 +263,21 @@
 			    <section class="hero">
 			        <div class="hero-content">
 			            <h1>환영합니다!</h1>
-			            <p>함께하는 스터디!</p>
+			            <p>현이의 가방끈은 엄선된 책과 열정적인 스터디를 제공합니다.</p>
 			            <a href="#about" class="btn" style="background-color: rgba(255, 255, 255, 0.9); color: #333;" >자세히 보기</a>
 			        </div>
 			    </section>
 
 			    <!-- 소개 섹션 -->
 			    <section id="about" class="about">
-			        <h2>현이의 가방끈</h2>
-			        <p>현이의 가방끈은 엄선된 책과 열정적인 스터디를 제공합니다.</p>
 			    </section>
 
 			    <!-- 서비스 섹션 -->
 			    <section id="services" class="services">
-			        <h2>추천 책</h2>
+			        <h2>신간 도서</h2>
 			        <div class="services-container">
-			            <div class="service-item">
-			                <img src="images/service1.jpg" alt="서비스 1">
-			                <h3>맞춤 요리</h3>
-			                <p>고객님의 취향에 맞춘 맞춤 요리를 제공합니다.</p>
-			            </div>
-			            <div class="service-item">
-			                <img src="images/service2.jpg" alt="서비스 2">
-			                <h3>이벤트 케이터링</h3>
-			                <p>특별한 날을 위한 완벽한 케이터링 서비스를 제공합니다.</p>
-			            </div>
-			            <div class="service-item">
-			                <img src="images/service3.jpg" alt="서비스 3">
-			                <h3>온라인 주문</h3>
-			                <p>편리하게 온라인으로 주문하고 배달받으세요.</p>
+			            <div class="service-item" v-for="item in introBook">
+			                <img :src=item.image alt="서비스 1"> 
 			            </div>
 			        </div>
 			    </section>
@@ -328,9 +316,24 @@
 	            return {
 					isLogin : false,
 	              sessionUserId : '',
+				  introBook : []
 				};
 	        },
 	        methods: {
+				fnIntroList(){
+	                var self = this;
+	                var nparmap = {};
+	                $.ajax({
+	                    url:"selectIntroBook.dox",
+	                    dataType:"json",
+	                    type : "POST",
+	                    data : nparmap,
+	                    success : function(data) {
+	                        console.log(data);
+							self.introBook = data.introBook;
+	                    }
+	                });
+	            },
 	            fnGetList(){
 	                var self = this;
 	                var nparmap = {};
@@ -378,7 +381,8 @@
 	        mounted() {
 	            var self = this;
 				self.fnSession();
-				
+				self.fnGetList();
+				self.fnIntroList();
 		// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
 		        window.addEventListener('loginStatusChanged', function () {
 		            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트

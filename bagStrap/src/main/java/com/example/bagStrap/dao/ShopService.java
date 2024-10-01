@@ -10,6 +10,6 @@ public interface ShopService {
 	HashMap<String, Object> changeCartItem(HashMap<String, Object> map);
 	HashMap<String, Object> getBookCat(HashMap<String, Object> map);
 	HashMap<String, Object> selectBookDetail(HashMap<String, Object> map);
-	
+	HashMap<String, Object> selectIntroBook(HashMap<String, Object> map);
 	
 }

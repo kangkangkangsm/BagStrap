@@ -168,6 +168,22 @@ public class ShopServiceImpl implements ShopService{
 
 		return resultMap;
 	}
+	@Override
+	public HashMap<String, Object> selectIntroBook(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			List<Order> categoryList = shopMapper.selectIntroBook(map);
+			resultMap.put("introBook", categoryList);
+			resultMap.put("result", true);
+			resultMap.put("message", "인트로 북!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", false);
+			resultMap.put("message", "인트로!");
+		}
+
+		return resultMap;
+	}
 
 	
 }

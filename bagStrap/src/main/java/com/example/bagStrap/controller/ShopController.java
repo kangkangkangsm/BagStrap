@@ -143,4 +143,11 @@ public class ShopController {
         
         return new Gson().toJson(resultMap);
     }
+    @RequestMapping(value = "/selectIntroBook.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String selectIntroBook(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+    	HashMap<String, Object> resultMap = new HashMap<>();
+   			resultMap = shopService.selectIntroBook(map);	  
+        return new Gson().toJson(resultMap);
+    }
 }
