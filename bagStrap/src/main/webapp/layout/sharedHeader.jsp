@@ -12,6 +12,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <title>웹 페이지 레이아웃</title>
 	<style>
+		<style>
 		/* 기본 스타일 초기화 */
 		* {
 		    margin: 0;
@@ -101,7 +102,7 @@
 		    position: absolute;
 		    top: 100%;
 		    left: 0;
-		    background-color: rgba(255, 255, 255, 0.95);
+		    background-color: rgba(255, 255, 255, 0.6);
 		    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 		    list-style: none;
 		    padding: 15px 0;
@@ -168,8 +169,8 @@
 		    display: none;
 		    position: absolute;
 		    top: 100%;
-		    right: 0;
-		    background-color: rgba(255, 255, 255, 0.95);
+		    left: 0;
+		    background-color: rgba(255, 255, 255, 0.6);
 		    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 		    list-style: none;
 		    padding: 10px 0;
@@ -220,115 +221,148 @@
 		.headerIcon a:hover svg {
 		    fill: #e74c3c; /* 호버 시 색상 변경 */
 		}
+
+		/* 로그인 모달 스타일 (필요 시 추가) */
+		.headerLoginModal.round {
+		    border-radius: 10px;
+		    padding: 20px;
+		}
+
+		.rightCloseBtn {
+		    display: flex;
+		    justify-content: flex-end;
+		}
+
+		.closeBtn {
+		    cursor: pointer;
+		}
+
+		#loginBox {
+		    display: flex;
+		    flex-direction: column;
+		    gap: 10px;
+		}
+
+		.round {
+		    border-radius: 5px;
+		    padding: 8px;
+		    border: 1px solid #ccc;
+		}
+
+		button {
+		    padding: 10px;
+		    border: none;
+		    border-radius: 5px;
+		    background-color: #e74c3c;
+		    color: white;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+
+		button:hover {
+		    background-color: #c0392b;
+		}
 	</style>
 </head>
 <body>
 	<header id="sharedHeader" class="header">
 
-        <div class="header-logo">
-            <a href="/intro">			
-                현이의 가방끈 
-                <span>BOOK & STUDY</span>
-            </a>
-        </div>
+	        <div class="header-logo">
+	            <a href="/intro">			
+	                현이의 가방끈 
+	                <span>BOOK & STUDY</span>
+	            </a>
+	        </div>
 
-        <nav class="header-menu">
-            <ul class="header-menu-list">
-                <li class="header-menu-item">
-                    <a href="/intro">HOME</a>
-                </li>
-                <li class="header-menu-item">
-                    <a href="javascript:;" @click="fnToShop('All')">SHOP</a>
-                    <ul class="header-submenu">
-                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('All')">All</a></li>
-                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Best')">Best</a></li>
-                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('New')">New</a></li>
-                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Sale')">Sale</a></li>
-                    </ul>
-                </li>
-                <li class="header-menu-item">
-                    <a href="javascript:;">STUDY</a>
-                </li>
-                <li class="header-menu-item">
-                    <a href="javascript:;">COMMUNITY</a>
-                </li>
-                <li class="header-menu-item">
-                    <a href="javascript:;">EVENT</a>
-                </li>
-                <li class="header-menu-item">
-                    <a href="javascript:;">FAQ</a>
-                </li>												
-            </ul>
-        </nav>
-        
-        <div class="headerCustomerMenu">
-            <div class="headerloginMainMenu headerCustomerSub">
-                <div class="headerLogin">
-                    <a v-if="!isLogin" class="clickableText" href="javascript:;" @click="fnShowLogin()">Login</a>
-                    <a v-if="isLogin" class="clickableText" href="javascript:;" @click="">{{sessionUserNickName}}님 안녕하세요.</a>
-                </div>    
-                <div class="headerloginSubMenu clickableMenu">
-                    <a v-if="isLogin" href="javascript:;">MyInfo</a>
-                    <a v-if="!isLogin" href="javascript:;">Join</a>
-                </div>
-                <div class="headerloginSubMenu clickableMenu">
-                    <!--TODO : 넣어야함-->
-                    <a href="javascript:;" @click="fnPageChange('/mystudy')">MyStudy</a>
-                </div>
-                <div class="headerloginSubMenu clickableMenu">
-                    <a href="javascript:;" @click="fnPageChange('/myshop/orders')">MyShop</a>
-                </div>
-                <div v-if="isAdmin" class="headerloginSubMenu clickableMenu">
-                    <a href="/admin/orders">Admin</a>
-                </div>
-                <div v-if="isLogin" class="headerloginSubMenu clickableMenu">
-                    <a href="javascript:;" @click="fnLogout()">Logout</a>
-                </div>
-            </div>
-            <div class="headerCSCenter headerCustomerSub">
-                <a class="clickableText" href="cscenter">CSCenter</a>
-            </div>
-            <!-- Cart -->
-            <div class="headerCart headerIcon headerCustomerSub">
-                <a href="javascript:;" @click="fnPageChange('/myshop/cart')">
-                    <svg class="headerIcon clickableSvg" alt="icon_cart" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
-                    </svg>
-                </a>
-            </div>
-            <!-- Notification -->
-            <div class="headerNotification headerIcon headerCustomerSub">
-                <!--TODO: 여기 수정해야한다.-->
-                <a href="javascript:;" @click="fnPageChange('/myshop/notification')">
-                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
-                        <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
-                    </svg>
-                </a>
-            </div>
+	        <nav class="header-menu">
+	            <ul class="header-menu-list">
+	                <li class="header-menu-item">
+	                    <a href="/intro">HOME</a>
+	                </li>
+	                <li class="header-menu-item">
+	                    <a href="javascript:;">SHOP</a>
+	                    <ul class="header-submenu">
+	                        <li class="header-submenu-item"><a href="javascript:;">All</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;">Best</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;">New</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;">Sale</a></li>
+	                    </ul>
+	                </li>
+	                <li class="header-menu-item">
+	                    <a href="/study-group-list">STUDY</a>
+	                </li>
+	                <li class="header-menu-item">
+	                    <a href="/study-comm">COMMUNITY</a>
+	                </li>
+	                <li class="header-menu-item">
+	                    <a href="/study-group-event">EVENT</a>
+	                </li>
+	                <li class="header-menu-item">
+	                    <a href="javascript:;">FAQ</a>
+	                </li>												
+	            </ul>
+	        </nav>
+	        
+	        <div class="headerCustomerMenu">
+	            <div class="headerloginMainMenu headerCustomerSub">
+	                <div class="headerLogin">
+	                    <a v-if="!isLogin" class="clickableText" href="javascript:;" @click="fnShowLogin()">Login</a>
+	                    <a v-if="isLogin" class="clickableText" href="javascript:;">{{sessionUserNickName}}님 안녕하세요.</a>
+	                </div>
+	                <ul class="headerloginSubMenu">
+	                    <li v-if="isLogin"><a href="javascript:;">MyInfo</a></li>
+	                    <li v-if="!isLogin"><a href="javascript:;">Join</a></li>
+	                    <li><a href="javascript:;" @click="fnPageChange('/mystudy')">MyStudy</a></li>
+	                    <li><a href="javascript:;" @click="fnPageChange('/myshop/orders')">MyShop</a></li>
+	                    <li v-if="isAdmin"><a href="/admin/orders">Admin</a></li>
+	                    <li v-if="isLogin"><a href="javascript:;" @click="fnLogout()">Logout</a></li>
+	                </ul>
+	            </div>
+
+	            <div class="headerCSCenter headerCustomerSub">
+	                <a class="clickableText" href="cscenter">CSCenter</a>
+	            </div>
 	            
-			
-			<!--Login Popup-->
-			<dialog id="headerLoginModal" class="headerLoginModal round">
-               <div class="rightCloseBtn" onclick="document.getElementById('headerLoginModal').close()">
-                   <a href="javascript:;" class="closeBtn">
-                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray">
-                           <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-224 56-224-224-224 224Z"/>
-                       </svg>
-                   </a>
-               </div>     
-               <div id="loginBox">
-                   <span id="loginImage">로그인 창 이미지/로고?</span>
-                   <div><input class="round" id="inputId" placeholder="id" v-model="userId" /></div>
-                   <div><input class="round" type="password" placeholder="password" v-model="password" /></div>
-                   <div><a>아이디 찾기</a> | <a>비밀번호 찾기</a></div>
-                   <button @click="fnLogin()">로그인</button>
-                   계정이 없으신가요? <a>회원가입</a>
-               </div>
-           </dialog>
-            
-        </div>
+	            <!-- Cart -->
+	            <div class="headerCart headerIcon headerCustomerSub">
+	                <a href="javascript:;" @click="fnPageChange('/myshop/cart')">
+	                    <svg class="headerIcon clickableSvg" alt="icon_cart" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+	                        <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
+	                    </svg>
+	                </a>
+	            </div>
+	            <!-- Notification -->
+	            <div class="headerNotification headerIcon headerCustomerSub">
+	                <a href="javascript:;" @click="fnPageChange('/myshop/notification')">
+	                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+	                        <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
+	                    </svg>
+	                </a>
+	            </div>
+	            
+	            
+				<!--Login Popup-->
+				<dialog id="headerLoginModal" class="headerLoginModal round">
+	               <div class="rightCloseBtn" onclick="document.getElementById('headerLoginModal').close()">
+	                   <a href="javascript:;" class="closeBtn">
+	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray">
+	                           <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-224 56-224-224-224 224Z"/>
+	                       </svg>
+	                   </a>
+	               </div>     
+	               <div id="loginBox">
+	                   <span id="loginImage">로그인 창 이미지/로고?</span>
+	                   <div><input class="round" id="inputId" placeholder="id" v-model="userId" /></div>
+	                   <div><input class="round" type="password" placeholder="password" v-model="password" /></div>
+	                   <div><a>아이디 찾기</a> | <a>비밀번호 찾기</a></div>
+	                   <button @click="fnLogin()">로그인</button>
+	                   계정이 없으신가요? <a>회원가입</a>
+	               </div>
+	           </dialog>
+	            
+	        </div>
 
-    </header>
+	    </header>
 
 	<script>
 		
