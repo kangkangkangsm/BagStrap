@@ -347,7 +347,7 @@
 		                            </div>
 		                        </div>
 		                    </div>
-		                    <button class="stu-comm-detail-comment-button" @click="fnSave()">등록</button>
+		                    <button class="stu-comm-detail-comment-button" @click="fnSave()" style="background-color: #343A40;">등록</button>
 		                </div>
 		            </div>
 
@@ -460,11 +460,58 @@
 		                                            </div>
 		                                        </div>
 		                                    </div>
-		                                    <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)">답글 완료</button>
-		                                    <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)">취소</button>
+		                                    <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)"  style="background-color: #343A40;">답글 완료</button>
+		                                    <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)"  style="background-color: #343A40;">취소</button>
 		                                </div>
 		                            </template>
 		                        </template>
+								<template v-if="item.upMode === 'Y'">
+
+	                                 <div class="stu-comm-detail-comment">
+
+	                                     <div style="flex-grow: 1;">
+
+	                                         <template v-if="isLogin">
+
+	                                             {{sessionUserNickName}} 님
+
+	                                         </template>
+
+	                                         <div class="stu-comm-detail-comment-input-container">
+
+	                                             <textarea placeholder="댓글을 남겨보세요..." v-model="item.comcontents" class="stu-comm-detail-comment-textarea" @keyup.enter="fnupdateCommentResult(item.commentId, item.comcontents)"></textarea>
+
+	                                             <div>
+
+	                                                 <label for="file-upload" style="cursor: pointer;">
+
+	                                                     <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
+
+	                                                 </label>
+
+	                                                 <input type="file" id="file-upload" style="display: none;" @change="fnFileChange(item.commentId)" />
+
+	                                                 <div>
+
+	                                                     <img v-if="item.filePath || filePreview" :src="filePreview ? filePreview : item.filePath" style="width: 100px; height: 100px;" />
+
+	                                                 </div>
+
+	                                                 <div v-if="fileName || item.fileName">{{ fileName ? fileName : item.fileName }}</div>
+
+	                                             </div>
+
+	                                         </div>
+
+	                                     </div>
+
+	                                     <button class="stu-comm-detail-comment-button" @click="fnupdateCommentResult(item.commentId,item.comcontents)">수정 완료</button>
+
+	                                     <button class="stu-comm-detail-comment-button" @click="fnCommUpdateNo(item.boardId)">취소</button>
+
+	                                 </div>
+
+	                             </template> 
 		                    </div>
 		                </div>
 		            </template>

@@ -10,19 +10,12 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-	.stu-comm-insert-body {
-	    font-family: Arial, sans-serif;
-	    background-color: #f4f4f4;
-	    padding: 20px;
-	}
-
 	.stu-comm-insert-container {
 	    max-width: 80%;
 	    margin: 0 auto;
 	    background-color: white;
 	    padding: 20px;
-	    border-radius: 8px;
-	    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	  
 	}
 
 	.stu-comm-insert-h2 {
@@ -35,8 +28,15 @@
 	    margin-bottom: 5px;
 	    font-weight: bold;
 	}
-
-	.stu-comm-insert-title,
+	.stu-comm-insert-title{
+		width: 97.5%;
+	    padding: 10px;
+	    margin-bottom: 15px;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    font-size: 16px;
+	}
+	
 	.stu-comm-insert-category,
 	.stu-comm-insert-content,
 	.stu-comm-insert-file {
@@ -87,7 +87,7 @@
 	    height: 100px;
 	}
 </style>
-<body class="stu-comm-insert-body">
+<body>
 	<main class="main-container">
 		<aside class="sidebar">
 			<jsp:include page="/layout/study_comm_sidebar.jsp"></jsp:include>  
@@ -122,7 +122,7 @@
 
 			        <div class="stu-comm-insert-buttons">
 			            <button type="button" @click="fnBack()" class="cancel">취소</button>
-			            <button type="button" @click="fnSave()" class="submit">등록</button>
+			            <button type="button" @click="fnSave()" class="submit" style="background-color: #343A40;">등록</button>
 			        </div>
 			    </form>
 			</div>

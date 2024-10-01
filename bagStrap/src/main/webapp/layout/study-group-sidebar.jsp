@@ -75,11 +75,100 @@
 	    text-align: center;
 	    padding-top: 5px;
 	}
+	.stu-comm-profile {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 20px;
+	}
+
+	.stu-comm-profile-img {
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    cursor: pointer;
+	    transition: transform 0.3s;
+	}
+
+	.stu-comm-profile-img:hover {
+	    transform: scale(1.1);
+	}
+
+	.stu-comm-profile-info {
+	    margin-left: 15px;
+	}
+
+	.stu-comm-profile-info p {
+	    font-size: 19px;
+	    color: #333;
+	    margin: 0;
+	    cursor: pointer;
+	}
+
+	.stu-comm-profile-info p:hover {
+	    text-decoration: underline;
+	}
+
+	/* 사용자 활동 섹션 스타일 */
+	.stu-comm-user-activity {
+	    margin-bottom: 30px;
+	}
+
+	.stu-comm-activity-item {
+	    display: flex;
+	    align-items: center;
+	    justify-content: space-between;
+	    margin-bottom: 10px;
+	}
+
+	.stu-comm-activity-icon {
+	    font-size: 20px;
+	    margin-right: 10px;
+	}
+
+	.stu-comm-activity-item a {
+	    font-size: 16px;
+	    color: #555;
+	    text-decoration: none;
+	    margin-right: 5px;
+	    cursor: pointer;
+	}
+
+	.stu-comm-activity-item a:hover {
+	    color: #3a8ee6;
+	    text-decoration: underline;
+	}
+
+	.stu-comm-activity-count {
+	    font-weight: bold;
+	    font-size: 14px;
+	    color: #3a8ee6;
+	}
+
 
     </style>
 </head>
 <body>
+	
 	<aside id="studygroupsidebar">
+		<div class="stu-comm-profile">
+			<template v-if="sidebarSession.userFile">
+			<img :src="sidebarSession.userFile" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
+        	</template>
+			<template v-else>
+			<img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
+        	</template>
+			<div class="stu-comm-profile-info">
+                <p @click="fnMyboard"><strong>{{sessionUserNickName}} 님</strong></p>
+            </div>
+        </div>
+        <!-- 내가 쓴 게시글, 댓글 -->
+        <div class="stu-comm-user-activity">
+			<div class="stu-comm-activity-item">
+               <span class="stu-comm-activity-icon">👥</span>
+               <a href="#" @click="fnMyboard">가입중인 그룹</a>
+               <a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyStudyCnt}}개</a>
+           </div>
+        </div>
 	    <h3 class="study-group-sidebard-h3">연령별</h3>
 	    <div class="study-group-sidebard-section">
 	        <button class="study-group-sidebard-button" @click="fnMoveAge('')">전체</button>
@@ -150,11 +239,46 @@
 					startDate : new Date().toISOString().substring(0, 10), // 기본값 오늘 날짜로 설정
 					participants: '', // 초기값 설정
 	                minParticipants: 2, // 최소값
-	                maxParticipants: 20 // 최대값
+	                maxParticipants: 20, // 최대값
+					countMyCommCnt: null,
+					countMycommentCnt: null,
+					countMyStudyCnt: null,
+					sidebarSession : {}
 					
 	            };
 	        },
 	        methods: {
+				fnMyCnt(){
+						var self = this;
+						var sessionUserId = self.sessionUserId;
+						
+						var nparmap = { userId : sessionUserId
+						};
+						$.ajax({
+							url:"sidebarCnt.dox",
+							dataType:"json",	
+							type : "POST", 
+							data : nparmap,
+							success : function(data) {
+								console.log(data);
+								self.countMyCommCnt=data.countMyCommCnt;
+								self.countMycommentCnt=data.countMycommentCnt;
+								self.countMyStudyCnt = data.countMyStudyCnt;
+								self.sidebarSession = data.sidebarSession;
+						}
+					});
+			       },
+				   fnMyboard(){
+	   				var self = this;
+	   				if(!self.isLogin){
+	   					alert("로그인 먼저 하세요.");
+	   					document.getElementById('headerLoginModal').showModal();
+	   					document.getElementById('inputId').focus();
+	   					
+	   				}else{
+	   				 $.pageChange("/study-comm-myboard",{itemMode : "board", author : self.sessionUserId});
+	   				}
+	   		    },
 				 fnMoveAge(Age){
 					window.sessionStorage.setItem("age", Age);
 					window.dispatchEvent(new Event('sideBarEventAge'));
@@ -217,17 +341,17 @@
 						data : nparmap,
 						success : function(data) {
 								console.log(data);
-							self.isLogin = data.isLogin 
 							if(data.isLogin){
+								self.isLogin = data.isLogin; 
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
 								self.isAdmin = data.isAdmin;
 								console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+								self.fnMyCnt();
 							} else {
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
 							}
-						
 						}
 					});
 				},
@@ -236,14 +360,11 @@
 	            var self = this;
 				self.fnSession();
 				self.fnGetList();
-				window.addEventListener('loginStatusChanged', function(){
-					if(window.sessionStorage.getItem("isLogin") === 'true'){
-						self.isLogin = true;	
-					} else{
-						self.isLogin = false;
-					};
-					self.fnSession();
-				});
+				self.fnMyCnt();
+				// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+		        window.addEventListener('loginStatusChanged', function () {
+		            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+		        });
 
 	        }
 	    });

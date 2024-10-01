@@ -85,7 +85,7 @@
 
 	/* 메뉴 스타일 */
 	.stu-comm-menu {
-	    margin-top: 20px;
+	   
 	}
 
 	.stu-comm-menu button {
@@ -99,6 +99,7 @@
 	    font-weight: bold;
 	    cursor: pointer;
 	    transition: background-color 0.3s;
+		margin-top: -20px;
 	}
 
 	.stu-comm-menu button:hover {
