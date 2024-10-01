@@ -86,7 +86,7 @@
 
 <select id="selectBookList" parameterType="map" resultMap="clobDataResult">
     <foreach item="item" collection="orderList" index="index" separator=" UNION ">
-        SELECT B.BOOK_ID, TITLE, DBMS_LOB.SUBSTR(DESCRIPTION, 4000, 1) AS DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK, CREATED_AT, UPDATED_AT, DISCOUNT, #{item.bookQuantity} AS ORDER_QUANTITY 
+        SELECT B.BOOK_ID, TITLE, DBMS_LOB.SUBSTR(DESCRIPTION, 1, 4000) AS DESCRIPTION, AUTHOR, PUBLISHER, PRICE, IMAGE, QUANTITY, CATEGORY, EBOOK, CREATED_AT, UPDATED_AT, DISCOUNT, #{item.bookQuantity} AS ORDER_QUANTITY 
         FROM TBL_BOOK B
         WHERE 
             (BOOK_ID = #{item.bookId} AND QUANTITY >= #{item.bookQuantity}) 
