@@ -28,28 +28,28 @@ public class JoinController {
 	 * @Autowired SmsService smsService;
 	 */
 
-	@RequestMapping("/join.do") 
+	@RequestMapping("/join") 
     public String search(Model model) throws Exception{
          return "/header/header_join";
     }
 	
-	  @RequestMapping("/joinadd1.do") public String insert(Model model) throws
+	  @RequestMapping("/joinadd1") public String insert(Model model) throws
 	  Exception{ return "/header/header_join"; 
 	  }
 	  
-	  @RequestMapping("/addAddress1.do") public String insertAddress(Model model) throws
+	  @RequestMapping("/addAddress1") public String insertAddress(Model model) throws
 	  Exception{ return "/header/header_join"; 
 	  }
 	  
-	  @RequestMapping("/myinfo.do") public String searchMyInfo(Model model) throws
+	  @RequestMapping("/myinfo") public String searchMyInfo(Model model) throws
 	  Exception{ return "/header/header_myinfo"; 
 	  }
 	  
-	  @RequestMapping("/quit.do") public String deleteQuitMyInfo(Model model) throws
+	  @RequestMapping("/quit") public String deleteQuitMyInfo(Model model) throws
 	  Exception{ return "/header/header_quit"; 
 	  }
 	  
-	  @RequestMapping("/admin-users.do") public String adminUsers(Model model) throws
+	  @RequestMapping("/admin-users") public String adminUsers(Model model) throws
 	  Exception{ return "/admin/admin_users"; 
 	  }
 	  

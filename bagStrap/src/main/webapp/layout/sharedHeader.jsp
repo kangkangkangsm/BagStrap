@@ -224,6 +224,13 @@
 
 		/* 로그인 모달 스타일 (필요 시 추가) */
 		.headerLoginModal.round {
+
+			position: absolute;
+			border-radius: 10px;
+			padding: 20px;
+			left: calc(50% - 200px);
+			width: 400px;
+			top: 20%;
 		    border-radius: 10px;
 		    padding: 20px;
 		}
@@ -241,6 +248,7 @@
 		    display: flex;
 		    flex-direction: column;
 		    gap: 10px;
+			align-items: center;
 		}
 
 		.round {
@@ -262,6 +270,21 @@
 		button:hover {
 		    background-color: #c0392b;
 		}
+
+
+		/* 기본적으로 notification-box는 숨김 */
+		.notification-box {
+		    display: none;
+		    position: absolute; /* 드롭다운을 위해 절대 위치 지정 */
+		    background-color: white; /* 배경색 설정 */
+		    border: 1px solid #ccc; /* 테두리 설정 */
+		    z-index: 1000; /* 다른 요소 위에 표시 */
+		}
+
+		/* headerNotification 클릭 시 notification-box를 보이게 하는 클래스 */
+		.headerNotification.active + .notification-box {
+		    display: block; /* 드롭다운 표시 */
+		}
 	</style>
 </head>
 <body>
@@ -280,12 +303,12 @@
 	                    <a href="/intro">HOME</a>
 	                </li>
 	                <li class="header-menu-item">
-	                    <a href="javascript:;">SHOP</a>
+	                    <a href="javascript:;" @click="fnToShop('All')">SHOP</a>
 	                    <ul class="header-submenu">
-	                        <li class="header-submenu-item"><a href="javascript:;">All</a></li>
-	                        <li class="header-submenu-item"><a href="javascript:;">Best</a></li>
-	                        <li class="header-submenu-item"><a href="javascript:;">New</a></li>
-	                        <li class="header-submenu-item"><a href="javascript:;">Sale</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('All')">All</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Best')">Best</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('New')">New</a></li>
+	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Sale')">Sale</a></li>
 	                    </ul>
 	                </li>
 	                <li class="header-menu-item">
@@ -333,12 +356,24 @@
 	            </div>
 	            <!-- Notification -->
 	            <div class="headerNotification headerIcon headerCustomerSub">
-	                <a href="javascript:;" @click="fnPageChange('/myshop/notification')">
+	                <a href="javascript:;" @click="">
 	                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
 	                        <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
 	                    </svg>
 	                </a>
 	            </div>
+				<div class="notification-box">
+					<div @click="fnNotiLocation(item.category, item.boardNo)" v-for="item in notiList">
+						<div>
+							{{item.message}}
+						</div>
+						<div>
+							{{item.createdDate}}
+						</div>
+					</div>
+					<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+				    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
+				</div>
 	            
 	            
 				<!--Login Popup-->
@@ -360,6 +395,8 @@
 	               </div>
 	           </dialog>
 	            
+			   
+			   
 	        </div>
 
 	    </header>
@@ -375,7 +412,11 @@
 					sessionUserNickName: '',
 					userId : 'admin',
 					password : 'admin1234',
-					user: '${sessionScope.user}'
+					user: '${sessionScope.user}',
+					notiList:[],
+					currentPage: 1,
+					totalPages: 10,
+					pageSize: 5
 	            };
 	        },
 	        methods: {
@@ -390,9 +431,11 @@
 					}
 				},
 				// header main load 함수
-				getSharedHeader(){
+				getSharedHeader(currentPage){
 					var self = this;
 					var nparmap = {
+						currentPage: currentPage, 
+						pageSize: self.pageSize
 					};
 					$.ajax({
 						url:"/sharedHeader.dox",
@@ -403,6 +446,8 @@
 							console.log(data);
 							self.isLogin = data.isLogin; 
 							self.isAdmin = data.isAdmin;
+							self.currentPage = currentPage;
+							self.totalPages = data.totalPages;
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
@@ -410,6 +455,7 @@
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
 							}
+							self.notiList = data.notiList;
 							window.sessionStorage.setItem("isLogin", self.isLogin);
 							window.sessionStorage.setItem("isAdmin", self.isAdmin);
 							//( 선민 추가) 아래 3줄 
@@ -446,7 +492,7 @@
 							alert(data.message);
 							if(data.result){
 								document.getElementById('headerLoginModal').close();
-								self.getSharedHeader();
+								self.getSharedHeader(1);
 								self.userId = '',
 								self.password = ''
 								// (선민 추가) 로그인 후 페이지 새로고침
@@ -467,18 +513,25 @@
 						success : function(data) {
 							console.log(data); 
 							alert(data.message);
-							self.getSharedHeader();
+							self.getSharedHeader(1);
 							// (선민 추가) 로그인 후 페이지 새로고침
 	                        window.location.reload();
 						}
 					});
-	            }
+	            },
+				fnNotiLocation(category, boardNo){
+					alert(category+boardNo)
+					//TODO 로케이션 이동 넣고 delete 구현해야함
+				}
 				
 
 	        },
 	        mounted() {
+				document.querySelector('.headerNotification').addEventListener('click', function() {
+				    this.classList.toggle('active'); // active 클래스 토글
+				});
 	            var self = this;
-				self.getSharedHeader();
+				self.getSharedHeader(1);
 				// login dialog 키 입력 추가
 				document.getElementById("loginBox").addEventListener("keydown", function(event){
 					if(event.key === "Enter"){

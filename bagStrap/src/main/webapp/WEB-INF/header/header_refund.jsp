@@ -285,7 +285,6 @@
 		},
         methods: {
 			reasonSelectLogic(reasonId){
-				// 쓰는거 아님
 				var self = this;
 				var item1 = self.refundReasonList2.filter(item => item.reasonId.startsWith(reasonId) );
 				var item2 = self.refundReasonList3.filter(item => item.reasonId.startsWith(reasonId));
@@ -444,9 +443,9 @@
 										contentType: false,  
 										success: function() {
 											alert(message);
-										  
-										  //	location.href = "/myshop/refundList";
-										  	self.filePreview = "";
+										  self.filePreview = "";
+										  location.href = "/myshop/refunds";
+
 										},
 										error: function(jqXHR, textStatus, errorThrown) {
 										  	console.error('업로드 실패!', textStatus, errorThrown);
@@ -454,7 +453,7 @@
 								  });		
 							  } else {
 								alert(message);
-								//location.href = "/myshop/refundList";
+								location.href = "/myshop/refundList";
 							  }		
 						}
 						

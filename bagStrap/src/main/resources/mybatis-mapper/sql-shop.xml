@@ -95,7 +95,10 @@
 		    WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
 	</update>
 	<select id="selectBookCategory" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		    SELECT NAME, BOARD_TYPE_ID    
+		    SELECT BOARD_TYPE_ID, CASE
+		    WHEN BOARD_TYPE_ID = 2000 THEN '전체' 
+		    ELSE NAME
+		    END AS NAME
 			FROM TBL_STU_COMM_BOARD_TYPES
 			WHERE PART = 2000
 			ORDER BY BOARD_TYPE_ID
