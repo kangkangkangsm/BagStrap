@@ -138,17 +138,6 @@
 	</style>
 <body>
 	<aside id="studycommsidebar">
-		<div class="stu-comm-profile">
-			<template v-if="sidebarSession.userFile">
-			<img :src="sidebarSession.userFile" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
-        	</template>
-			<template v-else>
-			<img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
-        	</template>
-			<div class="stu-comm-profile-info">
-                <p @click="fnMyboard"><strong>{{sessionUserNickName}} 님</strong></p>
-            </div>
-        </div>
         <!-- 내가 쓴 게시글, 댓글 -->
         <div class="stu-comm-user-activity">
             <div class="stu-comm-activity-item">
@@ -159,16 +148,11 @@
             <div class="stu-comm-activity-item">
                 <span class="stu-comm-activity-icon">💬</span>
                 <a href="#" @click="fnMyboard" >내가 쓴 댓글</a>
-				<a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyCommCnt}}개</a>
+				<a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMycommentCnt}}개</a>
             </div>
-			<div class="stu-comm-activity-item">
-               <span class="stu-comm-activity-icon">👥</span>
-               <a href="#" @click="fnMyboard">가입중인 그룹</a>
-               <a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyStudyCnt}}개</a>
-           </div>
         </div>
         <nav class="stu-comm-menu">
-            <button @click="fnStudy">스터디 이동</button>
+           
             <ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>

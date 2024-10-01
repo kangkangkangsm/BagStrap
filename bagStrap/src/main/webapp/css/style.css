@@ -177,7 +177,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	/* SIDEBAR */
 	.sidebar {
 	    width: 300px; /* 사이드바의 고정 너비 */
-	    background-color: #9E9E9E; /* 사이드바 배경색 */
+	    background-color:#FFFFFF; /* 사이드바 배경색 */
 	    padding: 10px;
 	    box-sizing: border-box;
 	}

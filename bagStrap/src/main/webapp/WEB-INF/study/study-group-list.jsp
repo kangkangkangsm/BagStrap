@@ -142,24 +142,97 @@
 			cursor: not-allowed;
 		}
 
-		@media (max-width: 768px) {
-			.study-group-list-search-bar {
-				flex-direction: column;
-				align-items: flex-start;
-			}
+		.study-group-list-grid {
+		    display: grid;
+		    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		    gap: 30px;
+		}
 
-			.study-group-list-search-bar input[type="text"] {
-				width: 100%;
-				margin-bottom: 10px;
-			}
+		.study-group-list-item {
+		    background: #ffffff;
+		    border-radius: 15px;
+		    overflow: hidden;
+		    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+		    transition: transform 0.3s ease, box-shadow 0.3s ease;
+		    cursor: pointer;
+		    display: flex;
+		    flex-direction: column;
+		    height: 100%;
+		}
 
-			.study-group-list-grid {
-				grid-template-columns: 1fr;
-			}
+		.study-group-list-item:hover {
+		    transform: translateY(-10px);
+		    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
+		}
 
-			.study-group-list-item {
-				margin: 0 20px;
-			}
+		.study-group-card {
+		    display: flex;
+		    flex-direction: column;
+		    height: 100%;
+		}
+
+		.study-group-image-wrapper {
+		    width: 100%;
+		    height: 200px;
+		    overflow: hidden;
+		    position: relative;
+		}
+
+		.study-group-list-image {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    transition: transform 0.3s ease;
+		}
+
+		.study-group-list-image:hover {
+		    transform: scale(1.05);
+		}
+
+		.study-group-content {
+		    padding: 20px;
+		    display: flex;
+		    flex-direction: column;
+		    flex-grow: 1;
+		    justify-content: space-between;
+		}
+
+		.study-group-title {
+		    font-size: 1.5em;
+		    font-weight: bold;
+		    margin-bottom: 10px;
+		    color: #333;
+		    display: flex;
+		    align-items: center;
+		    gap: 5px;
+		}
+
+		.study-group-details {
+		    font-size: 1em;
+		    color: #555;
+		    margin-bottom: 10px;
+		    display: flex;
+		    align-items: center;
+		    gap: 10px;
+		}
+
+		.study-group-details span {
+		    display: inline-flex;
+		    align-items: center;
+		    gap: 5px;
+		}
+
+		.study-group-schedule {
+		    font-size: 0.9em;
+		    color: #777;
+		    margin-top: auto;
+		}
+
+		.no-results {
+		    font-size: 1.2em;
+		    color: #555;
+		    text-align: center;
+		    padding: 40px;
 		}
 	</style>
 <body>
@@ -176,37 +249,39 @@
 				<button @click="fnStudyCreate()">스터디 등록</button>
 			</div>
 			<div class="study-group-list-container">
-				<div class="study-group-list-grid">
-					<div class="study-group-list-item" v-for="item in groupList">
-						<template v-if="item">
-							<template v-if="item.filePath">
-								<img :src="item.filePath" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
-							</template>
-							<template v-else>
-								<img src="../src/profile.png" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
-							</template>
-							<div class="study-group-list-title" @click="fnDetail(item.studyGroupId)">
-								[{{item.name}}]{{item.studyName}}
-							</div>
-							<template v-if="item.applyY != item.maxparticipants">
-								<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-									{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} | 인원 {{item.applyY}} / {{item.maxparticipants}}
-								</div>
-							</template>
-							<template v-if="item.applyY == item.maxparticipants">
-								<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-									{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} | <a>참여 인원 마감</a>
-								</div>
-							</template>
-							<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-								시작일 {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}
-							</div>
-						</template>
-						<template v-if="!item">
-							<div>검색된 결과가 없습니다.</div>
-						</template>
-					</div>
-				</div>
+			    <div class="study-group-list-grid">
+			        <div class="study-group-list-item" v-for="item in groupList">
+			            <template v-if="item">
+			                <div class="study-group-card" @click="fnDetail(item.studyGroupId)">
+			                    <div class="study-group-image-wrapper">
+			                        <template v-if="item.filePath">
+			                            <img :src="item.filePath" alt="Study Group Image" class="study-group-list-image">
+			                        </template>
+			                        <template v-else>
+			                            <img src="../src/profile.png" alt="Default Image" class="study-group-list-image">
+			                        </template>
+			                    </div>
+			                    <div class="study-group-content">
+			                        <h3 class="study-group-title">
+			                             [{{item.name}}] {{item.studyName}}
+			                        </h3>
+			                        <p class="study-group-details">
+			                            👥 {{item.genderGroup}} | 🕒 {{item.onOffMode}} | 🎂 {{item.age}} | 
+			                            <span v-if="item.applyY != item.maxparticipants">🔢 인원 {{item.applyY}} / {{item.maxparticipants}}</span>
+			                            <span v-else>❌ 참여 인원 마감</span>
+			                        </p>
+			                        <p class="study-group-schedule">
+			                            📅 시작일 {{item.stgStartDate}} ~ | ⏰ 시간 {{item.stgStudyTime}}
+			                        </p>
+			                    </div>
+			                </div>
+			            </template>
+			            <template v-if="!item">
+			                <div class="no-results">🔍 검색된 결과가 없습니다.</div>
+			            </template>
+			        </div>
+			    </div>
+			</div>
 				<div class="stu-comm-myboard-pagination">
 					<button @click="fnGetList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
 					<button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnGetList(page)">
