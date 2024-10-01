@@ -168,7 +168,7 @@
             <jsp:include page="/layout/study-group-sidebar.jsp"></jsp:include>
         </aside>
         
-		<div id="app" class="study-group-list-content">
+		<div id="app" class="content">
 			<div class="study-group-list-search-bar">
 				<input type="text" placeholder="검색어를 입력하세요" v-model="search" @keyup.enter="fnGetList()">
 				<button @click="fnGetList()">검색</button>
@@ -238,7 +238,7 @@
 					participants :'${participants}',
 					totalPages: 5,
 	                currentPage: 1,      // 현재 페이지 
-	                pageSize: 12,         // 한 페이지에 보여줄 개수 
+	                pageSize: 9,         // 한 페이지에 보여줄 개수 
 					search:""
 	            };
 	        },
@@ -323,6 +323,10 @@
 	            var self = this;
 				self.fnSession();
 				self.fnGetList();
+				// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+				        window.addEventListener('loginStatusChanged', function () {
+				            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+				        });
 				window.addEventListener('loginStatusChanged', function(){
 					if(window.sessionStorage.getItem("isLogin") === 'true'){
 						self.isLogin = true;	

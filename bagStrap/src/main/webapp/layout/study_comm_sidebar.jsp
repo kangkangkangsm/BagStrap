@@ -37,7 +37,7 @@
 	}
 
 	.stu-comm-profile-info p {
-	    font-size: 16px;
+	    font-size: 19px;
 	    color: #333;
 	    margin: 0;
 	    cursor: pointer;
@@ -65,7 +65,7 @@
 	}
 
 	.stu-comm-activity-item a {
-	    font-size: 14px;
+	    font-size: 16px;
 	    color: #555;
 	    text-decoration: none;
 	    margin-right: 5px;
@@ -85,20 +85,21 @@
 
 	/* 메뉴 스타일 */
 	.stu-comm-menu {
-	    margin-top: 20px;
+	   
 	}
 
 	.stu-comm-menu button {
 	    width: 100%;
 	    padding: 10px;
 	    margin-bottom: 20px;
-	    background-color: #3a8ee6;
+	    background-color: #343A40;
 	    border: none;
 	    color: #ffffff;
 	    border-radius: 5px;
 	    font-weight: bold;
 	    cursor: pointer;
 	    transition: background-color 0.3s;
+		margin-top: -20px;
 	}
 
 	.stu-comm-menu button:hover {
@@ -118,7 +119,7 @@
 
 	.stu-comm-menu li a {
 	    display: block;
-	    font-size: 14px;
+	    font-size: 15px;
 	    color: #333;
 	    text-decoration: none;
 	    padding: 8px 10px;
@@ -126,10 +127,7 @@
 	    transition: background 0.3s, color 0.3s;
 	}
 
-	.stu-comm-menu li a:hover {
-	    background-color: #3a8ee6;
-	    color: #ffffff;
-	}
+
 	/* 메뉴 구분선 */
 	.stu-comm-menu hr {
 	    border: none;
@@ -141,8 +139,13 @@
 <body>
 	<aside id="studycommsidebar">
 		<div class="stu-comm-profile">
-            <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
-            <div class="stu-comm-profile-info">
+			<template v-if="sidebarSession.userFile">
+			<img :src="sidebarSession.userFile" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
+        	</template>
+			<template v-else>
+			<img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
+        	</template>
+			<div class="stu-comm-profile-info">
                 <p @click="fnMyboard"><strong>{{sessionUserNickName}} 님</strong></p>
             </div>
         </div>
@@ -165,7 +168,7 @@
            </div>
         </div>
         <nav class="stu-comm-menu">
-            <button @click="fnInsertComm">커뮤니티 글쓰기</button>
+            <button @click="fnStudy">스터디 이동</button>
             <ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
@@ -199,10 +202,14 @@
 				sessionUserId : '',
 				countMyCommCnt: null,
 				countMycommentCnt: null,
-				countMyStudyCnt: null
+				countMyStudyCnt: null,
+				sidebarSession : {}
             };
         },
         methods: {
+			fnStudy(){
+				location.href="/study-group-list";
+			},
 			fnboardview(boardTypeId,name){
 				var self = this;
 				self.name2 = "";
@@ -239,7 +246,7 @@
 			fnMyCnt(){
 				var self = this;
 				var sessionUserId = self.sessionUserId;
-				alert(sessionUserId);
+				
 				var nparmap = { userId : sessionUserId
 				};
 				$.ajax({
@@ -248,9 +255,11 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
+						console.log(data);
 						self.countMyCommCnt=data.countMyCommCnt;
 						self.countMycommentCnt=data.countMycommentCnt;
 						self.countMyStudyCnt = data.countMyStudyCnt;
+						self.sidebarSession = data.sidebarSession;
 				}
 			});
 	       },
@@ -299,17 +308,6 @@
 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});				
 				}
 		    },
-			fnInsertComm(){
-				var self = this;
-				if(!self.isLogin){
-					alert("로그인 먼저 하세요.");
-					document.getElementById('headerLoginModal').showModal();
-					document.getElementById('inputId').focus();
-					
-				}else{
-				location.href="commInsert"					
-				}
-			},
 			fnLogin(){
 				var self = this;
 				var nparmap = {

@@ -44,8 +44,6 @@
             width: 100%;
             max-width: 800px;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 40px;
         }
 
@@ -257,7 +255,7 @@
 
         <div id="app" class="content">
             <div class="stu-group-detail">
-                <!-- 동적 이미지 (필요 시 Vue.js를 통해 동적으로 변경 가능) -->
+              
                 <img src="../src/스터디디테일.png" alt="책 표지" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;">
 
                 <h1>[ {{ detailList.name }} ] {{ detailList.studyName }}</h1>
@@ -332,6 +330,7 @@
 			        <button @click="fnJoinSubscription(detailList.studyGroupId,selfIntro,studyGoal,additionalQuestions)">참가 신청하기</button>
 			</div>
 		</template>
+		</div>
         </div>
     </main>
 
@@ -353,6 +352,14 @@
             methods: {
 			     fnJoinSubscription(studyGroupId,selfIntro,studyGoal,additionalQuestions){
 					  var self = this;
+					  if (!self.selfIntro) {
+					      alert("자기소개 입력하세요.");
+					      return;
+					  }
+					  if (!self.studyGoal) {
+	  				      alert("학습목표는 중요합니다.");
+	  				      return;
+	  				  }
 		              var nparmap = {userId : self.sessionUserId, studyGroupId : studyGroupId,
 									selfIntro : selfIntro,  studyGoal : studyGoal, 	
 									additionalQuestions : additionalQuestions				
@@ -362,12 +369,17 @@
 		                  dataType:"json",    
 		                  type : "POST", 
 		                  data : nparmap,
-		                  success : function(data) { 
-							if(data.Subscription){
-								alert("이미 신청한 스터디 입니다. 방장의 승인을 기다려주세요.")
+		                  success : function(data) {
+							console.log(data);
+							if(data.Subscription.fetchapplstatus == 'N'){
+								alert("이미 신청한 그룹 입니다. 방장의 승인을 기다려주세요.")
+							}else if(data.Subscription.fetchapplstatus == 'L'){
+								alert("입장이 차단되어진 그룹입니다. 사유 : " + data.Subscription.rejectionMessage);
+							}else if(data.Subscription.fetchapplstatus == 'Y'){
+								alert("이미 가입된 그룹 입니다.");
 							}else{
 								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
-							}				  
+							}							  
 		                  },
 		              });
 		        },
@@ -454,6 +466,10 @@
             mounted() {
                 this.fnSession();
                 this.fnDetail();
+				// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+				        window.addEventListener('loginStatusChanged', function () {
+				            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+				        });
                 window.addEventListener('loginStatusChanged', () => {
                     this.isLogin = window.sessionStorage.getItem("isLogin") === 'true';
                     this.fnSession();
