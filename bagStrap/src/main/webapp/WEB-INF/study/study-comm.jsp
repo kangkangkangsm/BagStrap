@@ -173,12 +173,13 @@
         align-items: center;
         margin: 30px 0;
         gap: 10px;
+		color: #000000;
     }
 
     .stu-comm-list-pagination button {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         border: 1px solid #dee2e6;
-        color: #007bff;
+    	 color: #000000;
         padding: 10px 15px;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
@@ -187,13 +188,13 @@
     }
 
     .stu-comm-list-pagination button:hover {
-        background-color: #007bff;
-        color: #fff;
+        background-color: #E0E0E0;
+        color: #ffffff;
     }
 
     .stu-comm-list-pagination button.active {
-        background-color: #007bff;
-        color: #fff;
+        background-color: #000000;
+        color: #ffffff;
         cursor: default;
     }
 
@@ -326,11 +327,11 @@
 
 			<!-- 페이징 -->
 			<div class="stu-comm-list-pagination">
-			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1"style="color:#343A40">이전</button>
-			    <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnboardList(page)" style="color:#343A40">
+			    <button @click="fnboardList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
+			    <button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnboardList(page)" >
 			        {{ page }}
 			    </button>
-			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages" style="color:#343A40">다음</button>
+			    <button @click="fnboardList(currentPage + 1)" :disabled="currentPage >= totalPages" >다음</button>
 			</div>
 		</div>
 	</main>

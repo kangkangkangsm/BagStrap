@@ -127,6 +127,10 @@
 	    transition: background 0.3s, color 0.3s;
 	}
 
+	.stu-comm-menu li a:hover {
+	    background-color: #E0E0E0; /* 호버 시 배경색 변경 */
+		width:280px;
+	}
 
 	/* 메뉴 구분선 */
 	.stu-comm-menu hr {
@@ -135,6 +139,27 @@
 	    background-color: #e0e0e0;
 	    margin: 15px 0;
 	}	
+	.study-comm-sidebard-h3 {
+		    margin: 10px 0;
+		    font-size: 15px;
+		    color: #333333;
+		    background-color: #E0E0E0;
+		    padding: 8px 12px;
+		    text-align: left;
+		    border-radius: 5px;
+	}
+	.study-comm-sidebard-section {
+		    margin-bottom: 10px;
+		    padding: 10px;
+		    background-color: #F9F9F9;
+		   
+		    border-radius: 5px;
+	}
+	.study-group-sidebard :hover {
+		    background-color: #007bff;
+		    color: white;
+		    border-color: #007bff;
+		}
 	</style>
 <body>
 	<aside id="studycommsidebar">
@@ -152,24 +177,31 @@
             </div>
         </div>
         <nav class="stu-comm-menu">
-           
+			<h3 class="study-comm-sidebard-h3">게시판</h3>
+			<div class="study-comm-sidebard-section">
             <ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
-				</template>
+				</template>	
 			</ul>
-			<hr>
+			</div>
+			
+			<h3 class="study-comm-sidebard-h3">스터디</h3>
+			<div class="study-comm-sidebard-section">
 			<ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 2000 && item.boardTypeId <= 2999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
 				</template>
 			</ul>
-			<hr>	
+			</div>
+			<h3 class="study-comm-sidebard-h3">이벤트</h3>	
+			<div class="study-comm-sidebard-section">
 			<ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 3000 && item.boardTypeId <= 3999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
 				</template>
             </ul>
+			</div>
         </nav>    
 	</aside>
 </body>

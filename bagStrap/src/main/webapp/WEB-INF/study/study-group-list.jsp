@@ -8,13 +8,6 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: 'Noto Sans KR', Arial, sans-serif;
-			background-color: #f7f7f7;
-			color: #333;
-		}
 
 		.study-group-list-content {
 			width: 80%;
@@ -48,19 +41,14 @@
 		}
 
 		.study-group-list-search-bar button {
-			padding: 12px 18px;
-			border: none;
-			border-radius: 10px;
-			background-color: #007bff;
-			color: white;
-			font-size: 16px;
-			cursor: pointer;
-			transition: background 0.3s ease;
+			background:#343A40;
+	       color: #fff;
+	       border: none;
+	       cursor: pointer;
+	       transition: background-color 0.3s;
+	       font-size: 1em; /* 글자 크기 조정 */
 		}
 
-		.study-group-list-search-bar button:hover {
-			background-color: #0056b3;
-		}
 
 		.study-group-list-grid {
 			display: grid;
@@ -110,37 +98,44 @@
 			font-weight: bold;
 		}
 
-		.stu-comm-myboard-pagination {
-			display: flex;
-			justify-content: center;
-			gap: 15px;
-			margin-top: 30px;
-		}
+		/* Pagination 스타일 */
+		   .stu-comm-list-pagination {
+		       display: flex;
+		       justify-content: center;
+		       align-items: center;
+		       margin: 30px 0;
+		       gap: 10px;
+			color: #000000;
+		   }
 
-		.stu-comm-myboard-pagination button {
-			background: #ddd;
-			border: none;
-			padding: 12px 16px;
-			border-radius: 50px;
-			font-size: 16px;
-			cursor: pointer;
-			transition: background 0.3s ease;
-		}
+		   .stu-comm-list-pagination button {
+		       background-color: #ffffff;
+		       border: 1px solid #dee2e6;
+		   	 color: #000000;
+		       padding: 10px 15px;
+		       cursor: pointer;
+		       transition: background-color 0.3s, color 0.3s;
+		       border-radius: 4px;
+		       font-size: 1em; /* 글자 크기 조정 */
+		   }
 
-		.stu-comm-myboard-pagination button:hover {
-			background: #bbb;
-		}
+		   .stu-comm-list-pagination button:hover {
+		       background-color: #E0E0E0;
+		       color: #ffffff;
+		   }
 
-		.stu-comm-myboard-pagination button.active {
-			background: #007bff;
-			color: #fff;
-			font-weight: bold;
-		}
+		   .stu-comm-list-pagination button.active {
+		       background-color: #000000;
+		       color: #ffffff;
+		       cursor: default;
+		   }
 
-		.stu-comm-myboard-pagination button:disabled {
-			background: #aaa;
-			cursor: not-allowed;
-		}
+		   .stu-comm-list-pagination button:disabled {
+		       background-color: #e9ecef;
+		       color: #6c757d;
+		       cursor: not-allowed;
+		       border: 1px solid #dee2e6;
+		   }	
 
 		.study-group-list-grid {
 		    display: grid;
@@ -266,12 +261,12 @@
 			                             [{{item.name}}] {{item.studyName}}
 			                        </h3>
 			                        <p class="study-group-details">
-			                            👥 {{item.genderGroup}} | 🕒 {{item.onOffMode}} | 🎂 {{item.age}} | 
-			                            <span v-if="item.applyY != item.maxparticipants">🔢 인원 {{item.applyY}} / {{item.maxparticipants}}</span>
+			                            👫 {{item.genderGroup}} | 🧒 {{item.age}} | {{item.onOffMode}} |
+			                            <span v-if="item.applyY != item.maxparticipants"> 👥 {{item.applyY}} / {{item.maxparticipants}}</span>
 			                            <span v-else>❌ 참여 인원 마감</span>
 			                        </p>
 			                        <p class="study-group-schedule">
-			                            📅 시작일 {{item.stgStartDate}} ~ | ⏰ 시간 {{item.stgStudyTime}}
+			                            📅 시작일 {{item.stgStartDate}} ~ | ⏰ 시간 {{item.stgStudyTime}} 
 			                        </p>
 			                    </div>
 			                </div>
@@ -282,7 +277,7 @@
 			        </div>
 			    </div>
 			</div>
-				<div class="stu-comm-myboard-pagination">
+				<div class="stu-comm-list-pagination">
 					<button @click="fnGetList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
 					<button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnGetList(page)">
 						{{ page }}

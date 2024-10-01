@@ -15,7 +15,7 @@
 	    font-size: 15px;
 	    color: #ffffff;
 	    background-color: #444;
-	    padding: 5px 10px;
+	    padding: 8px 12px;
 	    text-align: left;
 	    border-radius: 5px;
 	}

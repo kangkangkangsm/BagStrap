@@ -170,9 +170,7 @@
    <body>
        <div id="app">
            <main class="main-container">
-               <aside class="sidebar">
-                   {{sessionUserId}}
-               </aside>
+             
                <div class="content">
                    <!-- Top Title Section -->
                    <div class="top-titles">
