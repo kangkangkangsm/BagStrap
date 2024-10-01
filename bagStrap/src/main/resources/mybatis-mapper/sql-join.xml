@@ -69,6 +69,17 @@
 		WHERE USER_ID=#{userId} AND PASSWORD=#{password}
 	</select>
 	
+	<select id="adminUsers" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
+		SELECT USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BAN
+		FROM TBL_USER
+	</select>
+	
+	<update id="adminUPdate" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET BAN = 'Y'
+		WHERE USER_ID = #{userId}
+	</update>
+	
 </mapper>
 
 

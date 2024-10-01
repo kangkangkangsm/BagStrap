@@ -31,4 +31,8 @@ public interface JoinMapper {
 	
 	/* 탈퇴시 비밀번호 일치 확인 */
 	int confirmPassword (HashMap<String, Object> map);
+	
+	List<User> adminUsers (HashMap<String, Object> map);
+	
+	void adminUPdate (HashMap<String, Object> map);
 }

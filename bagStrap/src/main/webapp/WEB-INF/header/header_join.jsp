@@ -43,7 +43,7 @@
 				<div class="title_wrap title_size_def">
 					<div class="right_area">
 						<span class="required">
-							<span class="text">필수 입력</span>
+							<span class="text" style=gray>필수 입력</span>
 						</span>	
 					</div>	
 				</div>	
@@ -355,8 +355,8 @@
 								
 								
 								<div class="btn_wrap justify page_bottom" id="joinComplete">
-						            <button type="button" class="btn_lg btn_light_gray" disabled="disabled" @click="fnSave">
-										<span class="text" @click="fnSave()">회원가입</span>
+						            <button type="button" class="btn_lg btn_light_gray" @click="fnSave">
+										<span class="text">회원가입</span>
 									</button>
 						        </div>	
 							</div>

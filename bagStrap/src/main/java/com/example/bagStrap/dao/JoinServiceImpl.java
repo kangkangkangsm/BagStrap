@@ -213,4 +213,38 @@ public class JoinServiceImpl implements JoinService{
 		}
 		return resultMap;
 	}
+
+	@Override
+	public HashMap<String, Object> adminUsersCheck(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			List<User> list = joinMapper.adminUsers(map);
+			resultMap.put("list", list);
+			resultMap.put("result", "success");
+			resultMap.put("message", "리스트뽑아내기성공!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", "fail");
+			resultMap.put("message", "리스트뽑아내기실패!!");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> updateAdminUsers(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			System.out.println("map15" + map);
+			joinMapper.adminUPdate(map);
+			System.out.println("map16" + map);
+			resultMap.put("result", "success");
+			resultMap.put("message", "차단성공!!");
+		} catch(Exception e) {
+			resultMap.put("result", "fail");
+			resultMap.put("message", "차단실패!!!!!!!");
+		}
+		return resultMap;
+	}
 }

@@ -49,6 +49,10 @@ public class JoinController {
 	  Exception{ return "/header/header_quit"; 
 	  }
 	  
+	  @RequestMapping("/admin-users.do") public String adminUsers(Model model) throws
+	  Exception{ return "/admin/admin_users"; 
+	  }
+	  
 	@RequestMapping(value = "/join.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String joinList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -178,6 +182,24 @@ public class JoinController {
 			resultMap.put("isLogin3", false);
 		}
 
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/adminUsers.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String adminUsersList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.adminUsersCheck(map);
+		System.out.println("resultMap6 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
+	
+	@RequestMapping(value = "/updateAdmin.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateAdmin1(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.updateAdminUsers(map);
+		System.out.println("resultMap7 : " + resultMap);
 		return new Gson().toJson(resultMap);
 	}
 	

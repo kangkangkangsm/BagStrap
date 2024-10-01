@@ -18,6 +18,7 @@
 			width:80%;
 			border-collapse:collapse;
 			margin:auto;
+			margin-top:40px;
 			
 		}
 		td {
@@ -30,12 +31,13 @@
 			vertical-align:middle;
 			background-color:#F0F0F0;
 			color:black;
+			width:100px;
 		}
 		.small-input {
-			width:50px;
+			width:90px;
 		}
 		.small2-input {
-			width:163px;
+			width:190px;
 		}
 		.phone-margin {
 			margin-right:10px;
@@ -54,7 +56,7 @@
 		}
 		
 		button:hover {
-			background-color:#FFA726;
+			background-color:#FFE0B2;
 			color:black;
 		}
 		.save-margin {
@@ -65,6 +67,14 @@
 		}
 		.input-size2 {
 			width:300px;
+		}
+		.phone-width {
+			margin-bottom:2px;
+			color:gray;
+			font-size:12px;
+		}
+		.phone-button {
+			margin-right:5px;	
 		}
 	</style>
 </head>
@@ -92,13 +102,13 @@
 						        <td>
 						            <template v-if="!NickView">
 						                <input type="text" v-model="userList.userNickName" class="hidden-border small-input" disabled>
+										<button @click="NickView=!NickView">변경하기</button>
 						            </template>
 						            <template v-else>
 						                <input type="text" v-model="userList.userNickName" class="save-margin">
 						                <button @click="fnNickUpdate" class="save-margin">저장</button>
 						                <button @click="NickView=!NickView" class="save-margin">취소</button>
 						            </template>
-						            <button @click="NickView=!NickView">변경하기</button>
 						        </td>
 						    </tr>
 						    <tr>
@@ -127,8 +137,17 @@
 						    <tr v-if="aaa == ''">
 						        <td>핸드폰 번호</td>
 						        <td>
-						            <input class="phone-margin" placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone">
-						            <button @click='makeConfirmNumbAndSendMessage'>휴대폰인증</button>
+									<div class="phone-width">휴대폰 번호가 바뀌셨습니까? 인증을 통해 바뀐 번호를 입력해주세요!</div>
+									<template v-if="!phoneNumberView">
+						            	<input class="phone-margin" placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone" :disabled="isPhoneDisabled">
+										<button @click="phoneNumberView=!phoneNumberView" class="phone-button">휴대폰인증</button>
+									</template>
+									<template v-else>										
+										<input class="phone-margin" placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone" :disabled="isPhoneDisabled">
+						            	<button @click='makeConfirmNumbAndSendMessage' class="phone-button">휴대폰인증</button>
+										<button @click="phoneNumberView=!phoneNumberView">취소</button>
+									</template>
+									
 						        </td>
 						    </tr>
 						    <tr v-else>
@@ -172,6 +191,8 @@
 				addressView:false,
 				phoneView:false,
 				NickView:false,
+				isPhoneDisabled:false,
+				phoneNumberView:false,
 				userPhone : null,
 				confirmNumb : null,
 				userInputNumb : null,
@@ -257,7 +278,6 @@
 							console.log(self);
 							
 
-		  					
 		  					timeCheck = setInterval(() => {
 		  						if(self.timer === 0){
 		  							alert("시간이 만료되었습니다")
@@ -272,8 +292,21 @@
 		  			});
 		  		},
 		  		confirmInputNumb(){
+					
+					
+					if (!this.userInputNumb) {
+			            alert("인증번호를 입력해주세요");
+			            return;
+			        }
+		
+					
 		  			if(self.confirmNumb === self.userInputNumb){
 		  				alert("인증되었습니다!");
+						clearInterval(timeCheck);
+						this.userPhone = null;
+						this.aaa = '';
+						this.userInputNumb = '';
+						this.isPhoneDisabled = true;
 		  			}else{
 		  				alert("인증실패")
 		  			}
