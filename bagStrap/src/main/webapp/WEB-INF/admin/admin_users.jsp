@@ -9,38 +9,7 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
-		.content {
-			display:flex;
-			flex-direction:column;
-			align-items:center;
-			justify-content:center;
-			padding-bottom:90px;
-		}
-		button {
-			background-color:#FF8C00;
-			border-radius:4px;
-			border:none;
-			height:30px;
-			width:80px;
-			margin-top:10px;
-			color:white;
-		}
-		button:hover {
-			background-color:#FFA726;
-			color:black;
-		}
-		.input-color {
-			background-color:black;
-			border-radius:4px;
-			text-align:center;
-			margin-top:10px;
-			border:black;
-			height:30px;
-			color:white;
-		}
-		.text-section {
-			margin-bottom:3px;
-		}
+		
 	</style>
 </head>
 <body>
@@ -52,10 +21,31 @@
 
 	        <div class="content">
 				<div id="app">
-					
-					
-					
-					
+					<table>
+						<tr>
+							<th>이름</th>
+							<th>닉네임</th>
+							<th>아이디</th>
+							<th>비밀번호</th>
+							<th>이메일</th>
+							<th>핸드폰 번호</th>
+							<th>차단</th>
+							<th>Y/N</th>
+						</tr>
+						<tr v-for="item in list">
+								<td>{{item.userName}}</td>
+								<td>{{item.userNickName}}</td>
+								<td>{{item.userId}}</td>
+								<td>{{item.password}}</td>
+								<td>{{item.email}}</td>
+								<td>{{item.phone}}</td>
+								<td>{{item.ban}}</td>
+								<td><button @click="fnAdminUpdate(item.userId, 'Y')">차단</buttton></td>
+								<template v-if="{{item.ban}} == 'Y'">
+									
+								<template>
+						</tr>
+					</table>
 				</div>
 			</div>
 	    </main>
@@ -70,39 +60,48 @@
     const app = Vue.createApp({
         data() {
             return {
-				
+				list:[],
+				userId:'',
+				ban:''
 			};
         },
         methods: {
-			fnConfrimPw() {
+			fnGetList() {
 				var self=this;
-				if(!self.password) {
-					return;
-				}
-				var nparam={
-					userId:self.userId,
-					password:self.password
-				};
+				var nparam={};
 				$.ajax({
-					url:"/recheckPassword.dox",
+					url:"/adminUsers.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparam,
 					success : function(data) {
-						console.log("AJAX 응답 데이터4:", data); 
-						if(data.result == 'success'){
-							alert("정말로 탈퇴하시겠습니까?");
-							self.fnDeleteUp();
-	                        alert(data.message);
-						}	
+						console.log("AJAX 응답 데이터:", data); 
+							self.list=data.list;	
 					 }
+				});
+			},
+			fnAdminUpdate(userId,ban) {
+				var self=this;
+				var nparam={
+					userId:userId,
+					ban:ban
+				};
+				$.ajax({
+					url:"/updateAdmin.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparam,
+					success : function(data) {
+					console.log("AJAX 응답 데이터:", data); 
+						self.fnGetList();
+					}
 				});
 			}
    	 },			
 			
         mounted() {
             var self = this;
-			self.fnConfrimPw();
+			self.fnGetList();
         }
     });
     app.mount('#app');

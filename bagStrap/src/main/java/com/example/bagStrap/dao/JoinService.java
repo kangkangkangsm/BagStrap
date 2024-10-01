@@ -27,4 +27,9 @@ public interface JoinService {
 	HashMap<String, Object> QuitId(HashMap<String, Object> map);
 	
 	HashMap<String, Object> PasswordCheck(HashMap<String, Object> map);
+	
+	HashMap<String, Object> adminUsersCheck(HashMap<String, Object> map);
+	
+	HashMap<String, Object> updateAdminUsers(HashMap<String, Object> map);
+	
 }

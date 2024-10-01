@@ -19,6 +19,7 @@ public class User {
 	private String status;
 	private String createdDate;
 	private String updateDate;
+	private String ban;
 	
 	public String getUserId() {
 		return userId;
@@ -61,6 +62,9 @@ public class User {
 	}
 	public String getaddressDetail() {
 		return zonecode;
+	}
+	public String getban() {
+		return ban;
 	}
 }
 	
