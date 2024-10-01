@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.bagStrap.mapper.SharedHeaderMapper;
 import com.example.bagStrap.model.Item;
+import com.example.bagStrap.model.Notification;
 import com.example.bagStrap.model.Order;
 import com.example.bagStrap.model.RefundReason;
 import com.example.bagStrap.model.StudyComm;
@@ -124,7 +125,7 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		return resultMap;
 	}
 
-
+	@Transactional
 	@Override
 	public HashMap<String, Object> selectAdminOrderList(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
@@ -145,7 +146,7 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 			resultMap.put("totalPages", totalPages);
 			
 		} catch(Exception e) {
-			System.out.println("Exception : " + e);
+			e.printStackTrace();
 			resultMap.put("result", false);
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
 		}
@@ -255,9 +256,11 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		HashMap<String, Object> resultMap = new HashMap();
 		System.out.println(map);
 		try {
+			int totalPages = sharedHeaderMapper.selectStudyGroupForAdminCount(map);
 			List<StudyComm> studyList = sharedHeaderMapper.selectStudyGroupForAdmin(map);
 			if(studyList != null) {
 				resultMap.put("result", true);
+				resultMap.put("totalPages", totalPages);	
 				resultMap.put("studyList", studyList);	
 				resultMap.put("message", "exist my studyList");
 
@@ -300,6 +303,28 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 				resultMap.put("message", "거절되었습니다.");
 
 		} catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Transactional
+	@Override
+	public HashMap<String, Object> selectNotification(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			int totalPages = sharedHeaderMapper.selectNotificationCount(map);
+			List<Notification> notiList = sharedHeaderMapper.selectNotification(map);
+			resultMap.put("totalPages", totalPages);
+			resultMap.put("notiList", notiList);
+			resultMap.put("result", true);
+			resultMap.put("message", "notification");
+
+		} catch(Exception e) {
+			e.printStackTrace();
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
 			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");

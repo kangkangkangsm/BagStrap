@@ -44,7 +44,7 @@ public class SharedHeaderController {
 		 request.setAttribute("imp", map.get("imp"));
 		return "/header/header_refund";
 	}
-	@RequestMapping("/myshop/refundList") 
+	@RequestMapping("/myshop/refunds") 
     public String refundList(Model model) throws Exception{
 		return "/header/header_refund_list";
     }
@@ -71,6 +71,9 @@ public class SharedHeaderController {
 		try {
 			User user = (User) session.getAttribute("user");
 			if(user.getUserNickName() != null) {
+				map.put("status", user.getstatus());
+				map.put("userId", user.getUserId());
+				resultMap = sharedHeaderService.selectNotification(map);
 				resultMap.put("isLogin", true);
 				resultMap.put("userNickName", user.getUserNickName());
 				resultMap.put("userId", user.getUserId());
