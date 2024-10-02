@@ -198,7 +198,7 @@
 			<div class="study-comm-sidebard-section">
 			<ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 3000 && item.boardTypeId <= 3999 ">
-                <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
+                <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)" style="width:90%;">{{item.name}}</a></li>
 				</template>
             </ul>
 			</div>

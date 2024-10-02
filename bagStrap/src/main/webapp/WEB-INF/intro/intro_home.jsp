@@ -55,6 +55,7 @@
 	    justify-content: center;
 	    text-align: center;
 	    padding: 0 20px;
+		margin-top:-90px;
 	}
 
 	.hero-content h1 {
