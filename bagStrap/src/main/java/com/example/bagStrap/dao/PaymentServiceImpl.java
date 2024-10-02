@@ -60,49 +60,41 @@ public class PaymentServiceImpl implements PaymentService{
 	public ResponseEntity<Map> refund(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-			int[] amount = {0};
-			try {
-				//실제 주문개수와 환불신청개수 확인 및 즉시 환불 가능 여부 체크
-				List<Order> checkList = paymentMapper.checkRefund(refundMap);
-				boolean[] check = {false, false}; // 0: 환불 수량 에러 , 1: 즉시 환불 불가 = 테이블만 생성
-				
-				if(checkList.size() != 0) {
-					checkList.forEach(item -> {
-						System.out.println("calc: " + item.getCalc());
-						if(item.getCalc() <0) {
-							check[0] = true;
-						}
-						if(!item.getStatus().equals("주문 완료")) {
-							check[1] = true;
-						}
-					});	
-				}else {
-					check[1] = true;
-				} 
-
-				if(check[0]) {
-					ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
-					response.getBody().put("message","구매한 수량보다 많은 책은 환불 할 수 없습니다.");
-					return response;
-				} else if(check[1]) {
-			        //환불 테이블 생성
-					ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
-					makeRefundTable(refundMap);
-		        	//updateOrderStatus(refundMap,"중");
-					response.getBody().put("idx", refundMap.get("refundFile"));
-					response.getBody().put("message", "이미 배송이 시작된 주문입니다. 관리자 확인 후 환불 처리됩니다.");
-					
-					return response;
-				}
-			
-				return refundLogic(refundMap, tokenMap, false);
-
-			} catch(Exception e) {
-				e.printStackTrace();
-				ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
-				response.getBody().put("message","환불 처리 중 오류가 발생했습니다.");
-				return response;
+		int[] amount = {0};
+		try {
+			//실제 주문개수와 환불신청개수 확인 및 즉시 환불 가능 여부 체크
+			List<Order> checkList = paymentMapper.checkRefund(refundMap);
+			boolean[] check = {false, false}; // 0: 환불 수량 에러 , 1: 즉시 환불 불가 = 테이블만 생성
+			if(checkList.size() != 0) {
+				checkList.forEach(item -> {
+					System.out.println("calc: " + item.getCalc());
+					if(item.getCalc() <0) {
+						check[0] = true;
+					}
+				});	
 			}
+
+			if(check[0]) {
+				ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+				response.getBody().put("message","구매한 수량보다 많은 책은 환불 할 수 없습니다.");
+				return response;
+			} 
+			
+	        //환불 테이블 생성
+			ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+			makeRefundTable(refundMap);
+        	//updateOrderStatus(refundMap,"중");
+			response.getBody().put("idx", refundMap.get("refundFile"));
+			response.getBody().put("message", "환불 신청이 완료되었습니다. 관리자 확인 후 환불 처리됩니다.");
+			
+			return response;
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			ResponseEntity<Map> response = ResponseEntity.ok(new HashMap<String, Object>()); 
+			response.getBody().put("message","환불 처리 중 오류가 발생했습니다.");
+			return response;
+		}
 	}
 	//실제 환불 진행
 	private ResponseEntity<Map> refundLogic(HashMap<String, Object> refundMap,HashMap<String, Object> tokenMap, boolean admin) {
@@ -446,7 +438,7 @@ public class PaymentServiceImpl implements PaymentService{
 			map.put("categories", categories);
 			
 			System.out.println("selectOrderComplete-categories: "+map);
-			List<Order> selectOrderCompleteStudy = paymentMapper.selectOrderComplete(map);
+			List<Order> selectOrderCompleteStudy = paymentMapper.selectOrderCompleteStudy(map);
 			
 			resultMap.put("selectOrderComplete", selectOrderComplete);
 			resultMap.put("selectOrderCompleteStudy", selectOrderCompleteStudy);

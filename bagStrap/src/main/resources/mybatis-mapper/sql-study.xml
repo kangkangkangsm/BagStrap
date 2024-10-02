@@ -885,4 +885,13 @@
 	)
 	WHERE 3 >= ROWNUM
 	</select>	
+	<!-- 스터디 사이드바 사람 정보  -->
+	<select id="selectStuSidebar" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	select * from tbl_user TU 
+	LEFT JOIN (
+	SELECT TB2.BOARDNO,TB2.FILEPATH AS USERFILE, ROW_NUMBER() OVER (PARTITION BY TB2.BOARDNO ORDER BY TB2.FILECREATEDATE DESC) AS RN
+	FROM TBL_BOARDFILE TB2
+	) TB2 ON TU.USER_NO = TB2.BOARDNO AND TB2.RN = 1
+	WHERE TU.USER_ID = #{userId}
+	</select>
 </mapper>

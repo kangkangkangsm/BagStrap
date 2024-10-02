@@ -158,90 +158,8 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 
 
 	/* HEADER */
-
-	.header {
-	    display: flex;
-	    width: 100%;
-	    height: 150px; /* 헤더 높이 설정 */
-	    background-color: #4CAF50; /* 헤더 배경색 */
-	    color: white;
-	    align-items: center;
-	    padding: 0 10px;
-	    box-sizing: border-box;
-	}
-
-	.header-logo {
-	    flex: 15;
-	    height: 120px;
-	    background-color: #FFC107; /* 로고 배경색 */
-	}
-
-	.header-menu {
-	    flex: 55;
-	    height: 120px;
-	    background-color: #2196F3; /* 메뉴 배경색 */
-	    display: flex;
-	}
-
-	.headerCustomerMenu {
-	    font-size: 20px;
-	    flex: 30;
-	    height: 120px;
-	    background-color: #FF5722; /* 고객 메뉴 배경색 */
-	    display: flex;
-	    justify-content: flex-end;
-	    padding: 40px 0px;
-	    box-sizing: border-box;
-		text-align: center;
-	}
-	.headerCustomerSub{
-	    width: 100px;
-	    z-index: 1;
-	}
-	.headerLogin{
-	    
-	}
-	.headerLoginModal{
-	    width: 400px;
-	    height: 300px;
-	}
-	#loginBox{
-	    display: flex;
-	    flex-direction: column;
-
-	    margin: 20px auto;
-	    width: 300px;
-	    height: 200px;   
-	}
-	#loginImage{
-	    align-content: center;
-	}
 	
-	.headerloginMainMenu:hover .headerloginSubMenu{
-	    display: block;
-	}
-	.headerloginSubMenu{
-	    display: none;
-	    width: 120px;
-	    background-color: #eee;
-	    padding: 5px 0px;
-	}
-	.headerCSCetner{
-	    
-	}
-	.headerCart{
-	    
-	}
-	.headerIcon{
-		width: 30px;
-		margin: 0px 15px;
-	}
-	.headerAdmin{
-	    
-	}
-	.headerNotification{
-	    
-	}
+	
 
 
 
@@ -259,7 +177,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	/* SIDEBAR */
 	.sidebar {
 	    width: 300px; /* 사이드바의 고정 너비 */
-	    background-color: #9E9E9E; /* 사이드바 배경색 */
+	    background-color:#FFFFFF; /* 사이드바 배경색 */
 	    padding: 10px;
 	    box-sizing: border-box;
 	}

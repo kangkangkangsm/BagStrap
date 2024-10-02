@@ -37,7 +37,7 @@
 	}
 
 	.stu-comm-profile-info p {
-	    font-size: 16px;
+	    font-size: 19px;
 	    color: #333;
 	    margin: 0;
 	    cursor: pointer;
@@ -65,7 +65,7 @@
 	}
 
 	.stu-comm-activity-item a {
-	    font-size: 14px;
+	    font-size: 16px;
 	    color: #555;
 	    text-decoration: none;
 	    margin-right: 5px;
@@ -85,20 +85,21 @@
 
 	/* 메뉴 스타일 */
 	.stu-comm-menu {
-	    margin-top: 20px;
+	   
 	}
 
 	.stu-comm-menu button {
 	    width: 100%;
 	    padding: 10px;
 	    margin-bottom: 20px;
-	    background-color: #3a8ee6;
+	    background-color: #343A40;
 	    border: none;
 	    color: #ffffff;
 	    border-radius: 5px;
 	    font-weight: bold;
 	    cursor: pointer;
 	    transition: background-color 0.3s;
+		margin-top: -20px;
 	}
 
 	.stu-comm-menu button:hover {
@@ -118,7 +119,7 @@
 
 	.stu-comm-menu li a {
 	    display: block;
-	    font-size: 14px;
+	    font-size: 15px;
 	    color: #333;
 	    text-decoration: none;
 	    padding: 8px 10px;
@@ -127,9 +128,10 @@
 	}
 
 	.stu-comm-menu li a:hover {
-	    background-color: #3a8ee6;
-	    color: #ffffff;
+	    background-color: #E0E0E0; /* 호버 시 배경색 변경 */
+		width:280px;
 	}
+
 	/* 메뉴 구분선 */
 	.stu-comm-menu hr {
 	    border: none;
@@ -137,15 +139,30 @@
 	    background-color: #e0e0e0;
 	    margin: 15px 0;
 	}	
+	.study-comm-sidebard-h3 {
+		    margin: 10px 0;
+		    font-size: 15px;
+		    color: #333333;
+		    background-color: #E0E0E0;
+		    padding: 8px 12px;
+		    text-align: left;
+		    border-radius: 5px;
+	}
+	.study-comm-sidebard-section {
+		    margin-bottom: 10px;
+		    padding: 10px;
+		    background-color: #F9F9F9;
+		   
+		    border-radius: 5px;
+	}
+	.study-group-sidebard :hover {
+		    background-color: #007bff;
+		    color: white;
+		    border-color: #007bff;
+		}
 	</style>
 <body>
 	<aside id="studycommsidebar">
-		<div class="stu-comm-profile">
-            <img src="../src/profile.png" alt="프로필 사진" class="stu-comm-profile-img" @click="fnMyboard">
-            <div class="stu-comm-profile-info">
-                <p @click="fnMyboard"><strong>{{sessionUserNickName}} 님</strong></p>
-            </div>
-        </div>
         <!-- 내가 쓴 게시글, 댓글 -->
         <div class="stu-comm-user-activity">
             <div class="stu-comm-activity-item">
@@ -156,33 +173,35 @@
             <div class="stu-comm-activity-item">
                 <span class="stu-comm-activity-icon">💬</span>
                 <a href="#" @click="fnMyboard" >내가 쓴 댓글</a>
-				<a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyCommCnt}}개</a>
+				<a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMycommentCnt}}개</a>
             </div>
-			<div class="stu-comm-activity-item">
-               <span class="stu-comm-activity-icon">👥</span>
-               <a href="#" @click="fnMyboard">가입중인 그룹</a>
-               <a class="stu-comm-activity-count" href="#" @click="fnMyboard">{{countMyStudyCnt}}개</a>
-           </div>
         </div>
         <nav class="stu-comm-menu">
-            <button @click="fnInsertComm">커뮤니티 글쓰기</button>
+			<h3 class="study-comm-sidebard-h3">게시판</h3>
+			<div class="study-comm-sidebard-section">
             <ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 1000 && item.boardTypeId <= 1999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId, item.name)">{{item.name}}</a></li>
-				</template>
+				</template>	
 			</ul>
-			<hr>
+			</div>
+			
+			<h3 class="study-comm-sidebard-h3">스터디</h3>
+			<div class="study-comm-sidebard-section">
 			<ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 2000 && item.boardTypeId <= 2999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
 				</template>
 			</ul>
-			<hr>	
+			</div>
+			<h3 class="study-comm-sidebard-h3">이벤트</h3>	
+			<div class="study-comm-sidebard-section">
 			<ul v-for="item in boardTypelist">
 				<template v-if="item.boardTypeId >= 3000 && item.boardTypeId <= 3999 ">
                 <li><a href="#" @click="fnboardview(item.boardTypeId,item.name)">{{item.name}}</a></li>
 				</template>
             </ul>
+			</div>
         </nav>    
 	</aside>
 </body>
@@ -199,10 +218,14 @@
 				sessionUserId : '',
 				countMyCommCnt: null,
 				countMycommentCnt: null,
-				countMyStudyCnt: null
+				countMyStudyCnt: null,
+				sidebarSession : {}
             };
         },
         methods: {
+			fnStudy(){
+				location.href="/study-group-list";
+			},
 			fnboardview(boardTypeId,name){
 				var self = this;
 				self.name2 = "";
@@ -239,7 +262,7 @@
 			fnMyCnt(){
 				var self = this;
 				var sessionUserId = self.sessionUserId;
-				alert(sessionUserId);
+				
 				var nparmap = { userId : sessionUserId
 				};
 				$.ajax({
@@ -248,9 +271,11 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
+						console.log(data);
 						self.countMyCommCnt=data.countMyCommCnt;
 						self.countMycommentCnt=data.countMycommentCnt;
 						self.countMyStudyCnt = data.countMyStudyCnt;
+						self.sidebarSession = data.sidebarSession;
 				}
 			});
 	       },
@@ -299,17 +324,6 @@
 				 $.pageChange("/study-comm-myboard",{itemMode : "comment"});				
 				}
 		    },
-			fnInsertComm(){
-				var self = this;
-				if(!self.isLogin){
-					alert("로그인 먼저 하세요.");
-					document.getElementById('headerLoginModal').showModal();
-					document.getElementById('inputId').focus();
-					
-				}else{
-				location.href="commInsert"					
-				}
-			},
 			fnLogin(){
 				var self = this;
 				var nparmap = {

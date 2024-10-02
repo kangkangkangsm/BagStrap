@@ -44,7 +44,7 @@ public class SharedHeaderController {
 		 request.setAttribute("imp", map.get("imp"));
 		return "/header/header_refund";
 	}
-	@RequestMapping("/myshop/refundList") 
+	@RequestMapping("/myshop/refunds") 
     public String refundList(Model model) throws Exception{
 		return "/header/header_refund_list";
     }
@@ -52,15 +52,10 @@ public class SharedHeaderController {
 	public String cart(Model model) throws Exception {
 		return "/header/header_cart";
 	}
-	//아직 만든거 아님
-	@RequestMapping(value = "/myStudy.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public String myStudy(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
-		System.out.println(map);
-		HashMap<String, Object> resultMap = new HashMap();
 
-
-		return new Gson().toJson(resultMap);
+	@RequestMapping("/admin/studyList")
+	public String adminStudyList(Model model) throws Exception {
+		return "/admin/admin_study_list";
 	}
     @RequestMapping("/myshop/review") 
     public String shop_cart(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception {
@@ -76,6 +71,9 @@ public class SharedHeaderController {
 		try {
 			User user = (User) session.getAttribute("user");
 			if(user.getUserNickName() != null) {
+				map.put("status", user.getstatus());
+				map.put("userId", user.getUserId());
+				resultMap = sharedHeaderService.selectNotification(map);
 				resultMap.put("isLogin", true);
 				resultMap.put("userNickName", user.getUserNickName());
 				resultMap.put("userId", user.getUserId());
@@ -268,6 +266,60 @@ public class SharedHeaderController {
 				map.put("userId", user.getUserId());
 				
 				resultMap = sharedHeaderService.deleteMyReview(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/selectStudyGroupForAdmin.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String selectStudyGroupForAdmin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.selectStudyGroupForAdmin(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/updateStudyGroupForAdmin.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updateStudyGroupForAdmin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.updateStudyGroupForAdmin(map);
+			} 
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/deleteStudyGroupForAdmin.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteStudyGroupForAdmin(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user != null) {
+				map.put("userId", user.getUserId());
+				
+				resultMap = sharedHeaderService.deleteStudyGroupForAdmin(map);
 			} 
 		} catch(NullPointerException e) {
 			resultMap.put("isLogin", false);

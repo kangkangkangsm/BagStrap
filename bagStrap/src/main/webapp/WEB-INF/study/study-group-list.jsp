@@ -8,13 +8,6 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-		body {
-			margin: 0;
-			padding: 0;
-			font-family: 'Noto Sans KR', Arial, sans-serif;
-			background-color: #f7f7f7;
-			color: #333;
-		}
 
 		.study-group-list-content {
 			width: 80%;
@@ -48,19 +41,14 @@
 		}
 
 		.study-group-list-search-bar button {
-			padding: 12px 18px;
-			border: none;
-			border-radius: 10px;
-			background-color: #007bff;
-			color: white;
-			font-size: 16px;
-			cursor: pointer;
-			transition: background 0.3s ease;
+			background:#343A40;
+	       color: #fff;
+	       border: none;
+	       cursor: pointer;
+	       transition: background-color 0.3s;
+	       font-size: 1em; /* 글자 크기 조정 */
 		}
 
-		.study-group-list-search-bar button:hover {
-			background-color: #0056b3;
-		}
 
 		.study-group-list-grid {
 			display: grid;
@@ -110,56 +98,136 @@
 			font-weight: bold;
 		}
 
-		.stu-comm-myboard-pagination {
-			display: flex;
-			justify-content: center;
-			gap: 15px;
-			margin-top: 30px;
+		/* Pagination 스타일 */
+		   .stu-comm-list-pagination {
+		       display: flex;
+		       justify-content: center;
+		       align-items: center;
+		       margin: 30px 0;
+		       gap: 10px;
+			color: #000000;
+		   }
+
+		   .stu-comm-list-pagination button {
+		       background-color: #ffffff;
+		       border: 1px solid #dee2e6;
+		   	 color: #000000;
+		       padding: 10px 15px;
+		       cursor: pointer;
+		       transition: background-color 0.3s, color 0.3s;
+		       border-radius: 4px;
+		       font-size: 1em; /* 글자 크기 조정 */
+		   }
+
+		   .stu-comm-list-pagination button:hover {
+		       background-color: #E0E0E0;
+		       color: #ffffff;
+		   }
+
+		   .stu-comm-list-pagination button.active {
+		       background-color: #000000;
+		       color: #ffffff;
+		       cursor: default;
+		   }
+
+		   .stu-comm-list-pagination button:disabled {
+		       background-color: #e9ecef;
+		       color: #6c757d;
+		       cursor: not-allowed;
+		       border: 1px solid #dee2e6;
+		   }	
+
+		.study-group-list-grid {
+		    display: grid;
+		    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		    gap: 30px;
 		}
 
-		.stu-comm-myboard-pagination button {
-			background: #ddd;
-			border: none;
-			padding: 12px 16px;
-			border-radius: 50px;
-			font-size: 16px;
-			cursor: pointer;
-			transition: background 0.3s ease;
+		.study-group-list-item {
+		    background: #ffffff;
+		    border-radius: 15px;
+		    overflow: hidden;
+		    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+		    transition: transform 0.3s ease, box-shadow 0.3s ease;
+		    cursor: pointer;
+		    display: flex;
+		    flex-direction: column;
+		    height: 100%;
 		}
 
-		.stu-comm-myboard-pagination button:hover {
-			background: #bbb;
+		.study-group-list-item:hover {
+		    transform: translateY(-10px);
+		    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
 		}
 
-		.stu-comm-myboard-pagination button.active {
-			background: #007bff;
-			color: #fff;
-			font-weight: bold;
+		.study-group-card {
+		    display: flex;
+		    flex-direction: column;
+		    height: 100%;
 		}
 
-		.stu-comm-myboard-pagination button:disabled {
-			background: #aaa;
-			cursor: not-allowed;
+		.study-group-image-wrapper {
+		    width: 100%;
+		    height: 200px;
+		    overflow: hidden;
+		    position: relative;
 		}
 
-		@media (max-width: 768px) {
-			.study-group-list-search-bar {
-				flex-direction: column;
-				align-items: flex-start;
-			}
+		.study-group-list-image {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    transition: transform 0.3s ease;
+		}
 
-			.study-group-list-search-bar input[type="text"] {
-				width: 100%;
-				margin-bottom: 10px;
-			}
+		.study-group-list-image:hover {
+		    transform: scale(1.05);
+		}
 
-			.study-group-list-grid {
-				grid-template-columns: 1fr;
-			}
+		.study-group-content {
+		    padding: 20px;
+		    display: flex;
+		    flex-direction: column;
+		    flex-grow: 1;
+		    justify-content: space-between;
+		}
 
-			.study-group-list-item {
-				margin: 0 20px;
-			}
+		.study-group-title {
+		    font-size: 1.5em;
+		    font-weight: bold;
+		    margin-bottom: 10px;
+		    color: #333;
+		    display: flex;
+		    align-items: center;
+		    gap: 5px;
+		}
+
+		.study-group-details {
+		    font-size: 1em;
+		    color: #555;
+		    margin-bottom: 10px;
+		    display: flex;
+		    align-items: center;
+		    gap: 10px;
+		}
+
+		.study-group-details span {
+		    display: inline-flex;
+		    align-items: center;
+		    gap: 5px;
+		}
+
+		.study-group-schedule {
+		    font-size: 0.9em;
+		    color: #777;
+		    margin-top: auto;
+		}
+
+		.no-results {
+		    font-size: 1.2em;
+		    color: #555;
+		    text-align: center;
+		    padding: 40px;
 		}
 	</style>
 <body>
@@ -168,7 +236,7 @@
             <jsp:include page="/layout/study-group-sidebar.jsp"></jsp:include>
         </aside>
         
-		<div id="app" class="study-group-list-content">
+		<div id="app" class="content">
 			<div class="study-group-list-search-bar">
 				<input type="text" placeholder="검색어를 입력하세요" v-model="search" @keyup.enter="fnGetList()">
 				<button @click="fnGetList()">검색</button>
@@ -176,38 +244,40 @@
 				<button @click="fnStudyCreate()">스터디 등록</button>
 			</div>
 			<div class="study-group-list-container">
-				<div class="study-group-list-grid">
-					<div class="study-group-list-item" v-for="item in groupList">
-						<template v-if="item">
-							<template v-if="item.filePath">
-								<img :src="item.filePath" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
-							</template>
-							<template v-else>
-								<img src="../src/profile.png" alt="Product Image" class="study-group-list-image" @click="fnDetail(item.studyGroupId)">
-							</template>
-							<div class="study-group-list-title" @click="fnDetail(item.studyGroupId)">
-								[{{item.name}}]{{item.studyName}}
-							</div>
-							<template v-if="item.applyY != item.maxparticipants">
-								<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-									{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} | 인원 {{item.applyY}} / {{item.maxparticipants}}
-								</div>
-							</template>
-							<template v-if="item.applyY == item.maxparticipants">
-								<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-									{{item.genderGroup}} | {{item.onOffMode}} | {{item.age}} | <a>참여 인원 마감</a>
-								</div>
-							</template>
-							<div class="study-group-list-details" @click="fnDetail(item.studyGroupId)">
-								시작일 {{item.stgStartDate}} ~ | 시간 {{item.stgStudyTime}}
-							</div>
-						</template>
-						<template v-if="!item">
-							<div>검색된 결과가 없습니다.</div>
-						</template>
-					</div>
-				</div>
-				<div class="stu-comm-myboard-pagination">
+			    <div class="study-group-list-grid">
+			        <div class="study-group-list-item" v-for="item in groupList">
+			            <template v-if="item">
+			                <div class="study-group-card" @click="fnDetail(item.studyGroupId)">
+			                    <div class="study-group-image-wrapper">
+			                        <template v-if="item.filePath">
+			                            <img :src="item.filePath" alt="Study Group Image" class="study-group-list-image">
+			                        </template>
+			                        <template v-else>
+			                            <img src="../src/profile.png" alt="Default Image" class="study-group-list-image">
+			                        </template>
+			                    </div>
+			                    <div class="study-group-content">
+			                        <h3 class="study-group-title">
+			                             [{{item.name}}] {{item.studyName}}
+			                        </h3>
+			                        <p class="study-group-details">
+			                            👫 {{item.genderGroup}} | 🧒 {{item.age}} | {{item.onOffMode}} |
+			                            <span v-if="item.applyY != item.maxparticipants"> 👥 {{item.applyY}} / {{item.maxparticipants}}</span>
+			                            <span v-else>❌ 참여 인원 마감</span>
+			                        </p>
+			                        <p class="study-group-schedule">
+			                            📅 시작일 {{item.stgStartDate}} ~ | ⏰ 시간 {{item.stgStudyTime}} 
+			                        </p>
+			                    </div>
+			                </div>
+			            </template>
+			            <template v-if="!item">
+			                <div class="no-results">🔍 검색된 결과가 없습니다.</div>
+			            </template>
+			        </div>
+			    </div>
+			</div>
+				<div class="stu-comm-list-pagination">
 					<button @click="fnGetList(currentPage - 1)" :disabled="currentPage <= 1">이전</button>
 					<button v-for="page in totalPages" :key="page" :class="{active: page == currentPage}" @click="fnGetList(page)">
 						{{ page }}
@@ -238,7 +308,7 @@
 					participants :'${participants}',
 					totalPages: 5,
 	                currentPage: 1,      // 현재 페이지 
-	                pageSize: 12,         // 한 페이지에 보여줄 개수 
+	                pageSize: 9,         // 한 페이지에 보여줄 개수 
 					search:""
 	            };
 	        },
@@ -323,6 +393,10 @@
 	            var self = this;
 				self.fnSession();
 				self.fnGetList();
+				// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+				        window.addEventListener('loginStatusChanged', function () {
+				            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+				        });
 				window.addEventListener('loginStatusChanged', function(){
 					if(window.sessionStorage.getItem("isLogin") === 'true'){
 						self.isLogin = true;	

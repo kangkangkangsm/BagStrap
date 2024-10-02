@@ -8,77 +8,91 @@
 	<title>첫번째 페이지</title>
 	<style>
 
-		.ordered-list-container {
-		    display: flex;
-		    border-bottom: 1px solid #eee;
+		.payment-complete-left-container, .payment-complete-right-container {
+		    flex: 1;
+		    padding: 20px;
+		    box-sizing: border-box;
+		}
+
+		.payment-complete-left-container {
+		    border-right: 1px solid #ddd;
+		}
+
+		.payment-complete-thank-you-message {
+		    text-align: center;
+		    font-size: 24px;
+		    font-weight: bold;
+		    margin-bottom: 20px;
+		    color: #333;
+		}
+
+		.payment-complete-order-summary {
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		    background-color: #fff;
 		    padding: 20px;
 		    margin-bottom: 20px;
 		}
 
-		.left-section {
-		    flex: 3;
-		    padding-right: 20px;
-		    border-right: 1px solid #eee; /* Border between left and right section */
+		.payment-complete-ordered-list {
+		    list-style-type: none;
+		    padding: 0;
 		}
 
-		.right-section {
-		    flex: 1;
+		.payment-complete-ordered-list-item {
 		    display: flex;
-		    flex-direction: column;
 		    justify-content: space-between;
-		    padding-left: 20px;
+		    margin-bottom: 15px;
+		    border-bottom: 1px solid #eee;
+		    padding-bottom: 10px;
 		}
 
-		.status {
-		    font-weight: bold;
-		    margin-bottom: 5px;
+		.payment-complete-ordered-list-item img {
+		    width: 60px;
+		    height: 80px;
+		    margin-right: 10px;
 		}
 
-		.arrival-time {
-		    color: green;
-		    margin-bottom: 10px;
-		}
-
-		.ordered-product {
-		    display: flex;
-		    margin-bottom: 10px;
-		}
-
-		.ordered-product-image {
-			width:80px;
-		    height: 100px;
-		    margin-right: 20px;
-		}
-
-		.ordered-product-info {
-			flex:1;
-		    display: flex;
-		    flex-direction: column;
-		    justify-content: space-between;
-		}
-
-		.ordered-product-name {
-		    font-size: 18px;
-		    margin-bottom: 10px;
-		}
-
-		.ordered-product-detail-info {
-		    position: relative;
-		    justify-content: space-between;
-		    font-size: 16px;
-		}
-
-		.relative-right{
-			position: absolute;
-			right:0px;
-			bottom:0px
-		}
-		.ordered-button {
-		    padding: 10px;
-		    background-color: #f0f0f0;
+		.payment-complete-recommended-study {
 		    border: 1px solid #ddd;
-		    cursor: pointer;
-		    text-align: center;
+		    border-radius: 5px;
+		    background-color: #fff;
+		    padding: 20px;
+		}
+
+		.payment-complete-recommended-study-title {
+		    font-size: 20px;
+		    font-weight: bold;
+		    margin-bottom: 15px;
+		    color: #333;
+		}
+
+		.payment-complete-study-list {
+		    list-style-type: none;
+		    padding: 0;
+		}
+
+		.payment-complete-study-list-item {
+		    margin-bottom: 10px;
+		}
+
+		.payment-complete-study-list-item a {
+		    text-decoration: none;
+		    color: #007bff;
+		}
+
+		.payment-complete-study-list-item a:hover {
+		    text-decoration: underline;
+		}
+
+		.payment-complete-study-description {
+		    font-size: 14px;
+		    color: #666;
+		}
+
+		.payment-complete-study-date {
+		    font-size: 12px;
+		    color: #999;
 		}
 	</style>
 </head>
@@ -92,46 +106,56 @@
 
 	        <div class="content">
 				<div id="app">
-<!--
-					<div v-if="isLogin">
-						<div v-if="isOrderExists">
-							
-							<div id="order-list-by-date" v-for="(items, date) in groupedByDate" :key="date">
-								<span class="ordered-date">주문 번호: {{date}}</span>
-								<div class="ordered-date">주문일: {{items[0].orderdateYear}}</div	>
-								<div class="ordered-list-container round">
-								     Left Section 
-								    <div class="left-section">
-										<div class="status">
-											{{items[0].status}}
-											<span class="arrival-time">{{items[0].arriveddateDay}} 도착</span>
-										</div>
-								        <div class="ordered-product" v-for="item in items">
-								            <img class="ordered-product-image" :src="item.image" :alt="item.title">
-											<div class="ordered-product-info">
-								                <div class="ordered-product-name">{{item.title}}</div>											
-								                <div class="ordered-product-detail-info">
-								                    <span>{{item.price}}</span> / <span>{{item.quantity}}</span> 
-													<button class="ordered-button" @click="goToReview(item)">
-														 {{ item.rating === 0 ? '리뷰 작성하기' : '리뷰 수정하기' }}
-													</button>
-	
-													<button class="ordered-button relative-right">장바구니에 추가</button>
-								                </div>
-								            </div>
-								        </div>
-								    </div>
-								     Right Section 
-								    <div class="right-section">
-										<button class="ordered-button" @click="fnSubmitRefund(items[0].orderId, items[0].imp)">교환, 반품 신청</button>
-								    </div>
-									
-								</div>
-							</div>
-						</div>
-					</div>
--->
 					
+					
+					<div class="payment-complete-left-container">
+					          <div class="payment-complete-thank-you-message">구매해주셔서 감사합니다!</div>
+
+					          <div class="payment-complete-order-summary" >
+								<h2>주문 번호 : {{orderId}}</h2>
+								<h2>구매 가격 : {{priceSum}}</h2>
+					              <ul class="payment-complete-ordered-list" v-for="item in orderList">
+					                  <li class="payment-complete-ordered-list-item">
+										<a href="javascript:;" @click="goToDetail('book', item.bookId)">
+					                      <img :src="item.image" :alt="item.title">
+					                      <div>
+					                          <strong>{{item.title}}</strong>
+					                          <div>가격: {{item.price}}원</div>
+					                          <div>수량: {{item.quantity}}</div>
+					                      </div>
+									    </a>
+					                  </li>
+					                  <!-- 추가 주문 항목이 있다면 여기에 추가 -->
+					              </ul>
+					          </div>
+					      </div>
+
+					      <div class="payment-complete-right-container">
+					          <div class="payment-complete-recommended-study">
+					              <h2 class="payment-complete-recommended-study-title">이런 스터디에 가입해보세요!</h2>
+					              <ul class="payment-complete-study-list">
+					                  <li class="payment-complete-study-list-item" v-for="item in studyList">
+										<a href="javascript:;" @click="goToDetail('study', item.studyGroupId)">
+											<div>
+												<template v-if="item.filePath">
+													<img style="width: 100px; height: 100px" :src="item.filePath" alt="Product Image" class="">
+												</template>
+												<template v-else>
+													<img style="width: 100px; height: 100px" src="../src/profile.png" alt="Product Image" class="">
+												</template>					                      <a href="#">{{item.studyName}}</a>
+						                        <div class="payment-complete-study-description">{{item.description}}</div>
+										  <div>
+									  	</a>
+					                  </li>
+					                  <!-- 추가 스터디 항목이 있다면 여기에 추가 -->
+									  <a href="javascript:;" @click="goToDetail('','')">
+										더 많은 스터디를 보고싶다면?
+										</a>
+					              </ul>
+					          </div>
+					      </div>
+					
+						  
 		        </div>
 			</div>
 
@@ -148,37 +172,14 @@
     const app = Vue.createApp({
         data() {
             return {
-				//가변값 넣어라
 				isLogin : false,
-                isOrderExists : true,
-				year: '',
-				orderYear: [],
 				orderList: [],
-				comparedList: JSON.parse('${orderList}'),
+				studyList: [],
 				priceSum: '${priceSum}',
 				orderId: '${orderId}',
-				list : {},
-				codeList : {},
-				selectedCodes : [],
-				currentPage: 1,
-				totalPages: 1,
-				pageSize: 10,
-				maxPageDisplay: 10
 				
             };
         },
-		computed: {
-		    groupedByDate() {
-				var self = this;
-		        return self.orderList.reduce((acc, item) => {
-		            if (!acc[item.orderId]) {
-		                acc[item.orderId] = [];
-		            }
-		            acc[item.orderId].push(item);
-		            return acc;
-		        }, {});
-		    }
-		},
         methods: {
             fnGetList(){
 				var self = this;
@@ -191,17 +192,25 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
-						if(data.orderList){
-						self.orderList = data.orderList;
-						self.orderYear = data.orderYear;
-						alert(self.orderId)
-						console.log(self.orderList)
+						if(data.selectOrderComplete){
+						self.orderList = data.selectOrderComplete;
+						self.studyList = data.selectOrderCompleteStudy;
+
 							
 						}
 
 					}
 				});
-            }
+            },
+			goToDetail(str, id){
+				if(str === 'book'){
+					$.pageChange("/shop/detail", {bookId:id})
+				} else if(str === 'study'){
+					$.pageChange("/study-group-detail", {boardNo:id})
+				} else {
+					$.pageChange("/study-group-list", {subjectTypeId: 2000})
+				}
+			}
         },
         mounted() {
             var self = this;

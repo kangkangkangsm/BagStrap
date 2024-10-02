@@ -680,10 +680,7 @@
 <body>
    <div id="app">
       <main class="main-container">
-           <aside class="sidebar">
-         <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
-           </aside>
-         <div class="study-mygroup-detail2-content">
+         <div class="content">
              <div class="study-mygroup-detail2-container">
                  <!-- 사이드바 시작 -->
 				 <div class="study-mygroup-detail2-sidebar">
@@ -1635,6 +1632,10 @@
            },
            mounted() {
             var self = this;
+			// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
+			        window.addEventListener('loginStatusChanged', function () {
+			            self.fnSession();  // (추가) 로그인 상태가 변경되었을 때 자동으로 세션 정보 업데이트
+			        });
             self.fnSession();
             self.fnDetail();
 			self.fnMessageSelect();

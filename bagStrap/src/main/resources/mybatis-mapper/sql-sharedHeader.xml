@@ -139,5 +139,46 @@
 		DELETE FROM TBL_REVIEW
 		WHERE USER_ID = #{userId} AND BOOK_ID = #{bookId}
 	</delete>
+	<select id="selectStudyGroupForAdminCount" parameterType="hashmap" resultType="Integer">
+	    SELECT CEIL(COUNT(*)/#{pageSize})
+		FROM
+		(SELECT *
+		FROM TBL_STUDY_GROUP G
+		INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
+		ORDER BY STARTDATE DESC)
+		ORDER BY GROUPSTATUS
+	</select>
+	<select id="selectStudyGroupForAdmin" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+		SELECT * 
+		FROM
+		(SELECT *
+		FROM TBL_STUDY_GROUP G
+		INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
+		ORDER BY STARTDATE DESC)
+		ORDER BY GROUPSTATUS
+		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+	</select>
+	<update id="updateStudyGroupForAdmin" parameterType="hashmap">
+		UPDATE TBL_STUDY_GROUP
+		SET GROUPSTATUS = 'Y'
+		WHERE STUDY_GROUP_ID = ${studyGroupId}
+	</update>
+	<delete id="deleteStudyGroupForAdmin" parameterType="hashmap">
+		DELETE FROM TBL_STUDY_GROUP
+		WHERE STUDY_GROUP_ID = ${studyGroupId}
+	</delete>
 	
+	<select id="selectNotificationCount" parameterType="hashmap" resultType="int">
+	    SELECT CEIL(COUNT(*)/#{pageSize})
+		FROM TBL_NOTIFICATION
+		WHERE USER_ID = #{userId} OR STATUS = #{status}
+
+	</select>
+	<select id="selectNotification" parameterType="hashmap" resultType="com.example.bagStrap.model.Notification">
+		SELECT NOTIFICATION_ID, BOARD_NO, CATEGORY, USER_ID, STATUS, CNT, TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS CREATED_DATE, MESSAGE
+		FROM TBL_NOTIFICATION
+		WHERE USER_ID = #{userId} OR STATUS = #{status}
+		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+
+	</select>
 </mapper>
