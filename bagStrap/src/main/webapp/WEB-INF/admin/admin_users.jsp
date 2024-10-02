@@ -29,6 +29,8 @@
 							<th>비밀번호</th>
 							<th>이메일</th>
 							<th>핸드폰 번호</th>
+							<th>자격</th>
+							<th>자격부여</th>
 							<th>차단</th>
 							<th>Y/N</th>
 						</tr>
@@ -39,11 +41,16 @@
 								<td>{{item.password}}</td>
 								<td>{{item.email}}</td>
 								<td>{{item.phone}}</td>
+								<td>{{item.status}}</td>
+								<td>
+									<button v-if="item.status == 'USER'" @click></button>
+									<button></button>
+								</td>
 								<td>{{item.ban}}</td>
-								<td><button @click="fnAdminUpdate(item.userId, 'Y')">차단</buttton></td>
-								<template v-if="{{item.ban}} == 'Y'">
-									
-								<template>
+								<td>
+								<button v-if="item.ban === 'N'" @click="fnAdminUpdate(item.userId, 'Y')">차단</buttton>
+								<button v-else @click="fnAdminUpdate(item.userId, 'N')">해제
+								</td>
 						</tr>
 					</table>
 				</div>
