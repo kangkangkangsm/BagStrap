@@ -228,7 +228,127 @@
 		    background-color: #0056b3;
 		    color: white;
 		}
+
+		.study-group-list-search-bar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 30px;
+			gap: 15px;
+		}
+
+		.study-group-list-search-bar input[type="text"] {
+			flex: 1;
+			padding: 12px 16px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			font-size: 16px;
+			transition: border 0.3s;
+		}
+
+		.study-group-list-search-bar input[type="text"]:focus {
+			border-color: #007bff;
+			outline: none;
+		}
+
+		.study-group-list-search-bar button {
+			background:#343A40;
+		   color: #fff;
+		   border: none;
+		   cursor: pointer;
+		   transition: background-color 0.3s;
+		   font-size: 1em; /* 글자 크기 조정 */
+		}
+		.shop-list-title{
+			font-size: 30px;
+			font-weight: bold;
+			margin: 0px 20px 0px 0px;
+		}
+		.shop-list-title-bar{
+			display:flex;
+			margin: 20px auto;
+		}
+		.shop-list-search-bar{
+			flex:1
+		}
+		.shop-list-search-btn{
+			width: 80px;
+		}
 		
+		.book-container {
+		    display: flex;
+		    align-items: center;
+		    background-color: white;
+		    border-radius: 10px;
+		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		    padding: 20px;
+
+		    width: 100%;
+		}
+
+		.book-cover {
+		    width: 150px;
+		    height: auto;
+		    border-radius: 5px;
+		    margin-right: 20px;
+		}
+
+		.book-details {
+		    flex-grow: 1;
+		}
+		.book-details h1 {
+			font-weight: bold;
+		    font-size: 24px;
+		    margin: 0 0 10px;
+		}
+		.book-details h2 {
+		    font-size: 20px;
+		    margin: 0 0 10px;
+		}
+		.book-details h3 {
+			opacity: 0.8;
+		    font-size: 18px;
+		    margin: 0 0 10px;
+		}
+		.price {
+		    font-size: 20px;
+		    margin: 5px 0;
+		}
+
+		.rating {
+		    display: flex;
+		    margin: 5px 0;
+		}
+
+		.star {
+		    width: 20px;
+		    height: 20px;
+		    margin-right: 2px;
+		}
+
+		.discount {
+		    font-size: 18px;
+		    color: red;
+		    margin: 10px 0;
+		}
+
+		.add-to-cart {
+		    padding: 10px 15px;
+		    border: none;
+		    background-color: #ff7f50;
+		    color: white;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    font-size: 16px;
+		}
+
+		.add-to-cart:hover {
+		    background-color: #e74c3c;
+		}
+		
+		.added-cart-message{
+			
+		}
 </style>
 </head>
 <body>
@@ -241,56 +361,44 @@
 		<div class="content">
 			<div id="app">
 
-				<div>
-					<!-- 메인 제목과 버튼 -->
+				<div class="shop-list-title-bar">
+					<h1 class="shop-list-title">{{category}}</h1>
+					<div class="study-group-list-search-bar shop-list-search-bar">
+						<input type="text" placeholder="검색어를 입력하세요" v-model="keyword" @keyup.enter="fnGetList(1)">
+						<button class="shop-list-search-btn" @click="fnGetList(1)">검색</button>
+					</div>
+				</div>
+					<div v-if="bookList.length === 0">해당하는 상품이 존재하지 않습니다.</div>
+				<div  v-for="(book, index) in bookList" :key="book.bookId" style="text-decoration: none; color: inherit;">
+					<a class="book-container" @click="goToDetail(book.bookId)" href="javascript:;" >
+					    <img :src="book.image" alt="책 표지" class="book-cover">
+					    <div class="book-details">
+							<h1>{{ book.shortTitle }}</h1>
+							<h3>{{ book.author }}</h3>
+							<h2>{{ book.shortDescription }}</h2>
+					        
+	
+					        <div class="rating">
+								평점: {{ book.rating }}
+					        </div>
+					        
+					    </div>
+					    <div>
+							<p class="price">{{ book.price }}원</p>
+												        <p class="discount" v-if="book.discount != 0">{{ book.discount }}% 할인 중</p>
+					        <button class="add-to-cart" @click="insertCartItem(book.bookId)">장바구니에 추가</button>
+							<div class="added-cart-message">장바구니 추가됨~</div>
+					    </div>
+					</a>
+				</div>
 					
-		
-					<!-- 검색 및 필터 -->
-					<div class="inputBox">
-						<div class="main-chap1">
-							<h1>{{category}}</h1>
-						</div>
-						<select v-model="pageSize" @change="fnGetList(1)">
-							<option value="5">5개씩</option>	
-							<option value="10">10개씩</option>	
-							<option value="20">20개씩</option>	
-						</select>
-					</div>
-		
-					<!-- 체크박스 및 장바구니 버튼 -->
-					<div class="button-container">
-						{{selectedBooks}}
-						<input type="checkbox" v-model="isAllSelected" @change="selectAllBooks"> 전체선택
-						<button @click="addToCart()">장바구니</button>
-					</div>
-		
-					<hr>
-		
-					<div class="book-list">
-						<!--'/bookDetail/' + book.BOOK_ID-->
-						<div v-for="(book, index) in bookList" :key="book.bookId" class="book-item" style="text-decoration: none; color: inherit;">
-							<a @click="goToDetail(book.bookId)" href="javascript:;" >
-								<input type="checkbox" :value="book.bookId" @change="isItemChecked(book.bookId)">
-								<img :src="book.image" alt="책 이미지">
-								<h5>{{ book.title }}</h5>
-								<div class="price">{{ book.price }}원</div>
-								<div class="discount">{{ book.discount }}% 할인</div>
-								<div class="rating">평점: {{ book.rating }}</div>
-								<img class="heart-icon" src="/src/heart.png" alt="좋아요">
-							</a>
-							<button type="button" @click="insertCartItem(book.bookId)">장바구니 추가</button>
-						</div>
-						
-					</div>
-					
-					<!--페이징네이션 버튼-->
-					<div class="pagination">
-						<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
-					    <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
-					        {{ page }}
-					    </button>
-					    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
-					</div>
+				<!--페이징네이션 버튼-->
+				<div class="pagination">
+					<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+				    <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
+				        {{ page }}
+				    </button>
+				    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
 				</div>
 			
 				
@@ -313,7 +421,7 @@
 			            bookList: [],          // 서버에서 받아올 전체 책 데이터
 						currentPage: 1,
 						totalPages: 5,
-						pageSize: 10,
+						pageSize: 5,
 						maxPageDisplay: 10,
 						keyword: '',           // 검색 키워드
 						category2: 2000,
@@ -409,6 +517,7 @@
 					    success: function(data) {
 							console.log(data)
 							if(data.result){
+								//TODO 토스트 메세지 느낌으로 띄워줘야함
 								if(confirm(data.message +'장바구니로 이동하시겠습니까?')){
 									$.pageChange("/myshop/cart", {});	
 								}
@@ -425,7 +534,7 @@
 			    },
 			    mounted() {
 					var self = this;
-			        this.fnGetList(self.currentPage); // 컴포넌트가 로드될 때 책 리스트를 불러옴
+			        this.fnGetList(1); // 컴포넌트가 로드될 때 책 리스트를 불러옴
 					window.addEventListener('loginStatusChanged', function(){
 						if(window.sessionStorage.getItem("isLogin") === 'true'){
 							self.isLogin = true;	
@@ -441,7 +550,7 @@
 						self.keyword = window.sessionStorage.getItem("keyword");
 						self.highPrice = +window.sessionStorage.getItem("highPrice");
 						
-						self.fnGetList(self.currentPage);	
+						self.fnGetList(1);	
 					});
 			    }
 			});

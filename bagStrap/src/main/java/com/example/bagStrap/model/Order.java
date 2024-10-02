@@ -51,6 +51,8 @@ public class Order {
     private int discount;			// 할인율
     private int min;
     private int max;
+    private String shortDescription;
+    private String shortTitle;
     
     //Address
     private Long addressNo;        // NUMBER

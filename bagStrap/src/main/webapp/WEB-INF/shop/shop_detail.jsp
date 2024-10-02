@@ -9,7 +9,7 @@
 
 	.shop-detail-container {
 	            width: 70%;
-	            margin: auto;
+	            margin: 30px auto;
 	            background: #fff;
 	            border-radius: 10px;
 	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -47,7 +47,6 @@
 	        }
 	        .shop-detail-item {
 	            padding: 8px 0;
-	            border-bottom: 1px solid #eee;
 	        }
 	        .shop-detail-description {
 	            margin: 20px 0;
@@ -92,7 +91,6 @@
 	        .shop-detail-purchase-section {
 	            text-align: center;
 	            padding: 20px 0;
-	            border-top: 2px solid #ddd;
 	            margin-top: 20px;
 	        }
 	        .shop-detail-purchase-section button {
@@ -108,7 +106,11 @@
 	            color: #fff;
 	        }
 	        .shop-detail-btn-add-cart {
-	            background: #007bff;
+	            background: #ff7f50;
+	            color: #fff;
+	        }
+			.shop-detail-btn-add-cart:hover {
+	            background: #e74c3c;
 	            color: #fff;
 	        }
 	        .shop-detail-reviews {
@@ -145,14 +147,14 @@
 			                <img :src="book[0]?.image || 'a-yo'" alt="책 표지">
 			            </div>
 						<div class="shop-detail-info">
-			                <div class="shop-detail-title">{{ book[0]?.title || '제목이 없습니다.' }}</div>
+			                <div class="shop-detail-title">{{ book[0]?.shortTitle || '제목이 없습니다.' }}</div>
 			                <div class="shop-detail-author">저자: 홍길동</div>
 			                <div class="shop-detail-item"><strong>출판사:</strong> {{ book[0]?.publisher || 'publisher가 없습니다.' }}</div>
 			                <div class="shop-detail-item"><strong>ISBN:</strong> {{book[0]?.bookId || 'isbn이 없습니다.'}}</div>
 			                <div class="shop-detail-item"><strong>카테고리:</strong> {{recommendList[0]?.name || 'category가 없습니다.'}}</div>
 							<a href="#shop-detail-reviews">
 							<svg v-for="number in 5" :fill="(book[0]?.rating !== undefined && book[0]?.rating >= number) ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
-							<span>리뷰 보러 가기</span>
+							<span>현재 리뷰: {{reviewList.length}}</span>
 							</a>
 			            </div>
 			        </div>
@@ -171,7 +173,7 @@
 			                <div class="shop-detail-related-book-item" v-for="item in recommendList">
 								<a href="javascript:;" @click="goToOtherBook(item.bookId)">
 				                    <img :src="item.image" :alt="item.bookId">
-				                    <h4>{{item.title}}</h4>
+				                    <h4>{{item.shortTitle}}</h4>
 				                    <div class="price">₩ {{item.price}}</div>
 								</a>
 			                </div>
@@ -183,7 +185,7 @@
 			            <div class="shop-detail-study-list">
 			                <div class="shop-detail-study-item" v-for="item in detailList">
 								<a href="javascript:;" @click="goToStudy(item.studyGroupId)">
-			                    <img src="https://via.placeholder.com/100x150" alt="스터디 이미지">
+			                    <img :src="item.filePath" alt="스터디 이미지">
 			                    <h4>{{item.studyName}}</h4>
 			                    <div class="study-info">진행 기간: {{item.startdate}} ~ {{item.enddate}}</div>
 								</a>
