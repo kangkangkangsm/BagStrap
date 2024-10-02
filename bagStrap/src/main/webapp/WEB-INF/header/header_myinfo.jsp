@@ -336,8 +336,7 @@
 								alert(data.message);			   
 						}
 					});
-				}
-
+				}			
    	 },			
 			
         mounted() {

@@ -32,4 +32,6 @@ public interface JoinService {
 	
 	HashMap<String, Object> updateAdminUsers(HashMap<String, Object> map);
 	
+	HashMap<String, Object> extrabanout(HashMap<String, Object> map);
+	
 }
