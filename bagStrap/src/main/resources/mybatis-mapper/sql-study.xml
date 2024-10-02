@@ -805,6 +805,7 @@
 	<if test="month == '12month'">
 	    AND TSC.CREATED_DATE > TO_DATE('24/12/01', 'YY/MM/DD') AND TO_DATE('24/12/31', 'YY/MM/DD') > TSC.CREATED_DATE 
 	</if>
+	ORDER BY cntLike DESC
 	)
 	WHERE 3 >= ROWNUM
 	</select>	

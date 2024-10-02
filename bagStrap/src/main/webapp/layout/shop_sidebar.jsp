@@ -107,59 +107,116 @@
 	.shop-sidebar-filter-btn:hover {
 	    background-color: #0056b3;
 	}
+	/* 메뉴 스타일 */
+	.stu-comm-menu {
+	   
+	}
+
+	.stu-comm-menu button {
+	    width: 100%;
+	    padding: 10px;
+	    margin-bottom: 20px;
+	    background-color: #343A40;
+	    border: none;
+	    color: #ffffff;
+	    border-radius: 5px;
+	    font-weight: bold;
+	    cursor: pointer;
+	    transition: background-color 0.3s;
+		margin-top: -20px;
+	}
+
+	.stu-comm-menu button:hover {
+	    background-color: #337ab7;
+	}
+
+	/* 메뉴 항목 스타일 */
+	.stu-comm-menu ul {
+	    list-style: none;
+	    padding: 0;
+	    margin: 0;
+	}
+
+	.stu-comm-menu li {
+	    margin-bottom: 10px;
+	}
+
+	.stu-comm-menu li a {
+	    display: block;
+	    font-size: 15px;
+	    color: #333;
+	    text-decoration: none;
+	    padding: 8px 10px;
+	    border-radius: 5px;
+	    transition: background 0.3s, color 0.3s;
+	}
+
+	.stu-comm-menu li a:hover {
+	    background-color: #E0E0E0; /* 호버 시 배경색 변경 */
+		width:280px;
+	}
+
+	/* 메뉴 구분선 */
+	.stu-comm-menu hr {
+	    border: none;
+	    height: 1px;
+	    background-color: #e0e0e0;
+	    margin: 15px 0;
+	}	
+	.study-comm-sidebard-h3 {
+		    margin: 10px 0;
+		    font-size: 15px;
+		    color: #333333;
+		    background-color: #E0E0E0;
+		    padding: 8px 12px;
+		    text-align: left;
+		    border-radius: 5px;
+	}
+	.study-comm-sidebard-section {
+		    margin-bottom: 10px;
+		    padding: 10px;
+		    background-color: #F9F9F9;
+		   
+		    border-radius: 5px;
+	}
+	.study-group-sidebard :hover {
+		    background-color: #007bff;
+		    color: white;
+		    border-color: #007bff;
+		}
     </style>
 </head>
 <body>
-	<div id="shopSidebar">
-	    <h3 class="shop-sidebar-title">Book Filters</h3>
+	<aside id="shopSidebar">
+	        <nav class="stu-comm-menu">
+				<h3 class="study-comm-sidebard-h3">카테고리</h3>
+				<div class="study-comm-sidebard-section">
+		            <ul v-for="item in categoryList">
+		                <li><a :style="{color: category == item.boardTypeId ? 'blue' : 'gray'}" href="#" @click="fnCategory(item.boardTypeId)">{{item.name}}</a></li>
+					</ul>
+				</div>
+				<h3 class="study-comm-sidebard-h3">{{highPrice}}원 이하</h3>
+				<br>
+				<div class="shop-sidebar-price-range-container">
+		            <div class="shop-sidebar-price-range-slider">
+						<!--<input type="range" :min="min" :max="max" v-model="lowPrice" id="minPrice" step="1000">-->
+						<input type="range" :min="min" :max="max" v-model.number="highPrice" id="maxPrice" step="1000" @change="applyFilters()">
+		            </div>
+		        </div>
+		        <div class="shop-sidebar-price-range-labels">
+		            <!--<span id="minPriceLabel" >{{min}}원</span>-->
+		            <span id="maxPriceLabel"></span>{{max}}원
+		        </div>
+				
+				<div class="shop-sidebar-section">
+			        <h4>평점</h4>
+					<svg v-for="number in 5" @click="fnChangeStar(number)" :fill="star >= number ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
+					<div>{{star}}점 이상</div>
+			    </div>
+		
+	        </nav>    
 
-	    <!-- 키워드 검색 필터 -->
-	    <div class="shop-sidebar-section">
-	        <h4>Keyword Search</h4>
-	        <input type="text" class="shop-sidebar-input" id="keywordInput" v-model="keyword" placeholder="Search books...">
-	    </div>
-
-	    <!-- 카테고리 필터 -->
-	    <div class="shop-sidebar-section">
-	        <h4>Category</h4>
-	        <a :style="{color: category == item.boardTypeId ? 'blue' : 'gray'}" href="javascript:;" @click="fnCategory(item.boardTypeId)" class="shop-sidebar-link" v-for="item in categoryList" >{{item.name}}</a>
-	    </div>
-
-	    <!-- 가격 범위 필터 (이중 핸들 슬라이더) -->
-	    <div class="shop-sidebar-section">
-	        <h4>Price Range</h4>
-	        <div class="shop-sidebar-price-range-container">
-	            <div class="shop-sidebar-price-range-slider">
-					<!--<input type="range" :min="min" :max="max" v-model="lowPrice" id="minPrice" step="1000">-->
-					<input type="range" :min="min" :max="max" v-model.number="highPrice" id="maxPrice" step="1000">
-	            </div>
-	        </div>
-	        <div class="shop-sidebar-price-range-labels">
-	            <!--<span id="minPriceLabel" >{{min}}원</span>-->
-	            <span id="maxPriceLabel"></span>{{max}}원
-	        </div>
-
-	        <!-- 최소, 최대값 직접 입력 -->
-	        <div class="shop-sidebar-price-input-container">
-	            <!--<input type="number" id="minPriceInput" class="shop-sidebar-price-input" placeholder="Min Price" v-model="lowPrice">-->
-	            <input type="number" id="maxPriceInput" class="shop-sidebar-price-input" placeholder="Max Price" v-model="highPrice">
-	        </div>
-	    </div>
-
-	    <!-- 평점 필터 -->
-	    <div class="shop-sidebar-section">
-	        <h4>Rating</h4>
-			<svg v-for="number in 5" @click="fnChangeStar(number)" :fill="star >= number ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
-			<div>평점 {{star}}점 이상</div>
-		<!--	<button @click="star=0">리셋</button>-->
-
-	    </div>
-
-	    <!-- 필터 적용 버튼 -->
-	    <div class="shop-sidebar-footer">
-	        <a href="#" class="shop-sidebar-filter-btn" @click="applyFilters()">Apply Filters</a>
-	    </div>
-	</div>
+	</aside>
 </body>
 </html>
 <script>
@@ -209,6 +266,7 @@
 					} else {
 						self.star = numb;
 					}
+					self.applyFilters();
 				}, 
 				fnCategory(categoryId){
 					var self=this;

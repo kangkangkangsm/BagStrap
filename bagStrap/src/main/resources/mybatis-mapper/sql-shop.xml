@@ -19,9 +19,11 @@
 		    AND #{highPrice} >= PRICE 
 		    AND NVL(R.RATING, 0) >= #{rating} 
 		    <if test='category == "Sale"'>
-		        AND B.DISCOUNT != 0
+		        AND B.DISCOUNT != 0 
 		    </if>
-		
+		    <if test='category != "All"'>
+		    	AND SYSDATE+9/24-30 > CREATED_AT 
+	    	</if>
 		    ORDER BY 
 		    <choose>
 		        <when test='category == "Sale"'>
@@ -39,7 +41,11 @@
 		    </choose>
 	    </select>
 	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		    SELECT NVL(RATING, 0) AS RATING, B.*
+		    SELECT NVL(RATING, 0) AS RATING, B.*, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+		    CASE 
+				WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
+				ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
+				END AS SHORT_DESCRIPTION
 		    FROM TBL_BOOK B
 		    LEFT JOIN 
 		        (SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
@@ -53,9 +59,11 @@
 		    AND #{highPrice} >= PRICE 
 		    AND NVL(R.RATING, 0) >= #{rating} 
 		    <if test='category == "Sale"'>
-		        AND B.DISCOUNT != 0
+		        AND B.DISCOUNT != 0 
 		    </if>
-		
+		    <if test='category != "All"'>
+		    	AND SYSDATE+9/24-30 > CREATED_AT 
+	    	</if>
 		    ORDER BY 
 		    <choose>
 		        <when test='category == "Sale"'>
@@ -117,8 +125,14 @@
 			FROM
 			   (SELECT * 
 			    FROM 
-			        (SELECT B.*, G.STUDY_NAME, TO_CHAR(G.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(G.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, STUDY_GROUP_ID
+			        (SELECT FILEPATH,B.*,R.RATING, G.STUDY_NAME, TO_CHAR(G.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(G.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, STUDY_GROUP_ID, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+			        CASE 
+						WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
+						ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
+						END AS SHORT_DESCRIPTION
 			        FROM TBL_STUDY_GROUP G
+                    LEFT JOIN
+                        TBL_BOARDFILE F ON F.BOARDNO = G.STUDY_GROUP_ID 
 			        LEFT JOIN
 			            (SELECT TITLE, PUBLISHER, BOOK_ID, DESCRIPTION, CATEGORY, IMAGE
 			            FROM TBL_BOOK 
@@ -147,7 +161,12 @@
 	</select>
 	<select id="selectRecommendedList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 		    SELECT * FROM (
-			    SELECT * FROM TBL_BOOK B
+			    SELECT B.*, T.*, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+			    CASE 
+					WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
+					ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
+					END AS SHORT_DESCRIPTION
+			     FROM TBL_BOOK B
 			    INNER JOIN TBL_STU_COMM_BOARD_TYPES T ON B.CATEGORY = T.BOARD_TYPE_ID
 			    WHERE B.CATEGORY = #{category}
 			    ORDER BY DBMS_RANDOM.RANDOM
