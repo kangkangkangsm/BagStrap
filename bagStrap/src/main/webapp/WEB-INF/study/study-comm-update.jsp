@@ -10,10 +10,10 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-	body {
+	body, html {
+	    height: 0%;
+	    margin: 0;
 	    font-family: Arial, sans-serif;
-	    background-color: #f4f4f4;
-	    padding: 20px;
 	}
 
 	.stu-comm-insert-container {

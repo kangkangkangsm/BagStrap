@@ -49,7 +49,7 @@
 
 	/* 사용자 활동 섹션 스타일 */
 	.stu-comm-user-activity {
-	    margin-bottom: 30px;
+	    margin-bottom: 10px;
 	}
 
 	.stu-comm-activity-item {

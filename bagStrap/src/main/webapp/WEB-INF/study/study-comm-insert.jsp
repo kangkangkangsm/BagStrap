@@ -10,6 +10,11 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
+	body, html {
+	    height: 0%;
+	    margin: 0;
+	    font-family: Arial, sans-serif;
+	}
 	.stu-comm-insert-container {
 	    max-width: 80%;
 	    margin: 0 auto;

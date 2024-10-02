@@ -168,7 +168,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	.main-container {
 	    display: flex;
 	    flex: 1; /* 메인 컨테이너가 남은 공간을 차지하도록 설정 */
-	    background-color: #F5F5F5; /* 메인 컨테이너 배경색 */
+	    background-color: white; /* 메인 컨테이너 배경색 */
 	    overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
 	    box-sizing: border-box;
 	    padding: 0px 12vw;
@@ -391,9 +391,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    padding: 20px;
 	}
 
-	.study-mygroup-detail2-sidebar-top {
-	    margin-bottom: 20px;
-	}
+	
 
 	.study-mygroup-detail2-sidebar ul {
 	    list-style: none;
@@ -697,33 +695,3 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    height: 100px;
 	    resize: none;
 	}
-
-	  /* 반응형 디자인 */
-	  @media (max-width: 768px) {
-      .main-container {
-          flex-direction: column;
-      }
-
-      .sidebar {
-          width: 100%;
-          text-align: center;
-      }
-
-      .book-info {
-          flex-direction: column;
-          align-items: center;
-      }
-
-      .book-info img {
-          margin-right: 0;
-      }
-
-      .buttons {
-          flex-direction: column;
-      }
-
-      .buttons button {
-          flex: 1 1 100%;
-      }
-	      }
-		  

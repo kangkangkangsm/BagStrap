@@ -210,10 +210,10 @@
 	}
 	.study-mygroup-detail2-sidebar {
 	  background-color: #f4f7f6; /* 사이드바 배경 색상 */
-	  padding: 20px;
+	  padding: 5px;
 	  border-radius: 15px;
 	  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
-	  max-width: 250px;
+	  max-width: 300px;
 	  min-height: 100vh; /* 사이드바의 전체 높이 설정 */
 	  position: sticky;
 	  top: 0;
@@ -678,9 +678,12 @@
 	}
    </style>
 <body>
-   <div id="app">
+
       <main class="main-container">
-         <div class="content">
+		<aside class="sidebar">
+			<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+		</aside>
+		         <div id="app"class="content">
              <div class="study-mygroup-detail2-container">
                  <!-- 사이드바 시작 -->
 				 <div class="study-mygroup-detail2-sidebar">

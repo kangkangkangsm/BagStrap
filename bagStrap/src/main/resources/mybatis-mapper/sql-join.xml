@@ -6,8 +6,8 @@
 	<select id="joinList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
 		SELECT * FROM TBL_USER
 	</select>
-	
-	<insert id="joinInsert" parameterType="hashmap">
+	<!-- 회원가입 후 파일에 들어갈 FK 리턴받는거 -->
+	<insert id="joinInsert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="USER_NO" keyColumn="USER_NO">
 		INSERT INTO TBL_USER 
 		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
 		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})

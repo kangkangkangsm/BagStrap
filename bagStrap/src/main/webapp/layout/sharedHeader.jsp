@@ -293,7 +293,6 @@
 	        <div class="header-logo">
 	            <a href="/intro">			
 	                현이의 가방끈 
-	                <span>BOOK & STUDY</span>
 	            </a>
 	        </div>
 
