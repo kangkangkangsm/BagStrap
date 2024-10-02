@@ -8,13 +8,17 @@
 	<title>내 문의</title>
 </head>
 <style>
-	body {
-	    font-family: 'Roboto', sans-serif; /* 깔끔한 폰트 */
-	    background-color: #f4f7fa; /* 부드러운 배경색 */
-	    color: #333; /* 기본 텍스트 색상 */
-	    margin: 0;
-	    padding: 20px;
-	}
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width:100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
 
 	h1 {
 	    text-align: center; /* 제목 중앙 정렬 */
@@ -41,61 +45,85 @@
 	}
 
 	table {
-	    margin: 20px auto; /* 테이블 중앙 정렬 */
-	    width: 90%; /* 테이블 너비 설정 */
-	    border-collapse: collapse; /* 테두리 합치기 */
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 16px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			border-radius: 8px;
+			overflow: hidden;
+			margin-bottom: 30px;
+		}
+
+	th,td {
+			padding: 15px 20px;
+			text-align: center;
+		}
+		
+	th{
+			background-color: #343a40;
+			color: #fff;
+			font-weight: bold;
+			font-size: 1.1em; /* 글자 크기 조정 */
 	}
 
-	th, td {
-	    border: 1px solid #ccc; /* 연한 테두리 */
-	    padding: 10px; /* 패딩 */
-	    text-align: center; /* 텍스트 중앙 정렬 */
-	}
 
-	th {
-	    background-color: #e0f7fa; /* 헤더 배경색 */
+	tr:nth-child(even) {
+		    background-color: #f2f2f2;
 	}
-
-	td > a {
-	    color: #007bff; /* 링크 색상 */
-	    text-decoration: none; /* 밑줄 없음 */
+	
+	tr:hover {
+	        background-color: #e9ecef;
 	}
-
-	td > a:hover {
-	    text-decoration: underline; /* 호버 시 밑줄 */
+	
+	td,a{
+			color: black;
+			text-decoration: none;
+			transition: color 0.3s;
+			font-size: 1em; /* 글자 크기 조정 */
+	}
+		
+	td a:hover{
+			color: #0056b3; /* 진한 파란색 */
+			text-decoration: underline;
+	}
+		
+	td:last-child {
+	        text-align: center;
 	}
 </style>
 
 <body>
-	<div id="app">
-		<h1>내 문의</h1>
-		<button @click="fnCheckRemove">선택삭제</button>
-		<table>
-			<tr>
-				<th></th>
-				<th>제목</th>
-				<th>내용</th>
-				<th>작성일</th>
-				<th>답변</th>
-				<th>삭제</th>
-			</tr>
-			<tr v-for="item in list" :key="item.inquiryId">
-				<td>
-					<input type="checkbox" v-model="selectItem" :value="item.inquiryId">
-				</td>
-				<td>{{item.title}}</td>
-				<td>
-					<a href="#" @click="fnView(item.inquiryId)">
-					{{item.message}}</a>(답변 완료시 내용 클릭)
-				</td>
-				<td>{{item.createdDateFormatted}}</td>
-				<td>{{item.answer}}</td>
-				<td>
-					<button @click=fnDelete(item.inquiryId)>삭제</button>
-				</td>
-			</tr>	
-		</table>
-	</div>
+	<main class="main-container">
+		<div id="app" class="content">
+			<h1>내 문의</h1>
+			<button @click="fnCheckRemove">선택삭제</button>
+			<table>
+				<tr>
+					<th></th>
+					<th>제목</th>
+					<th>내용</th>
+					<th>작성일</th>
+					<th>답변</th>
+					<th>삭제</th>
+				</tr>
+				<tr v-for="item in list" :key="item.inquiryId">
+					<td>
+						<input type="checkbox" v-model="selectItem" :value="item.inquiryId">
+					</td>
+					<td>{{item.title}}</td>
+					<td>
+						<a href="#" @click="fnView(item.inquiryId)">
+						{{item.message}}</a>(답변 완료시 내용 클릭)
+					</td>
+					<td>{{item.createdDateFormatted}}</td>
+					<td>{{item.answer}}</td>
+					<td>
+						<button @click=fnDelete(item.inquiryId)>삭제</button>
+					</td>
+				</tr>	
+			</table>
+		</div>
+	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>

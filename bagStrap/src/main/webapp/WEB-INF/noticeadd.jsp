@@ -9,13 +9,17 @@
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <title>공지사항 추가</title>
     <style>
-		body {
-		    font-family: 'Roboto', sans-serif;
-		    background-color: #f4f6f9; /* 부드러운 배경색 */
-		    color: #333;
-		    margin: 0;
-		    padding: 20px;
-		}
+		.main-container {
+		     display: flex;
+		     min-height: 100vh;
+		     font-family: 'Arial', sans-serif;
+		     background-color: #f4f6f9;
+		 }
+		 .content {
+		      width:100%;
+		      padding: 40px;
+		      background-color: #ffffff;
+		 }
 
 		h1 {
 		    text-align: center;
@@ -66,21 +70,25 @@
     </style>
 </head>
 <body>
-    <div id="app">
-        <h1>공지사항 추가</h1>
-        <table>
-            <tr>
-                <th>제목</th>
-                <td><input v-model="title" placeholder="공지 제목을 입력하세요"></td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td><div id="editor"></div></td>
-            </tr>	
-        </table>
-        <button id="btn" @click="fnSave()">저장</button>
+	<main class="main-container">
+    	<div id="app" class="content">
+	        <h1>공지사항 추가</h1>
+	        <table>
+	            <tr>
+	                <th>제목</th>
+	                <td><input v-model="title" placeholder="공지 제목을 입력하세요"></td>
+	            </tr>
+	            <tr>
+	                <th>내용</th>
+	                <td><div id="editor"></div></td>
+	            </tr>	
+	        </table>
+	        <button id="btn" @click="fnSave()">저장</button>
 			
-    </div>
+    	</div>
+	</main>
+	<jsp:include page="/layout/footer.jsp"></jsp:include>        
+
 	</body>
 	</html>
     <script>
