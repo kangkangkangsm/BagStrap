@@ -30,7 +30,6 @@
 							<th>이메일</th>
 							<th>핸드폰 번호</th>
 							<th>자격</th>
-							<th>자격부여</th>
 							<th>차단</th>
 							<th>Y/N</th>
 						</tr>
@@ -42,10 +41,6 @@
 								<td>{{item.email}}</td>
 								<td>{{item.phone}}</td>
 								<td>{{item.status}}</td>
-								<td>
-									<button v-if="item.status == 'USER'" @click="fnAdminUpdateOp(item.status, '승격')">승격</button>
-									<button v-else @click="fnAdminUpdateOp(item.status, '강등')">강등</button>
-								</td>
 								<td>{{item.ban}}</td>
 								<td>
 								<button v-if="item.ban === 'N'" @click="fnAdminUpdate(item.userId, 'Y')">차단</buttton>
@@ -104,8 +99,7 @@
 					}
 				});
 			}
-   	 },			
-			
+   	 },					
         mounted() {
             var self = this;
 			self.fnGetList();

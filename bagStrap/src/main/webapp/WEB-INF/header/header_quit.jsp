@@ -9,12 +9,9 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
+		
 		.content {
-			display:flex;
-			flex-direction:column;
-			align-items:center;
-			justify-content:center;
-			padding-bottom:90px;
+			text-align:center;
 		}
 		button {
 			background-color:#FF8C00;
@@ -22,8 +19,7 @@
 			border:none;
 			height:30px;
 			width:80px;
-			margin-top:10px;
-			color:white;
+			color:white; 
 		}
 		button:hover {
 			background-color:#FFA726;
@@ -33,13 +29,11 @@
 			background-color:black;
 			border-radius:4px;
 			text-align:center;
-			margin-top:10px;
 			border:black;
 			height:30px;
 			color:white;
-		}
-		.text-section {
-			margin-bottom:3px;
+			margin-bottom: 10px; 
+			width: 200px;
 		}
 	</style>
 </head>
@@ -52,8 +46,9 @@
 
 	        <div class="content">
 				<div id="app">
-					
-					
+					<div class="text-section">정말로 현이의 가방끈을 떠나시나요? 비밀번호로 인증 후 "탈퇴하기"버튼을 눌러주세요.</div>
+					<input type="password" class="input-color" v-model="password">
+					<button @click="fnConfrimPw">탈퇴하기</button>
 					
 					
 				</div>
@@ -70,19 +65,22 @@
     const app = Vue.createApp({
         data() {
             return {
-				
+				password:""
 			};
         },
         methods: {
 			fnConfrimPw() {
+				
 				var self=this;
 				if(!self.password) {
+					alert("비밀번호를 입력해주세요.");
 					return;
 				}
 				var nparam={
 					userId:self.userId,
 					password:self.password
 				};
+				
 				$.ajax({
 					url:"/recheckPassword.dox",
 					dataType:"json",	
@@ -91,18 +89,39 @@
 					success : function(data) {
 						console.log("AJAX 응답 데이터4:", data); 
 						if(data.result == 'success'){
-							alert("정말로 탈퇴하시겠습니까?");
+							confirm("정말로 탈퇴하시겠습니까?");
 							self.fnDeleteUp();
+	                        alert(data.message);
+						}else {
+                            alert("비밀번호가 일치하지 않습니다.");
+                        }
+					 }
+				});
+			},
+			fnDeleteUp() {
+				var self=this;
+				var nparam={
+					userId:self.userId
+				};
+				$.ajax({
+					url:"/deleteQuit1.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparam,
+					success : function(data) {
+						console.log("AJAX 응답 데이터3:", data); 
+						if(data.result == 'success'){
 	                        alert(data.message);
 						}	
 					 }
 				});
 			}
+			
    	 },			
 			
         mounted() {
             var self = this;
-			self.fnConfrimPw();
+			
         }
     });
     app.mount('#app');

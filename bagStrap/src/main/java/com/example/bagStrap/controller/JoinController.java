@@ -170,17 +170,18 @@ public class JoinController {
 	public String recheck(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
-			User user = (User) session.getAttribute("user");
-			if(user.getUserId() != null) {
-				map.put("userId", user.getUserId());
-				map.put("password", user.getPassword());
-			resultMap = joinService.PasswordCheck(map);
-			} else {
-				
-			}
-		} catch(NullPointerException e) {
-			resultMap.put("isLogin3", false);
-		}
+	        User user = (User) session.getAttribute("user");
+	        String inputPassword = (String) map.get("password");
+	        
+	        if (user != null && inputPassword != null && user.getPassword().equals(inputPassword)) {
+	            resultMap.put("result", "success");
+	        } else {
+	            resultMap.put("result", "fail");
+	            resultMap.put("message", "비밀번호가 일치하지 않습니다.");
+	        }
+	    } catch (NullPointerException e) {
+	        resultMap.put("isLogin3", false);
+	    }
 
 		return new Gson().toJson(resultMap);
 	}
@@ -202,6 +203,29 @@ public class JoinController {
 		System.out.println("resultMap7 : " + resultMap);
 		return new Gson().toJson(resultMap);
 	}
+	
+	@RequestMapping(value = "/getOutUser.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String outUser(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			User user = (User) session.getAttribute("user");
+			if(user.getUserId() != null) {
+				map.put("userId", user.getUserId());
+				map.put("password", user.getPassword());
+			resultMap = joinService.extrabanout(map);
+			} else {
+				
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("isLogin4", false);
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	
+	
+	
 	
 }	
 	
