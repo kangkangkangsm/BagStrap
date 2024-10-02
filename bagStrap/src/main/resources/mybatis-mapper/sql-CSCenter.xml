@@ -117,6 +117,7 @@
 	        END AS createdDateFormatted
 	    FROM tbl_inquiry i
 	    inner join tbl_user u on i.user_id=u.user_id
+	    WHERE u.user_nickname != '0' 
 	    order by i.created_at desc
 	    offset #{startIndex} rows FETCH FIRST #{outputNumber} ROWS only
 	</select>

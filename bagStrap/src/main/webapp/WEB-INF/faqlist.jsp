@@ -8,13 +8,17 @@
 	<title>FAQ</title>
 </head>
 <style>
-	body {
-	    font-family: 'Roboto', sans-serif; /* 깨끗한 현대적인 폰트 */
-	    background-color: #f4f7fa; /* 부드러운 배경색 */
-	    color: #333; /* 기본 텍스트 색상 */
-	    margin: 0;
-	    padding: 20px;
-	}
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width:100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
 
 	h1 {
 	    text-align: center; /* 제목 중앙 정렬 */
@@ -72,26 +76,27 @@
     }
 </style> 
 <body>
-	<div id="app">
-		<h1>자주 묻는 질문</h1>
-		
-		<div class="input-container">
-		    <select v-model="searchOption">
-		        <option value="all">::전체::</option>
-		        <option value="title">제목</option>
-		    </select>
-		    검색 : <input placeholder="검색어" v-model="keyword">
-		    <button @click="fnGetList(1)">검색</button>
+	<main class="main-container">
+		<div id="app" class="content">
+			<h1>자주 묻는 질문</h1>
+			
+			<div class="input-container">
+			    <select v-model="searchOption">
+			        <option value="all">::전체::</option>
+			        <option value="title">제목</option>
+			    </select>
+			    검색 : <input placeholder="검색어" v-model="keyword">
+			    <button @click="fnGetList(1)">검색</button>
+			</div>
+			
+			<div v-for="item in list">
+				<details>	
+				    <summary>[{{item.category}}] {{ item.question }}</summary>
+				    <p>{{ item.answer }}</p>
+				</details>
+			</div>	
 		</div>
-		
-		<div v-for="item in list">
-			<details>	
-			    <summary>[{{item.category}}] {{ item.question }}</summary>
-			    <p>{{ item.answer }}</p>
-			</details>
-		</div>
-		
-	</div>
+	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>

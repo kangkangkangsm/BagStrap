@@ -8,13 +8,17 @@
 	<title>문의하기</title>
 </head>
 <style>
-	body {
-	    font-family: 'Roboto', sans-serif; /* 깔끔한 폰트 */
-	    background-color: #f4f7fa; /* 부드러운 배경색 */
-	    color: #333; /* 기본 텍스트 색상 */
-	    margin: 0;
-	    padding: 20px;
-	}
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width:100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
 
 	.container {
 	    opacity: 1;
@@ -44,7 +48,15 @@
 	input:focus, select:focus, textarea:focus {
 	    border-color: #4a90e2; /* 포커스 시 경계선 색상 변화 */
 	}
+	.btn-group {
+	    display: flex;
+	    justify-content: space-between; /* 버튼 간의 간격 조정 */
+	}
 
+	.btn-group button {
+	    flex: 1; /* 버튼이 동일한 크기로 늘어나도록 설정 */
+	    margin: 5px; /* 버튼 간의 간격 */
+	}
 	button {
 	    background-color: #5cb85c;
 	    color: white;
@@ -54,6 +66,7 @@
 	    cursor: pointer;
 	    width: 100%; /* 버튼 전체 너비 사용 */
 	    transition: background-color 0.3s; /* 배경색 부드러운 전환 */
+		
 	}
 
 	button:hover {
@@ -61,31 +74,38 @@
 	}
 </style>
 <body>
-	<div id="app">
-	<h1>문의하기</h1>
-		<form class="container">
-			<label>질문 유형:</label>
-			<select v-model="category">
-				<option value="all">선택하세요</option>
-				<option value="general">일반 문의</option>
-				<option value="order">주문 관련 </option>	
-				<option value="refund">환불 및 교환 </option>
-			</select>
-			
-	<!--		<div v-if="category == 'order'">
-				<label>제품 이름:</label>
-				<input type="text" v-model="productName" placeholder="제품 이름" required>
-			</div>-->
-			
-			<label>제목:</label>
-			<input type="text" id="title" v-model="title" required>
-			
-			<label>메시지:</label>
-			<textarea id="message" v-model="message" rows="4" required></textarea>
-
-			<button type="button" @click="fnSave()">문의하기</button>	
-		</form>
-	</div>
+	<main class="main-container">
+	    <div id="app" class="content">
+			<h1>문의하기</h1>
+				<form class="container">
+					<label>질문 유형:</label>
+					<select v-model="category">
+						<option value="all">선택하세요</option>
+						<option value="general">일반 문의</option>
+						<option value="order">주문 관련 </option>	
+						<option value="refund">환불 및 교환 </option>
+					</select>
+					
+			<!--		<div v-if="category == 'order'">
+						<label>제품 이름:</label>
+						<input type="text" v-model="productName" placeholder="제품 이름" required>
+					</div>-->
+					
+					<label>제목:</label>
+					<input type="text" id="title" v-model="title" required>
+					
+					<label>메시지:</label>
+					<textarea id="message" v-model="message" rows="4" required></textarea>
+		
+				<div class="btn-group">
+					<button type="button" @click="goBack()">취소</button>
+					<button type="button" @click="fnSave()">문의하기</button>
+				</div>
+						
+				</form>
+		
+		</div>
+	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
@@ -148,6 +168,9 @@
 				            }
 				        }
 				    });
+				},
+				goBack(){
+					location.href="cscenter";
 				}
 		},
         mounted() {

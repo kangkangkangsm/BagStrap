@@ -8,15 +8,27 @@
 	<title>답변</title>
 </head>
 <style>
+	body {
+		background-color: #f4f4f4; /* 배경 색상 */
+		font-family: 'Roboto', sans-serif; /* 폰트 설정 */
+	}
+	
 	.container {
 		  opacity: 1;
 		  margin-top: 50px;
 		  padding-left: 100px;
 		  padding-right: 100px;
 	}
+	
+	label {
+	    font-weight: bold; /* 굵은 글씨 */
+	    margin-bottom: 10px; /* 아래 여백 추가 */
+	    display: block; /* 블록 요소로 변경 */
+	}
+	
 	input, select, textarea {
 		width: 100%;
-		padding: 10px;
+		padding: 12px;
 		margin: 10px 0;
 		border: 1px solid #ccc;
 		border-radius: 4px;
@@ -24,9 +36,9 @@
 	button {
 		background-color: #5cb85c;
 		color: white;
-		padding: 10px 15px;
+		padding: 13px px;
 		border: none;
-		border-radius: 4px;
+		border-radius: 16px;
 		cursor: pointer;
 	}
 	button:hover {
@@ -35,7 +47,6 @@
 </style>
 <body>
 	<div id="app">
-	<h1>답변</h1>
 	<!--번호:{{info.inquriyId}} -->
 		<form class="container">
 			

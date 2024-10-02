@@ -8,51 +8,78 @@
 	<title>내 문의</title>
 </head>
 <style>
-	body {
-		background-color: #f4f4f4; /* 배경 색상 */
-		font-family: 'Arial', sans-serif; /* 폰트 설정 */
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width: 100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
+	.count {
+		padding: 8px 12px;
+		border: 1px solid #ced4da;
+		border-radius: 4px;
+		background-color: #fff;
+		cursor: pointer;
+		font-size: 1em; /* 글자 크기 조정 */
 	}
-
-	h1 {
-		text-align: center; /* 제목 중앙 정렬 */
-		color: #2c3e50; /* 제목 색상 */
-		margin-top: 20px;
-	}
-
-	.container {
-		width: 90%;
-		max-width: 1200px; /* 최대 너비 설정 */
-		margin: 20px auto; /* 가운데 정렬 */
-		background-color: #fff; /* 흰색 배경 */
-		padding: 20px; /* 패딩 추가 */
-		border-radius: 8px; /* 모서리 둥글게 */
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-	}
-
 	table {
-		width: 100%; /* 테이블 너비 100% */
-		margin: 20px 0; /* 여백 추가 */
-		border-collapse: collapse; /* 테두리 합치기 */
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 16px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		border-radius: 8px;
+		overflow: hidden;
+		margin-bottom: 30px;
 	}
 
 	th, td {
-		border: 1px solid #ddd; /* 테두리 색상 변경 */
-		padding: 10px; /* 패딩 증가 */
-		text-align: left; /* 왼쪽 정렬 */
+		padding: 15px 20px;
+		text-align: center;
+		word-wrap: break-word; /* 긴 단어 줄 바꿈 */
+		vertical-align: middle; /* 내용 중앙 정렬 */
 	}
 
 	th {
-		background-color: #007BFF; /* 헤더 배경 색상 */
-		color: white; /* 헤더 글자 색상 */
+		background-color: #343a40;
+		color: #fff;
+		font-weight: bold;
+		font-size: 1.1em; /* 글자 크기 조정 */
 	}
 
-	td > a, li > a {
-		color: black; /* 링크 색상 */
-		text-decoration: none; /* 링크 밑줄 제거 */
+	tr:nth-child(even) {
+	    background-color: #f2f2f2;
+	}
+	tr:hover {
+	    background-color: #e9ecef;
+	}
+	td, a {
+		color: black;
+		text-decoration: none;
+		transition: color 0.3s;
+		font-size: 1em; /* 글자 크기 조정 */
 	}
 
-	td > a:hover {
-		text-decoration: underline; /* 호버 시 밑줄 */
+	td a:hover {
+		color: #0056b3; /* 진한 파란색 */
+		text-decoration: underline;
+	}
+
+	td:last-child {
+	    text-align: center;
+	}
+	
+	.btn {
+		width: 100%; /* 버튼의 너비를 100%로 설정 */
+		padding: 15px; /* 여백 증가 */
+		font-size: 16px; /* 글자 크기 증가 */
+		border-radius: 4px; /* 둥근 모서리 */
+		cursor: pointer; /* 커서 포인터 */
+		transition: background-color 0.3s; /* 배경 색상 변화 효과 */
 	}
 
 	.pagination {
@@ -83,7 +110,8 @@
 </style>
 
 <body>
-	<div id="app">
+	<main class="main-container">
+	<div id="app" class="content">
 		<h1>문의 내역</h1>
 		
 		<select v-model="selectSize" @change="fnGetList(1)">
@@ -123,14 +151,14 @@
 				</td>
 				<td>
 					<div v-if="mode == '1' || checkId != item.inquiryId">
-						<button @click="Change(item)">수정</button>
+						<button class="btn" @click="Change(item)">수정</button>
 					</div>
 					<div v-if="mode=='2' && checkId == item.inquiryId">
-						<button @click="fnUpdate(item)">변경</button>
+						<button class="btn" @click="fnUpdate(item)">변경</button>
 					</div>
 				</td>
 				<td>
-					<button @click="fnAnswerInq(item.inquiryId)">답변하기</button>
+					<button class="btn" @click="fnAnswerInq(item.inquiryId)">답변하기</button>
 				</td>
 			</tr>	
 		</table>
@@ -146,6 +174,7 @@
 		</div>
 		
 	</div>
+	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>

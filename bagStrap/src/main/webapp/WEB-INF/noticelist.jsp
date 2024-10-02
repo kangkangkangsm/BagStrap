@@ -8,43 +8,68 @@
 	<title>공지사항</title>
 </head>
 <style>
-	body {
-	    font-family: 'Roboto', sans-serif;
-	    background-color: #f4f4f4;
-	    color: #333;
-	    margin: 0;
-	    padding: 20px;
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width:100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
+	.count{
+		padding: 8px 12px;
+		border: 1px solid #ced4da;
+		border-radius: 4px;
+		background-color: #fff;
+		cursor: pointer;
+		font-size: 1em; /* 글자 크기 조정 */
 	}
-	h1 {
-	    text-align: center;
-	    margin-bottom: 20px;
-	    color: #2c3e50;
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 16px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		border-radius: 8px;
+		overflow: hidden;
+		margin-bottom: 30px;
 	}
-	select {
-	    margin: 20px 0;
-	    padding: 10px;
-	    border-radius: 5px;
-	    border: 1px solid #ccc;
-	    font-size: 1em;
+
+	th,td {
+		padding: 15px 20px;
+		text-align: center;
 	}
-	.list-item {
-	    background-color: white;
-	    padding: 15px;
-	    border-radius: 5px;
-	    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	    margin-bottom: 15px;
-	    transition: transform 0.2s;
+	
+	th{
+		background-color: #343a40;
+		color: #fff;
+		font-weight: bold;
+		font-size: 1.1em; /* 글자 크기 조정 */
 	}
-	.list-item:hover {
-	    transform: scale(1.02);
+
+
+	tr:nth-child(even) {
+	    background-color: #f2f2f2;
 	}
-	.list-item a {
-	    text-decoration: none;
-	    color: #2980b9;
-	    font-weight: bold;
+	tr:hover {
+        background-color: #e9ecef;
 	}
-	.list-item a:hover {
-	    text-decoration: underline;
+	td,a{
+		color: black;
+		text-decoration: none;
+		transition: color 0.3s;
+		font-size: 1em; /* 글자 크기 조정 */
+	}
+	
+	td a:hover{
+		color: #0056b3; /* 진한 파란색 */
+		text-decoration: underline;
+	}
+	
+	td:last-child {
+        text-align: center;
 	}
 	.add-button {
 	    padding: 10px 15px;
@@ -59,61 +84,88 @@
 	    background-color: #0056b3;
 	}
 	.pagination {
-	    margin-top: 20px;
-	    text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 30px 0;
+		gap: 10px;
+		color: #000000;
 	}
 	.pagination button {
-	    margin: 0 5px;
-	    padding: 10px;
-	    border: 1px solid #007BFF;
-	    background-color: white;
-	    color: #007BFF;
-	    cursor: pointer;
-	    border-radius: 5px;
-	    transition: background-color 0.3s;
+		background-color: #ffffff;
+		border: 1px solid #dee2e6;
+		 color: #000000;
+		padding: 10px 15px;
+		cursor: pointer;
+		transition: background-color 0.3s, color 0.3s;
+		border-radius: 4px;
+		font-size: 1em; /* 글자 크기 조정 */
 	}
 	.pagination button:hover {
-	    background-color: #007BFF;
-	    color: white;
+		background-color: #E0E0E0;
+		color: #ffffff;
 	}
 	.pagination button.active {
-	    background-color: #007BFF;
-	    color: white;
+		background-color: #000000;
+		color: #ffffff;
+		cursor: default;
+	}
+	button:disabled {
+        background-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+        border: 1px solid #dee2e6;
 	}
 </style>
 
 <body>
-	<div id="app">
-		<h1>공지사항</h1>
-		
-		<select v-model="selectSize" @change="fnGetList(1)">
-			<option value="5">5개</option>
-			<option value="10">10개</option>
-			<option value="15">15개</option>
-		</select>
-		
-		<div v-if="isLogin && isAdmin">
-			<button class="add-button"  @click="goAddNotice">추가</button>
-		</div>
+    <main class="main-container">
+        <div id="app" class="content">
+            <h1>공지사항</h1>
+            
+			
+            <select class="count" v-model="selectSize" @change="fnGetList(1)">
+                <option value="5">5개</option>
+                <option value="10">10개</option>
+                <option value="15">15개</option>
+            </select>
+            
+            <div v-if="isLogin && isAdmin">
+                <button class="add-button" @click="goAddNotice">추가</button>
+            </div>
+    
+            <table>
+                <tr>
+                    <th>카테고리</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>작성일</th>
+                </tr>
+                <tr v-for="item in list" :key="item.noticeId">
+                    <td>{{ item.category }}</td>
+                    <td>
+                        <a href="#" @click="fnDetail(item.noticeId)">{{ item.title }}</a>
+                    </td>
+                    <td>{{ item.author }}</td>
+                    <td>{{ item.hit }}</td>
+                    <td>{{ item.createdDateFormatted }}</td>
+                </tr>
+            </table>
+    
+            <div class="pagination">
+                <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+                <button v-for="page in totalPages" 
+                    :class="{ active: page == currentPage }"
+                    @click="fnGetList(page)">
+                    {{ page }}
+                </button>
+                <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
+            </div>
+        </div>
+    </main>
+    <jsp:include page="/layout/footer.jsp"></jsp:include>        
 
-		<div class="list-item" v-for="item in list" :key="item.noticeId">
-			<a href="#" @click="fnDetail(item.noticeId)">
-				{{ item.title }} - 작성자: {{ item.author }} | 조회수: {{ item.hit }} | 작성일: {{ item.createdDateFormatted }}
-			</a>
-		</div>
-		
-		<div class="pagination">
-		    <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
-		    <button v-for="page in totalPages" 
-				:class="{active: page == currentPage}"
-				@click=fnGetList(page)>
-		        {{ page }}
-		    </button>
-		    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
-		</div>
-				
-	</div>
-	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
 <script>

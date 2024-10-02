@@ -58,7 +58,7 @@
         border-radius: 4px;
         background-color: #fff;
         cursor: pointer;
-        font-size: 0.5em; /* 글자 크기 조정 */s
+        font-size: 0.5em; /* 글자 크기 조정 */
 	
     }
 

@@ -8,31 +8,50 @@
 	<title>view 기본 세팅 파일</title>
 </head>
 <style>
-	h1 {
-	    font-size: 25px; 
-	    color: #333; 
+	body {
+	    background-color: #f4f4f4; /* 배경 색상 */
+	    font-family: 'Roboto', sans-serif; /* 폰트 설정 */
 	}
+
+	h1 {
+	    font-size: 28px; /* 제목 크기 조정 */
+	    color: #333; /* 제목 색상 */
+	    margin-bottom: 10px; /* 제목 아래 여백 */
+	}
+
 	hr {
 	    margin: 20px 0; /* 수평선 간격 조절 */
 	    border: 1px solid lightgray; /* 수평선 색상 */
 	}
+
 	.content {
-		line-height: 1.6;
-		color: black;
-		margin-bottom: 20px;
+	    line-height: 1.8; /* 줄 간격 조정 */
+	    color: #444; /* 텍스트 색상 조정 */
+	    margin-bottom: 20px; /* 아래 여백 추가 */
+	    padding: 10px; /* 패딩 추가 */
+	    background-color: #fff; /* 배경 색상 */
+	    border-radius: 5px; /* 모서리 둥글게 */
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 	}
+
 	.ToMyBtn {
-	    padding: 10px 15px; /* 버튼 패딩 */
+	    display: inline-block; /* 버튼 정렬을 위해 */
+	    padding: 12px 20px; /* 버튼 패딩 */
 	    background-color: #007BFF; /* 버튼 배경색 */
 	    color: white; /* 버튼 글자색 */
 	    border: none; /* 테두리 없애기 */
 	    border-radius: 5px; /* 모서리 둥글게 */
 	    cursor: pointer; /* 커서 모양 변경 */
-	    transition: background-color 0.3s; /* 배경색 전환 효과 */
+	    transition: background-color 0.3s, transform 0.2s; /* 배경색 전환 및 클릭 효과 */
 	}
 
 	.ToMyBtn:hover {
 	    background-color: #0056b3; /* 호버 시 배경색 변화 */
+	    transform: translateY(-2px); /* 버튼을 위로 이동하는 효과 */
+	}
+
+	.ToMyBtn:active {
+	    transform: translateY(0); /* 클릭 시 위치 초기화 */
 	}
 </style>
 <body>
