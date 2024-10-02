@@ -9,6 +9,19 @@
 </head>
 <style>
 
+	.header {
+		    display: flex;
+		    width: 100%;
+		    height: 0%; /* 헤더 높이 설정 */
+		    background-color: white; /* 헤더 배경색 */
+		    color: black;
+		    align-items: center;
+		    padding: 0 20px;
+		    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		    position: sticky;
+		    top: 0;
+		    z-index: 1000;
+		}
 		.study-group-list-content {
 			width: 80%;
 			margin: 40px auto;
@@ -66,14 +79,6 @@
 		.study-group-list-item:hover {
 			transform: translateY(-10px);
 			box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
-		}
-
-		.study-group-list-image {
-			width: 100%;
-			height: 200px;
-			object-fit: cover;
-			border-top-left-radius: 12px;
-			border-top-right-radius: 12px;
 		}
 
 		.study-group-list-title {
@@ -168,7 +173,7 @@
 
 		.study-group-image-wrapper {
 		    width: 100%;
-		    height: 200px;
+			height:240px;
 		    overflow: hidden;
 		    position: relative;
 		}
@@ -193,7 +198,7 @@
 		}
 
 		.study-group-title {
-		    font-size: 1.5em;
+		    font-size: 1.1em;
 		    font-weight: bold;
 		    margin-bottom: 10px;
 		    color: #333;
@@ -249,6 +254,9 @@
 			            <template v-if="item">
 			                <div class="study-group-card" @click="fnDetail(item.studyGroupId)">
 			                    <div class="study-group-image-wrapper">
+									<h3 class="study-group-title"  style="margin-left : 20px; ">
+			                             {{item.name}}
+			                        </h3>
 			                        <template v-if="item.filePath">
 			                            <img :src="item.filePath" alt="Study Group Image" class="study-group-list-image">
 			                        </template>
@@ -258,7 +266,7 @@
 			                    </div>
 			                    <div class="study-group-content">
 			                        <h3 class="study-group-title">
-			                             [{{item.name}}] {{item.studyName}}
+			                            {{item.studyName}}
 			                        </h3>
 			                        <p class="study-group-details">
 			                            👫 {{item.genderGroup}} | 🧒 {{item.age}} | {{item.onOffMode}} |

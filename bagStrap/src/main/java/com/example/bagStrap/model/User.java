@@ -21,6 +21,19 @@ public class User {
 	private String updateDate;
 	private String ban;
 	
+	//TBL_BOADRFILE
+	private int fileNo;
+	private int boardNo;
+	private String idx;
+	private String fileName;
+	private String fileOrgName;
+	private String filePath;
+	private String userFile;
+	private String fileSize;
+	private String fileExt;
+	private String thumbnailYN;
+	private String fileCreateDate;
+	
 	public String getUserId() {
 		return userId;
 	}

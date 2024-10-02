@@ -46,6 +46,7 @@ public class JoinServiceImpl implements JoinService{
 			
 			joinMapper.joinInsert(map);
 			System.out.println("map4 : " + map);
+			resultMap.put("idx",map.get("USER_NO"));
 			resultMap.put("result", "success");
 			resultMap.put("message", "삽입에 성공하셨습니다!!");
 		}catch(Exception e) {

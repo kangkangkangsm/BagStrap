@@ -10,30 +10,21 @@
     <title>첫번째 페이지</title>
 	<style>
    /* 전체 레이아웃 스타일 */
-   body {
-       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-       color: #333;
-       margin: 0;
-       padding: 0;
-       box-sizing: border-box;
-       background-color: #f4f4f4;
-   }
+   .header {
+   	    display: flex;
+   	    width: 100%;
+   	    height: 0%; /* 헤더 높이 설정 */
+   	    background-color: white; /* 헤더 배경색 */
+   	    color: black;
+   	    align-items: center;
+   	    padding: 0 20px;
+   	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+   	    position: sticky;
+   	    top: 0;
+   	    z-index: 1000;
+   	}
 
-   .main-container {
-       display: flex;
-       min-height: 100vh;
-       width: 100%;
-   }
 
-   /* 사이드바 스타일 */
-
-   /* 메인 콘텐츠 스타일 */
-   .content {
-       flex: 1;
-       padding: 20px;
-       overflow-y: auto;
-       max-width: 100%;
-   }
 
    /* 마이보드 컨테이너 */
    .stu-comm-myboard-container {
@@ -230,7 +221,9 @@
 </head>
 <body>
     <main class="main-container">
-
+		<aside class="sidebar">
+			<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+        </aside>
         <div id="app" class="content">
             <div class="stu-comm-myboard-container">
                 <div v-if="sessionUserId === author">마이페이지</div>

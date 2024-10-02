@@ -101,7 +101,7 @@
 
 	.services h2 {
 	    font-size: 2.5em;
-	    margin-bottom: 40px;
+	    margin-bottom: 20px;
 	    color: #333;
 	}
 
@@ -148,7 +148,7 @@
 	    padding: 60px 20px;
 	    text-align: center;
 	    background-color: rgba(255, 255, 255, 0.75);
-		height:60%;
+		height:10%;
 	}
 
 	.gallery h2 {
@@ -165,8 +165,8 @@
 	}
 
 	.gallery-container img {
-	    width: 200px;
-	    height: 150px;
+	    width: 100px;
+	    height: 100px;
 	    object-fit: cover;
 	    border-radius: 10px;
 	    transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -255,7 +255,69 @@
 	footer .social-media a:hover img {
 	    transform: scale(1.1);
 	}
+	.split-container {
+	    position: relative;
+	    width: 100%;
+	    height: 20vh;
+	    display: flex;
+	}
 
+	.split {
+	    position: relative;
+	    flex: 1;
+	    overflow: hidden;
+	    transition: flex 0.5s ease;
+	}
+
+	.split.left {
+	    background: url('images/gallery1.jpg') center center no-repeat;
+	    background-size: cover;
+	}
+
+	.split.right {
+	    background: url('images/gallery2.jpg') center center no-repeat;
+	    background-size: cover;
+	}
+
+	.split h2 {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%, -50%);
+	    color: #000000;
+	    font-size: 3em;
+	    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+	    opacity: 0;
+	    transition: opacity 0.5s ease;
+	}
+
+	.split-link {
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    text-decoration: none;
+	}
+
+	.split:hover {
+	    flex: 1.5;
+	}
+
+	.split:hover h2 {
+	    opacity: 1;
+	}
+
+	.split-container::before {
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    bottom: 0;
+	    left: calc(50% - 1px);
+	    width: 2px;
+	    background: rgba(255, 255, 255, 0.7);
+	    z-index: 2;
+	}
 </style>
 <body>
 		
@@ -278,30 +340,27 @@
 			        <h2>신간 도서</h2>
 			        <div class="services-container">
 			            <div class="service-item" v-for="item in introBook">
-			                <img :src=item.image alt="서비스 1"> 
+			                <img :src=item.image alt="서비스 1" @click="fnView(item.bookId)"> 
 			            </div>
 			        </div>
 			    </section>
 
-			    <!-- 갤러리 섹션 -->
-			    <section id="gallery" class="gallery">
-			        <h2>인기있는 스터디</h2>
-			        <div class="gallery-container">
-			            <img src="images/gallery1.jpg" alt="갤러리 이미지 1">
-			            <img src="images/gallery2.jpg" alt="갤러리 이미지 2">
-			            <img src="images/gallery3.jpg" alt="갤러리 이미지 3">
-			            <img src="images/gallery4.jpg" alt="갤러리 이미지 4">
-			        </div>
-			    </section>
+				<!-- 갤러리 섹션 -->
+				<section id="gallery" class="gallery">
+				    <div class="split-container">
+				        <div class="split left">
+				            <h2>북스토어</h2>
+				            <a href="/shop/list" class="split-link"></a>
+				        </div>
+				        <div class="split right">
+				            <h2>스터디그룹</h2>
+				            <a href="/study-group-list" class="split-link"></a>
+				        </div>
+				    </div>
+				</section>
 
 			    <!-- 푸터 섹션 -->
 			    <footer>
-			        <p>&copy; 2024 현이의 가방끈. All rights reserved.</p>
-			        <div class="social-media">
-			            <a href="#"><img src="images/facebook-icon.png" alt="Facebook"></a>
-			            <a href="#"><img src="images/instagram-icon.png" alt="Instagram"></a>
-			            <a href="#"><img src="images/twitter-icon.png" alt="Twitter"></a>
-			        </div>
 			    </footer>
 			</body>
         </main>
@@ -321,6 +380,9 @@
 				};
 	        },
 	        methods: {
+				fnView(bookId) {
+					$.pageChange("/shop/detail", { bookId: bookId });
+				},
 				fnIntroList(){
 	                var self = this;
 	                var nparmap = {};

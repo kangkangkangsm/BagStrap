@@ -9,6 +9,11 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
+body, html {
+    height: 0%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
 .main-container {
     display: flex;
     width: 100%;

@@ -8,38 +8,20 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-    /* 전체 레이아웃 */
-    .main-container {
-        display: flex;
-        min-height: 100vh;
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f6f9;
-    }
-
-    /* 메인 컨텐츠 */
-    .content {
-        width:100%;
-        padding: 40px;
-        background-color: #ffffff;
-    }
-
-    /* 페이지 헤더 */
-    .content .page-header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 5px;
-    }
-
-    .content .page-header div {
-        font-size: 1.8em; /* 글자 크기 조정 */
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    /* 게시물 수 선택 */
-    .post-count {
+	.header {
+	    display: flex;
+	    width: 100%;
+	    height: 0%; /* 헤더 높이 설정 */
+	    background-color: white; /* 헤더 배경색 */
+	    color: black;
+	    align-items: center;
+	    padding: 0 20px;
+	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	    position: sticky;
+	    top: 0;
+	    z-index: 1000;
+	}
+      .post-count {
         display: flex;
         align-items: center;
      
@@ -82,7 +64,7 @@
     }
 
     .stu-comm-list-search-container select {
-        width: 200px;
+        width: 180px;
     }
 
     .stu-comm-list-search-container input[type="text"] {
@@ -217,13 +199,8 @@
 
 		<!-- 메인 컨텐츠 -->
 		<div id="app" class="content">
-			<!-- 페이지 헤더 -->
-			<div class="page-header">
-				<div style="font-size:23px;" v-if="name2">{{name2}}</div>
-				<div style="font-size:23px;" v-else>{{name}}</div>
-				<!-- 게시물 수 선택 -->
-			</div>	
-			<div class="page-header">
+			<!-- 검색 및 정렬 섹션 -->
+			<div class="stu-comm-list-search-container">
 				<div class="post-count">
 					<label for="pageSize" style="font-size:20px;">게시물 수:</label>
 					<select id="pageSize" v-model="pageSize" @change="fnboardList(1)">
@@ -232,10 +209,6 @@
 						<option value='20'>20개씩</option>
 					</select>
 				</div>
-			</div>
-
-			<!-- 검색 및 정렬 섹션 -->
-			<div class="stu-comm-list-search-container">
 				<select v-model="selectedPeriod" @change="fnboardList(1)">
 					<option value="all">전체기간</option>
 					<option value="1day">1일</option>

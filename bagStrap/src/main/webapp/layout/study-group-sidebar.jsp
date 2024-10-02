@@ -42,6 +42,10 @@
 	    transition: all 0.3s ease-in-out;
 	}
 
+	.study-group-sidebar-button:active {
+	    background-color: #343A40;
+	    color: #FFFFFF;
+	}
 	.study-group-sidebard-button:hover {
 	    background-color: #007bff;
 	    color: white;
@@ -111,6 +115,7 @@
 	/* 사용자 활동 섹션 스타일 */
 	.stu-comm-user-activity {
 	    margin-bottom: 30px;
+		margin-top :0px;
 	}
 
 	.stu-comm-activity-item {
@@ -341,21 +346,27 @@
 	        <button class="study-group-sidebard-button" @click="fnMoveGender('혼성')">혼성</button>
 	    </div>
 
-	    <div class="study-group-sidebard-section">
 	        <h3 class="study-group-sidebard-h3">스터디 시작 날짜</h3>
+	    <div class="study-group-sidebard-section">
 	        <input type="date" id="startDate" name="startDate" class="study-group-sidebard-input" v-model="startDate" @change="fnMoveStartDate">
 	    </div>
 
-	    <div class="study-group-sidebard-section">
 	        <h3 class="study-group-sidebard-h3">스터디 시간</h3>
+	    <div class="study-group-sidebard-section">
 	        <div class="study-group-sidebard-time">
 	            <div><input type="time" id="startTime" name="startTime" class="study-group-sidebard-input" v-model="startTime" @change="fnMoveStartime(startTime,endTime)"></div>
 	            <div><input type="time" id="endTime" name="endTime" class="study-group-sidebard-input" v-model="endTime" @change="fnMoveStartime(startTime,endTime)"></div>
 	        </div>
 	    </div>
 
+	        <h3 class="study-group-sidebard-h3">참여자 수 
+				<template v-if="participants">
+				: {{ participants }}명</h3>
+				</template>
+				<template v-else>
+				</h3>
+				</template>
 	    <div class="study-group-sidebard-section">
-	        <h3 class="study-group-sidebard-h3">참여자 수: {{ participants }}명</h3>
 	        <input type="range" id="participantsRange" min="2" max="20" v-model="participants" class="study-group-sidebard-input" @input="fnmaxparticipants(participants)">
 	        <p class="study-group-sidebard-range">{{ minParticipants }}명 ~ {{ maxParticipants }}명</p>
 	    </div>

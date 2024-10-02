@@ -8,6 +8,19 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
     <title>첫번째 페이지</title>
     <style>
+		.header {
+				    display: flex;
+				    width: 100%;
+				    height: 0%; /* 헤더 높이 설정 */
+				    background-color: white; /* 헤더 배경색 */
+				    color: black;
+				    align-items: center;
+				    padding: 0 20px;
+				    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+				    position: sticky;
+				    top: 0;
+				    z-index: 1000;
+				}
 		.stu-comm-detail-main-container {
 		    display: flex;
 		    flex: 1;

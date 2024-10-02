@@ -10,42 +10,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <style>
         /* 기본 스타일 */
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
+		.header {
+		    display: flex;
+		    width: 100%;
+		    height: 0%; /* 헤더 높이 설정 */
+		    background-color: white; /* 헤더 배경색 */
+		    color: black;
+		    align-items: center;
+		    padding: 0 20px;
+		    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		    position: sticky;
+		    top: 0;
+		    z-index: 1000;
+		}
 
-        .main-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .content {
-            flex: 1;
-            padding: 40px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .stu-group-detail {
-            background-color: white;
-            width: 100%;
-            max-width: 800px;
-            padding: 30px;
-            margin-bottom: 40px;
-        }
+		.stu-group-detail {
+		    background-color: white;
+		    width: 100%;
+		    max-width: 800px;
+		    padding: 30px;
+		    margin: 0 auto 40px auto; /* 변경된 부분 */
+		}
 
         .stu-group-detail h1 {
             font-size: 2em;
@@ -216,42 +201,17 @@
 		    height: 100px;
 		    resize: none;
 		}
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                text-align: center;
-            }
-
-            .book-info {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .book-info img {
-                margin-right: 0;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
-            .buttons button {
-                flex: 1 1 100%;
-            }
-        }
     </style>
 </head>
 <body>
-    <main class="main-container">
-        <div id="app" class="content">
-            <div class="stu-group-detail">
-              
+	<main class="main-container">
+		<aside class="sidebar">
+			<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+        </aside>
+						
+		<!-- 메인 컨텐츠 -->
+		<div id="app" class="content">
+            <div class="stu-group-detail">              
                 <img src="../src/스터디디테일.png" alt="책 표지" style="width: 100%; max-width: 400px; display: block; margin: 0 auto 20px auto;">
 
                 <h1>[ {{ detailList.name }} ] {{ detailList.studyName }}</h1>
