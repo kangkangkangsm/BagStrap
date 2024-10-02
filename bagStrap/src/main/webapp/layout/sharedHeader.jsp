@@ -102,7 +102,7 @@
 		    position: absolute;
 		    top: 100%;
 		    left: 0;
-		    background-color: rgba(255, 255, 255, 0.6);
+		    background-color: rgba(255, 255, 255, 1);
 		    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 		    list-style: none;
 		    padding: 15px 0;
@@ -170,7 +170,7 @@
 		    position: absolute;
 		    top: 100%;
 		    left: 0;
-		    background-color: rgba(255, 255, 255, 0.6);
+		    background-color: rgba(255, 255, 255, 1);
 		    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 		    list-style: none;
 		    padding: 10px 0;
