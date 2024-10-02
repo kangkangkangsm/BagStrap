@@ -43,8 +43,8 @@
 								<td>{{item.phone}}</td>
 								<td>{{item.status}}</td>
 								<td>
-									<button v-if="item.status == 'USER'" @click></button>
-									<button></button>
+									<button v-if="item.status == 'USER'" @click="fnAdminUpdateOp(item.status, '승격')">승격</button>
+									<button v-else @click="fnAdminUpdateOp(item.status, '강등')">강등</button>
 								</td>
 								<td>{{item.ban}}</td>
 								<td>
