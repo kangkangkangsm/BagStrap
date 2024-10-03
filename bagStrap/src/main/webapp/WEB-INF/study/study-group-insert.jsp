@@ -186,10 +186,10 @@
 	       }
 </style>
 <body>
-		<main class="main-container">
+	<main class="main-container">
 			<aside class="sidebar">
-
-	       </aside>
+				<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+	        </aside>
 			
 		   <div id="app">
               <div class="content">

@@ -830,4 +830,21 @@ public class StudyServiceImpl implements StudyService{
 		}
 		return resultMap;
 	}
+	// 책5 조회
+	@Override
+	public HashMap<String, Object> selectTop5(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println("이거보면돼" + map);
+		try {		 
+			List<StudyComm> list2 = studyMapper.selectTop5(map);
+			resultMap.put("selectTop5", list2);
+			resultMap.put("result", true);
+			resultMap.put("message", "책5");
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "책 가져오기 에러 ");
+		}
+		return resultMap;
+	}
 }

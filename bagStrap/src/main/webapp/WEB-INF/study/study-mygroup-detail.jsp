@@ -318,14 +318,15 @@
 	  width: 85%;
 	  max-width: 1200px;
 	  margin: 50px auto;
-	  font-family: 'Noto Sans', sans-serif;
+	 
 	}
 
 	/* 그룹 헤더 스타일 */
 	.group-header {
 	background: linear-gradient(45deg, #FFC107 0%, #FFC107 10%, #2196F3 30%, #2196F3 70% , #FF5722 85% );
 	  text-align: center;
-	  padding: 40px;
+	  padding: 2px;
+	  height:50px;
 	  border-radius: 15px;
 	  color: white;
 	  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -367,14 +368,14 @@
 	}
 
 	.info-card {
-	  background: #ffffff;
-	  flex: 1;
-	  min-width: 140px;
-	  padding: 15px;
-	  border-radius: 12px;
-	  text-align: center;
-	  transition: transform 0.3s ease, box-shadow 0.3s ease;
-	  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	    background: #ffffff;
+	    flex: 1;
+	    min-width: 140px;
+	    padding: 15px;
+	    border-radius: 12px;
+	    text-align: center;
+	    transition: transform 0.3s ease, box-shadow 0.3s ease;
+	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 	}
 
 	.info-card:hover {
@@ -690,6 +691,107 @@
 	    cursor: not-allowed;
 	    border: 1px solid #dee2e6;
 	}
+	/* 스터디 참고 도서 스타일 */
+	.book-card, .goal-card {
+	    flex: 1;
+	    background: #ecf0f1;
+	    border-radius: 15px;
+	    padding: 30px;
+	    text-align: center;
+	    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	}
+
+	/* 다른 책 더보기 */
+	.book-Top5 {
+	    margin-top: 30px;
+	}
+
+	.book-Top5 .book-image-list {
+	    display: flex;
+	    justify-content: center;
+	    gap: 10px;
+	}
+
+	.book-Top5 .book-image {
+	    width: 100px;
+	    height: 150px;
+	    cursor: pointer;
+	    transition: transform 0.3s ease;
+	}
+
+	.book-Top5 .book-image:hover {
+	    transform: scale(1.1); /* 마우스를 올렸을 때 이미지 확대 */
+	}
+	/* 이미지 컨테이너 스타일 */
+	.book-image-container {
+	    position: relative;
+	    display: inline-block;
+	}
+
+	/* 공통 이미지 컨테이너 스타일 */
+	.book-image-container {
+	    position: relative;
+	    display: inline-block;
+	    margin: 0 5px; /* 이미지 간격 설정 */
+	}
+
+	/* 이미지 스타일 */
+	.book-image {
+	    width: 120px; /* 이미지 크기 설정 */
+	    height: 180px;
+	    border-radius: 10px;
+	    transition: all 0.3s ease;
+	}
+
+	/* 오버레이 효과 */
+	.book-overlay {
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 91%;
+	    background: rgba(255, 255, 255, 0.8); /* 하얀 오버레이 */
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    opacity: 0; /* 기본 상태에서 투명하게 설정 */
+	    border-radius: 10px;
+	    transition: all 0.3s ease;
+	}
+
+	/* 마우스를 올렸을 때 오버레이 표시 */
+	.book-image-container:hover .book-overlay {
+	    opacity: 1;
+	}
+
+	/* 구매하러 가기 링크 스타일 */
+	.purchase-link {
+	    font-size: 1.2em;
+	    font-weight: bold;
+	    color: #007bff;
+	    text-decoration: none;
+	}
+
+	/* 스터디 관련 책 TOP5 섹션 스타일 */
+	.book-Top5 {
+	    text-align: center;
+	    margin-top: 30px;
+	}
+
+	/* TOP5 이미지 리스트 배치 */
+	.book-image-list {
+	    display: flex;
+	    justify-content: center; /* 중앙 정렬 */
+	    gap: 15px; /* 이미지 간 간격 */
+	}
+
+	.book-Top5-title {
+	    font-size: 1.5em;
+	    font-weight: bold;
+	    margin-bottom: 15px;
+	    color: #333;
+	}
+
    </style>
 <body>
 
@@ -771,79 +873,102 @@
                      
                      <!-- ===========================================그룹정보=========================================== -->
 					 <template v-if="pageView == '1'">
-					   <div class="group-detail-wrapper">
-					     <!-- 헤더 섹션 -->
-					     <div class="group-header">
-					    
-					       <h1 class="group-subtitle">{{ detailList.studyName }}</h1>
-					     </div>
-
-					     <!-- 그룹 설명 섹션 -->
-					     <section class="group-description-section">
-					       <p class="group-description">{{ detailList.description }}</p>
-					     </section>
-
-					     <!-- 그룹 정보 카드 섹션 -->
-					     <div class="group-info-container">
-					       <div class="info-card">
-					         <span>👑 그룹장</span>
-					         <p>{{ adminlist.userNickName }}</p>
-					       </div>
-					       <div class="info-card">
-					         <span>👥 인원</span>
-					         <p>{{ detailList.applyY }} / {{ detailList.maxparticipants }}</p>
-					       </div>
-					       <div class="info-card">
-					         <span>🗂️ 스터디 방식</span>
-					         <p>{{ detailList.onOffMode }}</p>
-					       </div>
-					       <div class="info-card">
-					         <span>🧒 연령대</span>
-					         <p>{{ detailList.age }}</p>
-					       </div>
-					       <div class="info-card">
-					         <span>⏰ 스터디 시간</span>
-					         <p>{{ detailList.stgStudyTime }}</p>
-					       </div>
-					       <div class="info-card">
-					         <span>👫 성별</span>
-					         <p>{{ detailList.genderGroup }}</p>
-					       </div>
-						   <div class="info-card">
-	   				         <span>🗓️ 시작날짜</span>
-	   				         <p>{{ detailList.stgStartDate }}</p>
-	   				       </div>
-						   <div class="info-card">
-      				         <span>🗓️ 종료날짜</span>
-      				         <p>{{ detailList.stgEndDate }}</p>
-      				       </div>
-					     </div>
-
-					     <!-- 학습 목표 및 도서 정보 섹션 -->
-					     <div class="additional-info-container">
-					       <div class="goal-card">
-					         <h3>나의 학습 목표 </h3>
-							 <template v-if="editgoal == 'N'">
-							 <a href="#" @click="fneditgoal()">✏️ 수정하기</a>
-					         <div style="margin-top:10px;"><p>{{ searchUserlist.studygoal }}</p></div>
-							</template>
-							<template v-if="editgoal == 'Y'">
-							 <a href="#" @click="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)">✏️ 수정완료</a>
-					         <div style="margin-top:10px;"><textarea v-model="searchUserlist.studygoal" style="width:95%; height:170px;" @keyup.enter="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)"></textarea></div>
-							</template>
-				 	       </div>
-				
-					       <div class="book-card">
-					         <h3> 관련 도서 정보</h3>
-					         <img :src="detailList.image" alt="도서 이미지" class="book-image">
-					         <div class="book-details">
-					           <h4>{{ detailList.title }}</h4>
-					           <p>저자: {{ detailList.author }}</p>
+					     <div class="group-detail-wrapper">
+					         <!-- 헤더 섹션 -->
+					         <div class="group-header">
+					             <h1 class="group-subtitle">{{ detailList.studyName }}</h1>
 					         </div>
-					       </div>
-					     </div>
-					   </div>
-					 </template>
+
+					         <!-- 그룹 설명 섹션 -->
+					         <section class="group-description-section">
+					             <p class="group-description">{{ detailList.description }}</p>
+					         </section>
+
+					         <!-- 그룹 정보 카드 섹션 -->
+					         <div class="group-info-container">
+					             <div class="info-card">
+					                 <span>👑 그룹장</span>
+					                 <p>{{ adminlist.userNickName }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>👥 인원</span>
+					                 <p>{{ detailList.applyY }} / {{ detailList.maxparticipants }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>🗂️ 스터디 방식</span>
+					                 <p>{{ detailList.onOffMode }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>🧒 연령대</span>
+					                 <p>{{ detailList.age }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>⏰ 스터디 시간</span>
+					                 <p>{{ detailList.stgStudyTime }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>👫 성별</span>
+					                 <p>{{ detailList.genderGroup }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>🗓️ 시작날짜</span>
+					                 <p>{{ detailList.stgStartDate }}</p>
+					             </div>
+					             <div class="info-card">
+					                 <span>🗓️ 종료날짜</span>
+					                 <p>{{ detailList.stgEndDate }}</p>
+					             </div>
+					         </div>
+
+					         <!-- 학습 목표 및 도서 정보 섹션 -->
+					         <div class="additional-info-container">
+					             <!-- 나의 학습 목표 -->
+					             <div class="goal-card">
+					                 <div class="book-Top5-title">나의 학습 목표</div>
+					                 <template v-if="editgoal == 'N'">
+					                     <a href="#" @click="fneditgoal()">✏️ 수정하기</a>
+					                     <div style="margin-top:10px;">
+					                         <p>{{ searchUserlist.studygoal }}</p>
+					                     </div>
+					                 </template>
+					                 <template v-if="editgoal == 'Y'">
+					                     <a href="#" @click="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)">✏️ 수정완료</a>
+					                     <div style="margin-top:10px;">
+					                         <textarea v-model="searchUserlist.studygoal" style="width:95%; height:170px;" @keyup.enter="fneditgoalresult(searchUserlist.fetchapplicationid,searchUserlist.studygoal)"></textarea>
+					                     </div>
+					                 </template>
+					             </div>
+
+								 <!-- 스터디 참고도서 섹션 -->
+								        <div class="book-card">
+								            <div class="book-Top5-title">스터디 필참도서</div>
+								            <div class="book-image-container" @click="fnView(detailList.bookId)">
+								                <img :src="detailList.image" alt="도서 이미지" class="book-image">
+								                <div class="book-overlay">
+								                    <a href="#" class="purchase-link">구매하러 가기</a>
+								                </div>
+								            </div>
+								            <div class="book-details">
+								                <h6>{{ detailList.title }}</h6>
+								                <p>저자: {{ detailList.author }}</p>
+								            </div>
+								        </div>
+										</div>
+										 <!-- 다른 책 TOP5 섹션 -->
+										        <div class="book-Top5">
+										            <div class="book-Top5-title">스터디 관련 책 TOP5</div>
+										            <div class="book-image-list">
+										                <!-- TOP5 책 리스트 -->
+										                <div class="book-image-container" v-for="item in selectTop5">
+										                    <img :src="item.image" alt="도서 이미지 1" class="book-image" >
+										                    <div class="book-overlay" @click="fnView(item.bookId)">
+										                        <a href="#" class="purchase-link">구매하러 가기</a>
+										                    </div>
+										                </div>
+										            </div>
+										        
+										    </div>
+										</template>
 						   <!-- ===========================================그룹 정보=========================================== -->
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <template v-if="pageView == '2'">
@@ -1228,14 +1353,18 @@
 					currentPage: 1,      // 현재 페이지
 					pageSize: 7,        // 한 페이지에 보여줄 개수
 					totalPages: 5,
-					file : null
+					file : null,
+					selectTop5 : []
 					
 					
 										
 	            };
 	        },
 			
-	        methods: {
+	        methods: {		
+				fnView(bookId) {
+					$.pageChange("/shop/detail", { bookId: bookId });
+				},
 				scrollToBottom() {
 						       this.$nextTick(() => {
 						           const container = this.$refs.chatMessages;
@@ -1605,13 +1734,28 @@
                         type: "POST",
                         data: nparmap,
                         success: function(data) {
-                             
+                             console.log(data);
                             self.detailList = data.detailList;
+							self.fnTop5(data.detailList.category);
                      self.fnBoardType(self.detailList.boardTypeId);
                      self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
                         },
                     });
                 },
+				fnTop5(category) {
+                   const self = this;
+                   const nparmap = { category : category  };
+                   $.ajax({
+                       url: "selectTop5.dox",
+                       dataType: "json",
+                       type: "POST",
+                       data: nparmap,
+                       success: function(data) {
+						console.log(data);
+						self.selectTop5 = data.selectTop5;
+                       },
+                   });
+               },
             fnsGroupAdminSearch(userId,studyGroupId) {
                     const self = this;
                     const nparmap = { userId : userId, sessionId : self.sessionUserId, studyGroupId : studyGroupId   };
