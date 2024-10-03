@@ -3,6 +3,14 @@
 <!DOCTYPE html>
 <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 <html>
+<style>
+/* 이미지 미리보기 */
+.stu-comm-insert-image-preview {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+}
+</style>
 <head>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -354,16 +362,16 @@
 							</div>
 								
 							
-							
-							<!--이미지 파일 넣기-->
-							<div v-if="filePreview">
+							<label class="form_label">프로필 사진(생략가능)</label>
+					        <input type="file" @change="fnFileChange"/>
+					        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+
+					        <!-- 이미지 미리보기 -->
+					        <div v-if="filePreview">
 					            <img :src="filePreview" class="stu-comm-insert-image-preview" />
 					        </div>
 
-					        <div class="stu-comm-insert-buttons">
-					            <button type="button" @click="fnBack()" class="cancel">취소</button>
-					            <button type="button" @click="fnSave2()" class="submit" style="background-color: #343A40;">등록</button>
-					        </div>
+					       
 							
 							
 							
@@ -423,7 +431,10 @@
 				birthError: "",
 				validMessage: "",
 				validNickNameMessage: "",
-				passwordStrength: 0
+				passwordStrength: 0,
+				file: null,
+				filePreview :''
+				
 				
 				
 				
@@ -467,6 +478,9 @@
 			
 			fnSave(){
 			    var self = this;
+				if(!confirm("가입 하시겠습니까?")){
+					return;
+				}
 			    var idRegex = /^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{5,}$/;
 			    if(!idRegex.test(self.userId)) {
 			        alert("아이디는 5자 이상이며 영문자와 숫자를 조합해야 합니다.");
@@ -585,17 +599,52 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						alert('가입하시겠습니까?');
-						if(data.result == "success") {
 							console.log(data);
-							alert("환영합니다.");	
-						}
-						else{
-							console.error("응답 데이터가 null");
-						};
-					}
-				});
-		   },
+							var idx = data.idx;
+					console.log(idx);
+					if (self.file) {
+						  const formData = new FormData();
+						  formData.append('file1', self.file);
+						  formData.append('idx', idx);
+						  $.ajax({
+								url: '/JoinfileUpload.dox',
+								type: 'POST',
+								data: formData,
+								processData: false,  
+								contentType: false,  
+								success: function() {
+								  console.log('업로드 성공!');
+								  location.href = "/intro";
+								  self.filePreview = "";
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+								  console.error('업로드 실패!', textStatus, errorThrown);
+								}
+						  });		
+					  } else {
+						location.href = "/intro";
+					  }		
+				}
+			});
+        },
+		fnFileChange(event) {
+		    const file = event.target.files[0];
+		    this.file = file;
+
+		    // 파일명이 있으면 표시
+		    this.fileName = file.name;
+
+		    // 이미지 파일인 경우 미리보기 표시
+		    if (file && file.type.startsWith('image/')) {
+		        const reader = new FileReader();
+		        reader.onload = (e) => {
+		            this.filePreview = e.target.result;
+		        };
+		        reader.readAsDataURL(file); // 이미지 파일을 읽음
+		    } else {
+		        this.filePreview = null; // 이미지가 아니면 미리보기 없음
+		    }
+		},					
 		fnCheckuserId(){
 			var self = this;
 			var idRegex = /^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{5,}$/;

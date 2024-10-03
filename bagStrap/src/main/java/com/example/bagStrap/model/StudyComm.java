@@ -135,6 +135,7 @@ public class StudyComm {
 		private String messageCreatedDate;
 		private String messageIsDeleted;
 		private String mFilepath;
+		private int rating;
 						
 	public String getUserId() {
 		return userId;

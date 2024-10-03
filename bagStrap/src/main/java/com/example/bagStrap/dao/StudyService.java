@@ -101,5 +101,7 @@ public interface StudyService {
 	HashMap<String, Object> selectEvent3001(HashMap<String, Object> map);
 	//마이스터디 -> 상세페이지 가입유저(페이징처리)
 	HashMap<String, Object> selectStuGroupSubscriptionSearchPage(HashMap<String, Object> map);
+	// 책 top5
+	HashMap<String, Object> selectTop5(HashMap<String, Object> map);
 	
 }

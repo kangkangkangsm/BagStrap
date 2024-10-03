@@ -563,5 +563,13 @@ public class StudyController {
 			resultMap = studyService.selectStuGroupSubscriptionSearchPage(map);
 			return new Gson().toJson(resultMap);
 		}
+		//책5
+		@RequestMapping(value = "/selectTop5.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public String selectTop5(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+			HashMap<String, Object> resultMap = new HashMap();
+			resultMap = studyService.selectTop5(map);
+			return new Gson().toJson(resultMap);
+		}
 
 }

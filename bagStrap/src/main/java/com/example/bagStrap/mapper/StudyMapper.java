@@ -146,4 +146,6 @@ public interface StudyMapper {
 	List<StudyComm> selectEvent3002(HashMap<String, Object> map);
 	// 사이드바 사람 정보
 	StudyComm selectStuSidebar(HashMap<String, Object> map);
+	// 책 top5
+	List<StudyComm> selectTop5(HashMap<String, Object> map);
 }

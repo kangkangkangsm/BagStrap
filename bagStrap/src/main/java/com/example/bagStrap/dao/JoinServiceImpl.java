@@ -268,6 +268,22 @@ public class JoinServiceImpl implements JoinService{
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> insertJoinProFile(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			joinMapper.insertJoinProFile(map);
+			resultMap.put("result", "success");
+			resultMap.put("message", "성공!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			resultMap.put("result", "fail");
+			resultMap.put("message", "실패..!!");
+		}
+		return resultMap;
+	}
+
 	
 }
 

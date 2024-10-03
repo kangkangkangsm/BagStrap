@@ -471,7 +471,7 @@
 	</select>			
 	<!-- 스터디 그룹 리스트 상세페이지-->
 	<select id="selectStuGroupDetail" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
-	SELECT TSG.*, TSCBT.*, TB.*, TBOOK.*,applyY,applyN, TBOOK.DESCRIPTION AS TBDESCRIPTION, 
+	SELECT TSG.*, TSCBT.*, TB.*, TBOOK.*,applyY,applyN,RATING, TBOOK.DESCRIPTION AS TBDESCRIPTION, 
 	TO_CHAR(STARTDATE, 'YYYY-MM-DD') AS STGSTARTDATE, 
 	TO_CHAR(ENDDATE, 'YYYY-MM-DD') AS STGENDDATE, 
 	TO_CHAR(STUDYTIME, 'HH24:MI') AS STGSTUDYTIME,
@@ -489,6 +489,11 @@
         )
     TB ON TSG.STUDY_GROUP_ID = TB.boardno
 	LEFT JOIN TBL_BOOK TBOOK ON TSG.RELATED_BOOK = TBOOK.BOOK_ID
+	LEFT JOIN 
+	(
+	SELECT BOOK_ID, AVG(NVL(RATING, 0)
+	) AS RATING 
+	FROM TBL_REVIEW GROUP BY BOOK_ID) R ON TBOOK.BOOK_ID = R.BOOK_ID
 	LEFT JOIN (
 	    SELECT FETCHAPPSTUDYID, 
 	           COUNT(CASE WHEN FETCHAPPLSTATUS = 'Y' THEN 1 END) AS applyY, 
@@ -894,5 +899,23 @@
 	FROM TBL_BOARDFILE TB2
 	) TB2 ON TU.USER_NO = TB2.BOARDNO AND TB2.RN = 1
 	WHERE TU.USER_ID = #{userId}
+	</select>
+	<!-- 스터디 마이페이지 채팅방 top5책   -->
+	<select id="selectTop5" parameterType="hashmap" resultType="com.example.bagStrap.model.StudyComm">
+	SELECT * FROM 
+	(
+	SELECT * 
+	FROM TBL_BOOK B
+	LEFT JOIN 
+	(
+	  SELECT BOOK_ID, AVG(NVL(RATING, 0)) AS RATING 
+	  FROM TBL_REVIEW 
+	  GROUP BY BOOK_ID
+	) R 
+	ON B.BOOK_ID = R.BOOK_ID
+	WHERE CATEGORY = #{category}
+	ORDER BY RATING DESC NULLS LAST
+	)
+	WHERE 6 > ROWNUM
 	</select>
 </mapper>
