@@ -143,7 +143,7 @@
 										<button @click="phoneNumberView=!phoneNumberView" class="phone-button">휴대폰인증</button>
 									</template>
 									<template v-else>										
-										<input class="phone-margin" placeholder="핸드폰 번호를 입력해주세요(01012341234형태)" v-model="userPhone" :disabled="isPhoneDisabled">
+										<input class="phone-margin" placeholder="" v-model="userPhone" :disabled="isPhoneDisabled">
 						            	<button @click='makeConfirmNumbAndSendMessage' class="phone-button">휴대폰인증</button>
 										<button @click="phoneNumberView=!phoneNumberView">취소</button>
 									</template>
@@ -336,7 +336,8 @@
 								alert(data.message);			   
 						}
 					});
-				}			
+				},
+							
    	 },			
 			
         mounted() {

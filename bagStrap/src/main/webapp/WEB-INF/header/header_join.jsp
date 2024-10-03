@@ -353,7 +353,20 @@
 							    </div>
 							</div>
 								
-								
+							
+							
+							<!--이미지 파일 넣기-->
+							<div v-if="filePreview">
+					            <img :src="filePreview" class="stu-comm-insert-image-preview" />
+					        </div>
+
+					        <div class="stu-comm-insert-buttons">
+					            <button type="button" @click="fnBack()" class="cancel">취소</button>
+					            <button type="button" @click="fnSave2()" class="submit" style="background-color: #343A40;">등록</button>
+					        </div>
+							
+							
+							
 								<div class="btn_wrap justify page_bottom" id="joinComplete">
 						            <button type="button" class="btn_lg btn_light_gray" @click="fnSave">
 										<span class="text">회원가입</span>
@@ -435,7 +448,7 @@
 		        return this.isPasswordValidForLength && this.isPasswordValidForNoSpaces;
 		    }
 		},
-        methods: {
+        methods: {			
             fnGetList(){
 				var self = this;
 				var nparmap = {
@@ -450,6 +463,7 @@
 					}
 				});
             },
+			
 			
 			fnSave(){
 			    var self = this;

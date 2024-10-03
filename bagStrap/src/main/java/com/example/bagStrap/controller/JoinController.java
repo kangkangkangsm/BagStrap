@@ -213,7 +213,7 @@ public class JoinController {
 			if(user.getUserId() != null) {
 				map.put("userId", user.getUserId());
 				map.put("password", user.getPassword());
-			resultMap = joinService.extrabanout(map);
+			resultMap = joinService.extraBanOut(map);
 			} else {
 				
 			}
@@ -224,7 +224,14 @@ public class JoinController {
 		return new Gson().toJson(resultMap);
 	}
 	
-	
+	@RequestMapping(value = "/banOut.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String banOut(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap = joinService.extraBanOut(map);
+		System.out.println("resultMap8 : " + resultMap);
+		return new Gson().toJson(resultMap);
+	}
 	
 	
 }	

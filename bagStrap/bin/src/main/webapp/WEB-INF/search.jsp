@@ -15,8 +15,9 @@
 	        <button type="submit">검색</button>
 			<button type="button" @click="fnCreateDB">DB추가</button>
 			<select v-model="category">
-				<option value="1">vfor해서 카테고리로 불러야겠지?</option>
+				<option :value="item.boardTypeId" v-for="item in categoryList">{{item.name}}</option>
 			</select>
+			{{category}}
 	    </form>
 
 	    <div id="results">
@@ -39,10 +40,26 @@
 		            query: '',
 		            results: [],
 					parMap: [],
-					category: 1
+					category: 2012,
+					categoryList:[]
 		        };
 		    },
 		    methods: {
+				fnGetCategoryList(){
+					var self = this;
+				    $.ajax({
+				        url: '/selectCategory.dox',
+				        type: 'POST',
+				        contentType: 'application/json',  // JSON으로 보낼 것을 명시
+				        success: function(data) {
+				            console.log(data);
+				            self.categoryList = data.list;
+				        },
+				        error: function(e) {
+				            alert('오류 발생: ' + e.responseText);
+				        }
+				    });
+				},
 		        fnSearch() {
 		            var self = this;
 		            $.ajax({
@@ -94,6 +111,7 @@
 		    },
 		    mounted() {
 		        // This could be used for any initialization logic, if needed
+				this.fnGetCategoryList()
 		    }
 		});
 
