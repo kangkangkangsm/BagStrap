@@ -250,21 +250,25 @@ public class JoinServiceImpl implements JoinService{
 	}
 
 	@Override
-	public HashMap<String, Object> extrabanout(HashMap<String, Object> map) {
+	public HashMap<String, Object> extraBanOut(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		HashMap<String, Object> resultMap = new HashMap<>();
 		try {
-			List<User> list= joinMapper.banExtra(map);
-			resultMap.put("list", list);
-			resultMap.put("result", "success");
-			resultMap.put("message", "차단된 아이디입니다.");
-		}
-		catch(Exception e) {
-			resultMap.put("result", "fail");
-			resultMap.put("message", "이용가능한 사용자입니다.");
+			int count4 = joinMapper.banExtra(map);
+			if(count4 > 0) {
+				resultMap.put("result", "success");
+				resultMap.put("message","차단된 아이디입니다. 로그인을 할 수 없습니다.");
+			}else {
+				resultMap.put("result", "fail");
+				resultMap.put("message", "이용 가능하나 사용입니다.");
+			}
+		} catch(Exception e) {
+			resultMap.put("message", "오류발생!!!!!!!!!");
 		}
 		return resultMap;
 	}
+
+	
 }
 
 

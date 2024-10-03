@@ -9,7 +9,17 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
-		
+		table {
+			border-collapse:collapse;
+		}
+		th, td {
+			border:2px solid black;
+			padding:6px;
+			text-align:center; 
+		}
+		th {
+			background-color:#e0e0e0;
+		}
 	</style>
 </head>
 <body>
@@ -21,12 +31,21 @@
 
 	        <div class="content">
 				<div id="app">
+					<div>
+						<select v-model="searchOption">
+							<option value="all">::전체::</option>
+							<option value="name">이름</option>
+							<option value="nickName">닉네임</option>	
+						</select>
+						<input type="text" v-model="keyword" placeholder="검색어을 입력하세요">
+						<button @click="fnGetList">검색</button>
+					</div>
+					
 					<table>
 						<tr>
 							<th>이름</th>
 							<th>닉네임</th>
 							<th>아이디</th>
-							<th>비밀번호</th>
 							<th>이메일</th>
 							<th>핸드폰 번호</th>
 							<th>자격</th>
@@ -37,7 +56,6 @@
 								<td>{{item.userName}}</td>
 								<td>{{item.userNickName}}</td>
 								<td>{{item.userId}}</td>
-								<td>{{item.password}}</td>
 								<td>{{item.email}}</td>
 								<td>{{item.phone}}</td>
 								<td>{{item.status}}</td>
@@ -64,13 +82,18 @@
             return {
 				list:[],
 				userId:'',
-				ban:''
+				ban:'',
+				searchOption:'all',
+				keyword:''
 			};
         },
         methods: {
 			fnGetList() {
 				var self=this;
-				var nparam={};
+				var nparam={
+					searchOption:self.searchOption,
+					keyword:self.keyword
+				};
 				$.ajax({
 					url:"/adminUsers.dox",
 					dataType:"json",	

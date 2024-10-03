@@ -9,9 +9,12 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 	<style>
-		
-		.content {
-			text-align:center;
+		.container {
+			display:flex;
+			flex-direction:column;
+			align-items:center;
+			margin-top:200px;
+			gap:10px;
 		}
 		button {
 			background-color:#FF8C00;
@@ -19,7 +22,8 @@
 			border:none;
 			height:30px;
 			width:80px;
-			color:white; 
+			color:white;
+			
 		}
 		button:hover {
 			background-color:#FFA726;
@@ -31,8 +35,7 @@
 			text-align:center;
 			border:black;
 			height:30px;
-			color:white;
-			margin-bottom: 10px; 
+			color:white; 
 			width: 200px;
 		}
 	</style>
@@ -46,11 +49,11 @@
 
 	        <div class="content">
 				<div id="app">
-					<div class="text-section">정말로 현이의 가방끈을 떠나시나요? 비밀번호로 인증 후 "탈퇴하기"버튼을 눌러주세요.</div>
-					<input type="password" class="input-color" v-model="password">
-					<button @click="fnConfrimPw">탈퇴하기</button>
-					
-					
+					<div class="container">
+						<div class="text-section">정말로 현이의 가방끈을 떠나시나요? 비밀번호로 인증 후 "탈퇴하기"버튼을 눌러주세요.</div>
+						<input type="password" class="input-color" v-model="password">
+						<button @click="fnConfrimPw">탈퇴하기</button>
+					</div>
 				</div>
 			</div>
 	    </main>

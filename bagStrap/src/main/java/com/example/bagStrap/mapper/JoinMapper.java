@@ -36,5 +36,5 @@ public interface JoinMapper {
 	
 	void adminUPdate (HashMap<String, Object> map);
 	
-	List<User> banExtra(HashMap<String, Object> map);
+	int banExtra(HashMap<String, Object> map);
 }

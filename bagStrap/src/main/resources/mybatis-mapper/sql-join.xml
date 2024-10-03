@@ -5,12 +5,23 @@
 <mapper namespace="com.example.bagStrap.mapper.JoinMapper">
 	<select id="joinList" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
 		SELECT * FROM TBL_USER
+		WHERE 1=1
+		<if test="searchOption == all">
+			AND ( USER_NAME LIKE '%' || #{keyword} || '%' OR
+			USER_NICKNAME LIKE '%' || #{keyword} || '%')
+		</if>
+		<if test="searchOption == 'name'">
+			AND (USER_NAME LIKE '%' || #{keyword} || '%' OR)
+		</if>
+		<if test="searchOption == 'nickName'">
+			AND (USER_NICKNAME LIKE '%' || #{keyword} || '%' OR)
+		</if>
 	</select>
 	<!-- 회원가입 후 파일에 들어갈 FK 리턴받는거 -->
 	<insert id="joinInsert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="USER_NO" keyColumn="USER_NO">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH, GENDER) 
-		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth}, #{gender})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth})
 	</insert>
 	
 	<!--아이디 중복검사-->
@@ -84,7 +95,7 @@
 	<select id="banExtra" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
 		SELECT COUNT(*) AS count
 		FROM TBL_USER
-		WHERE ban='Y' AND USER_ID=#{userId}
+		WHERE (ban ='Y' OR (USER_NICKNAME ='0' AND USER_ID = #{userId}))
 	</select>
 	
 </mapper>
