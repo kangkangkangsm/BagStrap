@@ -9,238 +9,274 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
-body, html {
-    height: 0%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-.main-container {
-    display: flex;
-    width: 100%;
-    padding: 20px;
-}
+	/* 스터디 그룹 생성 폼 전체 컨테이너 */
+	       .study-group-insert-form-container {
+	           width: 100%;
+	           max-width: 800px; /* 최대 너비 설정 */
+	           background: #ffffff;
+	           border-radius: 10px;
+	           padding: 20px; /* 패딩 조정 */
+	           display: flex;
+	           flex-wrap: wrap;
+	           justify-content: space-between;
+	       
+	           margin: 0 auto; /* 중앙 정렬 */
+	       }
 
-/* 사이드바 스타일 */
-.sidebar {
-    width: 250px;
-    padding-right: 20px;
-}
+	       /* 폼 그룹 스타일 */
+	       .study-group-insert-form-group {
+	           width: 48%; /* 좌우에 2개씩 배치 */
+	           display: flex;
+	           flex-direction: column;
+	           margin-bottom: 20px; /* 여백 조정 */
+	       }
 
-/* 컨텐츠 스타일 */
-.content {
-    flex: 1;
-    width: calc(100% - 250px); /* 사이드바 너비를 뺀 나머지 */
-    background: #f9f9f9;
-    padding: 30px;
-    box-sizing: border-box;
-}
+	       @media (max-width: 768px) {
+	           .study-group-insert-form-group {
+	               width: 100%; /* 작은 화면에서는 한 줄에 하나씩 */
+	           }
+	       }
 
-/* 스터디 그룹 생성 폼 전체 컨테이너 */
-.study-group-insert-form-container {
-    width: 100%;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-}
+	       /* 라벨 스타일 */
+	       .study-group-insert-form-group label {
+	           margin-bottom: 8px;
+	           font-weight: bold;
+	           font-size: 14px;
+	           color: #333333;
+	       }
 
-/* 폼 그룹 스타일 */
-.study-group-insert-form-group {
-    width: 48%; /* 좌우에 2개씩 배치 */
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
+	       /* 입력 필드 스타일 */
+	       .study-group-insert-form-group input[type="text"],
+	       .study-group-insert-form-group input[type="date"],
+	       .study-group-insert-form-group input[type="time"],
+	       .study-group-insert-form-group select {
+	           border: 1px solid #dddddd;
+	           border-radius: 5px;
+	           padding: 12px 15px;
+	           font-size: 14px;
+	           background: #ffffff; /* 인풋 박스 배경색 하얀색으로 설정 */
+	           transition: border 0.3s ease-in-out;
+	       }
 
-/* 라벨 스타일 */
-.study-group-insert-form-group label {
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #333333;
-}
+	       .study-group-insert-form-group input[type="text"]:focus,
+	       .study-group-insert-form-group input[type="date"]:focus,
+	       .study-group-insert-form-group input[type="time"]:focus,
+	       .study-group-insert-form-group select:focus {
+	           border: 1px solid #3a8ee6;
+	           background: #f8f8f8; /* 포커스 시 배경색 변경 */
+	       }
 
-/* 입력 필드 스타일 */
-.study-group-insert-form-group input[type="text"],
-.study-group-insert-form-group input[type="date"],
-.study-group-insert-form-group input[type="time"],
-.study-group-insert-form-group select {
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    padding: 12px 15px;
-    font-size: 14px;
-    background: #ffffff; /* 인풋 박스 배경색 하얀색으로 설정 */
-    transition: border 0.3s ease-in-out;
-}
+	       /* 전체 선택 박스 너비 맞춤 */
+	       .study-group-insert-form-group select {
+	           width: 100%;
+	       }
 
-.study-group-insert-form-group input[type="text"]:focus,
-.study-group-insert-form-group input[type="date"]:focus,
-.study-group-insert-form-group input[type="time"]:focus,
-.study-group-insert-form-group select:focus {
-    border: 1px solid #3a8ee6;
-    background: #f8f8f8; /* 포커스 시 배경색 변경 */
-}
+	       /* 파일 업로드 스타일 */
+	       #file-upload {
+	           display: none;
+	       }
 
-/* 전체 선택 박스 너비 맞춤 */
-.study-group-insert-form-group select {
-    width: 100%;
-}
+	       /* 파일 미리보기 스타일 */
+	       .stu-comm-insert-image-preview {
+	           margin-top: 20px;
+	           border: 1px solid #dddddd;
+	           border-radius: 10px;
+	           max-width: 100%;
+	           max-height: 300px;
+	       }
 
-/* 파일 업로드 스타일 */
-#file-upload {
-    display: none;
-}
+	       /* 버튼 공통 스타일 */
+	       .study-group-insert-submit-btn {
+	           padding: 12px 20px;
+	           border: none;
+	           border-radius: 5px;
+	           cursor: pointer;
+	           margin: 0 10px; /* 좌우 간격 조정 */
+	           transition: background-color 0.3s ease-in-out;
+	           width: 120px; /* 버튼 크기 조정 */
+	           font-size: 14px; /* 텍스트 크기 조정 */
+	       }
 
-/* 파일 미리보기 스타일 */
-.stu-comm-insert-image-preview {
-    margin-top: 20px;
-    border: 1px solid #dddddd;
-    border-radius: 10px;
-    max-width: 100%;
-    max-height: 300px;
-}
+	       /* 취소 버튼 스타일 */
+	       .cancel-btn {
+	           background-color: #cccccc; /* 회색 계열 */
+	           color: #333333; /* 텍스트 색상 */
+	       }
 
-/* 버튼 스타일 */
-.study-group-insert-submit-btn {
-    background-color: #ff6600;
-    color: #ffffff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px;
-    transition: background-color 0.3s ease-in-out;
-    width: 80px; /* 버튼 크기 조정 */
-}
+	       .cancel-btn:hover {
+	           background-color: #b3b3b3; /* 약간 진한 회색 */
+	       }
 
-.study-group-insert-submit-btn:hover {
-    background-color: #e65500;
-}
+	       /* 스터디 생성 버튼 스타일 */
+	       .create-btn {
+	           background-color: #ff6600; /* 주황색 */
+	           color: #ffffff; /* 텍스트 흰색 */
+	       }
 
-/* 파일 미리보기 공간 */
-.file-preview-container {
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border: 2px dashed #aaaaaa;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-}
+	       .create-btn:hover {
+	           background-color: #e65500; /* 약간 진한 주황색 */
+	       }
 
-/* 파일 이름 텍스트 */
-.file-preview-container p {
-    font-size: 14px;
-    color: #777777;
-    margin-top: 10px;
-    text-align: center;
-}
+	       /* 파일 미리보기 공간 */
+	       .file-preview-container {
+	           width: 48%;
+	           display: flex;
+	           flex-direction: column;
+	           align-items: center;
+	           justify-content: center;
+	           padding: 10px;
+	           border: 2px dashed #aaaaaa;
+	           border-radius: 10px;
+	           margin-bottom: 20px;
+	           background-color: #f5f5f5;
+	       }
 
-/* 버튼 컨테이너 */
-.button-group {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
+	       @media (max-width: 768px) {
+	           .file-preview-container {
+	               width: 100%; /* 작은 화면에서는 전체 폭 사용 */
+	           }
+	       }
+
+	       /* 파일 이름 텍스트 */
+	       .file-preview-container p {
+	           font-size: 14px;
+	           color: #777777;
+	           margin-top: 10px;
+	           text-align: center;
+	       }
+
+	       /* 버튼 컨테이너 */
+	       .button-group {
+	           display: flex;
+	           justify-content: center;
+	           align-items: center;
+	           width: 100%;
+	           margin-top: 20px;
+	       }
+
+	       /* 활성화된 버튼 스타일 - 각 섹션에 독립적으로 적용 */
+	       .age-section .study-group-sidebard-button.active,
+	       .onoff-section .study-group-sidebard-button.active,
+	       .subject-section .study-group-sidebard-button.active,
+	       .gender-section .study-group-sidebard-button.active {
+	           background-color: #cccccc; /* 배경색 더 진한 회색 */
+	           color: #ffffff; /* 텍스트 흰색 */
+	           border-color: #666666; /* 테두리 더 진한 회색 */
+	           box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2); /* 그림자 감소 */
+	           text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); /* 텍스트에 약간의 그림자 추가 */
+	       }
+
+	       /* 포커스 효과 추가 */
+	       .study-group-sidebard-button:focus {
+	           outline: none;
+	           /* 차콜 색상으로 변경: rgba(54, 69, 79, 0.5) */
+	           box-shadow: 0 0 0 3px rgba(54, 69, 79, 0.5); /* 차콜 외곽선 추가 */
+	       }
+
+	       /* 반응형 디자인 추가 */
+	       @media (max-width: 480px) {
+	           .study-group-insert-submit-btn {
+	               width: 100px; /* 작은 화면에서는 버튼 크기 축소 */
+	               padding: 10px 15px; /* 패딩 조정 */
+	           }
+
+	           .study-group-insert-form-container {
+	               padding: 15px; /* 패딩 추가 조정 */
+	           }
+	       }
 </style>
 <body>
 		<main class="main-container">
 			<aside class="sidebar">
-	           <jsp:include page="/layout/study-sidebar.jsp"></jsp:include>
+
 	       </aside>
 			
-	<div id="app">
-		<div class="content">
-		    <div class="study-group-insert-form-container" >
-		        <div class="study-group-insert-form-group">
-		            <label for="field">스터디 영역</label>
-		            <select id="field" v-model="subjectTypeId" @change="fnBoardType(subjectTypeId)">
-		                <option v-for="item in categoryList" v-show="item.boardTypeId >= 2000 && item.boardTypeId <= 2999" :value="item.boardTypeId">{{item.name}}</option>
-		            </select>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="studyName">스터디 이름 (24자 이내)</label>
-		            <input type="text" id="studyName" name="studyName" v-model="studyName" maxlength="24">
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="startDate">스터디 기간 (시작일)</label>
-		            <input type="date" id="startDate" name="startDate" v-model="startdate">
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="endDate">스터디 기간 (종료일)</label>
-		            <input type="date" id="endDate" name="endDate" v-model="enddate">
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="time">스터디 시간 설정</label>
-		            <input type="time" id="time" name="time" v-model="studytime">
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="ageGroup">연령별</label>
-		            <select id="ageGroup" name="ageGroup" v-model="age">
-		                <option value="중딩">중딩</option>
-		                <option value="고딩">고딩</option>
-		                <option value="대딩">대딩</option>
-		                <option value="성인">성인</option>
-		            </select>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="studyType">온라인/오프라인</label>
-		            <select id="studyType" name="studyType" v-model="onOffMode">
-		                <option value="온라인">온라인</option>
-		                <option value="오프라인">오프라인</option>
-		                <option value="">혼합</option>
-		            </select>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="members">모집 인원</label>
-		            <select id="members" name="members" v-model="maxParticipants">
-		                <option value="2">1:1(과외)</option>
-		                <option v-for="n in 18" :value="n + 2">{{n + 2}}명</option>
-		            </select>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="gender">성별</label>
-		            <select id="gender" name="gender" v-model="genderGroup">
-		                <option value="남성">남성</option>
-		                <option value="여성">여성</option>
-		                <option value="">성별무관</option>
-		            </select>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="book">참고 할 교재</label>
-		            <div class="study-group-insert-book-list">
-		                <select id="book" name="book" v-model="﻿relatedBook">
-		                    <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
-		                </select>
-		            </div>
-		        </div>
-		        <div class="study-group-insert-form-group">
-		            <label for="description">스터디 설명 (50자 이내)</label>
-		            <input type="text" id="description" name="description" v-model="description" maxlength="50">
-		        </div>
-		        <!-- 파일 업로드 및 미리보기 -->
-		        <div class="study-group-insert-form-group">
-		            <label for="file">스터디 그룹 이미지</label>
-		            <input type="file" @change="fnFileChange">
-		        </div>
-		        <div class="file-preview-container" v-if="filePreview">
-		            <img :src="filePreview" class="stu-comm-insert-image-preview"/>
-		            <p>미리보기: {{fileName}}</p>
-		        </div>
-		    </div>
-		    <div class="button-group">
-		        <button class="study-group-insert-submit-btn" @click="fnback()">취소</button>
-		        <button class="study-group-insert-submit-btn" @click="fnGroupInsert()">스터디 생성</button>
-		    </div>
-		</div>
-	</div>
-</main>
+		   <div id="app">
+              <div class="content">
+                  <div class="study-group-insert-form-container">
+                      <div class="study-group-insert-form-group">
+                          <label for="field">스터디 영역</label>
+                          <select id="field" v-model="subjectTypeId" @change="fnBoardType(subjectTypeId)">
+                              <option v-for="item in categoryList" v-show="item.boardTypeId >= 2000 && item.boardTypeId <= 2999" :value="item.boardTypeId">{{item.name}}</option>
+                          </select>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="studyName">스터디 이름 (24자 이내)</label>
+                          <input type="text" id="studyName" name="studyName" v-model="studyName" maxlength="24">
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="startDate">스터디 기간 (시작일)</label>
+                          <input type="date" id="startDate" name="startDate" v-model="startdate">
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="endDate">스터디 기간 (종료일)</label>
+                          <input type="date" id="endDate" name="endDate" v-model="enddate">
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="time">스터디 시간 설정</label>
+                          <input type="time" id="time" name="time" v-model="studytime">
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="ageGroup">연령별</label>
+                          <select id="ageGroup" name="ageGroup" v-model="age">
+                              <option value="중딩">중딩</option>
+                              <option value="고딩">고딩</option>
+                              <option value="대딩">대딩</option>
+                              <option value="성인">성인</option>
+                          </select>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="studyType">온라인/오프라인</label>
+                          <select id="studyType" name="studyType" v-model="onOffMode">
+                              <option value="온라인">온라인</option>
+                              <option value="오프라인">오프라인</option>
+                              <option value="">혼합</option>
+                          </select>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="members">모집 인원</label>
+                          <select id="members" name="members" v-model="maxParticipants">
+                              <option value="2">1:1(과외)</option>
+                              <option v-for="n in 18" :value="n + 2">{{n + 2}}명</option>
+                          </select>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="gender">성별</label>
+                          <select id="gender" name="gender" v-model="genderGroup">
+                              <option value="남성">남성</option>
+                              <option value="여성">여성</option>
+                              <option value="">성별무관</option>
+                          </select>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="book">참고 할 교재</label>
+                          <div class="study-group-insert-book-list">
+                              <select id="book" name="book" v-model="relatedBook">
+                                  <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="study-group-insert-form-group">
+                          <label for="description">스터디 설명 (50자 이내)</label>
+                          <input type="text" id="description" name="description" v-model="description" maxlength="50">
+                      </div>
+                      <!-- 파일 업로드 및 미리보기 -->
+                      <div class="study-group-insert-form-group">
+                          <label for="file">스터디 그룹 이미지</label>
+                          <input type="file" @change="fnFileChange">
+                      </div>
+                      <div class="file-preview-container" v-if="filePreview">
+                          <img :src="filePreview" class="stu-comm-insert-image-preview"/>
+                          <p>미리보기: {{fileName}}</p>
+                      </div>
+                  </div>
+                  <div class="button-group">
+                      <button class="study-group-insert-submit-btn cancel-btn" @click="fnback()">취소</button>
+                      <button class="study-group-insert-submit-btn create-btn" @click="fnGroupInsert()">스터디 생성</button>
+                  </div>
+              </div>
+          </div>
+      </main>
 
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
