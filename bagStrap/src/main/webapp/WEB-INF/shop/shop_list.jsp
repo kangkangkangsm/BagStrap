@@ -278,14 +278,17 @@
 		.book-container {
 		    display: flex;
 		    align-items: center;
-		    background-color: white;
+		    background-color: #f9f9f9;
 		    border-radius: 10px;
 		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 		    padding: 20px;
-
+			margin-top: 10px;
 		    width: 100%;
 		}
+		.book-container img{
+			border: 1px solid #eee;
 
+		}
 		.book-cover {
 		    width: 150px;
 		    height: auto;
@@ -294,6 +297,8 @@
 		}
 
 		.book-details {
+			box-sizing: border-box;
+			padding-right: 15px;	
 		    flex-grow: 1;
 		}
 		.book-details h1 {
@@ -333,6 +338,7 @@
 		}
 
 		.add-to-cart {
+			z-index: 10;
 		    padding: 10px 15px;
 		    border: none;
 		    background-color: #ff7f50;
@@ -345,10 +351,33 @@
 		.add-to-cart:hover {
 		    background-color: #e74c3c;
 		}
-		
-		.added-cart-message{
-			
+		/* 토스트 메시지 기본 스타일 */
+		.toast {
+			visibility: hidden;
+			background-color: #777;
+			color: #fff;
+			text-align: center;
+			border-radius: 5px;
+			padding: 2px 5px;
+			position: absolute;
+			z-index: 1;
+			right: 27px;
+			top: 24px;
+			font-size: 17px;
+			opacity: 0;
+			transition: opacity 0.5s, transform 0.5s ease-in-out;
 		}
+
+		/* 토스트 메시지가 보여질 때 */
+		.toast.show {
+		  visibility: visible;
+		  opacity: 1;
+		  transform: translateY(-20px); /* 위로 슬라이드 */
+		}
+		.relative{
+			position: relative;
+		}
+
 </style>
 </head>
 <body>
@@ -368,11 +397,12 @@
 						<button class="shop-list-search-btn" @click="fnGetList(1)">검색</button>
 					</div>
 				</div>
-					<div v-if="bookList.length === 0">해당하는 상품이 존재하지 않습니다.</div>
-				<div  v-for="(book, index) in bookList" :key="book.bookId" style="text-decoration: none; color: inherit;">
-					<a class="book-container" @click="goToDetail(book.bookId)" href="javascript:;" >
+				<div v-if="bookList.length === 0">해당하는 상품이 존재하지 않습니다.</div>
+				<div class="book-container" v-for="(book, index) in bookList" :key="book.bookId" style="text-decoration: none; color: inherit;">
+					<a @click="goToDetail(book.bookId)" href="javascript:;" >
 					    <img :src="book.image" alt="책 표지" class="book-cover">
-					    <div class="book-details">
+					</a>
+					<a class="book-details" @click="goToDetail(book.bookId)" href="javascript:;" >
 							<h1>{{ book.shortTitle }}</h1>
 							<h3>{{ book.author }}</h3>
 							<h2>{{ book.shortDescription }}</h2>
@@ -381,15 +411,13 @@
 					        <div class="rating">
 								평점: {{ book.rating }}
 					        </div>
-					        
-					    </div>
-					    <div>
-							<p class="price">{{ book.price }}원</p>
-												        <p class="discount" v-if="book.discount != 0">{{ book.discount }}% 할인 중</p>
-					        <button class="add-to-cart" @click="insertCartItem(book.bookId)">장바구니에 추가</button>
-							<div class="added-cart-message">장바구니 추가됨~</div>
-					    </div>
 					</a>
+				    <div class="relative">
+						<p class="price">{{ book.price }}원</p>
+						<p class="discount" v-if="book.discount != 0">{{ book.discount }}% 할인 중</p>
+				        <button class="add-to-cart" @click="insertCartItem(book.bookId)">장바구니에 추가</button>
+						<div :id="book.bookId" class="toast">추가되었습니다</div>
+				    </div>
 				</div>
 					
 				<!--페이징네이션 버튼-->
@@ -401,7 +429,7 @@
 				    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
 				</div>
 			
-				
+
 			</div>
 		</div>
 
@@ -485,51 +513,36 @@
 						$.pageChange("/shop/detail",{bookId : bookId});	
 
 					},
-					isItemChecked(bookId){
+					insertCartItem(bookId){
 						var self = this;
-						let bookExists = false;
-						
-						const quantity = +bookQuantity
-						self.selectedBooks.forEach(item => {
-							if(item.bookId === bookId){
-								self.selectedBooks = self.selectedBooks.filter(item => item.bookId !== bookId);
-								bookExists = true;
-							}
-						})
-						if(!bookExists){
-							self.selectedBooks.push({
-								bookId : bookId
-							});
+						if(!self.isLogin){
+							alert('로그인 후 이용해주세요');
+							return;
 						}
-
+						$.ajax({
+						    url: "/insertCartItem.dox", // 서버의 URL
+						    type: "POST", // GET 방식으로 전송
+						    data: { bookId: bookId }, // bookIds를 전송
+						    success: function(data) {
+								console.log(data)
+								if(data.result){
+									self.showToast(bookId);
+								} else {
+									alert(data.message);
+								}
+						    },
+						    error: function(error) {
+						        console.error("장바구니 추가 중 오류 발생", error);
+						    }
+						});
 						
 					},
-					insertCartItem(bookId){
-					var self = this;
-					if(!self.isLogin){
-						alert('로그인 후 이용해주세요');
-						return;
-					}
-					$.ajax({
-					    url: "/insertCartItem.dox", // 서버의 URL
-					    type: "POST", // GET 방식으로 전송
-					    data: { bookId: bookId }, // bookIds를 전송
-					    success: function(data) {
-							console.log(data)
-							if(data.result){
-								//TODO 토스트 메세지 느낌으로 띄워줘야함
-								if(confirm(data.message +'장바구니로 이동하시겠습니까?')){
-									$.pageChange("/myshop/cart", {});	
-								}
-							} else {
-								alert(data.message);
-							}
-					    },
-					    error: function(error) {
-					        console.error("장바구니 추가 중 오류 발생", error);
-					    }
-					});
-						
+					showToast(name) {
+					  var toast = document.getElementById(name);
+					  toast.className = "toast show"; // 토스트 메시지 표시
+					  setTimeout(function() {
+					    toast.className = toast.className.replace("show", ""); // 3초 후에 사라짐
+					  }, 1000);
 					}
 			    },
 			    mounted() {
