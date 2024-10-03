@@ -379,8 +379,7 @@
 				<dialog id="headerLoginModal" class="headerLoginModal round">
 	               <div class="rightCloseBtn" onclick="document.getElementById('headerLoginModal').close()">
 	                   <a href="javascript:;" class="closeBtn">
-	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray">
-	                           <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-224 56-224-224-224 224Z"/>
+	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 	                       </svg>
 	                   </a>
 	               </div>     

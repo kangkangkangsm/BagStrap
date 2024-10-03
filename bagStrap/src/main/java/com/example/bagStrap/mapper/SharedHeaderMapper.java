@@ -25,7 +25,6 @@ public interface SharedHeaderMapper {
 	int selectAdminOrderListCount(HashMap<String, Object> map);
 	List<Order> selectAdminOrderList(HashMap<String, Object> map);
 	void updateOrderStatus(HashMap<String, Object> map);
-	void updateRefundStatus(HashMap<String, Object> map);
 	Order selectMyReview(HashMap<String, Object> map);
 	void insertMyReview(HashMap<String, Object> map);
 	void updateMyReview(HashMap<String, Object> map);

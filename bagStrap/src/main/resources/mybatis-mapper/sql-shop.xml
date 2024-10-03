@@ -41,7 +41,10 @@
 		    </choose>
 	    </select>
 	<select id="searchBookList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		    SELECT NVL(RATING, 0) AS RATING, B.*, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+		    SELECT NVL(RATING, 0) AS RATING, B.*, CASE
+				WHEN instr(B.title,'(') = 0 THEN TITLE
+				ELSE substr(B.title, 1, instr(B.title,'(')-1)
+			END AS SHORT_TITLE,
 		    CASE 
 				WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
 				ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
@@ -125,7 +128,11 @@
 			FROM
 			   (SELECT * 
 			    FROM 
-			        (SELECT FILEPATH,B.*,R.RATING, G.STUDY_NAME, TO_CHAR(G.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(G.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, STUDY_GROUP_ID, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+			        (SELECT FILEPATH,B.*,R.RATING, G.STUDY_NAME, TO_CHAR(G.STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(G.ENDDATE, 'YYYY-MM-DD') AS ENDDATE, STUDY_GROUP_ID,
+					CASE
+						WHEN instr(B.title,'(') = 0 THEN TITLE
+						ELSE substr(B.title, 1, instr(B.title,'(')-1)
+					END AS SHORT_TITLE,
 			        CASE 
 						WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
 						ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
@@ -161,7 +168,10 @@
 	</select>
 	<select id="selectRecommendedList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 		    SELECT * FROM (
-			    SELECT B.*, T.*, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE,
+			    SELECT B.*, T.*, CASE
+					WHEN instr(B.title,'(') = 0 THEN TITLE
+					ELSE substr(B.title, 1, instr(B.title,'(')-1)
+				END AS SHORT_TITLE,
 			    CASE 
 					WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
 					ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')

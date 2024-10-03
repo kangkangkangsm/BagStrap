@@ -8,243 +8,265 @@
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<title>첫번째 페이지</title>
 	<style>
+		/* 제목 스타일 */
+		.shop-list-title-bar {
+		    display: flex;
+		    margin: 20px auto;
+		}
+
+		.shop-list-title {
+		    font-size: 30px; /* 원래 크기 30px로 조정 */
+		    font-weight: bold;
+		    margin: 0px 20px 0px 0px; /* 상단 여백 제거 */
+		}
+
+		.study-group-list-search-bar {
+			width: 100%;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 30px;
+		    gap: 15px;
+		}
+
+		.study-group-list-search-bar input[type="text"] {
+			flex: 1;
+			padding: 12px 16px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			font-size: 16px;
+			transition: border 0.3s;
+		}
+
+		.study-group-list-search-bar input[type="text"]:focus {
+			border-color: #007bff;
+			outline: none;
+		}
+
+		.study-group-list-search-bar button {
+			background:#343A40;
+		   color: #fff;
+		   border: none;
+		   cursor: pointer;
+		   transition: background-color 0.3s;
+		   font-size: 1em; /* 글자 크기 조정 */
+		}
+		.shop-list-search-select {			
+		    background: #343A40; /* 색상 통일 */
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		    padding: 10px;
+		    border-radius: 5px;
+		}
+
+		.shop-list-search-btn {
+		    width: 80px;
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		}
+
+		.shop-list-search-btn:hover {
+		    background: #2c3237; /* hover 시 색상 변경 */
+		}
+
+		/* 환불 내역 스타일 */
 		.refund-list-container {
-		  width: 80%;
-		  margin: 20px auto;
-		  border: 1px solid #ddd;
-		  border-radius: 8px;
+		    width: 100%;
+			padding: 10px;
+		    margin: 10px 0;
+		    border: 1px solid #ddd;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		    background: #f9f9f9;
 		}
 
+		/* 리스트 아이템 */
 		.refund-list-item {
-		  display: flex;
-		  justify-content: space-between;
-		  padding: 15px;
-		  border-bottom: 1px solid #ddd;
+		    display: flex;
+		    justify-content: space-between;
+		    padding: 20px;
+		    border-bottom: 1px solid #ddd;
 		}
-
-		.refund-list-item:last-child {
-		  border-bottom: none;
+		.refund-list-info{
+			flex: 3
 		}
-
-		.refund-list-info {
-		  flex: 2;
-		}
-
-		.refund-list-dates {
-		  font-size: 14px;
-		  color: #777;
-		}
-
-		.refund-list-description {
-		  margin-top: 8px;
-		}
-
 		.refund-list-description p {
-		  margin: 0;
-		  font-weight: 500;
-		  line-height: 1.5;
+		    margin: 0;
+		    font-weight: 500;
+		    font-size: 16px;
 		}
 
 		.refund-list-quantity,
 		.refund-list-status {
-		  flex: 1;
-		  text-align: center;
+		    flex: 1;
+		    text-align: center;
 		}
 
-		.refund-list-quantity p,
 		.refund-list-status p {
-		  margin: 5px 0;
+		    margin: 5px 0;
 		}
 
 		.refund-list-details-button {
-		  padding: 6px 10px;
-		  background-color: #007bff;
-		  color: white;
-		  border: none;
-		  border-radius: 4px;
-		  cursor: pointer;
-		  transition: background 0.3s ease;
+		    padding: 8px 12px;
+		    background-color: #ff7f50;
+		    color: white;
+		    border: none;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    transition: background 0.3s ease;
 		}
 
 		.refund-list-details-button:hover {
-		  background-color: #0056b3;
+		    background-color: #e74c3c;
 		}
-		/* 다이얼로그 콘텐츠 - Flexbox 레이아웃으로 변경 */
+
+		/* Dialog 스타일 */
+		.refund-dialog {
+			top: 200px;
+		    width: 60%; /* 다이얼로그 너비 설정 */
+		    max-width: 900px; /* 최대 너비 제한 */
+		    border: 1px solid #ddd; /* 리스트와 같은 테두리 색상 */
+		    border-radius: 12px; /* 기존 리스트와 일관된 라운드 */
+		    background: #f9f9f9; /* 리스트와 유사한 밝은 배경색 */
+		    padding: 30px; /* 여백 조정 */
+		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* 기존 리스트의 그림자와 유사한 스타일 */
+		    overflow: hidden; /* 내용이 다이얼로그 밖으로 넘치지 않도록 설정 */
+		    margin: 50px auto; /* 화면 중앙에 위치하도록 설정 */
+		}
 		.refund-dialog-content {
-		  background: #ffffff;
-		  padding: 20px;
-		  border-radius: 10px;
-		  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-		  max-width: 800px; /* 다이얼로그의 가로 크기를 늘려서 한 줄 배치 */
-		  margin: 0 auto;
-		  display: flex; /* Flexbox 레이아웃으로 설정 */
-		  align-items: center; /* 세로 가운데 정렬 */
-		  gap: 20px; /* 각 섹션 간격 */
+		    display: flex;
+		    align-items: center;
+		    gap: 20px;
 		}
 
-		/* 책 이미지 및 정보 배치 */
 		.refund-dialog-book-info {
-		  display: flex;
-		  align-items: center;
-		  gap: 20px; /* 이미지와 텍스트 사이 간격 */
-		  flex: 2;
+		    display: flex;
+		    gap: 20px;
 		}
 
-		/* 책 이미지 */
 		.refund-dialog-book-image {
-		  width: 120px;
-		  height: 160px;
-		  border-radius: 5px;
-		  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		}
-
-		/* 책 상세 정보 */
-		.refund-dialog-book-details {
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: space-between;
-		}
-
-		.refund-dialog-book-details h3 {
-		  margin: 0 0 5px 0;
-		  font-size: 18px;
-		}
-
-		.refund-dialog-book-details p {
-		  margin: 2px 0;
-		  font-size: 14px;
-		  color: #555;
-		}
-
-		/* 환불 상태 스타일 */
-		.refund-dialog-status {
-		  border-left: 1px solid #ddd; /* 구분선 추가 */
-		  padding-left: 15px; /* 왼쪽 여백 추가 */
-		  flex: 1;
+		    width: 120px;
+		    height: 160px;
 		}
 
 		.refund-dialog-status h4 {
-		  margin: 0;
-		  font-size: 16px;
-		  color: #333;
+		    margin: 0 0 5px 0;
+		    font-size: 18px;
 		}
 
-		.refund-dialog-status p {
-		  margin: 5px 0;
-		  font-size: 14px;
-		  color: #666;
+		.status {
+			display: flex;
+		    font-weight: bold;
+		    margin-bottom: 5px;
 		}
-
-		/* 닫기 버튼 스타일 */
-		.refund-dialog-close-button {
-		  background-color: #007bff;
-		  color: white;
-		  border: none;
-		  padding: 10px 15px;
-		  border-radius: 5px;
-		  cursor: pointer;
-		  margin-top: 10px;
-		  transition: background-color 0.3s;
+		.status div{
+			flex:1;
+			margin-bottom:15px;
 		}
-
-		.refund-dialog-close-button:hover {
-		  background-color: #0056b3;
+		.status h1{
+		    font-size:20px;
 		}
 
 	</style>
 </head>
 <body>
+	
 	<main class="main-container">
-		
-        <aside class="sidebar">
-			<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
-        </aside>
-		
-        <div class="content">
-			<div id="app">
-				<select v-model="pageSize" @change="fnGetList(1)">
-					<option value="5">5개씩</option>	
-					<option value="10">10개씩</option>	
-					<option value="20">20개씩</option>	
-				</select>
-				<div class="refund-list-container" v-for="(items, key) in groupedByRefundId" :key="key">
-					<div class="refund-list-dates">
-				        <span>취소접수일: {{ items[0].createdDate }}</span> |
-						<span>주문일: {{ items[0].orderDate }}</span>
-						<div>주문번호: {{ items[0].refundId }}</div>
-				    </div>
-				  <div class="refund-list-item">
-
-					 <div class="refund-list-info">
-				     
-				      <div class="refund-list-description" v-for="item in items">
-				        <p>{{ item.title }}</p>
-				      </div>
-				    </div>
-				    <div class="refund-list-quantity" v-for="item in items">
-				      <p>{{ item.quantity }}개</p>
-				      <p>{{ item.price }}원</p>
-				    </div>
-				    <div class="refund-list-status">
-				      <p>{{ items[0].status }}</p>
-				      <!--<p>{{ item.refundMethod }}</p>-->
-					  <button class="refund-list-details-button" @click="openDialog(items)">취소상세</button>
-				    </div>
-				  
+	    <aside class="sidebar">
+	        <jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+	    </aside>
+	    <div class="content">
+	        <div id="app">
+				<div class="shop-list-title-bar">
+					<div class="study-group-list-search-bar shop-list-search-bar">
+						<h1 class="shop-list-title">환불 내역</h1>
+						<input type="text" placeholder="검색어를 입력하세요" v-model="keyword" @keyup.enter="fnGetList(1)">
+						<button class="shop-list-search-btn" @click="fnGetList(1)">검색</button>
+						<select class="shop-list-search-select" v-model="pageSize" @change="fnGetList(1)">
+							<option value="5">5개씩</option>	
+							<option value="10">10개씩</option>	
+							<option value="20">20개씩</option>	
+						</select>
+					</div>
 				</div>
-				</div>
+				<div v-if="groupedByRefundId.length === 0">해당하는 상품이 존재하지 않습니다.</div>				
+				
 
+	            <!-- 환불 리스트 -->
+	            <div class="refund-list-container" v-for="(items, key) in groupedByRefundId" :key="key">
 
-				<!-- 다이얼로그 태그 -->
-				<dialog class="refund-dialog round" ref="refundDialog">
-					<div class="rightCloseBtn" @click="closeDialog">
-						<a href="javascript:;"  class="closeBtn">
+					<div class="status">
+						<div>
+							<h1>주문 번호: {{items[0].refundId}}</h1>
+							주문일: {{ items[0].orderDate }}
+						</div>
+						<h2 class="ordered-text">취소접수일: {{ items[0].createdDate }} </h2>	
+					</div>
+	                <div class="refund-list-item">
+	                    <div class="refund-list-info">
+	                        <div class="refund-list-description" v-for="item in items">
+	                            <p>{{ item.shortTitle }}</p>
+	                        </div>
+	                    </div>
+	                    <div class="refund-list-quantity">
+	                        <p>{{ items[0].quantity }}개</p>
+	                        <p>{{ items[0].price }}원</p>
+	                    </div>
+	                    <div class="refund-list-status">
+	                        <p>{{ items[0].status }}</p>
+	                        <button class="refund-list-details-button" @click="openDialog(items)">취소상세</button>
+	                    </div>
+	                </div>
+	            </div>
+
+	            <!-- Dialog -->
+	            <dialog class="refund-dialog round" ref="refundDialog">
+					<div class="rightCloseBtn">
+						<a href="javascript:;" @click="closeDialog" class="closeBtn">
 				        	<svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 						</a>
-				    </div> 
-				  <div class="refund-dialog-content" v-for="item in selectedItem">
-				    <!-- 책 이미지 및 정보 -->
-				    <div class="refund-dialog-book-info">
-				      <img :src="item.image" alt="책 이미지" class="refund-dialog-book-image">
-				      <div class="refund-dialog-book-details">
-				        <h3>{{ item.title }}</h3>
-						<p>{{ item.description }}</p>
-				        <p class="refund-dialog-author">저자: {{ item.author }}</p>
-				        <p class="refund-dialog-cancel-reason">취소 사유: {{ item.refundReason }}</p>
-				        <p class="refund-dialog-cancel-date">취소 일자: {{ item.refundDate }}</p>
-				      </div>
-				    </div>
-				    
-				    <!-- 환불 상태 -->
-				    <div class="refund-dialog-status">
-				      <h4>환불 정보</h4>
-				      <p>환불 상태: {{ selectedItem.status }}</p>
-<!--				      <p>환불 완료 예정일: {{ selectedItem.refundMethod }}</p>
--->				    </div>
+					</div>
+	                <div class="refund-dialog-content" v-for="item in selectedItem">
+	                    <div class="refund-dialog-book-info">
+	                        <img :src="item.image" alt="책 이미지" class="refund-dialog-book-image">
+	                        <div class="refund-dialog-book-details">
+	                            <h3>{{ item.shortTitle }}</h3>
+	                            <p class="refund-dialog-author">저자: {{ item.author }}</p>
+	                            <p class="refund-dialog-cancel-reason">취소 사유: {{ item.refundReason }}</p>
+	                            <p class="refund-dialog-cancel-date">취소 일자: {{ item.refundDate }}</p>
+	                        </div>
+	                    </div>
+	                    <div class="refund-dialog-status">
+	                        <h4>환불 정보</h4>
+	                        <p>환불 상태: {{ selectedItem[0].status }}</p>
+	                    </div>
+	                </div>
+	            </dialog>
 
-				  </div>
-				  <!-- 닫기 버튼 -->
-			    	<button @click="closeDialog" class="refund-dialog-close-button">닫기</button>
-				</dialog>
-							
-				<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
-			    <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
-			        {{ page }}
-			    </button>
-			    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
-			
-			</div>
-		</div>
-
-    </main>
+	            <!-- Pagination -->
+	            <div class="pagination">
+	                <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+	                <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
+	                    {{ page }}
+	                </button>
+	                <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
+	            </div>
+	        </div>
+	    </div>
+	</main>
 
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 
 </body>
 </html>
 <script>
-	//localStorage.setItem('data', JSON.stringify(data));
-	// JSON.parse(localStorage.getItem('data')).result
     const app = Vue.createApp({
         data() {
             return {
@@ -253,8 +275,9 @@
 				selectedItem: [],
 				currentPage: 1,
 				totalPages: 1,
-				pageSize: 10,
-				maxPageDisplay: 10
+				pageSize: 5,
+				maxPageDisplay: 10,
+				keyword: ''
 				
 				}
 				
@@ -293,7 +316,8 @@
 				var nparmap = {
 					orderId : self.orderId,
 					currentPage: currentPage, 
-					pageSize: self.pageSize
+					pageSize: self.pageSize,
+					keyword: self.keyword
 				};
 				$.ajax({
 					url:"/refundList.dox",
@@ -328,7 +352,7 @@
 					alert('로그인하쇼');
 					self.isLogin = false;
 				};
-				self.fnGetList(currentPage);
+				self.fnGetList(self.currentPage);
 			});
         }
     });

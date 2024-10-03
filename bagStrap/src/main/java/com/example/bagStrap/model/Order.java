@@ -113,6 +113,8 @@ public class Order {
   		
   		private Date createdAt;
   		private Date updatedAt;
+  		
+  		private boolean isUser = false;
     public String getRejectComment() {
 		return rejectComment;
 	}
@@ -140,6 +142,12 @@ public class Order {
     }
     public int getCategory() {
     	return category;
+    }
+    public String getUserId() {
+    	return userId;
+    }
+    public void setIsUser() {
+    	isUser = true;
     }
 }
 	

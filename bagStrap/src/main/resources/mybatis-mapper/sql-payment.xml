@@ -162,27 +162,58 @@
 			INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID AND I.BOOK_ID = OI.BOOK_ID 
 			INNER JOIN TBL_BOOK B ON B.BOOK_ID = I.BOOK_ID
 			WHERE USER_ID = #{userId}
+			AND (#{keyword} IS NULL OR #{keyword} = '' OR B.TITLE LIKE '%' || #{keyword} || '%' OR B.AUTHOR LIKE '%' || #{keyword} || '%') 
 			ORDER BY R.CREATED_DATE DESC
 
 	</select>
 	<select id="selectRefundList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-			SELECT R.REFUND_ID, R.CREATED_DATE, O.ORDER_DATE, B.TITLE, B.DESCRIPTION, I.QUANTITY, OI.PRICE, I.STATUS, B.IMAGE, B.AUTHOR, I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, REFUND_FILE
+			SELECT R.REFUND_ID, R.CREATED_DATE, O.ORDER_DATE, B.TITLE, B.DESCRIPTION, I.QUANTITY, OI.PRICE, I.STATUS, B.IMAGE, B.AUTHOR,
+			 I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, REFUND_FILE,
+			  CASE
+				WHEN instr(B.title,'(') = 0 THEN TITLE
+				ELSE substr(B.title, 1, instr(B.title,'(')-1)
+			END AS SHORT_TITLE
 			FROM TBL_REFUND R
 			INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID
 			INNER JOIN TBL_ORDER O ON R.ORDER_ID = O.ORDER_ID
 			INNER JOIN TBL_ORDER_ITEM OI ON O.ORDER_ID = OI.ORDER_ID AND I.BOOK_ID = OI.BOOK_ID 
 			INNER JOIN TBL_BOOK B ON B.BOOK_ID = I.BOOK_ID
 			WHERE USER_ID = #{userId}
+			AND (#{keyword} IS NULL OR #{keyword} = '' OR B.TITLE LIKE '%' || #{keyword} || '%' OR B.AUTHOR LIKE '%' || #{keyword} || '%') 
 			ORDER BY R.CREATED_DATE DESC
 			OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	 <update id="updateOrderStatus" parameterType="hashmap">
 				UPDATE TBL_ORDER
-				SET STATUS = #{newStatus}
+				SET STATUS = '환불 대기'
 				WHERE ORDER_ID = #{orderId}
- 	</update>
-	<select id="updateRefundStatus" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+ 	</update><update id="updateRefundOrderStatus" parameterType="hashmap">
+	    UPDATE TBL_ORDER
+		SET STATUS = '환불 처리 완료'
+		WHERE ORDER_ID = #{orderId}
+
+	</update>
+	<update id="updateRefundStatus" parameterType="hashmap">
+	    UPDATE TBL_REFUND_ITEM
+	    SET 
+	        STATUS = CASE
+	            <foreach collection="orderList" item="item" separator=" ">
+	                WHEN BOOK_ID = #{item.bookId} THEN #{item.refundStatus, jdbcType=VARCHAR}
+	            </foreach>
+	        END,
+	        REJECT_COMMENT = CASE
+	            <foreach collection="orderList" item="item" separator=" ">
+	                WHEN BOOK_ID = #{item.bookId} THEN
+	                    <choose>
+	                        <when test="item.refundStatus != null">#{item.rejectComment, jdbcType=VARCHAR}</when>
+	                        <otherwise>''</otherwise>
+	                    </choose>
+	            </foreach>
+	        END
+	    WHERE REFUND_ID = #{refundId}
+	</update>
+	<select id="selectRefundStatus" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 				SELECT OI.BOOK_ID, RI.STATUS AS STATUS, OI.PRICE ,CASE
 				<foreach item="item" collection="orderList">   
 				 WHEN RI.BOOK_ID = #{item.bookId} THEN #{item.quantity}
