@@ -20,8 +20,8 @@
 	<!-- 회원가입 후 파일에 들어갈 FK 리턴받는거 -->
 	<insert id="joinInsert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="USER_NO" keyColumn="USER_NO">
 		INSERT INTO TBL_USER 
-		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH) 
-		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth})
+		(USER_ID, USER_NAME, USER_NICKNAME, PASSWORD, EMAIL, PHONE, BIRTH , USER_NO) 
+		VALUES (#{userId}, #{userName}, #{userNickName}, #{password}, #{email}, #{phone}, #{birth} ,USER_NO_SEQ.NEXTVAL )
 	</insert>
 	
 	<!--아이디 중복검사-->
@@ -97,6 +97,12 @@
 		FROM TBL_USER
 		WHERE (ban ='Y' OR (USER_NICKNAME ='0' AND USER_ID = #{userId}))
 	</select>
+	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
+	<insert id="insertJoinProFile" parameterType="hashmap" >
+		INSERT INTO TBL_BOARDFILE
+		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N',SYSDATE + (9/24))
+	</insert>
+	
 	
 </mapper>
 

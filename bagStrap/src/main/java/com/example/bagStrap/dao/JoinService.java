@@ -33,5 +33,6 @@ public interface JoinService {
 	HashMap<String, Object> updateAdminUsers(HashMap<String, Object> map);
 	
 	HashMap<String, Object> extraBanOut(HashMap<String, Object> map);
-	
+	//프로필
+	HashMap<String, Object> insertJoinProFile (HashMap<String, Object> map);
 }
