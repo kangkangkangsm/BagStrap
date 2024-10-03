@@ -162,7 +162,10 @@
 		}
 	   </style>
 	   <body>
-	           <main class="main-container">
+		<main class="main-container">
+			<aside class="sidebar">
+				<jsp:include page="/layout/header_sidebar.jsp"></jsp:include>
+			</aside>
 		       <div id="app" class="content">
 	         
 	                   <!-- Top Title Section -->

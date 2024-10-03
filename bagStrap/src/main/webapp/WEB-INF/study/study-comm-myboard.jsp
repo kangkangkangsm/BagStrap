@@ -226,9 +226,6 @@
         </aside>
         <div id="app" class="content">
             <div class="stu-comm-myboard-container">
-                <div v-if="sessionUserId === author">마이페이지</div>
-                <div v-else>{{userNickName}}님의 정보</div>
-                
                 <!-- 활동중인 스터디 (마이페이지)-->
                 <template v-if="sessionUserId === author">
                     <div class="stu-comm-myboard-post-section">

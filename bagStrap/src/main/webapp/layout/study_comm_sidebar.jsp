@@ -160,6 +160,7 @@
 		    color: white;
 		    border-color: #007bff;
 		}
+		
 	</style>
 <body>
 	<aside id="studycommsidebar">

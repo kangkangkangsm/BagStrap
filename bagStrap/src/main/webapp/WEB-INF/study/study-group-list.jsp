@@ -198,7 +198,7 @@
 		}
 
 		.study-group-title {
-		    font-size: 1.1em;
+		    font-size: 1.1em; /* 기존 글씨 크기 유지 */
 		    font-weight: bold;
 		    margin-bottom: 10px;
 		    color: #333;
@@ -207,6 +207,26 @@
 		    gap: 5px;
 		}
 
+		/* 새로운 클래스 추가 */
+		.enhanced-title {
+		    color: #ffffff; /* 텍스트 색상 흰색으로 변경 */
+		    background: rgba(0, 0, 0, 0.6); /* 반투명 검정 배경 */
+		    padding: 8px 12px;
+		    border-radius: 8px;
+		    position: absolute; /* 이미지 위에 겹치도록 위치 설정 */
+		    top: 10px; /* 이미지 하단에서 약간 위 */
+		    left: 10px;
+		    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* 텍스트 그림자 추가 */
+		    font-size: 1.1em; /* 글씨 크기 동일 유지 */
+		}
+
+		/* 이미지 래퍼에 상대 위치 지정 */
+		.study-group-image-wrapper {
+		    position: relative;
+		    width: 100%;
+		    height: 240px;
+		    overflow: hidden;
+		}
 		.study-group-details {
 		    font-size: 1em;
 		    color: #555;
@@ -254,9 +274,9 @@
 			            <template v-if="item">
 			                <div class="study-group-card" @click="fnDetail(item.studyGroupId)">
 			                    <div class="study-group-image-wrapper">
-									<h3 class="study-group-title"  style="margin-left : 20px; ">
-			                             {{item.name}}
-			                        </h3>
+									<h3 class="study-group-title enhanced-title">
+									    {{item.name}}
+									</h3>
 			                        <template v-if="item.filePath">
 			                            <img :src="item.filePath" alt="Study Group Image" class="study-group-list-image">
 			                        </template>

@@ -9,11 +9,20 @@
    <title>첫번째 페이지</title>
 </head>
 <style>
-	body, html {
-	    height: 100%;
-	    margin: 0;
-	    font-family: Arial, sans-serif;
-	}
+	.header {
+	  	    display: flex;
+	  	    width: 100%;
+	  	    height: 0%; /* 헤더 높이 설정 */
+	  	    background-color: white; /* 헤더 배경색 */
+	  	    color: black;
+	  	    align-items: center;
+	  	    padding: 0 20px;
+	  	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	  	    position: sticky;
+	  	    top: 0;
+	  	    z-index: 1000;
+	  	}
+
 	.study-mygroup-detail-member-admin-panel-container {
 	  display: block;
 	  margin: 0 auto;
@@ -226,6 +235,7 @@
 	}
 
 	.study-group-image {
+	  margin-top: 20px;
 	  width: 200px;
 	  height: 200px;
 	  border-radius: 20%; /* 둥근 모서리 */
@@ -431,14 +441,18 @@
 	}
 	/* 전체 채팅 컨테이너 스타일 */
 	.chat-container {
-	  width: 100%;
-	  height: 1110px; /* 전체 컨테이너 높이 설정 */
-	  border: 1px solid #ddd;
-	  border-radius: 8px;
-	  display: flex;
-	  flex-direction: column;
-	  margin-left:-20px;
-	  margin-top: -30px;
+	    width: 106%;
+	    height: 700px;
+	    border: 1px solid #ddd;
+	    border-radius: 8px;
+	    display: flex;
+	    flex-direction: column;
+	    margin-left: -20px;
+	    margin-top: -30px;
+	
+	}
+	.chat-container::-webkit-scrollbar {
+	    display: none; /* Chrome, Safari 등 Webkit 기반 브라우저에서 스크롤바 숨기기 */
 	}
 
 	/* 채팅 메시지 리스트 스타일 */
@@ -835,18 +849,20 @@
 						   <template v-if="pageView == '2'">
 						     <div class="chat-container" style="margin-top:40px;">
 						       <!-- 채팅 메시지 리스트 -->
-						       <div id="chat-messages" class="chat-messages">
+						       <div id="chat-messages" class="chat-messages" ref="chatMessages">
 						         <!-- 메시지 한 개의 예시 -->
-						         <div class="message" v-for="item in messagelist">
+						         <div class="message" v-for="item in messagelist" :key="item.messageId">
 						           <template v-if="item.messageUserId !== sessionUserId">
 						             <!-- 왼쪽 정렬 (다른 사용자) -->
 						             <div class="message-left">
 						               <div class="message-user">
 						                 <img :src="item.filePath" alt="User Image" class="user-img">
-						                 <span class="user-name">{{ item.userNickName }}</span>
+										 <span class="user-name">{{ item.userNickName }}</span>
 						               </div>
 						               <div class="message-content">
-										<img :src="item.mFilepath" style="width:300px; heihgt:300px;">
+										<template v-if="item.mFilepath">
+						                 <img :src="item.mFilepath" style="width:300px; height:300px;">
+										 </template>
 						                 <p>{{ item.messageContent }}</p>
 						                 <span class="message-time">{{ item.messageCreatedDate }}</span>
 						               </div>
@@ -857,7 +873,9 @@
 						             <!-- 오른쪽 정렬 (본인) -->
 						             <div class="message-right">
 						               <div class="message-content">
-										<img :src="item.mFilepath" style="width:300px; heihgt:300px;">
+										<template v-if="item.mFilepath">
+						                 <img :src="item.mFilepath" style="width:300px; height:300px;">
+										 </template>
 						                 <p>{{ item.messageContent }}</p>
 						                 <span class="message-time">{{ item.messageCreatedDate }}</span>
 						                 <span class="delete-button" @click="fnDeleteMessage(item.messageId)">삭제</span>
@@ -871,18 +889,15 @@
 						       <div class="message-input-container">
 						         <input type="text" id="chatInput" placeholder="메시지를 입력하세요..." class="message-input" v-model="messageContent" @keyup.enter="fnMessage()">
 						         <div>
-									
 						           <label for="file-upload" style="cursor: pointer;">
 						             <img src="../src/첨부이모티콘.png" class="file-upload-icon">
 						           </label>
 						           <input type="file" id="file-upload" style="display: none;" @change="fnFileChange" />
-						          <div><img v-if="filePreview" :src="filePreview" style="width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
-						            <div v-if="fileName">{{ fileName }}</div>
-									 
-						           </div>
+						           <div><img v-if="filePreview" :src="filePreview" style="width: 100px; height: 100px;" /></div> <!-- 이미지 미리보기 -->
+						           <div v-if="fileName">{{ fileName }}</div>
 						         </div>
-						         <button id="sendBtn" class="send-btn" @click="fnMessage()">전송</button>
 						       </div>
+						       <button id="sendBtn" class="send-btn" @click="fnMessage()">전송</button>
 						     </div>
 						   </template>
 						   <!-- ===========================================자유게시판=========================================== -->
@@ -1219,7 +1234,14 @@
 										
 	            };
 	        },
+			
 	        methods: {
+				scrollToBottom() {
+						       this.$nextTick(() => {
+						           const container = this.$refs.chatMessages;
+						           container.scrollTop = container.scrollHeight;
+						       });
+						   },
 				fnUserList(page = 1){
 					var self = this;
 					var startIndex = (page - 1) * self.pageSize;
@@ -1286,55 +1308,56 @@
 						data : nparmap,
 						success : function(data) { 
 							self.fnDetail();
-							 
 							self.messagelist = data.messagelist;
+							self.scrollToBottom(); // 메시지 로드 후 스크롤 이동
 							
 						}
 					});
 		        },
 				fnMessage(){
-					var self = this;
-					var nparmap = { studyGroupId : self.studyGroupId ,sessionId : self.sessionUserId , messageContent : self.messageContent
-					};
-					$.ajax({
-						url:"insertStuGroupMessage.dox",
-						dataType:"json",	
-						type : "POST", 
-						data : nparmap,
-						success : function(data) { 
-							 
-							self.messageContent ="";
-							var idx = data.idx;
-							console.log(idx);
-							if (self.file) {
-								  const formData = new FormData();
-								  formData.append('file1', self.file);
-								  formData.append('idx', idx);
-								  $.ajax({
-										url: '/fileUpload.dox',
-										type: 'POST',
-										data: formData,
-										processData: false,  
-										contentType: false,  
-										success: function() {
-										self.filePreview = "";
-										self.fileName = "";
-										self.fnDetail();
-										self.fnSidebar(2);
-										self.fnMessageSelect();						
-										},
-										error: function(jqXHR, textStatus, errorThrown) {
-										  console.error('업로드 실패!', textStatus, errorThrown);
-										}
-								  });		
-							  } else {
-								self.fnDetail();
-								self.fnSidebar(2);
-								self.fnMessageSelect();					
-							  }		
-						}
-					});
-		        },			   
+				        var self = this;
+				        var nparmap = { 
+				            studyGroupId : self.studyGroupId,
+				            sessionId : self.sessionUserId, 
+				            messageContent : self.messageContent
+				        };
+				        $.ajax({
+				            url:"insertStuGroupMessage.dox",
+				            dataType:"json",  
+				            type : "POST", 
+				            data : nparmap,
+				            success : function(data) { 
+				                self.messageContent = "";
+				                var idx = data.idx;
+				                if (self.file) {
+				                    const formData = new FormData();
+				                    formData.append('file1', self.file);
+				                    formData.append('idx', idx);
+				                    $.ajax({
+				                        url: '/fileUpload.dox',
+				                        type: 'POST',
+				                        data: formData,
+				                        processData: false,  
+				                        contentType: false,  
+				                        success: function() {
+				                            self.filePreview = "";
+				                            self.fileName = "";
+				                            self.fnDetail();
+				                            self.fnSidebar(2);
+				                            self.fnMessageSelect();                      
+				                        },
+				                        error: function(jqXHR, textStatus, errorThrown) {
+				                            console.error('업로드 실패!', textStatus, errorThrown);
+				                        }
+				                    });   
+				                } else {
+				                    self.fnDetail();
+				                    self.fnSidebar(2);
+				                    self.fnMessageSelect();          
+				                }   
+				            }
+				        });
+				    },		   
 				fngroupdelete(){
 					var self = this;
 					if(!confirm("그룹을 삭제합니다. 되돌릴 수 없습니다.")){
@@ -1654,7 +1677,13 @@
                self.fnSession();
             });
 
-           }
+           },
+		   watch: {
+		       // 메시지 목록이 변경될 때마다 스크롤을 맨 아래로 이동
+		       messagelist() {
+		           this.scrollToBottom();
+		       }
+		   },
        });
        app.mount('#app');
    </script>

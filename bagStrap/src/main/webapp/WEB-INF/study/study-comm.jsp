@@ -5,11 +5,13 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
+	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
 	<title>첫번째 페이지</title>
 </head>
 <style>
 	.header {
-	    display: flex;
+	  
+		display: flex;
 	    width: 100%;
 	    height: 0%; /* 헤더 높이 설정 */
 	    background-color: white; /* 헤더 배경색 */
@@ -20,11 +22,23 @@
 	    position: sticky;
 	    top: 0;
 	    z-index: 1000;
+		font-family: 'Noto Sans KR', sans-serif;
 	}
-      .post-count {
-        display: flex;
+	* {
+	    margin: 0;
+	    padding: 0;
+	    box-sizing: border-box;
+	}
+	body {
+	    font-family: 'Noto Sans KR', sans-serif; /* 한글과 영문에 적합한 세련된 폰트 */
+	    line-height: 1.6;
+	    color: #333;
+	    background: url('images/background.jpg') no-repeat center center fixed;
+	    background-size: cover;
+	}
+  .post-count {
+    display: flex;
         align-items: center;
-     
     }
 
     .post-count label {
@@ -41,6 +55,7 @@
         background-color: #fff;
         cursor: pointer;
         font-size: 0.5em; /* 글자 크기 조정 */
+		width:0%
 	
     }
 
@@ -64,7 +79,7 @@
     }
 
     .stu-comm-list-search-container select {
-        width: 180px;
+        width: 130px;
     }
 
     .stu-comm-list-search-container input[type="text"] {
@@ -321,7 +336,7 @@
 				boardList: [],
 				commlist: [],
 				currentPage: 1,      // 현재 페이지
-				pageSize: 15,        // 한 페이지에 보여줄 개수
+				pageSize: 20,        // 한 페이지에 보여줄 개수
 				totalPages: 5,
 				cnt: '',
 				name: "전체글보기",
