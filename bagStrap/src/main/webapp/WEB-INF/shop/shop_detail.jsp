@@ -23,10 +23,15 @@
 	            border-bottom: 1px solid #ddd;
 	        }
 	        .shop-detail-image {
-	            flex: 0 0 30%;
-	            text-align: center;
+				background-color: #f9f9f9;
+				border-radius: 10px;
+				margin: 5px 20px;
+				flex: 0 0 22%;
+				text-align: center;
+				padding: 20px;
 	        }
 	        .shop-detail-image img {
+				border: 1px solid #eee;
 	            width: 150px;
 	            height: 220px;
 	        }
@@ -69,13 +74,14 @@
 	            gap: 15px;
 	        }
 	        .shop-detail-related-book-item, .shop-detail-study-item {
-	            background: #fff;
+	            background: #f9f9f9;
 	            border: 1px solid #ddd;
 	            padding: 15px;
 	            border-radius: 10px;
 	            text-align: center;
 	        }
 	        .shop-detail-related-book-item img, .shop-detail-study-item img {
+				border: 1px solid #eee;
 	            width: 100px;
 	            height: 150px;
 	            margin-bottom: 10px;
@@ -131,6 +137,12 @@
 	        .shop-detail-rating {
 	            color: #f39c12;
 	        }
+			.present-review{
+				font-size: 12px;
+				color: #777;
+				margin-left: 58px;
+				
+			}
 		
 </style>
 </head>
@@ -152,9 +164,9 @@
 			                <div class="shop-detail-item"><strong>출판사:</strong> {{ book[0]?.publisher || 'publisher가 없습니다.' }}</div>
 			                <div class="shop-detail-item"><strong>ISBN:</strong> {{book[0]?.bookId || 'isbn이 없습니다.'}}</div>
 			                <div class="shop-detail-item"><strong>카테고리:</strong> {{recommendList[0]?.name || 'category가 없습니다.'}}</div>
+							<div class="present-review">현재 리뷰: {{reviewList.length}}</div>
 							<a href="#shop-detail-reviews">
 							<svg v-for="number in 5" :fill="(book[0]?.rating !== undefined && book[0]?.rating >= number) ? 'orange' : 'gray'" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><g><path d="M9.362,9.158c0,0-3.16,0.35-5.268,0.584c-0.19,0.023-0.358,0.15-0.421,0.343s0,0.394,0.14,0.521    c1.566,1.429,3.919,3.569,3.919,3.569c-0.002,0-0.646,3.113-1.074,5.19c-0.036,0.188,0.032,0.387,0.196,0.506    c0.163,0.119,0.373,0.121,0.538,0.028c1.844-1.048,4.606-2.624,4.606-2.624s2.763,1.576,4.604,2.625    c0.168,0.092,0.378,0.09,0.541-0.029c0.164-0.119,0.232-0.318,0.195-0.505c-0.428-2.078-1.071-5.191-1.071-5.191    s2.353-2.14,3.919-3.566c0.14-0.131,0.202-0.332,0.14-0.524s-0.23-0.319-0.42-0.341c-2.108-0.236-5.269-0.586-5.269-0.586    s-1.31-2.898-2.183-4.83c-0.082-0.173-0.254-0.294-0.456-0.294s-0.375,0.122-0.453,0.294C10.671,6.26,9.362,9.158,9.362,9.158z"/></g></g></svg>
-							<span>현재 리뷰: {{reviewList.length}}</span>
 							</a>
 			            </div>
 			        </div>
@@ -187,7 +199,8 @@
 								<a href="javascript:;" @click="goToStudy(item.studyGroupId)">
 			                    <img :src="item.filePath" alt="스터디 이미지">
 			                    <h4>{{item.studyName}}</h4>
-			                    <div class="study-info">진행 기간: {{item.startdate}} ~ {{item.enddate}}</div>
+			                    <div class="study-info">진행 기간 <br>
+									{{item.startdate}} ~ {{item.enddate}}</div>
 								</a>
 			                </div>
 			            </div>

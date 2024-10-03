@@ -34,7 +34,7 @@
             <p><strong>MyShop</strong></p>
             <ul>
                 <li><a href="/myshop/orders" @click="checkLoginAndPageChange('/myshop/orders')">내 주문내역</a></li>
-                <li><a href="/myshop/refundList" @click="checkLoginAndPageChange('/myshop/refunds')">내 환불내역</a></li>
+                <li><a href="/myshop/refunds" @click="checkLoginAndPageChange('/myshop/refunds')">내 환불내역</a></li>
             </ul>
         </div>
         <div>
