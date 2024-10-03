@@ -38,8 +38,9 @@ public class PaymentServiceImpl implements PaymentService{
 			
 			//status update
 			System.out.println(refundMap);
-			sharedHeaderMapper.updateRefundStatus(refundMap);
-			List<Order> orderList = paymentMapper.updateRefundStatus(refundMap);
+			paymentMapper.updateRefundStatus(refundMap);
+			paymentMapper.updateRefundOrderStatus(refundMap);
+			List<Order> orderList = paymentMapper.selectRefundStatus(refundMap);
 			refundMap.put("orderList", orderList);
 			resultMap.put("result", true);
 			resultMap.put("message", "처리되었습니다.");
@@ -152,9 +153,9 @@ public class PaymentServiceImpl implements PaymentService{
 			
 	        if((int)response.getBody().get("code") != -1) {
 		        //환불 테이블 생성
-	        	if(!admin) {
-	        		makeRefundTable(refundMap);	
-	        	}
+//	        	if(!admin) {
+//	        		makeRefundTable(refundMap);	
+//	        	}
 	        	//TODO 부분 환불됨 결제되면 무조건 처리돼
 	        	//updateOrderStatus(refundMap, "됨");
 				response.getBody().put("idx", refundMap.get("refundFile"));
@@ -177,6 +178,8 @@ public class PaymentServiceImpl implements PaymentService{
 		try {
 			paymentMapper.insertRefund(refundMap);
         	paymentMapper.insertRefundItem(refundMap);
+        	paymentMapper.updateOrderStatus(refundMap);
+        	
         	
         	// 환불 수량 체크하기
 		} catch(Exception e) {
@@ -201,6 +204,7 @@ public class PaymentServiceImpl implements PaymentService{
 	 * 
 	 * paymentMapper.updateOrderStatus(refundMap); }
 	 */
+	@Transactional
 	@Override
 	public HashMap<String, Object> selectRefundList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub

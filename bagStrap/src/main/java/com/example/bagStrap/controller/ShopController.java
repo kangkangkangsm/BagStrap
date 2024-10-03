@@ -137,8 +137,11 @@ public class ShopController {
     public String selectBookDetail(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
         HashMap<String, Object> resultMap = new HashMap<>();
 
-
-    		resultMap = shopService.selectBookDetail(map);	
+	        User user = (User) session.getAttribute("user");
+	        if(user != null) {
+	            map.put("userId", user.getUserId());
+	        }
+			resultMap = shopService.selectBookDetail(map);	
 
         
         return new Gson().toJson(resultMap);

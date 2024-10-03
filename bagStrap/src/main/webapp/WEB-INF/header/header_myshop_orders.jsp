@@ -474,6 +474,9 @@
 				right: 0px;
 				bottom: 32px;
 			}
+			.selected-orders-date{
+				display:flex;
+			}
 			.selected-orders-date button{
 				background-color: #ff7f50;
 			}
@@ -667,7 +670,6 @@
 				$.pageChange("/myshop/refund",{orderId : orderId, imp : imp});
 			},
 			goToReview(book){
-				console.log(book)
 				$.pageChange("/myshop/review",{book : book});
 			},
 

@@ -149,6 +149,14 @@ public class ShopServiceImpl implements ShopService{
 			List<Order> detailList = shopMapper.selectBookDetail(map);
 			int totalPages = shopMapper.selectreviewListCount(map);
 			List<Order> reviewList = shopMapper.selectreviewList(map);
+			if(map.get("userId") != null) {
+				reviewList.forEach(item -> {
+					if(item.getUserId().equals(map.get("userId").toString())){
+						item.setIsUser();
+					}
+				});
+				
+			}
 			map.put("category", detailList.get(0).getCategory());
 			List<Order> recommendList = shopMapper.selectRecommendedList(map);
 			

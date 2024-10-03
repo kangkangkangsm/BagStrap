@@ -36,8 +36,15 @@
 		ORDER BY ORDER_DATE DESC
 	</select>
 	<select id="selectOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		SELECT RE.RATING, O.ORDER_ID, TO_CHAR(ORDER_DATE, 'YYYY. MM. DD ') AS ORDERDATE_YEAR,TO_CHAR(ARRIVED_DATE, 'MM/DD DAY ') AS ARRIVEDDATE_DAY, O.STATUS, 
-		I.BOOK_ID, IMAGE, TITLE, I.PRICE, I.QUANTITY, IMP, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE
+		SELECT NVL(RE.RATING,0) AS RATING, O.ORDER_ID, TO_CHAR(ORDER_DATE, 'YYYY. MM. DD ') AS ORDERDATE_YEAR,TO_CHAR(ARRIVED_DATE, 'MM/DD DAY ') AS ARRIVEDDATE_DAY, O.STATUS, 
+		I.BOOK_ID, IMAGE, TITLE, I.PRICE, I.QUANTITY, IMP, CASE
+			WHEN instr(B.title,'(') = 0 THEN TITLE
+			ELSE substr(B.title, 1, instr(B.title,'(')-1)
+		END AS SHORT_TITLE, AUTHOR
+		<!--,CASE 
+			WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
+			ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
+			END AS SHORT_DESCRIPTION-->
 		FROM TBL_ORDER O
 		INNER JOIN TBL_ORDER_ITEM I ON O.ORDER_ID = I.ORDER_ID
 		INNER JOIN TBL_BOOK B ON I.BOOK_ID= B.BOOK_ID
@@ -67,7 +74,10 @@
 	</select>
 	
 	<select id="selectCartList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		SELECT USER_ID, C.BOOK_ID, B.PRICE, C.QUANTITY, IMAGE, B.TITLE, substr(B.title, 1, instr(B.title,'(')-1) AS SHORT_TITLE ,
+		SELECT USER_ID, C.BOOK_ID, B.PRICE, C.QUANTITY, IMAGE, B.TITLE, CASE
+			WHEN instr(B.title,'(') = 0 THEN TITLE
+			ELSE substr(B.title, 1, instr(B.title,'(')-1)
+		END AS SHORT_TITLE ,
 	    CASE 
 			WHEN 100 >= LENGTH(B.DESCRIPTION) THEN TO_CHAR(B.DESCRIPTION)
 			ELSE TO_CHAR(SUBSTR(B.DESCRIPTION, 1, 100)||SUBSTR(B.DESCRIPTION, 100, INSTR(B.DESCRIPTION,' '))||' ...')
@@ -91,9 +101,15 @@
 
 	</select>
 	<select id="selectAdminOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		SELECT R.reason, O.IMP,OI.BOOK_ID,i.reject_comment, O.ORDER_ID, R.REFUND_ID,i.refund_reason, R.CREATED_DATE, O.ORDER_DATE, B.TITLE, B.DESCRIPTION, OI.QUANTITY, I.QUANTITY AS REFUND_QUANTITY, OI.PRICE, O.STATUS, I.STATUS AS REFUND_STATUS, B.IMAGE, B.AUTHOR, I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, R.REFUND_FILE, F.*
+		SELECT R.reason, O.IMP,OI.BOOK_ID,i.reject_comment, O.ORDER_ID, R.REFUND_ID,i.refund_reason, R.CREATED_DATE,
+		 O.ORDER_DATE, B.TITLE, B.DESCRIPTION, OI.QUANTITY, I.QUANTITY AS REFUND_QUANTITY, OI.PRICE, 
+		 O.STATUS, I.STATUS AS REFUND_STATUS, B.IMAGE, B.AUTHOR, I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, R.REFUND_FILE, F.*, 
+		 CASE
+			WHEN instr(B.title,'(') = 0 THEN TITLE
+			ELSE substr(B.title, 1, instr(B.title,'(')-1)
+		END AS SHORT_TITLE
 		FROM TBL_ORDER O 
-		INNER JOIN TBL_ORDER_ITEM OI ON OI.ORDER_ID = O.ORDER_ID
+		RIGHT JOIN TBL_ORDER_ITEM OI ON OI.ORDER_ID = O.ORDER_ID
 		LEFT JOIN TBL_REFUND R ON R.ORDER_ID = O.ORDER_ID
 		LEFT JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID AND I.BOOK_ID = OI.BOOK_ID 
 		LEFT JOIN TBL_BOARDFILE F ON R.REFUND_FILE = F.BOARDNO
@@ -109,21 +125,6 @@
 		WHERE ORDER_ID = #{orderId}
 	</update>
 	
-	<update id="updateRefundStatus" parameterType="hashmap">
-	    UPDATE TBL_REFUND_ITEM
-	    SET STATUS = CASE
-	    <foreach collection="orderList" item="item">
-	        WHEN BOOK_ID = #{item.bookId} THEN #{item.refundStatus}
-	    </foreach>
-	    END, REJECT_COMMENT = CASE
-	    <foreach collection="orderList" item="item">
-	        WHEN BOOK_ID = #{item.bookId} THEN 
-	        <if test="item.refundStatus != null">#{item.rejectComment}</if>
-	        <if test="item.refundStatus == null">''</if>
-	    </foreach>
-	    END
-	    WHERE REFUND_ID = #{refundId}
-	</update>
 		
 	<!--리뷰 -->
 	<insert id="insertMyReview" parameterType="hashmap">

@@ -89,16 +89,16 @@
 		.admin-radio-custom {
 		    width: 18px;
 		    height: 18px;
-		    border: 2px solid #007bff;
+		    border: 2px solid #ff7f50;
 		    border-radius: 50%;
 		    margin-right: 5px;
 		    transition: background 0.3s ease;
 		}
 		.admin-radio-label input[type="radio"]:checked + .admin-radio-custom {
-		    background: #007bff;
+		    background: #ff7f50;
 		}
 		.admin-submit-btn {
-		    background-color: #28a745;
+		    background-color: #ff7f50;
 		    color: white;
 		    border: none;
 		    padding: 8px 16px;
@@ -107,7 +107,7 @@
 		    font-weight: bold;
 		}
 		.admin-submit-btn:hover {
-		    background-color: #218838;
+		    background-color: #e74c3c;
 		}
 		.order-summary {
 		    cursor: pointer;
@@ -147,6 +147,8 @@
 		    align-items: center;
 		}
 		.admin-dialog {
+			position: relative;
+			top: 200px;
 		    margin:  auto;
 		    background: white;
 		    padding: 20px;
@@ -163,7 +165,7 @@
 		    margin-bottom: 20px;
 		}
 		.admin-dialog-btn {
-		    background-color: #007bff;
+		    background-color: #ff7f50;
 		    color: white;
 		    border: none;
 		    padding: 8px 16px;
@@ -172,7 +174,76 @@
 		    font-weight: bold;
 		}
 		.admin-dialog-btn:hover {
-		    background-color: #0056b3;
+		    background-color: #e74c3c;
+		}
+
+		.shop-list-title-bar {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 30px;
+		    margin: 20px auto;
+		}
+
+		/* 주문 내역 타이틀 스타일 */
+		.shop-list-title-ad {
+			width: 150px;
+		    font-size: 30px;
+		    font-weight: bold;
+		    margin: 0px 20px 0px 0px;
+		}
+
+		/* 검색 바 스타일 */
+		.study-group-list-search-bar.shop-list-search-bar {
+			width:100%;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    gap: 15px;
+		}
+
+		/* 검색 인풋 필드 스타일 */
+		.study-group-list-search-bar input[type="text"] {
+		    flex: 1;
+		    padding: 12px 16px;
+		    border: 1px solid #ddd;
+		    border-radius: 10px;
+		    font-size: 16px;
+		    transition: border 0.3s;
+		}
+
+		/* 검색 인풋 필드 포커스 스타일 */
+		.study-group-list-search-bar input[type="text"]:focus {
+		    border-color: #007bff;
+		    outline: none;
+		}
+
+		/* 검색 버튼 스타일 */
+		.shop-list-search-btn {
+		    width: 80px;
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		}
+
+		/* 검색 버튼 호버 스타일 */
+		.shop-list-search-btn:hover {
+		    background: #2c3237;
+		}
+
+		/* 검색 셀렉트 스타일 */
+		.shop-list-search-select {			
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		    padding: 10px;
+		    border-radius: 5px;
 		}
 	</style>
 </head>
@@ -187,11 +258,18 @@
 	        <div class="content">
 				<div id="app">
 
-					<select v-model="pageSize" @change="fnGetList(1)">
-						<option value="5">5개씩</option>	
-						<option value="10">10개씩</option>	
-						<option value="20">20개씩</option>	
-					</select>
+					<div class="shop-list-title-bar">
+						<h1 class="shop-list-title-ad">주문 내역</h1>
+						<div class="study-group-list-search-bar shop-list-search-bar">
+							<input type="text" placeholder="검색어를 입력하세요" v-model="keyword" @keyup.enter="fnGetList(1)">
+							<button class="shop-list-search-btn" @click="fnGetList(1)">검색</button>
+							<select class="shop-list-search-select" v-model="pageSize" @change="fnGetList(1)">
+								<option value="5">5개씩</option>	
+								<option value="10">10개씩</option>	
+								<option value="20">20개씩</option>	
+							</select>
+						</div>
+					</div>
 
 					<div class="admin-order-list">
 
@@ -203,10 +281,15 @@
 					                <span class="admin-order-info">총 금액: {{priceSum[orderId]}}</span>
 					                <div class="admin-order-status-wrapper">
 					                    <span class="admin-order-status">
-											<a href="javascript:;" @click="updateStatus(items[0].orderId)"> {{items[0].status}}</a>
+											<template v-if="items[0].status === '주문 완료'">
+												<a href="javascript:;" @click="updateStatus(items[0].orderId)"> {{items[0].status}}</a>
+											</template>
+											<template v-else>
+												{{items[0].status}}
+											</template>
 											 | {{items[0].orderDate}}
 										 </span>
-					                    <div class="admin-refund-indicator" v-if="items[0].refundId != null && items[0].refundId != undefined && items[0].refundStatus === '환불 대기'">환불 신청 있음</div>
+					                    <div class="admin-refund-indicator" v-if="items[0].refundId != null && items[0].refundId != undefined && items[0].status === '환불 대기'">환불 신청 있음</div>
 					                </div>
 					            </div>
 					        </summary>
@@ -225,7 +308,7 @@
 					                <div class="admin-item-info">
 					                    <img :src="item.image" :alt="item.title">
 					                    <div>
-					                        <div class="admin-item-title">{{item.title}}</div>
+					                        <div class="admin-item-title">{{item.shortTitle}}</div>
 					                        <div>수량: {{item.quantity}} | 가격: {{item.price}}원</div>
 
 					                    </div>
@@ -236,12 +319,12 @@
 								<div  v-if="items[0].refundId != null && items[0].refundId != undefined">환불 수량: {{item.refundQuantity}}</div>
 				                <div class="admin-refund-status"  v-if="items[0].refundId != null && items[0].refundId != undefined">{{item.refundStatus}}</div>
 				                <div class="admin-radio-group"  v-if="items[0].refundId != null && items[0].refundId != undefined">
-				                    <label class="admin-radio-label">
-				                        <input type="radio" :name="index" v-model="item.refundStatus" value="승인됨"@click="acceptRefund(item.bookId, items[0].orderId)">
+				                    <label class="admin-radio-label" v-if="item.refundStatus">
+				                        <input v-if="item.refundStatus" type="radio" :name="index" v-model="item.refundStatus" value="승인됨" @click="acceptRefund(item, items[0].orderId)" :disabled="item.initialDisabled">
 				                        <div class="admin-radio-custom"></div>Accept
 				                    </label>
-				                    <label class="admin-radio-label">
-				                        <input type="radio" :name="index" v-model="item.refundStatus" value="거절됨" @click="openRejectDialog(item.bookId, items[0].orderId)">
+				                    <label class="admin-radio-label" v-if="item.refundStatus">
+				                        <input type="radio" :name="index" v-model="item.refundStatus" value="거절됨" @click="openRejectDialog(item, items[0].orderId)" :disabled="item.initialDisabled">
 				                        <div class="admin-radio-custom"></div>Reject
 				                    </label>
 				                </div>
@@ -259,6 +342,12 @@
 					<!-- Reject Reason Modal -->
 					<dialog class="admin-dialog-overlay" id="admin-dialog-overlay">
 					    <div class="admin-dialog">
+						<div class="rightCloseBtn" onclick="document.getElementById('admin-dialog-overlay').close()">
+						    <a href="javascript:;" class="closeBtn">
+						        <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+						        </svg>
+						    </a>
+						</div>     
 					        <h3>Reject Reason</h3>
 					        <textarea id="reject-reason" v-model="comment" placeholder="Write your reason for rejecting the item..."></textarea>
 					        <button class="admin-dialog-btn" @click="submitRejectReason()">Submit</button>
@@ -348,7 +437,10 @@
 					success : function(data) { 
 						console.log(data);
 						if(data.orderList){
-							self.orderList = data.orderList;
+							self.orderList = data.orderList.map(item => ({
+							  ...item,
+							  initialDisabled: item.refundStatus === '거절됨' || item.refundStatus === '승인됨' // 초기 로딩 시점에만 설정
+							}));
 							self.currentPage = currentPage;
 							self.totalPages = data.totalPages;
 							
@@ -376,13 +468,14 @@
 				var self = this;
 				const allChecked = this.groupedByDate[orderId].every(item => item.refundStatus !== "환불 대기");
 				if (!allChecked) {
-				           alert("모든 항목에 대해 환불 상태를 선택해야 합니다."); // 체크되지 않은 경우 경고
-				           return;
-				       }
+		           alert("모든 항목에 대해 환불 상태를 선택해야 합니다."); // 체크되지 않은 경우 경고
+		           return;
+		        }
 				var list = self.orderList.filter(item => {
 					return item.orderId === orderId;
 				})
 				var nparmap = {
+					orderId: orderId,
 					refundId : list[0].refundId,
 					imp : list[0].imp,
 					orderList: JSON.stringify(list)
@@ -398,17 +491,20 @@
 					}
 				});
 			},
-			openRejectDialog(bookId,orderId) {
+			openRejectDialog(book,orderId) {
 			    // 모달 열기
 				var self = this;
-
-			    document.getElementById('admin-dialog-overlay').showModal() ;
-				self.svaedBookId = bookId;
+				document.getElementById('admin-dialog-overlay').showModal() ;
+				self.svaedBookId = book.bookId;
 				self.orderId = orderId;
 			},
 			submitRejectReason(itemId) {
 				var self = this;
 				const item = self.orderList.find(orderItem => orderItem.bookId === self.svaedBookId && orderItem.orderId === self.orderId);
+				if(self.comment === ''){
+					alert('거절 사유를 입력해주세요.')
+					return;
+				}
 				item.rejectComment = self.comment;
 
 			    // 모달 닫기 및 입력 필드 초기화
@@ -416,13 +512,11 @@
 				self.svaedBookId = '';
 			    document.getElementById('admin-dialog-overlay').close();
 			},
-			acceptRefund(bookId,orderId){
-				var self = this;
-				self.svaedBookId = bookId;
+			acceptRefund(book,orderId){
+				var self = this;				
+				self.svaedBookId = book.bookId;
 				self.orderId = orderId;
-				
-				const item = self.orderList.find(orderItem => orderItem.bookId === self.svaedBookId && orderItem.orderId === self.orderId);
-
+				const item = self.orderList.find(orderItem => orderItem.bookId === self.svaedBookId && orderItem.orderId === self.orderId);	
 				item.rejectComment = '';
 			    // 모달 닫기 및 입력 필드 초기화
 				self.comment = ''

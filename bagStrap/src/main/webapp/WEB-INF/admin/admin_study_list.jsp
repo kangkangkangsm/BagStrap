@@ -8,6 +8,265 @@
 	<title>첫번째 페이지</title>
 	<style>
 
+		.admin-study-container {
+		    width: 100%;
+		    max-width: 1200px;
+		    margin: 0 auto;
+		}
+
+		.shop-list-title-bar {
+		    display: flex;
+		    margin: 20px auto;
+		}
+
+		.shop-list-title {
+		    font-size: 30px;
+		    font-weight: bold;
+		    margin: 0px 20px 0px 0px;
+		}
+
+		.study-group-list-search-bar {
+		    width: 100%;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    margin-bottom: 30px;
+		    gap: 15px;
+		}
+
+		.study-group-list-search-bar input[type="text"] {
+		    flex: 1;
+		    padding: 12px 16px;
+		    border: 1px solid #ddd;
+		    border-radius: 10px;
+		    font-size: 16px;
+		    transition: border 0.3s;
+		}
+
+		.study-group-list-search-bar input[type="text"]:focus {
+		    border-color: #007bff;
+		    outline: none;
+		}
+
+		.study-group-list-search-bar button {
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		}
+
+		.shop-list-search-select {			
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		    padding: 10px;
+		    border-radius: 5px;
+		}
+
+		.shop-list-search-btn {
+		    width: 80px;
+		    background: #343A40;
+		    color: #fff;
+		    border: none;
+		    cursor: pointer;
+		    transition: background-color 0.3s;
+		    font-size: 1em;
+		}
+
+		.shop-list-search-btn:hover {
+		    background: #2c3237;
+		}
+
+		/* 스터디 리스트 스타일 */
+		.admin-study {
+		    margin: 20px 0;
+		    border: 1px solid #ddd;
+		    border-radius: 8px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		    background: #f9f9f9;
+		    padding: 20px;
+		}
+
+		.admin-study-list {
+		    list-style: none;
+		    padding: 0;
+		    margin: 0;
+		}
+
+		.admin-study-list-item {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    padding: 15px 20px;
+		    border-bottom: 1px solid #ddd;
+		    transition: background-color 0.2s ease-in-out;
+		}
+
+		.admin-study-list-item:hover {
+		    background: #f1f1f1;
+		}
+
+		/* 스터디 리스트 아이템 이미지 및 텍스트 */
+		.admin-study-left {
+		    display: flex;
+		    align-items: center;
+		    cursor: pointer;
+		    flex: 3;
+		}
+
+		.admin-study-left img {
+		    width: 100px;
+		    height: 100px;
+		    border-radius: 8px;
+		    margin-right: 20px;
+		    border: 1px solid #ddd;
+		}
+
+		.admin-study-description {
+		    font-size: 14px;
+		    color: #555;
+		}
+
+		.admin-study-right {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    gap: 10px;
+		}
+
+		/* 스터디 승인 및 거절 버튼 스타일 */
+		.admin-study-right button {
+		    background-color: #ff7f50;
+		    color: white;
+		    border: none;
+		    padding: 8px 12px;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    transition: background 0.3s ease;
+		}
+
+		.admin-study-right button:hover {
+		    background-color: #e74c3c;
+		}
+
+		/* 승인됨, 거절됨 상태 스타일 */
+		.admin-study-right .approved {
+		    background-color: #28a745;
+		    color: white;
+		    border-radius: 4px;
+		    padding: 5px 10px;
+		    font-weight: bold;
+		}
+
+		.admin-study-right .denied {
+		    background-color: #dc3545;
+		    color: white;
+		    border-radius: 4px;
+		    padding: 5px 10px;
+		    font-weight: bold;
+		}
+
+		/* Pagination 스타일 */
+		.pagination {
+		    display: flex;
+		    justify-content: center;
+		    margin: 20px 0;
+		}
+
+		.pagination button {
+		    background-color: #f8f9fa;
+		    border: 1px solid #dee2e6;
+		    color: #007bff;
+		    padding: 8px 12px;
+		    margin: 0 2px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, color 0.3s;
+		    border-radius: 4px;
+		}
+
+		.pagination button.active {
+		    background-color: #007bff;
+		    color: white;
+		    cursor: default;
+		}
+
+		.pagination button:disabled {
+		    background-color: #e9ecef;
+		    color: #6c757d;
+		    cursor: not-allowed;
+		}
+
+		.pagination button:not(.active):not(:disabled):hover {
+		    background-color: #0056b3;
+		    color: white;
+		}
+
+		/* Modal 다이얼로그 스타일 */
+		.admin-dialog {
+		    top: 200px;
+		    width: 60%;
+		    max-width: 800px;
+		    border: 1px solid #ddd;
+		    border-radius: 12px;
+		    background: #f9f9f9;
+		    padding: 30px;
+		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+		    overflow: hidden;
+		    margin: 50px auto;
+		}
+
+		.admin-dialog-content {
+		    display: flex;
+		    align-items: center;
+		    gap: 20px;
+		}
+
+		.admin-dialog-book-info {
+		    display: flex;
+		    gap: 20px;
+		}
+
+		.admin-dialog-book-image {
+		    width: 120px;
+		    height: 160px;
+		}
+
+		.admin-dialog-status h4 {
+		    margin: 0 0 5px 0;
+		    font-size: 18px;
+		}
+
+		.admin-dialog-btn {
+		    background-color: #007bff;
+		    color: white;
+		    border: none;
+		    padding: 10px 15px;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    margin-top: 20px;
+		}
+
+		.admin-dialog-btn:hover {
+		    background-color: #0056b3;
+		}
+		.admin-study-left-flex{
+			display: flex;
+			flex-direction: column;
+		}
+		.admin-study-left-flex h1{
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+		.admin-study-left-flex h2{
+			font-size: 16px;
+
+		}
 	</style>
 </head>
 <body>
@@ -36,9 +295,11 @@
 									</template>
 									<template v-else>
 										<img style="width: 100px; height: 100px" src="../src/profile.png" alt=" Image" class="">
-									</template>					                      
-									{{item.studyName}}
-			                        <div class="admin-study-description">{{item.description}}</div>
+									</template>		
+									<div class="admin-study-left-flex">			                      
+										<h1>{{item.studyName}}<h2>
+				                        <h2 class="admin-study-description">{{item.description}}</h2>
+									</div>
 							  	</a>
 								<div class="admin-study-right">
 									<template v-if="item.groupStatus === 'Y'">
