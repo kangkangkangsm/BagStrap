@@ -129,6 +129,8 @@ public class CSCenterController {
 		return new Gson().toJson(resultMap);
 	}
 	
+
+	
 	@RequestMapping(value = "/inquiry-add.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String InquiryAdd( Model model, @RequestParam HashMap<String, Object> map) throws Exception {

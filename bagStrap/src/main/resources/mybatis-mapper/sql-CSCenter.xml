@@ -75,6 +75,9 @@
 		<if test="searchOption == 'title'">
 			and question LIKE '%' || #{keyword} || '%'
 		</if>
+		<if test="searchOption == 'category'">
+			and category LIKE '%' || #{keyword} || '%'
+		</if>
 	</select>
 	
 	<insert id="insertInquiry" parameterType="com.example.bagStrap.model.Notice">

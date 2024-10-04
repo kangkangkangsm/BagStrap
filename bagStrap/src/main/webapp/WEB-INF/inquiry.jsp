@@ -31,9 +31,10 @@
 	}
 
 	h1 {
-	    text-align: center; /* 제목 중앙 정렬 */
-	    color: #4a90e2; /* 제목 색상 */
-	    margin-bottom: 20px; /* 제목과 폼 간의 간격 */
+		text-align: center; 
+		color: black; 
+		margin-bottom: 20px; 
+		font-size: 20px;
 	}
 
 	input, select, textarea {
@@ -58,19 +59,17 @@
 	    margin: 5px; /* 버튼 간의 간격 */
 	}
 	button {
-	    background-color: #5cb85c;
-	    color: white;
-	    padding: 10px 15px;
-	    border: none;
-	    border-radius: 4px;
-	    cursor: pointer;
-	    width: 100%; /* 버튼 전체 너비 사용 */
-	    transition: background-color 0.3s; /* 배경색 부드러운 전환 */
-		
+		padding: 10px 15px;
+		border: none;
+		background-color: #ff7f50;
+		color: white;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;	
 	}
 
 	button:hover {
-	    background-color: #4cae4c; /* 호버 시 어두운 색상 */
+	    background-color: #e74c3c; /* 호버 시 어두운 색상 */
 	}
 </style>
 <body>
@@ -123,14 +122,16 @@
         methods: {
 			fnSave() {
 					var self=this;
+					
 					if (self.category === "all") {
 					       alert("질문 유형을 선택하세요.");
 					       return;
-					   }
+					}
+					   
 					if (!self.title || !self.message) {
 					       alert("제목과 메시지를 입력해주세요.");
 					       return;
-					   }
+					}
 				    var nparam = {
 						inqcategory: self.category,
 				        inqTitle: self.title, 

@@ -21,27 +21,25 @@
 	 }
 
 	h1 {
-	    text-align: center; /* 제목 중앙 정렬 */
-	    color: #4a90e2; /* 제목 색상 */
-	    margin-bottom: 20px; /* 제목과 버튼 간의 간격 */
+		text-align: center; 
+		color: black; 
+		margin-bottom: 20px; 
+		font-size: 20px;
 	}
 
 	button {
-	    background-color: #5cb85c; /* 버튼 기본 색상 */
-	    color: white; /* 버튼 텍스트 색상 */
-	    padding: 10px 15px; /* 버튼 패딩 */
-	    border: none; /* 테두리 없음 */
-	    border-radius: 4px; /* 둥근 모서리 */
-	    cursor: pointer; /* 포인터 커서 */
-	    margin-bottom: 20px; /* 버튼과 테이블 간의 간격 */
-	    display: block; /* 버튼을 블록 요소로 */
-	    width: 100%; /* 전체 너비 사용 */
-	    max-width: 200px; /* 최대 너비 설정 */
-	    margin: 0 auto; /* 중앙 정렬 */
+		z-index: 10;
+		padding: 10px 15px;
+		border: none;
+		background-color: #ff7f50;
+		color: white;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
 	}
 
 	button:hover {
-	    background-color: #4cae4c; /* 호버 시 어두운 색상 */
+	   background-color: #e74c3c; /* 호버 시 어두운 색상 */
 	}
 
 	table {
@@ -52,12 +50,12 @@
 			border-radius: 8px;
 			overflow: hidden;
 			margin-bottom: 30px;
-		}
+	}
 
 	th,td {
 			padding: 15px 20px;
 			text-align: center;
-		}
+	}
 		
 	th{
 			background-color: #343a40;

@@ -93,6 +93,8 @@ public class CSCenterServiceImpl implements CSCenterService{
 		
 		return resultMap;
 	}
+	
+
 
 	@Override
 	public HashMap<String, Object> addInquiry(HashMap<String, Object> map) {
@@ -216,5 +218,7 @@ public class CSCenterServiceImpl implements CSCenterService{
 		}
 		return resultMap;
 	}
+
+
 
 }

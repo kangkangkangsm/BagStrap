@@ -19,30 +19,37 @@
 		      width:100%;
 		      padding: 40px;
 		      background-color: #ffffff;
+			  border-radius: 8px; /* 둥근 모서리 */
+			  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 		 }
 
 		h1 {
 		    text-align: center;
-		    color: #2c3e50; /* 제목 색상 */
+		    color: black; 
 		    margin-bottom: 30px;
 		}
 
 		table {
-		    margin: 20px auto; /* 가운데 정렬 */
-		    width: 80%; /* 넓이 조정 */
-		    border-collapse: collapse; /* 경계선 조정 */
-		    background-color: #ffffff; /* 테이블 배경색 */
-		    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-		    border-radius: 8px; /* 테이블 테두리 둥글게 */
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 16px;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 8px;
+			overflow: hidden;
+			margin-bottom: 30px;
 		}
 
 		th {
-		    background-color: #3498db; /* 헤더 색상 */
+		    background-color: #3498db; /* 헤더 배경색 */
 		    color: white; /* 헤더 텍스트 색상 */
+		    padding: 12px; /* 패딩 추가 */
+		    text-align: center; 
+		    border: 1px solid #ddd; /* 경계선 색상 */
 		}
 
 		td {
-		    padding: 10px; /* 패딩 조정 */
+		    padding: 12px; /* 패딩 추가 */
+		    border: 1px solid #ddd; /* 경계선 색상 */
 		}
 
 		#editor {
@@ -52,20 +59,20 @@
 		}
 
 		button {
-		    display: block;
-		    margin: 20px auto; /* 버튼 가운데 정렬 */
-		    padding: 10px 20px;
-		    background-color: #007BFF; /* 버튼 배경색 */
-		    color: white;
-		    border: none;
-		    border-radius: 5px;
-		    cursor: pointer;
-		    transition: background-color 0.3s ease; /* 부드러운 호버 효과 */
-		    font-size: 1.1em; /* 버튼 글자 크기 */
+			display:block;
+			margin: 20px auto; /* 버튼 가운데 정렬 */
+			padding: 10px 15px;
+			border: none;
+			background-color: #ff7f50;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			transition: background-color 0.3s; /* 부드러운 호버 효과 */
 		}
 
 		button:hover {
-		    background-color: #0056b3; /* 버튼 호버 색상 */
+		    background-color: #e74c3c; /* 버튼 호버 색상 */
 		}
     </style>
 </head>
@@ -76,11 +83,11 @@
 	        <table>
 	            <tr>
 	                <th>제목</th>
-	                <td><input v-model="title" placeholder="공지 제목을 입력하세요"></td>
+	                <td><input v-model="title" placeholder="공지 제목을 입력하세요" required></td>
 	            </tr>
 	            <tr>
 	                <th>내용</th>
-	                <td><div id="editor"></div></td>
+	                <td><div id="editor" required></div></td>
 	            </tr>	
 	        </table>
 	        <button id="btn" @click="fnSave()">저장</button>
@@ -89,8 +96,8 @@
 	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>        
 
-	</body>
-	</html>
+</body>
+</html>
     <script>
         const app = Vue.createApp({
             data() {
@@ -106,6 +113,12 @@
             methods: {
                 fnSave() {
 					var self=this;
+					
+					if (!self.title || !self.content) {
+					       alert("제목과 내용를 입력해주세요.");
+					       return;
+					}
+					
                     var nparam = {
                         title: self.title, 
                         content: self.content,
@@ -145,8 +158,8 @@
                 }
             },
             mounted() {
-				var self=this;
-                this.fnSession();
+				var self=this;			   
+                self.fnSession();
 
                 // Quill 에디터 초기화
                 var quill = new Quill('#editor', {

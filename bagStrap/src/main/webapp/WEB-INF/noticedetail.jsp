@@ -7,27 +7,37 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>공지사항 상세</title>
 	<style>
-		body {
-		    font-family: 'Roboto', sans-serif;
-		    background-color: #f4f7fa; /* 부드러운 배경색 */
-		    color: #333; /* 기본 텍스트 색상 */
-		    margin: 0;
-		    padding: 20px;
-		}
+		.main-container {
+		     display: flex;
+		     min-height: 100vh;
+		     font-family: 'Arial', sans-serif;
+		     background-color: #f4f6f9;
+		 }
+		 
+		 .content {
+		      width:100%;
+		      padding: 40px;
+		      background-color: #ffffff;
+		 }
+		 
 		h1 {
-		    font-size: 28px; /* 제목 크기 조정 */
-		    color: #007BFF; /* 제목 색상 */
-		    margin-bottom: 15px; /* 제목과 내용 간격 */
+		    font-size: 28px; 
+		    color: black; 
+		    margin-bottom: 15px; 
 		}
-		.meta {
-		    font-size: 14px; /* 메타 정보 크기 */
-		    color: #888; /* 메타 정보 색상 */
-		    margin-bottom: 15px; /* 메타 정보와 내용 간격 */
+		
+		.detail {
+		    font-size: 14px; 
+		    color: #888; 
+		    margin-bottom: 15px;
+
 		}
+		
 		hr {
 		    margin: 20px 0; /* 수평선 간격 조절 */
 		    border: 1px solid #ddd; /* 수평선 색상 */
 		}
+		
 		.content {
 		    line-height: 1.8; /* 줄 간격 조정 */
 		    color: #444; /* 내용 텍스트 색상 */
@@ -37,20 +47,19 @@
 		    border-radius: 8px; /* 내용 박스 모서리 둥글게 */
 		    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 내용 박스 그림자 */
 		}
+		
 		.ToListBtn {
-		    padding: 10px 20px; /* 버튼 패딩 */
-		    background-color: #007BFF; /* 버튼 배경색 */
-		    color: white; /* 버튼 글자색 */
-		    border: none; /* 테두리 없애기 */
-		    border-radius: 5px; /* 모서리 둥글게 */
-		    cursor: pointer; /* 커서 모양 변경 */
-		    transition: background-color 0.3s, transform 0.2s; /* 배경색 및 효과 전환 */
-		    font-size: 16px; /* 버튼 텍스트 크기 */
-		    display: inline-block; /* 버튼 정렬을 위해 인라인 블록으로 설정 */
+			padding: 10px 15px;
+			border: none;
+			background-color: #ff7f50;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
 		}
+		
 		.ToListBtn:hover {
-		    background-color: #0056b3; /* 호버 시 배경색 변화 */
-		    transform: scale(1.05); /* 호버 시 크기 변화 */
+			background-color: #e74c3c;
 		}
 	</style>
 </head>
@@ -58,7 +67,7 @@
 	<main class="main-container">
 		<div id="app" class="content">
 			<h1>{{info.title}}</h1>
-			<div class="meta">작성자: {{info.author}} | 작성일: {{info.createdAt}} | 조회수: {{info.hit}}</div>
+			<div class="detail">작성자: {{info.author}} | 작성일: {{info.createdAt}} | 조회수: {{info.hit}}</div>
 			<hr>
 			<div class="content" v-html="info.content"></div>
 			<button class="ToListBtn" @click="ToList">목록으로</button>
