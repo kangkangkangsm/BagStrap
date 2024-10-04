@@ -386,7 +386,7 @@
         INNER JOIN tbl_study_application TSA ON TSA.FETCHAPPSTUDYID = TSG.STUDY_GROUP_ID
         group by study_group_id
         ) TCNT ON TSG.STUDY_GROUP_ID = TCNT.STUDY_GROUP_ID
-        WHERE 1=1
+        WHERE TSG.GROUPSTATUS = 'Y' AND 1=1
 	     <!-- 연령 필터 -->
 	    <if test="age != null and age != ''">
 	        AND (age LIKE '%' || #{age} || '%' )
@@ -431,7 +431,7 @@
 		select count(*) groupCnt from TBL_STUDY_GROUP TSG
 		LEFT JOIN TBL_STU_COMM_BOARD_TYPES TSCBT 
         ON TSG.SUBJECT_TYPE_ID = TSCBT.BOARD_TYPE_ID
-        WHERE 1=1
+        WHERE TSG.GROUPSTATUS = 'Y' AND 1=1
 	     <!-- 연령 필터 -->
 	    <if test="age != null and age != ''">
 	        AND (age LIKE '%' || #{age} || '%' )

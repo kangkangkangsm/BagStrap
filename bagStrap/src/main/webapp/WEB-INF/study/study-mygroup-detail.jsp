@@ -940,19 +940,22 @@
 					             </div>
 
 								 <!-- 스터디 참고도서 섹션 -->
+								 <template v-if="detailList.bookId">
 								        <div class="book-card">
 								            <div class="book-Top5-title">스터디 필참도서</div>
-								            <div class="book-image-container" @click="fnView(detailList.bookId)">
-								                <img :src="detailList.image" alt="도서 이미지" class="book-image">
-								                <div class="book-overlay">
-								                    <a href="#" class="purchase-link">구매하러 가기</a>
-								                </div>
-								            </div>
+								            	<div class="book-image-container" @click="fnView(detailList.bookId)">
+									                <img :src="detailList.image" alt="도서 이미지" class="book-image">
+									                <div class="book-overlay">
+								                   		 <a href="#" class="purchase-link">구매하러 가기</a>
+								                	</div>
+								           		 </div>
 								            <div class="book-details">
 								                <h6>{{ detailList.title }}</h6>
 								                <p>저자: {{ detailList.author }}</p>
 								            </div>
+											
 								        </div>
+								</template>		
 										</div>
 										 <!-- 다른 책 TOP5 섹션 -->
 										        <div class="book-Top5">
@@ -1202,11 +1205,11 @@
 							    <div class="study-group-insert-row">
 							      <div class="study-group-insert-form-group">
 							        <label for="field">스터디 영역</label>
-							        <input type="text" id="studyName" name="studyName" v-model="detailList.name" maxlength="24" disabled>
+							        <input type="text" id="studyName" name="studyName" v-model="detailList.name"  disabled>
 							      </div>
 							      <div class="study-group-insert-form-group">
 							        <label for="studyName">스터디 이름 (24자 이내)</label>
-							        <input type="text" id="studyName" name="studyName" v-model="detailList.studyName" maxlength="24">
+							        <input type="text" id="studyName" name="studyName" v-model="detailList.studyName">
 							      </div>
 							    </div>
 
@@ -1243,7 +1246,7 @@
 							        <select id="studyType" name="studyType" v-model="detailList.onOffMode">
 							          <option value="온라인">온라인</option>
 							          <option value="오프라인">오프라인</option>
-							          <option value="">혼합</option>
+							          <option value="혼합">혼합</option>
 							        </select>
 							      </div>
 							      <div class="study-group-insert-form-group">
@@ -1278,12 +1281,13 @@
 							        <select id="gender" name="gender" v-model="detailList.genderGroup">
 							          <option value="남성">남성</option>
 							          <option value="여성">여성</option>
-							          <option value="">성별무관</option>
+							          <option value="혼성">혼성</option>
 							        </select>
 							      </div>
 							      <div class="study-group-insert-form-group">
 							        <label for="book">참고 할 교재</label>
 							        <select id="book" name="book" v-model="detailList.bookId">
+										<option value="">선택안함</option>
 							          <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
 							        </select>
 							      </div>
@@ -1607,7 +1611,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							 
+							self.rejectionMessage = "";
 							alert(userNickName + "님이 강퇴되었습니다.");
 							self.fnDetail();
 							self.fnSidebar(3);
@@ -1635,6 +1639,12 @@
 		        },
 				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description,maxparticipants){
 					var self = this;
+					var studyName = self.detailList.studyName;
+					// 스터디 이름 24자 이내 확인
+					if (!studyName || studyName.length > 24) {
+				        alert("스터디 이름을 24자 이내로 입력해주세요.");
+				        return;
+				    }
 					var studyGroupId = self.studyGroupId;
 					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
 									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
@@ -1734,7 +1744,7 @@
                         success: function(data) {
                              console.log(data);
                             self.detailList = data.detailList;
-							self.fnTop5(data.detailList.category);
+							self.fnTop5(data.detailList.boardTypeId);
                      self.fnBoardType(self.detailList.boardTypeId);
                      self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
                         },

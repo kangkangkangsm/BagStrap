@@ -386,7 +386,7 @@
 	                    </template>
 	                </div>
 
-	                <div class="stu-comm-detail-comments-section">
+	                <div class="stu-comm-detail-comments-section" style="margin-top:30px;">
 	                    <span>좋아요 : {{viewList.likeCnt}}</span>
 	                    <span>댓글수 : {{viewList.commentCnt}}</span>
 	                    
