@@ -338,9 +338,9 @@
 								alert("입장이 차단되어진 그룹입니다. 사유 : " + data.Subscription.rejectionMessage);
 							}else if(data.Subscription.fetchapplstatus == 'Y'){
 								alert("이미 가입된 그룹 입니다.");
-							}else{
+							}
 								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
-							}							  
+														  
 		                  },
 		              });
 		        },

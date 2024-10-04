@@ -443,7 +443,7 @@
 	/* 전체 채팅 컨테이너 스타일 */
 	.chat-container {
 	    width: 106%;
-	    height: 700px;
+	    height: 850px;
 	    border: 1px solid #ddd;
 	    border-radius: 8px;
 	    display: flex;
@@ -1720,10 +1720,8 @@
             fnSidebar(a){
 			   var self = this;
                self.pageView = a; 
-			   self.file = "";
-			   //if(a == '2'){
-				//self.fnMessageSelect();
-			   //}
+			   self.filePreview ="";
+			   self.file = null;
             },
             fnDetail() {
                     const self = this;
