@@ -24,8 +24,6 @@
 		    font-family: 'Noto Sans KR', sans-serif; /* 한글과 영문에 적합한 세련된 폰트 */
 		    line-height: 1.6;
 		    color: #333;
-		    background: url('images/background.jpg') no-repeat center center fixed;
-		    background-size: cover;
 		}
 
 		/* 헤더 스타일 */
@@ -385,49 +383,69 @@
 	                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
 	                        <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
 	                    </svg>
-						<div v-if="notiList.length !== 0" style="position: absolute; top: -14px; right: 8px; background: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 10px;">{{notiList.length}}</div>
+						<div v-if="notiCount !== 0" style="position: absolute; top: -14px; right: 8px; background: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 10px;">{{notiCount}}<span v-if="notiCount === 5">+</span></div>
 
 	                </a>
-					
-
-					<ul class="notification-box">
-					    <li v-for="item in notiList">
-							<a href="javascript:;" @click="fnNotiLocation(item.category, item.boardNo)">
-								<div>
-									{{item.message}}
-								</div>
-								<div>
-									{{item.createdDate}}
-								</div>
-							</a>
-						</li>		
-
-
-						<button v-if="currentPage>1" @click="getSharedHeader(currentPage - 1)">이전</button>
-						<button v-if="currentPage<=totlaPages" @click="getSharedHeader(currentPage + 1)">다음</button>
+						<ul class="notification-box">
+						    <li v-for="item in notiList">
+								<a href="javascript:;" @click="fnNotiLocation(item.category, item.boardNo)">
+									<div>
+										{{item.message}}
+									</div>
+									<div>
+										{{item.createdDate}}
+									</div>
+								</a>
+							</li>		
+							<div class="pagination" style="display:flex; padding: 0px 10px">
+								<button v-if="currentPage>1" @click="getSharedHeader(currentPage - 1)">이전</button>
+								<span style="flex:1"></span>
+								<button v-if="currentPage<totalPages" @click="getSharedHeader(currentPage + 1)">다음</button>
+							</div>
 					</ul>
 	            </div>
 	            
 	            
 				<!--Login Popup-->
 				<dialog id="headerLoginModal" class="headerLoginModal round">
-	               <div class="rightCloseBtn" onclick="document.getElementById('headerLoginModal').close()">
-	                   <a href="javascript:;" class="closeBtn">
+	               <div class="rightCloseBtn">
+	                   <a href="javascript:;" class="closeBtn" @click="fnCloseLogin()">
 	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
 	                       </svg>
 	                   </a>
 	               </div>     
 	               <div id="loginBox">
-	                   <span id="loginImage">로그인 창 이미지/로고?</span>
-	                   <div><input class="round" id="inputId" placeholder="id" v-model="userId" /></div>
-	                   <div><input class="round" type="password" placeholder="password" v-model="password" /></div>
-	                   <div><a>아이디 찾기</a> | <a>비밀번호 찾기</a></div>
-	                   <button @click="fnLogin()">로그인</button>
-	                   계정이 없으신가요? <a>회원가입</a>
+					<div class="header-logo" v-if="flg === ''"><a>현이의 가방끈</a></div>
+					<div class="header-logo" v-if="flg !== ''"><a>휴대폰 본인인증</a></div>
+					<div class="header-logo" v-if="flg === 'changePwd'"><a>비밀번호 변경</a></div>
+		                <div>
+							<input v-if="flg === '' || flg === 'pwd'" class="round" id="inputId" placeholder="아이디" v-model="userId" />
+							<input v-if="flg === 'id'" class="round" id="" placeholder="이름을 입력해주세요" v-model="name" />
+							<div v-if="flg === 'confirm'">인증만료시간: {{timer}}</div>
+							<input v-if="flg === 'changePwd'" class="round" type="password" placeholder="비밀번호" v-model="password"/>
+
+
+						</div>
+	                    <div>
+							<input v-if="flg === ''" class="round" type="password" placeholder="비밀번호" v-model="password"/>
+							<input v-if="flg === 'pwd' || flg === 'id'" class="round" type="text" placeholder="휴대폰번호를 입력해주세요" v-model="userPhone"/>
+							<input v-if="flg === 'confirmPwd' || flg === 'confirmId'" class="round" type="number" placeholder="인증번호를 입력해주세요" v-model="userInputNumb"/>
+							<input v-if="flg === 'changePwd'" class="round" type="password" placeholder="비밀번호 확인" v-model="password2"/>
+
+						</div>
+						<div v-if="flg === ''">
+							<a href="javascript:;" @click="fnChangeLoginBox('id')">아이디 찾기</a> | <a href="javascript:;" @click="fnChangeLoginBox('pwd')">비밀번호 찾기</a>
+						</div>
+						<div v-else>
+							<a href="javascript:;" @click="fnChangeLoginBox('')">로그인 하러가기</a>
+						</div>
+						<button v-if="flg === ''" @click="fnLogin()">로그인</button>
+						<button v-if="flg !== '' && flg !== 'confirmPwd' && flg !== 'confirmId' && flg !== 'changePwd'" @click="checkAccountInfo()">인증번호 받기</button>
+						<button v-if="flg === 'confirmPwd' || flg === 'confirmId'"@click="confirmInputNumb()">인증하기</button>
+						<button v-if="flg === 'changePwd'"@click="changePwd()">비밀번호 변경</button>
+	                    계정이 없으신가요? <a href="javascript:;">회원가입</a>
 	               </div>
 	           </dialog>
-	            
-			   
 			   
 	        </div>
 
@@ -443,15 +461,162 @@
 					sessionUserId : '',
 					sessionUserNickName: '',
 					userId : 'admin',
+					name : '',
 					password : 'admin1234',
 					user: '${sessionScope.user}',
 					notiList:[],
+					flg: '',
+					userPhone: '',
+					timer: 180,
+					confirmNumb: 0,
+					userInputNumb: 0,
 					currentPage: 1,
 					totalPages: 10,
-					pageSize: 5
+					pageSize: 5,
+					timeCheck : null,
+					user: null,
+					password2: ''
 	            };
 	        },
+			computed: {
+			    notiCount() {
+			        return this.notiList ? this.notiList.length : 0;
+			    }
+			},
 	        methods: {
+				fnCloseLogin(){
+					var self = this;
+					document.getElementById('headerLoginModal').close();
+					self.fnCleaer();
+
+				},
+				fnChangeLoginBox(str){
+					var self = this;
+					self.fnCleaer();
+					self.flg = str;
+					
+				},
+				fnCleaer(){
+					var self = this;
+
+					if(self.timeCheck !== null && self.timeCheck !== undefined){
+						clearInterval(self.timeCheck);	
+					}
+					
+					self.userPhone = null;
+					self.confirmNumb = null;
+					self.userInputNumb = null;
+					self.flg = '';
+					self.userId = '';
+					self.name = '';
+					self.password = '';
+					self.userPhone = '';
+					self.timer = 180;	
+					
+				},
+				checkAccountInfo(){
+					var self = this;
+		  			var nparmap = {
+						userId: self.userId,
+						name : self.name,
+						userPhone : self.userPhone,
+						flg : self.flg
+					}
+		  			$.ajax({
+		  				url:"checkAccountInfo.dox",
+		  				dataType:"json",	
+		  				type : "POST", 
+		  				data : nparmap,
+		  				success : function(data) { 
+		  					console.log(data);
+							if(data.result){
+								self.user = data.userInfo;
+								self.flg = data.confirm;
+								self.makeConfirmNumbAndSendMessage();
+							} else{
+								alert(data.message);
+								self.name = '';
+								self.userPhone = '';
+								self.password = '';
+								
+							}
+		  					
+		  				}
+		  			});
+					
+				},
+				makeConfirmNumbAndSendMessage(){
+		  			var self = this;		
+		  			var nparmap = {userPhone : self.userPhone}
+		  			$.ajax({
+		  				url:"confirm.dox",
+		  				dataType:"json",	
+		  				type : "POST", 
+		  				data : nparmap,
+		  				success : function(data) { 
+		  					console.log(data);
+		  					alert("인증번호가 발신되었습니다. 핸드폰을 확인해주세요")
+		  					self.confirmNumb = data.confirmNumb;							
+
+		  					self.timeCheck = setInterval(() => {
+		  						if(self.timer === 0){
+		  							alert("시간이 만료되었습니다");
+									self.fnCleaer();
+
+		  						}else {
+		  							self.timer -= 1;	
+		  						}
+		  					}, 1000);
+		  					
+		  				}
+		  			});
+		  		},
+		  		confirmInputNumb(){
+					var self = this;
+					alert(self.flg)
+					alert(typeof self.confirmNumb+ self.confirmNumb)
+					alert(typeof self.userInputNumb+ self.userInputNumb)
+					if (!self.userInputNumb) {
+			            alert("인증번호를 입력해주세요");
+			            return;
+			        }
+					
+		  			if(self.confirmNumb === self.userInputNumb){
+						if(self.flg === 'confirmId'){
+							alert("인증되었습니다! 회원님의 아이디는 '" +self.user.userId + "' 입니다!" )
+							self.fnCleaer();
+							self.userId = self.user.userId;
+						} else if(self.flg === 'confirmPwd'){
+							self.flg = 'changePwd';
+						}
+
+		  			}else{
+		  				alert("번호가 일치하지 않습니다.");
+		  			}
+		  			
+		  		},
+				changePwd(){
+					var self = this;		
+					if(self.password !== self.password2){
+						alert('비밀번호가 일치하지 않습니다.');
+						return;
+					}
+		  			var nparmap = {
+						userId : self.user.userId,
+						userPhone : self.user.phone
+					}
+		  			$.ajax({
+		  				url:"changePwd.dox",
+		  				dataType:"json",	
+		  				type : "POST", 
+		  				data : nparmap,
+		  				success : function(data) { 
+		  					console.log(data);
+							alert(data.message);
+		  					
+		  				}
+		  			});
+				},
 				fnPageChange(path){
 					var self = this;
 					if(self.isLogin){
@@ -572,7 +737,9 @@
 	        },
 	        mounted() {
 				document.querySelector('.headerNotification').addEventListener('click', function() {
-				    this.classList.toggle('active'); // active 클래스 토글
+					if(self.isLogin){
+						this.classList.toggle('active'); // active 클래스 토글
+					}
 				});
 	            var self = this;
 				self.getSharedHeader(1);

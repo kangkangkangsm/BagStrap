@@ -140,7 +140,7 @@
 			        FROM TBL_STUDY_GROUP G
                     LEFT JOIN
                         TBL_BOARDFILE F ON F.BOARDNO = G.STUDY_GROUP_ID 
-			        LEFT JOIN
+			        RIGHT JOIN
 			            (SELECT TITLE, PUBLISHER, BOOK_ID, DESCRIPTION, CATEGORY, IMAGE
 			            FROM TBL_BOOK 
 			            WHERE BOOK_ID = #{bookId}) B ON B.CATEGORY = g.subject_type_id

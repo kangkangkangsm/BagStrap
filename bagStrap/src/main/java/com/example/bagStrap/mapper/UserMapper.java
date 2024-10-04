@@ -12,4 +12,7 @@ import com.example.bagStrap.model.User;
 @Mapper
 public interface UserMapper {
 	User login(HashMap<String, Object> map);
+	User selectId(HashMap<String, Object> map);
+	User selectPwd(HashMap<String, Object> map);
+	void changePwd(HashMap<String, Object> map);
 }

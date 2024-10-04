@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.bagStrap.dao.UserService;
-import com.example.bagStrap.model.User;
 import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +48,24 @@ public class UserController {
 		HashMap<String, Object> resultMap = new HashMap();		
 		session.invalidate();
 		resultMap.put("message","로그아웃 되었습니다.");
+		
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/checkAccountInfo.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String checkAccountInfo(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();		
+		resultMap = userService.checkAccountInfo(map);
+		
+		
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/changePwd.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String changePwd(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();		
+		resultMap = userService.changePwd(map);
+		
 		
 		return new Gson().toJson(resultMap);
 	}

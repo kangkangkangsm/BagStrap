@@ -317,7 +317,6 @@
 			            });
 			        },
 					goToReview(book){
-						console.log(book)
 						$.pageChange("/myshop/review",{book : book});
 					},
 					insertCartItem(){

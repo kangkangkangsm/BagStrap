@@ -97,7 +97,7 @@
 			<h3 class="study-comm-sidebard-h3" v-if="isAdmin">Admin</h3>
 			<div class="study-comm-sidebard-section">
             <ul>
-				<li><a href="/myshop/orders">주문 관리</a></li>
+				<li><a href="/admin/orders">주문 관리</a></li>
 				<li><a href="/admin/studyList">스터디 신청</a></li>
                 <li><a href="javascript:;">공지사항 관리?</a></li>
             </ul>

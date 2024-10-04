@@ -318,6 +318,7 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		try {
 			int totalPages = sharedHeaderMapper.selectNotificationCount(map);
 			List<Notification> notiList = sharedHeaderMapper.selectNotification(map);
+			System.out.println(totalPages);
 			resultMap.put("totalPages", totalPages);
 			resultMap.put("notiList", notiList);
 			resultMap.put("result", true);

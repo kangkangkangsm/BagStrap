@@ -1,14 +1,12 @@
 package com.example.bagStrap.dao;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.bagStrap.mapper.DefaultMapper;
 import com.example.bagStrap.mapper.UserMapper;
-import com.example.bagStrap.model.Item;
 import com.example.bagStrap.model.User;
 
 
@@ -51,6 +49,63 @@ public class UserServiceImpl implements UserService{
 
 
 		
+		return resultMap;
+	}
+	@Transactional
+	@Override
+	public HashMap<String, Object> checkAccountInfo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+			if(map.get("flg").toString().equals("id")) {
+				User userInfo = userMapper.selectId(map);
+				if(userInfo != null) {
+					resultMap.put("result", true); 
+					resultMap.put("userInfo", userInfo);				
+					resultMap.put("confirm", "confirmId");				
+				} else {
+					resultMap.put("result", false);
+					resultMap.put("message", "존재하지않는 회원정보입니다.");
+				}
+			} else if (map.get("flg").toString().equals("pwd")) {
+				User userInfo = userMapper.selectPwd(map);
+				if(userInfo != null) {
+					resultMap.put("result", true); 
+					resultMap.put("userInfo", userInfo);	
+					resultMap.put("confirm", "confirmPwd");
+				} else {
+					resultMap.put("result", false);
+					resultMap.put("message", "존재하지않는 회원정보입니다.");
+				}
+			}
+		} catch(NullPointerException e) {
+			resultMap.put("result", false);
+			resultMap.put("message", "널널~합니다~");
+		}
+		catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요.");
+		}
+		return resultMap;
+	}
+	
+	@Override
+	public HashMap<String, Object> changePwd(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+				userMapper.changePwd(map);
+				resultMap.put("result", true); 
+				resultMap.put("message", "비밀번호가 변경되었습니다.");		
+		} catch(NullPointerException e) {
+			resultMap.put("result", false);
+			resultMap.put("message", "비밀번호 변경에 실패했습니다.");
+		}
+		catch(Exception e) {
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "비밀번호 변경에 실패했습니다.");
+		}
 		return resultMap;
 	}
 
