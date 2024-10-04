@@ -313,13 +313,14 @@
 			                  </li>
 			              </ul>
 			          </div>
+					  <div class="pagination">
 
-					  <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
-					  <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
-					      {{ page }}
-					  </button>
-					  <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
-						  
+						  <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+						  <button v-for="page in pagesToShow" :class="{active: page == currentPage}" @click="fnGetList(page)">
+						      {{ page }}
+						  </button>
+						  <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
+					  </div>
 		        </div>
 			</div>
 

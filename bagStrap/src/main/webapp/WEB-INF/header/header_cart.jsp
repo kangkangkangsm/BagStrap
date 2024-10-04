@@ -536,12 +536,12 @@
 				    </div>
 				</div>
 
-				<div class="order-btn-container">
-				    <div class="order-btn-flex" v-if="cartList.length !== 0"></div>
+				<div class="order-btn-container" v-if="cartList.length !== 0">
+				    <div class="order-btn-flex"></div>
 						<button class="add-to-cart" @click="toOrder()">주문하기</button>	
 				</div>	
-				<div class="order-btn-container">
-				    <div class="order-btn-flex" v-if="cartList.length !== 0"></div>
+				<div class="order-btn-container" v-if="cartList.length !== 0">
+				    <div class="order-btn-flex"></div>
 						<p class="price-sum">상품금액: <span class="refund-amount-value">{{priceSum}} 원</span></p>							
 				</div>	
 

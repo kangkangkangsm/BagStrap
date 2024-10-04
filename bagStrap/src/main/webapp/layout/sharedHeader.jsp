@@ -274,16 +274,42 @@
 
 		/* 기본적으로 notification-box는 숨김 */
 		.notification-box {
-		    display: none;
-		    position: absolute; /* 드롭다운을 위해 절대 위치 지정 */
-		    background-color: white; /* 배경색 설정 */
-		    border: 1px solid #ccc; /* 테두리 설정 */
-		    z-index: 1000; /* 다른 요소 위에 표시 */
+			display: none;
+			position: absolute;
+			top: 100%;
+			right: -14px;
+			background-color: rgba(255, 255, 255, 1);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+			list-style: none;
+			padding: 10px 0;
+			margin: 0;
+			min-width: 160px;
+			border-radius: 6px;
+			z-index: 1000;
+			transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+			opacity: 0;
+			transform: translateY(10px);
+			visibility: hidden;
 		}
 
 		/* headerNotification 클릭 시 notification-box를 보이게 하는 클래스 */
-		.headerNotification.active + .notification-box {
-		    display: block; /* 드롭다운 표시 */
+		.headerNotification.active .notification-box {
+			display: block;
+			opacity: 1;
+			transform: translateY(0);
+			visibility: visible;
+		}
+
+		.notification-box li {
+			width: 300px;
+			padding: 10px 20px;
+		}
+		
+
+		
+		.notification-box li:hover {
+		    background-color: #f0f0f0;
+		    color: #e74c3c;
 		}
 	</style>
 </head>
@@ -348,31 +374,39 @@
 	            <!-- Cart -->
 	            <div class="headerCart headerIcon headerCustomerSub">
 	                <a href="javascript:;" @click="fnPageChange('/myshop/cart')">
-	                    <svg class="headerIcon clickableSvg" alt="icon_cart" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+	                    <svg class="headerIcon clickableSvg" alt="icon_cart" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
 	                        <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/>
 	                    </svg>
 	                </a>
 	            </div>
 	            <!-- Notification -->
 	            <div class="headerNotification headerIcon headerCustomerSub">
-	                <a href="javascript:;" @click="">
-	                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
+	                <a href="javascript:;" @click="" style="position: relative;">
+	                    <svg class="headerIcon clickableSvg" alt="icon_notification" xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
 	                        <path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/>
 	                    </svg>
+						<div v-if="notiList.length !== 0" style="position: absolute; top: -14px; right: 8px; background: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 10px;">{{notiList.length}}</div>
+
 	                </a>
+					
+
+					<ul class="notification-box">
+					    <li v-for="item in notiList">
+							<a href="javascript:;" @click="fnNotiLocation(item.category, item.boardNo)">
+								<div>
+									{{item.message}}
+								</div>
+								<div>
+									{{item.createdDate}}
+								</div>
+							</a>
+						</li>		
+
+
+						<button v-if="currentPage>1" @click="getSharedHeader(currentPage - 1)">이전</button>
+						<button v-if="currentPage<=totlaPages" @click="getSharedHeader(currentPage + 1)">다음</button>
+					</ul>
 	            </div>
-				<div class="notification-box">
-					<div @click="fnNotiLocation(item.category, item.boardNo)" v-for="item in notiList">
-						<div>
-							{{item.message}}
-						</div>
-						<div>
-							{{item.createdDate}}
-						</div>
-					</div>
-					<button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
-				    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
-				</div>
 	            
 	            
 				<!--Login Popup-->
@@ -431,6 +465,15 @@
 				// header main load 함수
 				getSharedHeader(currentPage){
 					var self = this;
+					var isActive = false;
+					if(currentPage <= 0){
+						currentPage = 1;
+					}else if (currentPage >= self.totalPages){
+						currentPage = self.totalPages
+					}
+					if (document.querySelector('.headerNotification').classList.contains('active')) {
+					    isActive = true;
+					}
 					var nparmap = {
 						currentPage: currentPage, 
 						pageSize: self.pageSize
@@ -454,6 +497,9 @@
 								self.sessionUserNickName = '';
 							}
 							self.notiList = data.notiList;
+							if (isActive) {
+								document.querySelector('.headerNotification').classList.toggle('active');
+							}
 							window.sessionStorage.setItem("isLogin", self.isLogin);
 							window.sessionStorage.setItem("isAdmin", self.isAdmin);
 							//( 선민 추가) 아래 3줄 
