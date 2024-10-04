@@ -524,10 +524,12 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> insertStuGroupApply(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println("신청목록 확인 ===> " + map);
 		try {
 			studyMapper.insertStuGroupApply(map);
 			resultMap.put("result", true);
 			resultMap.put("message", "신청완료 방장의 승인 후 가입되십니다.");
+			System.out.println("신청결과확인 ====>" +  resultMap);
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
@@ -539,11 +541,13 @@ public class StudyServiceImpl implements StudyService{
 	@Override
 	public HashMap<String, Object> selectStuGroupSubscription(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println("스터디 중복신청 확인 ====>" + map);
 		try {
 			StudyComm list = studyMapper.selectStuGroupSubscription(map);
 			resultMap.put("result", true);
-			resultMap.put("message", "중복된 신청임");
+			resultMap.put("message", "확인 완료");
 			resultMap.put("Subscription", list);
+			System.out.println("결과확인 ===>" + resultMap.get("Subscription"));
 		} catch (Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
