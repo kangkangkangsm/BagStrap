@@ -11,10 +11,10 @@
 			USER_NICKNAME LIKE '%' || #{keyword} || '%')
 		</if>
 		<if test="searchOption == 'name'">
-			AND (USER_NAME LIKE '%' || #{keyword} || '%' OR)
+			AND (USER_NAME LIKE '%' || #{keyword} || '%')
 		</if>
 		<if test="searchOption == 'nickName'">
-			AND (USER_NICKNAME LIKE '%' || #{keyword} || '%' OR)
+			AND (USER_NICKNAME LIKE '%' || #{keyword} || '%')
 		</if>
 	</select>
 	<!-- 회원가입 후 파일에 들어갈 FK 리턴받는거 -->

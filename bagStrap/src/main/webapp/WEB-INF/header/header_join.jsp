@@ -253,31 +253,11 @@
 							        </div>                  
 							    </div>      
 							</div>
-							<div class="form_box">
-							    <div class="form_title">
-							        <label class="form_label">
-							            휴대전화
-							            <span class="required">
-							                <span class="hidden">필수입력</span>
-							            </span>
-							        <label>
-							    </div>
-							    <div class="form_cont">
-							        <div class="form_col_group">
-							            <div class="col_box">
-							                <div class="valid_check">
-							                    <div class="input_btn_box">
-							                        <input type="text" v-model="phone" @input="validatePhone" class="form_ip" placeholder="번호를 입력하세요">
-							                        <button type="button" @click="fnCheckPhoneNumber">
-							                            <span class="text">인증번호</span>
-							                        </button>
-							                    </div>
-							                </div>
-							                <!-- 오류 메시지: 전화번호가 유효하지 않을 때 표시 -->
-							                <span v-if="phoneError" class="error-message" :style="{ color: 'red', fontSize: '13px' }">{{ phoneError }}</span>
-							            </div>  
-							        </div>                  
-							    </div>      
+							<div>
+								휴대전화
+							</div>
+							<div>
+								<input type=text v-model="phone">
 							</div>
 							<div class="form_box">
 								<div class="form_title">
@@ -806,9 +786,6 @@
 	    },
 		togglePasswordVisibility() {
 		       this.isPasswordVisible = !this.isPasswordVisible; // 보임/숨김 상태 토글
-		},
-		toggleConfirmPasswordVisibility() {
-		       this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible; // 비밀번호 확인 입력란 보임/숨김 상태 토글
 		},
 		comparePasswords() {
                this.passwordsDoNotMatch = this.confirmPassword !== '' && this.password !== this.confirmPassword;
