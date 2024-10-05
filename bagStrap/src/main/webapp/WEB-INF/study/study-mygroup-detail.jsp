@@ -1753,7 +1753,22 @@
                self.pageView = a; 
 			   self.filePreview ="";
 			   self.file = null;
-            },
+		     // 페이지가 2일 때, 실시간 채팅 폴링 시작
+		       if (a == 2) {
+		         if (!self.intervalId) {
+		           // 기존 타이머가 없을 때만 새로 설정
+		           self.intervalId = setInterval(() => {
+		             self.fnMessageSelect();
+		           }, 1000);
+		         }
+		       } else {
+		         // 페이지가 2가 아닐 때, 타이머 중지
+		         if (self.intervalId !== null) {
+		           clearInterval(self.intervalId);
+		           self.intervalId = null; // 타이머 ID 초기화
+		         }
+		       }
+		     },
             fnDetail() {
                     const self = this;
                     const nparmap = { studyGroupId: self.studyGroupId };
@@ -1840,9 +1855,7 @@
 			self.fnMessageSelect();
 			self.fnUserList(1);
 			
-		  setInterval(() => {
-		    this.fnMessageSelect();
-		  }, 1000);
+		 
 			
             window.addEventListener('loginStatusChanged', function(){
                if(window.sessionStorage.getItem("isLogin") === 'true'){
