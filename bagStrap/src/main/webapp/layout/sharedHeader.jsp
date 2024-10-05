@@ -158,10 +158,7 @@
 		    font-family: 'Noto Sans KR', sans-serif;
 		}
 
-		.clickableText:hover {
-		    color: #e74c3c;
-		}
-
+		
 		/* 고객 메뉴 서브 메뉴 스타일링 개선 */
 		.headerloginSubMenu {
 		    display: none;
@@ -216,9 +213,6 @@
 		    transition: fill 0.3s ease;
 		}
 
-		.headerIcon a:hover svg {
-		    fill: #e74c3c; /* 호버 시 색상 변경 */
-		}
 
 		/* 로그인 모달 스타일 (필요 시 추가) */
 		.headerLoginModal.round {
@@ -344,7 +338,7 @@
 	                    <a href="/study-group-event">EVENT</a>
 	                </li>
 	                <li class="header-menu-item">
-	                    <a href="javascript:;">FAQ</a>
+	                    <a href="/faqlist">FAQ</a>
 	                </li>												
 	            </ul>
 	        </nav>
@@ -356,8 +350,8 @@
 	                    <a v-if="isLogin" class="clickableText" href="javascript:;">{{sessionUserNickName}}님 안녕하세요.</a>
 	                </div>
 	                <ul class="headerloginSubMenu">
-	                    <li v-if="isLogin"><a href="javascript:;">MyInfo</a></li>
-	                    <li v-if="!isLogin"><a href="javascript:;">Join</a></li>
+	                    <li v-if="isLogin"><a href="/myinfo">MyInfo</a></li>
+	                    <li v-if="!isLogin"><a href="/join">Join</a></li>
 	                    <li><a href="javascript:;" @click="fnPageChange('/mystudy')">MyStudy</a></li>
 	                    <li><a href="javascript:;" @click="fnPageChange('/myshop/orders')">MyShop</a></li>
 	                    <li v-if="isAdmin"><a href="/admin/orders">Admin</a></li>
@@ -410,7 +404,7 @@
 				<dialog id="headerLoginModal" class="headerLoginModal round">
 	               <div class="rightCloseBtn">
 	                   <a href="javascript:;" class="closeBtn" @click="fnCloseLogin()">
-	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+	                       <svg class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
 	                       </svg>
 	                   </a>
 	               </div>     
@@ -487,16 +481,16 @@
 				fnCloseLogin(){
 					var self = this;
 					document.getElementById('headerLoginModal').close();
-					self.fnCleaer();
+					self.fnClear();
 
 				},
 				fnChangeLoginBox(str){
 					var self = this;
-					self.fnCleaer();
+					self.fnClear();
 					self.flg = str;
 					
 				},
-				fnCleaer(){
+				fnClear(){
 					var self = this;
 
 					if(self.timeCheck !== null && self.timeCheck !== undefined){
@@ -561,7 +555,7 @@
 		  					self.timeCheck = setInterval(() => {
 		  						if(self.timer === 0){
 		  							alert("시간이 만료되었습니다");
-									self.fnCleaer();
+									self.fnClear();
 
 		  						}else {
 		  							self.timer -= 1;	
@@ -573,9 +567,6 @@
 		  		},
 		  		confirmInputNumb(){
 					var self = this;
-					alert(self.flg)
-					alert(typeof self.confirmNumb+ self.confirmNumb)
-					alert(typeof self.userInputNumb+ self.userInputNumb)
 					if (!self.userInputNumb) {
 			            alert("인증번호를 입력해주세요");
 			            return;
@@ -584,10 +575,14 @@
 		  			if(self.confirmNumb === self.userInputNumb){
 						if(self.flg === 'confirmId'){
 							alert("인증되었습니다! 회원님의 아이디는 '" +self.user.userId + "' 입니다!" )
-							self.fnCleaer();
+							self.fnClear();
 							self.userId = self.user.userId;
 						} else if(self.flg === 'confirmPwd'){
+							alert("인증되었습니다! 새로 설정할 비밀번호를 입력해주세요" )
+							self.fnClear();
 							self.flg = 'changePwd';
+							self.password = '';
+							self.password2 = '';
 						}
 
 		  			}else{
@@ -603,7 +598,8 @@
 					}
 		  			var nparmap = {
 						userId : self.user.userId,
-						userPhone : self.user.phone
+						userPhone : self.user.phone,
+						password : self.password
 					}
 		  			$.ajax({
 		  				url:"changePwd.dox",
@@ -613,6 +609,7 @@
 		  				success : function(data) { 
 		  					console.log(data);
 							alert(data.message);
+							self.fnClear();
 		  					
 		  				}
 		  			});
@@ -632,15 +629,15 @@
 					var self = this;
 					var isActive = false;
 					if(currentPage <= 0){
-						currentPage = 1;
+						self.currentPage = 1;
 					}else if (currentPage >= self.totalPages){
-						currentPage = self.totalPages
+						self.currentPage = self.totalPages
 					}
 					if (document.querySelector('.headerNotification').classList.contains('active')) {
 					    isActive = true;
 					}
 					var nparmap = {
-						currentPage: currentPage, 
+						currentPage: self.currentPage, 
 						pageSize: self.pageSize
 					};
 					$.ajax({

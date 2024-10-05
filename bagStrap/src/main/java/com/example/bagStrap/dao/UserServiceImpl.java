@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserMapper userMapper;
 
-
+	@Transactional
 	@Override
 	public HashMap<String, Object> login(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub

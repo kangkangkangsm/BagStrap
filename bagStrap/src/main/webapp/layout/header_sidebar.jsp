@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://localhost:8080/js/jquery.js"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Document</title>
 </head>
 <style>
@@ -58,95 +60,104 @@
 <body>
 	<div id="sidebar">
         <div class="stu_comm_profile">
-          
+          {{isLogin}}
         </div>
 		<nav class="stu-comm-menu">
         <div>
 			<h3 class="study-comm-sidebard-h3">MyInfo</h3>
 			<div class="study-comm-sidebard-section">
-            <ul>
-                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">회원정보 수정</a></li>
-                <li><a href="javascript:;">내 활동내역</a></li>
-            </ul>
+	            <ul>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">회원정보 수정</a></li>
+<!--	                <li><a href="javascript:;">내 활동내역</a></li>
+-->	            </ul>
+			</div>
         </div>
         <div>
 			<h3 class="study-comm-sidebard-h3">MyStudy</h3>
-				<div class="study-comm-sidebard-section">
-            <ul>
-                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">스터디 캘린더</a></li>
-                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">내 스터디 관리</a></li>
-            </ul>
+			<div class="study-comm-sidebard-section">
+	            <ul>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">스터디 캘린더</a></li>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">내 스터디 관리</a></li>
+	            </ul>
+				</div>
         </div>
         <div>
 			<h3 class="study-comm-sidebard-h3">MyShop</h3>
 			<div class="study-comm-sidebard-section">
-            <ul>
-                <li><a href="/myshop/orders" @click="checkLoginAndPageChange('/myshop/orders')">내 주문내역</a></li>
-                <li><a href="/myshop/refunds" @click="checkLoginAndPageChange('/myshop/refunds')">내 환불내역</a></li>
-            </ul>
+	            <ul>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myshop/orders')">내 주문내역</a></li>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myshop/refunds')">내 환불내역</a></li>
+	            </ul>
+			</div>
         </div>
         <div>
 			<h3 class="study-comm-sidebard-h3">CSCenter</h3>
 			<div class="study-comm-sidebard-section">
-            <ul>
-                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">내 문의내역</a></li>
-                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">내 환불기록</a></li>
-            </ul>
+	            <ul>
+					<li><a href="/noticelist">공지사항</a></li>
+					<li><a href="javascript:;" @click="checkLoginAndPageChange('/inquiry')">문의하기</a></li>
+					<li><a href="javascript:;" @click="checkLoginAndPageChange('/myinquiry')">내 문의내역</a></li>
+	            </ul>
+			</div>
         </div>
-        <div>
-			<h3 class="study-comm-sidebard-h3" v-if="isAdmin">Admin</h3>
+        <div v-if="isAdmin">
+			<h3 class="study-comm-sidebard-h3">Admin</h3>
 			<div class="study-comm-sidebard-section">
-            <ul>
-				<li><a href="/admin/orders">주문 관리</a></li>
-				<li><a href="/admin/studyList">스터디 신청</a></li>
-                <li><a href="javascript:;">공지사항 관리?</a></li>
-            </ul>
+	            <ul>
+					<li><a href="/admin/orders">주문 관리</a></li>
+					<li><a href="/admin/studyList">스터디 신청</a></li>
+	            </ul>
+			</div>
         </div>
     </div>
 	</nav>
+	<script>
+	    const sidebarApp  = Vue.createApp({
+	        data() {
+	            return {
+					isLogin : false,
+					isAdmin : false,
+	                item:{},
+					boardTypelist : [],
+					boardList : []
+	            };
+	        },
+	        methods: {
+				checkLoginAndPageChange(path){
+					var self = this;
+					if(self.isLogin){
+						$.pageChange(path,{});
+					} else{
+						alert('로그인 후 이용가능합니다.');	
+					}
+				}
+	        },
+	        mounted() {
+	            var self = this;
+				if(window.sessionStorage.getItem("isLogin") === 'true'){
+					self.isLogin = true;	
+				}
+				if(window.sessionStorage.getItem("isAdmin") === 'true'){
+					self.isAdmin = true;	
+				}
+				window.addEventListener('loginStatusChanged', function(){
+					if(window.sessionStorage.getItem("isLogin") === 'true'){
+						self.isLogin = true;	
+					} else{
+						self.isLogin = false;
+					};
+				});
+				window.addEventListener('adminStatusChanged', function(){
+					if(window.sessionStorage.getItem("isAdmin") === 'true'){
+						self.isAdmin = true;	
+					} else{
+						self.isAdmin = false;
+					};
+				})
+	        }
+	    });
+	    sidebarApp.mount('#sidebar');
+	</script>
 
 </body>
 </html>
-<script>
-    const sidebarApp  = Vue.createApp({
-        data() {
-            return {
-				isLogin = false,
-				isAdmin = false,
-                item:{},
-				boardTypelist : [],
-				boardList : []
-            };
-        },
-        methods: {
-			checkLoginAndPageChange(path){
-				var self = this;
-				if(self.isLogin){
-					$.pageChange(path,{boardTypeId : boardTypeId});
-				} else{
-					alert('로그인 후 이용가능합니다.');	
-				}
-			}
-        },
-        mounted() {
-            var self = this;
-			window.addEventListener('loginStatusChanged', function(){
-				if(window.sessionStorage.getItem("isLogin") === 'true'){
-					self.isLogin = true;	
-				} else{
-					self.isLogin = false;
-				};
-				self.fnGetList(self.currentPage);	
-			});
-			window.addEventListener('adminStatusChanged', function(){
-				if(window.sessionStorage.getItem("isAdmin") === 'true'){
-					self.isAdmin = true;	
-				} else{
-					self.isAdmin = false;
-				};
-				self.fnGetList(self.currentPage);	
-			})
-        }
-    });
-    sidebarApp.mount('#sidebar');
-</script>

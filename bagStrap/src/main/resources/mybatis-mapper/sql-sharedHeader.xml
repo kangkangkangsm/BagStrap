@@ -56,10 +56,14 @@
 	</select>
 	
 	<select id="selectOrderListForRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
-		SELECT I.*,B.*, USER_ID, SHIPPING_ADDRESS, ARRIVED_DATE 
+		SELECT  NVL((I.QUANTITY-R.QUANTITY),I.QUANTITY) AS QUANTITY, B.*, USER_ID, SHIPPING_ADDRESS, ARRIVED_DATE ,I.*
 		FROM TBL_ORDER O
 		INNER JOIN TBL_ORDER_ITEM I ON O.ORDER_ID = I.ORDER_ID
 		INNER JOIN TBL_BOOK B ON I.BOOK_ID = B.BOOK_ID
+        LEFT JOIN
+            (SELECT QUANTITY, ORDER_ID, BOOK_ID
+            FROM TBL_REFUND R
+            INNER JOIN TBL_REFUND_ITEM RI ON RI.REFUND_ID = R.REFUND_ID) R ON O.ORDER_ID = R.ORDER_ID  AND R.BOOK_ID = I.BOOK_ID
 		WHERE O.ORDER_ID = #{orderId}
 		ORDER BY O.ORDER_DATE DESC	
 
@@ -101,6 +105,30 @@
 
 	</select>
 	<select id="selectAdminOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
+		SELECT R.reason, O.IMP, OI.BOOK_ID, R.reject_comment, O.ORDER_ID, R.REFUND_ID,R.refund_reason, R.CREATED_DATE,
+		 O.ORDER_DATE, B.TITLE, B.DESCRIPTION, OI.QUANTITY, R.REFUND_QUANTITY, OI.PRICE, 
+		 O.STATUS, R.REFUND_STATUS, B.IMAGE, B.AUTHOR, R.REJECT_COMMENT, R.REFUND_REASON, R.REFUND_DATE, R.REFUND_FILE, R.FILEPATH, 
+		 CASE
+			WHEN instr(B.title,'(') = 0 THEN TITLE
+			ELSE substr(B.title, 1, instr(B.title,'(')-1)
+		END AS SHORT_TITLE
+        FROM TBL_ORDER O 
+		INNER JOIN TBL_ORDER_ITEM OI ON OI.ORDER_ID = O.ORDER_ID
+		INNER JOIN TBL_BOOK B ON B.BOOK_ID = OI.BOOK_ID
+        LEFT JOIN 
+            (SELECT
+                R.ORDER_ID, R.REASON, R.REFUND_ID, R.CREATED_DATE, R.UPDATE_DATE AS REFUND_DATE, R.REFUND_FILE, 
+                I.QUANTITY AS REFUND_QUANTITY, I.STATUS AS REFUND_STATUS, I.REJECT_COMMENT, I.REFUND_REASON, 
+                F.FILEPATH, I.BOOK_ID
+                FROM TBL_REFUND R
+                INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID 
+                LEFT JOIN TBL_BOARDFILE F ON R.REFUND_FILE = F.BOARDNO
+            ) R ON O.ORDER_ID = R.ORDER_ID AND OI.BOOK_ID = R.BOOK_ID
+		ORDER BY O.ORDER_DATE DESC
+		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+
+	</select>
+<!--	<select id="selectAdminOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
 		SELECT R.reason, O.IMP,OI.BOOK_ID,i.reject_comment, O.ORDER_ID, R.REFUND_ID,i.refund_reason, R.CREATED_DATE,
 		 O.ORDER_DATE, B.TITLE, B.DESCRIPTION, OI.QUANTITY, I.QUANTITY AS REFUND_QUANTITY, OI.PRICE, 
 		 O.STATUS, I.STATUS AS REFUND_STATUS, B.IMAGE, B.AUTHOR, I.REJECT_COMMENT, I.REFUND_REASON, R.UPDATE_DATE AS REFUND_DATE, R.REFUND_FILE, F.*, 
@@ -117,8 +145,7 @@
 		ORDER BY O.ORDER_DATE DESC
 		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
-	</select>
-	
+	</select>-->
 	<update id="updateOrderStatus" parameterType="hashmap">
 		UPDATE TBL_ORDER
 		SET STATUS = '배송 중'
@@ -177,7 +204,7 @@
 	</delete>
 	
 	<select id="selectNotificationCount" parameterType="hashmap" resultType="Integer">
-	    SELECT CEIL(COUNT(*)/#{pageSize,jdbcType=INTEGER})
+	    SELECT CEIL(COUNT(*)/5)
 		FROM TBL_NOTIFICATION
 		WHERE USER_ID = #{userId} OR STATUS = #{status}
 

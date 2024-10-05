@@ -87,7 +87,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    background-color: #333;
 	}
 	.clickableText:hover{
-	    text-shadow: 2px 2px 2px #333;
+		opacity:0.7;
 	}
 	.clickableText:active{
 	    color: #333;
@@ -95,12 +95,14 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 
 	.clickableSvg:hover path {
 	    fill: #555;
+		opacity: 0.7;
 	    stroke: #000;
 	    stroke-width: 2;
 	}
 
 	.clickableSvg:active path {
 	    fill: #333;
+		opacity: 1;
 	}
 	
 	/* 우측 정렬된 closeBtn -> layout/sharedHeader 참고 */
@@ -359,6 +361,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
     .study-group-insert-submit-btn {
         width: 100%;
         padding: 12px;
+		
         background-color: #ff6700; /* 제출 버튼 색상 */
         color: #fff; /* 제출 버튼 글자색 */
         border: none;

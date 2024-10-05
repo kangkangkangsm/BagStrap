@@ -78,12 +78,20 @@ public class SharedHeaderController {
 				resultMap.put("userNickName", user.getUserNickName());
 				resultMap.put("userId", user.getUserId());
 				resultMap.put("isAdmin", user.getstatus().equals("ADMIN")?true : false);
+				System.out.println(map);
+
 			} else {
+				map.put("status", " ");
+				map.put("userId", " ");
 				resultMap.put("isLogin", false);
 				resultMap.put("isAdmin", false);
+				System.out.println(map);
+
 			}
 		} catch(NullPointerException e) {
 			resultMap.put("isLogin", false);
+		} catch(Exception e) {
+			resultMap.put("exception", e);
 		}
 
 		return new Gson().toJson(resultMap);
