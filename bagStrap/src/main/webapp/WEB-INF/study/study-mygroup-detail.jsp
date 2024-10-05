@@ -803,9 +803,16 @@
              <div class="study-mygroup-detail2-container">
                  <!-- 사이드바 시작 -->
 				 <div class="study-mygroup-detail2-sidebar">
+					<template v-if="detailList.filePath">
 				   <div class="sidebar-header">
 				     <img :src="detailList.filePath" alt="스터디 사진" class="study-group-image"/>
 				   </div>
+				   </template>
+				   <template v-else>
+   				   <div class="sidebar-header">
+   				     <img src="../src/profile.png" alt="스터디 사진" class="study-group-image"/>
+   				   </div>
+   				   </template>
 				   <nav class="sidebar-menu">
 				     <ul>
 				       <li @click="fnSidebar('1')" class="sidebar-item">그룹 정보</li>
@@ -981,22 +988,36 @@
 						         <!-- 메시지 한 개의 예시 -->
 						         <div class="message" v-for="item in messagelist" :key="item.messageId">
 						           <template v-if="item.messageUserId !== sessionUserId">
-						             <!-- 왼쪽 정렬 (다른 사용자) -->
-						             <div class="message-left">
-						               <div class="message-user">
-						                 <img :src="item.filePath" alt="User Image" class="user-img">
-										 <span class="user-name">{{ item.userNickName }}</span>
-						               </div>
-						               <div class="message-content">
-										<template v-if="item.mFilepath">
-						                 <img :src="item.mFilepath" style="width:300px; height:300px;">
-										 </template>
-						                 <p>{{ item.messageContent }}</p>
-						                 <span class="message-time">{{ item.messageCreatedDate }}</span>
-						               </div>
-						             </div>
+									<!-- 왼쪽 정렬 (다른 사용자) -->
+									<template v-if="item.userNickName === '그룹알리미'">
+									  <div class="message-left group-announcement">
+									    <div class="message-user">
+									      <img :src="item.filePath" alt="User Image" class="user-img">
+									      <span class="user-name" style="color: #FF5722; font-weight: bold;">📢 {{ item.userNickName }}</span>
+									    </div>
+									    <div class="message-content" style="background-color: #ffeb3b; padding: 15px; border-radius: 10px; border: 2px dashed #FF9800;">
+									      <p style="font-style: italic;">{{ item.messageContent }}</p>
+									      <span class="message-time" style="color: #757575; font-size: 12px;">{{ item.messageCreatedDate }}</span>
+									    </div>
+									  </div>
+									</template>
+									<template v-else>
+									  <div class="message-left">
+									    <div class="message-user">
+									      <img :src="item.filePath" alt="User Image" class="user-img">
+									      <span class="user-name">{{ item.userNickName }}</span>
+									    </div>
+									    <div class="message-content">
+									      <template v-if="item.mFilepath">
+									        <img :src="item.mFilepath" style="width:300px; height:300px;">
+									      </template>
+									      <p>{{ item.messageContent }}</p>
+									      <span class="message-time">{{ item.messageCreatedDate }}</span>
+									    </div>
+									  </div>
+									</template>
 						           </template>
-
+									
 						           <template v-if="item.messageUserId === sessionUserId">
 						             <!-- 오른쪽 정렬 (본인) -->
 						             <div class="message-right">
@@ -1245,7 +1266,7 @@
 							        <label for="studyType">온라인/오프라인</label>
 							        <select id="studyType" name="studyType" v-model="detailList.onOffMode">
 							          <option value="온라인">온라인</option>
-							          <option value="오프라인">오프라인</option>
+							          <option value="오프">오프</option>
 							          <option value="혼합">혼합</option>
 							        </select>
 							      </div>
@@ -1819,6 +1840,9 @@
 			self.fnMessageSelect();
 			self.fnUserList(1);
 			
+		  setInterval(() => {
+		    this.fnMessageSelect();
+		  }, 1000);
 			
             window.addEventListener('loginStatusChanged', function(){
                if(window.sessionStorage.getItem("isLogin") === 'true'){

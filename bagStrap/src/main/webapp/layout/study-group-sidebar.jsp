@@ -212,7 +212,7 @@
 	    <div class="study-group-sidebard-section onoff-section"> <!-- 고유 클래스 추가 -->
 	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('')">전체</button>
 	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('온라인')">온라인</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('오프라인')">오프</button>
+	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('오프')">오프</button>
 	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('혼합')">혼합</button>
 	    </div>
 

@@ -229,7 +229,7 @@
                           <label for="studyType">온라인/오프라인</label>
                           <select id="studyType" name="studyType" v-model="onOffMode">
                               <option value="온라인">온라인</option>
-                              <option value="오프라인">오프라인</option>
+                              <option value="오프">오프</option>
                               <option value="혼합">혼합</option>
                           </select>
                       </div>
