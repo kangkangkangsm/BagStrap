@@ -768,13 +768,13 @@
 								else if(str.includes('고객 문의')) location.href="/admin/orders";
 							} else {
 								if(str.includes('문의에 답변')) location.href="/myinquiry";
-								else if(str.includes('강퇴되었습니다')) location.href="/study-comm-myboard";
+								else if(str.includes('강퇴되었습니다'))  $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								else if(str.includes('가입이 거절되었습니다')) ; 
-								else if(str.includes('스터디 가입 요청')) $.pageChange("/study-group-detail", { boardNo: boardId });
-								else if(str.includes('가입이 승인되었습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
-								else if(str.includes('그룹장이 되셨습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('스터디 가입 요청')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+								else if(str.includes('가입이 승인되었습니다')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+								else if(str.includes('그룹장이 되셨습니다')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								else if(str.includes('환불 요청')) location.href="/myshop/refunds";
-								else if(str.includes('생성이 승인')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('생성이 승인')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								}
 						}
 					});

@@ -172,20 +172,22 @@
 	                   <div class="top-titles">
 	                       <div class="note-taking-title" @click="fnSee('1')">노트필기대회</div>
 	                       <div class="wrong-answer-title" @click="fnSee('2')" >오답노트대회</div>
-	                       <select id="month-select" class="month-selector" v-model="month" @change="fnevent3001(month)">
-	                           <option value="01month">1월</option>
-	                           <option value="02month">2월</option>
-	                           <option value="03month">3월</option>
-	                           <option value="04month">4월</option>
-	                           <option value="05month">5월</option>
-	                           <option value="06month">6월</option>
-	                           <option value="07month">7월</option>
-	                           <option value="08month">8월</option>
-	                           <option value="09month">9월</option>
-	                           <option value="10month">10월</option>
-	                           <option value="11month">11월</option>
-	                           <option value="12month">12월</option>
-	                       </select>
+						   <template v-if="isAdmin">
+	                          <select id="month-select" class="month-selector" v-model="month" @change="fnevent3001(month)">
+	                              <option value="01month">1월</option>
+	                              <option value="02month">2월</option>
+	                              <option value="03month">3월</option>
+	                              <option value="04month">4월</option>
+	                              <option value="05month">5월</option>
+	                              <option value="06month">6월</option>
+	                              <option value="07month">7월</option>
+	                              <option value="08month">8월</option>
+	                              <option value="09month">9월</option>
+	                              <option value="10month">10월</option>
+	                              <option value="11month">11월</option>
+	                              <option value="12month">12월</option>
+	                          </select>
+	   					   </template>
 	                   </div>
 	
 					   <div class="study-group-event">

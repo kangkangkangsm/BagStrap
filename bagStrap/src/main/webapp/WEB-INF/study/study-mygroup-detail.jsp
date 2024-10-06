@@ -442,9 +442,9 @@
 	}
 	/* 전체 채팅 컨테이너 스타일 */
 	.chat-container {
-	    width: 106%;
+	    width: 103%;
 	    height: 850px;
-	    border: 1px solid #ddd;
+	   
 	    border-radius: 8px;
 	    display: flex;
 	    flex-direction: column;
@@ -982,6 +982,9 @@
 						   <!-- ===========================================그룹 정보=========================================== -->
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <template v-if="pageView == '2'">
+								<div class="study-mygroup-detail-member-admin-header" style="margin-top:140px;">
+						         <p>여기에서 그룹원끼리 자유롭게 채팅 및 자료공유 가능합니다</p>
+						       </div>
 						     <div class="chat-container" style="margin-top:40px;">
 						       <!-- 채팅 메시지 리스트 -->
 						       <div id="chat-messages" class="chat-messages" ref="chatMessages">
@@ -1054,7 +1057,7 @@
 						   <template v-if="pageView == '3'">
 						     <div class="study-mygroup-detail-member-admin-panel-container" style="max-width: 800px; width: 100%; margin: auto;">
 						       <!-- 페이지 헤더 -->
-						       <div class="study-mygroup-detail-member-admin-header" style="margin-top:40px;">
+						       <div class="study-mygroup-detail-member-admin-header" style="margin-top:140px;">
 						         <p>여기에서 그룹원 관리 및 가입 신청을 처리할 수 있습니다.</p>
 						       </div>
 
@@ -1218,8 +1221,8 @@
    						   <!-- ===========================================회원관리=========================================== -->
 						   <!-- ===========================================그룹관리=========================================== -->
    						   <template v-if = "pageView == '4'">
-							<div class="study-group-insert-container">
-								<div class="study-mygroup-detail-member-admin-header" style="margin-top:10px;">
+							<div class="study-group-insert-container" style="max-width: 800px; width: 100%; margin: auto;">
+								<div class="study-mygroup-detail-member-admin-header" style="margin-top:120px;">
 							         <p>여기에서 그룹 정보 수정 및 삭제가 가능합니다.</p>
 							       </div>
 							  <div class="study-group-insert-form">
@@ -1527,7 +1530,7 @@
 						success : function(data) { 
 							 
 							alert("그룹 삭제 완료..bye bye~");
-							$.pageChange("/study-comm-myboard", { itemMode: "board"});
+							location.href="/study-group-list";
 							
 						}
 					});
