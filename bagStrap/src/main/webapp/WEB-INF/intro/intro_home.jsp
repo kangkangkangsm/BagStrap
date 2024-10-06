@@ -40,6 +40,9 @@
 	    border-radius: 5px;
 	    transition: background-color 0.3s ease;
 	}
+	.header{
+		height:150px;
+	}
 
 	.btn:hover {
 	    background-color: #c0392b;

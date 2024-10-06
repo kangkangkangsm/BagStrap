@@ -192,7 +192,7 @@
 				<h3 class="study-comm-sidebard-h3">카테고리</h3>
 				<div class="study-comm-sidebard-section">
 		            <ul v-for="item in categoryList">
-		                <li><a :style="{color: category == item.boardTypeId ? 'blue' : 'gray'}" href="#" @click="fnCategory(item.boardTypeId)">{{item.name}}</a></li>
+		                <li><a :style="{fontWeight: category == item.boardTypeId ? 'bold' : 'normal'}" href="#" @click="fnCategory(item.boardTypeId)">{{item.name}}</a></li>
 					</ul>
 				</div>
 				<h3 class="study-comm-sidebard-h3">{{highPrice}}원 이하</h3>

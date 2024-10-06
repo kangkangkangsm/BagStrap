@@ -30,7 +30,7 @@
 		.header {
 		    display: flex;
 		    width: 100%;
-		    height: 150px; /* 헤더 높이 설정 */
+		    height: 0%; /* 헤더 높이 설정 */
 		    background-color: white; /* 헤더 배경색 */
 		    color: black;
 		    align-items: center;
@@ -329,8 +329,8 @@
 	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('All')">All</a></li>
 	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Best')">Best</a></li>
 	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('New')">New</a></li>
-	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Sale')">Sale</a></li>
-	                    </ul>
+<!--	                        <li class="header-submenu-item"><a href="javascript:;" @click="fnToShop('Sale')">Sale</a></li>
+-->	                    </ul>
 	                </li>
 	                <li class="header-menu-item">
 	                    <a href="/study-group-list">STUDY</a>
@@ -384,7 +384,7 @@
 						<div v-if="notiCount !== 0" style="position: absolute; top: -14px; right: 8px; background: red; color: white; border-radius: 50%; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; font-size: 10px;">{{notiCount}}<span v-if="notiCount === 5">+</span></div>
 
 	                </a>
-						<ul class="notification-box">
+						<ul id="notication-box" class="notification-box">
 						    <li v-for="item in notiList">
 								<div :class="{'new-noti':item.cnt === 0}">
 									<div class="rightCloseBtn">
@@ -826,6 +826,11 @@
 						self.fnLogin();
 					} else if (event.key === "Escape"){
 						document.getElementById('headerLoginModal').close();
+					}
+				});
+				document.querySelector(".headerNotification").addEventListener("keydown", function(event){
+					if (event.key === "Escape"){
+						this.classList.remove('active'); // active 클래스 토글
 					}
 				});
 	        }

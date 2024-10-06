@@ -60,7 +60,7 @@
 <body>
 	<div id="sidebar">
         <div class="stu_comm_profile">
-          {{isLogin}}
+          
         </div>
 		<nav class="stu-comm-menu">
         <div>
@@ -105,6 +105,8 @@
 	            <ul>
 					<li><a href="/admin/orders">주문 관리</a></li>
 					<li><a href="/admin/studyList">스터디 신청</a></li>
+					<li><a href="/admin-users">유저 관리</a></li>
+					
 	            </ul>
 			</div>
         </div>
