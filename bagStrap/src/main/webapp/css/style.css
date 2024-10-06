@@ -201,13 +201,15 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    background-color: #333;
 	    color: white;
 	    text-align: center;
-	    padding: 10px;
+	    padding: 30px;
 		height:200px;
 	    width: 100%;
 	    box-sizing: border-box;
 		margin-top: auto; /* 페이지 하단에 붙도록 설정 */
 	}
-
+	.footer div{
+		padding-bottom: 10px;
+	}
 
 	/* 스터디 커뮤니티 사이드바 css */
 	.stu-comm-profile {

@@ -359,9 +359,11 @@
 					    </div>
 					</div>
 					
-				<div class="progress" v-if="progress === 1">			
-					<h2>상품을 선택해 주세요</h2>
-					<div class="ordered-list-container round">
+
+				<div class="progress" v-if="progress === 1 ">			
+					<h2 v-if="checkQuantity != 0">상품을 선택해 주세요</h2>
+					<h2 v-if="checkQuantity === 0">환불 가능한 상품이 존재하지 않습니다.</h2>
+					<div class="ordered-list-container round"  v-if="checkQuantity != 0">
 					    <div class="left-section">
 					        <div v-for="item in orderList" :key="item.bookId">
 								<div class="ordered-product" v-if="item.quantity != 0">
@@ -471,9 +473,9 @@
 					
 					
 				</div>
-
+				
 				<div>
-					<button class="add-to-cart" v-if="progress<3" @click="fnChangeProgress(1)">다음</button>	
+					<button class="add-to-cart" v-if="progress<3 && checkQuantity != 0" @click="fnChangeProgress(1)">다음</button>	
 					<button class="add-to-cart" v-if="progress==3" @click="fnRefund()">환불신청</button>
 				</div>
 				
@@ -499,6 +501,7 @@
 				orderList : [],
 				selectedBooks: [],
 				orderMaxList : [],
+				checkQuantity: 0,
 
 				selectedRadio1: '',
 				selectedRadio2: '',
@@ -601,6 +604,7 @@
 								bookId : item.bookId,
 								quantity : item.quantity 
 							})
+							self.checkQuantity += item.quantity;
 						});
 						console.log('orderMaxList')
 						console.log(self.orderMaxList)

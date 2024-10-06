@@ -10,7 +10,10 @@
 <body>
     
 	<footer class="footer">
-		푸터 위치입니다
+		<div>현이의 가방끈</div>
+		<div>책과 배움을 이어주는 플랫폼</div>
+		<div>스터디 모임 | 커뮤니티 | 도서 판매</div>
+		<div>© 2024 현이의 가방끈. All rights reserved.</div>
 	</footer>
 </body>
 </html>
