@@ -20,6 +20,9 @@ public interface CSCenterService {
 	//목록(faq)
 	HashMap<String, Object> FaqList(HashMap<String, Object> map);
 	
+	//faq카테고리
+	
+	
 	//문의 등록
 	HashMap<String, Object> addInquiry(HashMap<String, Object> map);
 	

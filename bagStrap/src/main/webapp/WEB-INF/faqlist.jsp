@@ -21,37 +21,40 @@
 	 }
 
 	h1 {
-	    text-align: center; /* 제목 중앙 정렬 */
-	    color: #4a90e2; /* 제목 색상 */
-	    margin-bottom: 20px; /* 제목과 다른 요소 간의 간격 */
+		text-align: center; 
+	    color: black; 
+	    margin-bottom: 20px; 
+		font-size: 20px;
 	}
 	.input-container {
 	    display: flex; /* 플렉스 박스 사용 */
-	    flex-direction: column; /* 세로 정렬 */
-	    align-items: center; /* 가운데 정렬 */
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    align-items: center; /* 세로 중앙 정렬 */
 	    margin-bottom: 20px; /* 요소 간의 간격 */
 	}
 	select, input {
 	    padding: 10px; /* 편안한 패딩 */
-	    margin: 10px 0; /* 요소 간의 여백 */
+	    margin: 10px; /* 요소 간의 여백 */
 	    border: 1px solid #ccc; /* 연한 테두리 */
 	    border-radius: 4px; /* 둥근 모서리 */
-	    width: 100%; /* 전체 너비 사용 */
+	    width: auto; /* 자동 너비 */
 	    max-width: 300px; /* 최대 너비 제한 */
 	}
 
 	button {
-	    padding: 10px 15px; /* 버튼 패딩 */
-	    background-color: #4a90e2; /* 버튼 배경색 */
-	    color: white; /* 버튼 텍스트 색상 */
-	    border: none; /* 테두리 없음 */
-	    border-radius: 4px; /* 둥근 모서리 */
-	    cursor: pointer; /* 포인터 커서 */
+		padding: 10px 15px;
+		border: none;
+		background-color: #ff7f50;
+		color: white;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
 	}
 
 	button:hover {
-	    background-color: #357ABD; /* 호버 시 어두운 파란색 */
+	    background-color: #e74c3c; 
 	}
+		
     details {
 		width: 100%; /* 화면의 100% */
 		max-width: 600px; /* 최대 너비 설정 */
@@ -84,8 +87,9 @@
 			    <select v-model="searchOption">
 			        <option value="all">::전체::</option>
 			        <option value="title">제목</option>
+					<option value="category">카테고리</option>
 			    </select>
-			    검색 : <input placeholder="검색어" v-model="keyword">
+			    <input placeholder="검색어" v-model="keyword">
 			    <button @click="fnGetList(1)">검색</button>
 			</div>
 			
@@ -112,6 +116,12 @@
         methods: {
 			fnGetList(){
 				var self = this;
+				
+				// "전체"가 선택되면 검색어를 리셋
+				 if (self.searchOption === "all") {
+				     self.keyword = ""; // 검색어 리셋
+				 }
+				 
 				var nparmap = {
 					keyword : self.keyword,
 					searchOption:self.searchOption,

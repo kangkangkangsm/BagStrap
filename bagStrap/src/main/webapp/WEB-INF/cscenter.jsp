@@ -8,13 +8,17 @@
 	<title>view 기본 세팅 파일</title>
 </head>
 <style>
-	body {
-	    font-family: 'Roboto', sans-serif;
-	    background-color: #eef2f3;
-	    color: #333;
-	    margin: 0;
-	    padding: 20px;
-	}
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width:100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
 	h1 {
 	    text-align: center;
 	    margin-bottom: 30px;
@@ -58,23 +62,25 @@
 	}
 </style>
 <body>
-	<div id="app">
-		<h1>고객센터</h1>
-		<span v-if=!isLogin>
-			<p>※고객 문의는 로그인을 해야 합니다.</p>
-		</span>	
-		<nav>
-			<a href="noticelist">공지사항</a><br><hr>
-			<a href="faqlist">자주 묻는 질문</a><br><hr>
-			<span v-if=isLogin>	
-				<a href="inquiry">문의하기</a><br><hr>
-				<a href="myinquiry">내가 한 문의</a><br><hr>
-			</span>
-			<span v-if=isAdmin>
-				<a href="history">문의 내역</a><br><hr>
-			</span>		
-		</nav>	
-	</div>
+	<main class="main-container">
+		<div id="app" class="content">
+			<h1>고객센터</h1>
+			<span v-if=!isLogin>
+				<p>※고객 문의는 로그인을 해야 합니다.</p>
+			</span>	
+			<nav>
+				<a href="noticelist">공지사항</a><br><hr>
+				<a href="faqlist">자주 묻는 질문</a><br><hr>
+				<span v-if=isLogin>	
+					<a href="inquiry">문의하기</a><br><hr>
+					<a href="myinquiry">내가 한 문의</a><br><hr>
+				</span>
+				<span v-if=isAdmin>
+					<a href="history">문의 내역</a><br><hr>
+				</span>		
+			</nav>	
+		</div>
+	</main>
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>

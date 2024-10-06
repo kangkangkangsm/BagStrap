@@ -21,7 +21,7 @@ public interface CSCenterMapper {
 	void insertNotice(HashMap<String, Object> map);
 	
 	List<Notice> faqlist(HashMap<String, Object> map);
-	
+
 	void insertInquiry(HashMap<String, Object> map);
 	
 	List<Notice> searchInqList(HashMap<String, Object> map);

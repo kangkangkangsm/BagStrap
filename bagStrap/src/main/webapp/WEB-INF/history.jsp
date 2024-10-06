@@ -19,68 +19,89 @@
 	      padding: 40px;
 	      background-color: #ffffff;
 	 }
-	.count {
-		padding: 8px 12px;
-		border: 1px solid #ced4da;
-		border-radius: 4px;
-		background-color: #fff;
-		cursor: pointer;
-		font-size: 1em; /* 글자 크기 조정 */
-	}
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 16px;
-		box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-		border-radius: 8px;
-		overflow: hidden;
-		margin-bottom: 30px;
-	}
+	 
+	 h1{
+		text-align: center; 
+		color: black; 
+		margin-bottom: 20px; 
+		font-size: 20px;
+	 }
+	 
+	 .select {
+	 	display: flex;
+	 	justify-content: flex-end; /* 오른쪽으로 정렬 */
+	 	margin-bottom: 20px; /* 아래쪽 여백 추가 */
+	 }
+	 
+	 .select select {
+	     padding: 10px; /* 패딩 추가 */
+	     font-size: 16px; /* 글자 크기 조정 */
+	     border: 1px solid #ced4da; /* 테두리 색상 */
+	     border-radius: 4px; /* 둥근 모서리 */
+	     background-color: #ffffff; /* 배경색 */
+	     cursor: pointer; /* 포인터 커서 */
+	 }
 
-	th, td {
-		padding: 15px 20px;
-		text-align: center;
-		word-wrap: break-word; /* 긴 단어 줄 바꿈 */
-		vertical-align: middle; /* 내용 중앙 정렬 */
-	}
-
-	th {
-		background-color: #343a40;
-		color: #fff;
-		font-weight: bold;
-		font-size: 1.1em; /* 글자 크기 조정 */
-	}
-
-	tr:nth-child(even) {
-	    background-color: #f2f2f2;
-	}
-	tr:hover {
-	    background-color: #e9ecef;
-	}
-	td, a {
-		color: black;
-		text-decoration: none;
-		transition: color 0.3s;
-		font-size: 1em; /* 글자 크기 조정 */
-	}
-
-	td a:hover {
-		color: #0056b3; /* 진한 파란색 */
-		text-decoration: underline;
-	}
-
-	td:last-child {
-	    text-align: center;
-	}
-	
-	.btn {
-		width: 100%; /* 버튼의 너비를 100%로 설정 */
-		padding: 15px; /* 여백 증가 */
-		font-size: 16px; /* 글자 크기 증가 */
-		border-radius: 4px; /* 둥근 모서리 */
-		cursor: pointer; /* 커서 포인터 */
+	 table {
+	 	width: 100%;
+	 	border-collapse: collapse;
+	 	font-size: 16px;
+	 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	 	border-radius: 8px;
+	 	overflow: hidden;
+	 	margin-bottom: 30px;
+	 }
+	 
+	 th, td {
+		padding: 7px;
+	 	text-align: center;
+	 }
+	 
+	 th {
+	 	background-color: #343a40;
+	 	color: #fff;
+	 	font-weight: bold;
+	 	font-size: 1.1em; /* 글자 크기 조정 */
+	 }
+	 
+	 tr:nth-child(even) {
+	 	background-color: #f2f2f2;
+	 }
+	 
+	 tr:hover {
+	 	background-color: #e9ecef;
+	 }
+	 
+	 td, a {
+	 	color: black;
+	 	text-decoration: none;
+	 	transition: color 0.3s;
+	 }
+	 
+	 td a:hover {
+	 	color: #0056b3; /* 진한 파란색 */
+	 	text-decoration: underline;
+	 }
+	 
+	 td:last-child {
+	 	text-align: center;
+	 }
+	 
+	 .btn{
+		padding: 10px 20px; /* 패딩을 동일하게 설정 */
+		border: none;
+		background-color: #ff7f50; /* 버튼 배경색 */
+		color: white; /* 글자색 */
+		border-radius: 5px; /* 둥근 모서리 */
+		cursor: pointer; /* 포인터 커서 */
+		font-size: 16px; /* 글자 크기 통일 */
+		min-width: 100px; /* 최소 너비 설정 */
 		transition: background-color 0.3s; /* 배경 색상 변화 효과 */
-	}
+	 }
+	 
+	 .btn :hover {
+	     background-color: #e74c3c; 
+	 }
 
 	.pagination {
 		margin-top: 20px;
@@ -114,11 +135,13 @@
 	<div id="app" class="content">
 		<h1>문의 내역</h1>
 		
-		<select v-model="selectSize" @change="fnGetList(1)">
-			<option value="5">5개</option>
-			<option value="10">10개</option>
-			<option value="15">15개</option>
-		</select>
+		<div class="select">
+			<select v-model="selectSize" @change="fnGetList(1)">
+				<option value="5">5개</option>
+				<option value="10">10개</option>
+				<option value="15">15개</option>
+			</select>
+		</div>
 		
 		<table>
 			<tr>
@@ -158,7 +181,7 @@
 					</div>
 				</td>
 				<td>
-					<button class="btn" @click="fnAnswerInq(item.inquiryId)">답변하기</button>
+					<button class="btn" @click="fnAnswerInq(item.inquiryId)">답변</button>
 				</td>
 			</tr>	
 		</table>

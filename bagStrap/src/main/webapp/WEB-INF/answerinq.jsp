@@ -8,11 +8,18 @@
 	<title>답변</title>
 </head>
 <style>
-	body {
-		background-color: #f4f4f4; /* 배경 색상 */
-		font-family: 'Roboto', sans-serif; /* 폰트 설정 */
-	}
-	
+	.main-container {
+	     display: flex;
+	     min-height: 100vh;
+	     font-family: 'Arial', sans-serif;
+	     background-color: #f4f6f9;
+	 }
+	 .content {
+	      width: 100%;
+	      padding: 40px;
+	      background-color: #ffffff;
+	 }
+
 	.container {
 		  opacity: 1;
 		  margin-top: 50px;
@@ -34,28 +41,31 @@
 		border-radius: 4px;
 	}
 	button {
-		background-color: #5cb85c;
-		color: white;
-		padding: 13px px;
+		padding: 10px 15px;
 		border: none;
-		border-radius: 16px;
+		background-color: #ff7f50;
+		color: white;
+		border-radius: 5px;
 		cursor: pointer;
+		font-size: 16px;	
 	}
 	button:hover {
-		background-color: #4cae4c;
+		background-color: #e74c3c;
 	}
 </style>
 <body>
-	<div id="app">
-	<!--번호:{{info.inquriyId}} -->
-		<form class="container">
-			
-			<label>답변:</label>
-			<textarea id="message" v-model="message" rows="4" required></textarea>
-
-			<button type="button" @click="fnSave()">답변하기</button>	
-		</form>
-	</div>
+	<main class="main-container">
+		<div id="app" class="content">
+		<!--번호:{{info.inquriyId}} -->
+			<form class="container">
+				
+				<label>답변:</label>
+				<textarea id="message" v-model="message" rows="4" required></textarea>
+	
+				<button type="button" @click="fnSave()">답변하기</button>	
+			</form>
+		</div>
+	</main>	
 	<jsp:include page="/layout/footer.jsp"></jsp:include>
 </body>
 </html>
