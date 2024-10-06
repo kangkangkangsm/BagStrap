@@ -217,4 +217,14 @@
 		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
+	<update id="updateNoti" parameterType="hashmap">
+		UPDATE TBL_NOTIFICATION
+		SET CNT = CNT + 1
+		WHERE NOTIFICATION_ID = #{notiId}
+	</update>
+	<update id="deleteNoti" parameterType="hashmap">
+		DELETE FROM TBL_NOTIFICATION
+		WHERE NOTIFICATION_ID = #{notiId}
+	</update>
+	
 </mapper>

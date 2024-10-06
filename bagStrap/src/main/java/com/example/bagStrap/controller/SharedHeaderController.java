@@ -335,4 +335,33 @@ public class SharedHeaderController {
 
 		return new Gson().toJson(resultMap);
 	}
+	@RequestMapping(value = "checkNoti.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String checkNoti(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+				sharedHeaderService.updateNoti(map);
+ 
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "deleteNoti.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String deleteNoti(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		HashMap<String, Object> resultMap = new HashMap();
+
+		try {
+				sharedHeaderService.deleteNoti(map);
+				
+		} catch(Exception e) {
+			e.printStackTrace();
+
+		}
+
+		return new Gson().toJson(resultMap);
+	}
 }

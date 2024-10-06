@@ -216,7 +216,7 @@
 
 		/* 로그인 모달 스타일 (필요 시 추가) */
 		.headerLoginModal.round {
-
+			margin: 0px;
 			position: absolute;
 			border-radius: 10px;
 			padding: 20px;
@@ -292,16 +292,20 @@
 			visibility: visible;
 		}
 
-		.notification-box li {
+		.notification-box li{
+			width: 300px;
+		}
+		.notification-box li > div{
 			width: 300px;
 			padding: 10px 20px;
 		}
-		
+		.new-noti{
+			background-color: #e0e0e0;
+		}
 
 		
-		.notification-box li:hover {
+		.notification-box li:hover div{
 		    background-color: #f0f0f0;
-		    color: #e74c3c;
 		}
 	</style>
 </head>
@@ -382,14 +386,23 @@
 	                </a>
 						<ul class="notification-box">
 						    <li v-for="item in notiList">
-								<a href="javascript:;" @click="fnNotiLocation(item.category, item.boardNo)">
-									<div>
-										{{item.message}}
-									</div>
-									<div>
-										{{item.createdDate}}
-									</div>
-								</a>
+								<div :class="{'new-noti':item.cnt === 0}">
+									<div class="rightCloseBtn">
+									    <a href="javascript:;" class="closeBtn" @click="fnDeleteNotification(item.notificationId)">
+									        <svg style="opacity:0.6" class="closeBtn" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#222"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+									        </svg>
+									    </a>
+									</div>     
+									
+									<a href="javascript:;" @click="fnNotiLocation(item.notificationId, item.category, (item.status === null || item.status === undefined)? item.userId : item.status, item.message, item.boardNo) " >
+										<div>
+											{{item.message}}
+										</div>
+										<div>
+											{{item.createdDate}}
+										</div>
+									</a>
+								</div>
 							</li>		
 							<div class="pagination" style="display:flex; padding: 0px 10px">
 								<button v-if="currentPage>1" @click="getSharedHeader(currentPage - 1)">이전</button>
@@ -508,8 +521,17 @@
 					self.timer = 180;	
 					
 				},
+				phoneNumberCheck(number){
+					    let result = /^(01[016789]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
+					    return result.test(number);
+				},
 				checkAccountInfo(){
 					var self = this;
+
+					if(self.phoneNumberCheck(self.userPhone) == false){
+						alert("올바른 휴대폰 번호를 입력하세요");
+						return;
+					}
 		  			var nparmap = {
 						userId: self.userId,
 						name : self.name,
@@ -590,6 +612,7 @@
 		  			}
 		  			
 		  		},
+				
 				changePwd(){
 					var self = this;		
 					if(self.password !== self.password2){
@@ -725,9 +748,62 @@
 						}
 					});
 	            },
-				fnNotiLocation(category, boardNo){
-					alert(category+boardNo)
-					//TODO 로케이션 이동 넣고 delete 구현해야함
+				fnNotiLocation(notiId, category, status, str, boardId){
+					//cnt++
+					var self = this;
+					var nparmap = {
+						notiId: notiId
+					};
+					$.ajax({
+						url:"/checkNoti.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) {
+
+							//admin check
+							if(status === 'ADMIN'){
+								if(str.includes('스터디 요청')) location.href="/admin/studyList";
+								else if(str.includes('환불 요청')) location.href="/admin/orders";
+								else if(str.includes('고객 문의')) location.href="/admin/orders";
+							} else {
+								if(str.includes('문의에 답변')) location.href="/myinquiry";
+								else if(str.includes('강퇴되었습니다')) location.href="/study-comm-myboard";
+								else if(str.includes('가입이 거절되었습니다')) ; 
+								else if(str.includes('스터디 가입 요청')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('가입이 승인되었습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('그룹장이 되셨습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('환불 요청')) location.href="/myshop/refunds";
+								else if(str.includes('생성이 승인')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								}
+						}
+					});
+				},
+				fnDeleteNotification(notiId){
+					var self = this;
+					var isActive = false;
+					if (document.querySelector('.headerNotification').classList.contains('active')) {
+					    isActive = true;
+					}
+					var nparmap = {
+						notiId: notiId
+					};
+					$.ajax({
+						url:"/deleteNoti.dox",
+						dataType:"json",	
+						type : "POST", 
+						data : nparmap,
+						success : function(data) {
+							if(self.totalPages >= self.currentPage) {
+								self.getSharedHeader(self.currentPage);
+							}
+							else self.getSharedHeader(1);
+							if (isActive) {
+								document.querySelector('.headerNotification').classList.toggle('active');
+							}
+						}
+					});
+					
 				}
 				
 

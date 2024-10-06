@@ -333,4 +333,40 @@ public class SharedHeaderServiceImpl implements SharedHeaderService{
 		return resultMap;
 	}
 
+	@Override
+	public HashMap<String, Object> updateNoti(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			sharedHeaderMapper.updateNoti(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "updateNoti");
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> deleteNoti(HashMap<String, Object> map) {
+		HashMap<String, Object> resultMap = new HashMap();
+		System.out.println(map);
+		try {
+			sharedHeaderMapper.deleteNoti(map);
+			resultMap.put("result", true);
+			resultMap.put("message", "deleteNoti");
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception : " + e);
+			resultMap.put("result", false);
+			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+		}
+		return resultMap;
+	}
+
 }
