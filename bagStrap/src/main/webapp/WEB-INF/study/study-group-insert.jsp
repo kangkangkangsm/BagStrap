@@ -202,7 +202,7 @@
                       </div>
                       <div class="study-group-insert-form-group">
                           <label for="studyName">스터디 이름 (24자 이내)</label>
-                          <input type="text" id="studyName" name="studyName" v-model="studyName" maxlength="24">
+                          <input type="text" id="studyName" name="studyName" v-model="studyName">
                       </div>
                       <div class="study-group-insert-form-group">
                           <label for="startDate">스터디 기간 (시작일)</label>
@@ -229,8 +229,8 @@
                           <label for="studyType">온라인/오프라인</label>
                           <select id="studyType" name="studyType" v-model="onOffMode">
                               <option value="온라인">온라인</option>
-                              <option value="오프라인">오프라인</option>
-                              <option value="">혼합</option>
+                              <option value="오프">오프</option>
+                              <option value="혼합">혼합</option>
                           </select>
                       </div>
                       <div class="study-group-insert-form-group">
@@ -245,13 +245,14 @@
                           <select id="gender" name="gender" v-model="genderGroup">
                               <option value="남성">남성</option>
                               <option value="여성">여성</option>
-                              <option value="">성별무관</option>
+                              <option value="혼성">혼성</option>
                           </select>
                       </div>
                       <div class="study-group-insert-form-group">
                           <label for="book">참고 할 교재</label>
                           <div class="study-group-insert-book-list">
                               <select id="book" name="book" v-model="relatedBook">
+								  <option value="">선택안함</option>
                                   <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
                               </select>
                           </div>
@@ -369,15 +370,7 @@
 					        return;
 					    }
 
-					    if (!self.genderGroup) {
-					        alert("성별을 선택해주세요.");
-					        return;
-					    }
-
-					    if (!self.relatedBook) {
-					        alert("참고할 교재를 선택해주세요.");
-					        return;
-					    }
+					   
 
 					    // 스터디 설명 50자 이내 확인
 					    if (!self.description || self.description.length > 50) {
@@ -422,7 +415,9 @@
 										}
 								  });		
 							  } else {
-								location.href = "/study-group-list";
+								alert("개설 신청이 완료 되었습니다. 관리자 확인후 개설됩니다.");
+								  location.href = "/study-group-list";
+								  self.filePreview = "";
 							  }		
 						}
 					});

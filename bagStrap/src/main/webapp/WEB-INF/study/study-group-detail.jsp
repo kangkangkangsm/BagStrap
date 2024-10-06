@@ -237,6 +237,7 @@
                 <div class="details">
 					<span>{{ detailList.description }}</span>
                 </div>
+				<template v-if="detailList.image">
                 <h2>그룹 관련 도서 정보</h2>
                 <div class="book-info">
                     <img :src="detailList.image" alt="책 표지">
@@ -247,6 +248,7 @@
                         <p>소개: {{ detailList.tbDescription }}</p>
                     </div>
                 </div>
+				</template>
 				<span>📌 가입 방법</span>
 	             <div class="details">
 					<ol>
@@ -332,15 +334,16 @@
 		                  data : nparmap,
 		                  success : function(data) {
 							console.log(data);
-							if(data.Subscription.fetchapplstatus == 'N'){
+							if(data.Subscription === null || data.Subscription === undefined ){
+								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
+							}else if(data.Subscription.fetchapplstatus == 'N'){
 								alert("이미 신청한 그룹 입니다. 방장의 승인을 기다려주세요.")
 							}else if(data.Subscription.fetchapplstatus == 'L'){
 								alert("입장이 차단되어진 그룹입니다. 사유 : " + data.Subscription.rejectionMessage);
 							}else if(data.Subscription.fetchapplstatus == 'Y'){
 								alert("이미 가입된 그룹 입니다.");
-							}
-								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
-														  
+							} 
+						  
 		                  },
 		              });
 		        },

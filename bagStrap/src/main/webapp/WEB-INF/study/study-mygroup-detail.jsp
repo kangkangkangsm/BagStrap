@@ -803,9 +803,16 @@
              <div class="study-mygroup-detail2-container">
                  <!-- 사이드바 시작 -->
 				 <div class="study-mygroup-detail2-sidebar">
+					<template v-if="detailList.filePath">
 				   <div class="sidebar-header">
 				     <img :src="detailList.filePath" alt="스터디 사진" class="study-group-image"/>
 				   </div>
+				   </template>
+				   <template v-else>
+   				   <div class="sidebar-header">
+   				     <img src="../src/profile.png" alt="스터디 사진" class="study-group-image"/>
+   				   </div>
+   				   </template>
 				   <nav class="sidebar-menu">
 				     <ul>
 				       <li @click="fnSidebar('1')" class="sidebar-item">그룹 정보</li>
@@ -940,19 +947,22 @@
 					             </div>
 
 								 <!-- 스터디 참고도서 섹션 -->
+								 <template v-if="detailList.bookId">
 								        <div class="book-card">
 								            <div class="book-Top5-title">스터디 필참도서</div>
-								            <div class="book-image-container" @click="fnView(detailList.bookId)">
-								                <img :src="detailList.image" alt="도서 이미지" class="book-image">
-								                <div class="book-overlay">
-								                    <a href="#" class="purchase-link">구매하러 가기</a>
-								                </div>
-								            </div>
+								            	<div class="book-image-container" @click="fnView(detailList.bookId)">
+									                <img :src="detailList.image" alt="도서 이미지" class="book-image">
+									                <div class="book-overlay">
+								                   		 <a href="#" class="purchase-link">구매하러 가기</a>
+								                	</div>
+								           		 </div>
 								            <div class="book-details">
 								                <h6>{{ detailList.title }}</h6>
 								                <p>저자: {{ detailList.author }}</p>
 								            </div>
+											
 								        </div>
+								</template>		
 										</div>
 										 <!-- 다른 책 TOP5 섹션 -->
 										        <div class="book-Top5">
@@ -978,22 +988,36 @@
 						         <!-- 메시지 한 개의 예시 -->
 						         <div class="message" v-for="item in messagelist" :key="item.messageId">
 						           <template v-if="item.messageUserId !== sessionUserId">
-						             <!-- 왼쪽 정렬 (다른 사용자) -->
-						             <div class="message-left">
-						               <div class="message-user">
-						                 <img :src="item.filePath" alt="User Image" class="user-img">
-										 <span class="user-name">{{ item.userNickName }}</span>
-						               </div>
-						               <div class="message-content">
-										<template v-if="item.mFilepath">
-						                 <img :src="item.mFilepath" style="width:300px; height:300px;">
-										 </template>
-						                 <p>{{ item.messageContent }}</p>
-						                 <span class="message-time">{{ item.messageCreatedDate }}</span>
-						               </div>
-						             </div>
+									<!-- 왼쪽 정렬 (다른 사용자) -->
+									<template v-if="item.userNickName === '그룹알리미'">
+									  <div class="message-left group-announcement">
+									    <div class="message-user">
+									      <img :src="item.filePath" alt="User Image" class="user-img">
+									      <span class="user-name" style="color: #FF5722; font-weight: bold;">📢 {{ item.userNickName }}</span>
+									    </div>
+									    <div class="message-content" style="background-color: #ffeb3b; padding: 15px; border-radius: 10px; border: 2px dashed #FF9800;">
+									      <p style="font-style: italic;">{{ item.messageContent }}</p>
+									      <span class="message-time" style="color: #757575; font-size: 12px;">{{ item.messageCreatedDate }}</span>
+									    </div>
+									  </div>
+									</template>
+									<template v-else>
+									  <div class="message-left">
+									    <div class="message-user">
+									      <img :src="item.filePath" alt="User Image" class="user-img">
+									      <span class="user-name">{{ item.userNickName }}</span>
+									    </div>
+									    <div class="message-content">
+									      <template v-if="item.mFilepath">
+									        <img :src="item.mFilepath" style="width:300px; height:300px;">
+									      </template>
+									      <p>{{ item.messageContent }}</p>
+									      <span class="message-time">{{ item.messageCreatedDate }}</span>
+									    </div>
+									  </div>
+									</template>
 						           </template>
-
+									
 						           <template v-if="item.messageUserId === sessionUserId">
 						             <!-- 오른쪽 정렬 (본인) -->
 						             <div class="message-right">
@@ -1202,11 +1226,11 @@
 							    <div class="study-group-insert-row">
 							      <div class="study-group-insert-form-group">
 							        <label for="field">스터디 영역</label>
-							        <input type="text" id="studyName" name="studyName" v-model="detailList.name" maxlength="24" disabled>
+							        <input type="text" id="studyName" name="studyName" v-model="detailList.name"  disabled>
 							      </div>
 							      <div class="study-group-insert-form-group">
 							        <label for="studyName">스터디 이름 (24자 이내)</label>
-							        <input type="text" id="studyName" name="studyName" v-model="detailList.studyName" maxlength="24">
+							        <input type="text" id="studyName" name="studyName" v-model="detailList.studyName">
 							      </div>
 							    </div>
 
@@ -1242,8 +1266,8 @@
 							        <label for="studyType">온라인/오프라인</label>
 							        <select id="studyType" name="studyType" v-model="detailList.onOffMode">
 							          <option value="온라인">온라인</option>
-							          <option value="오프라인">오프라인</option>
-							          <option value="">혼합</option>
+							          <option value="오프">오프</option>
+							          <option value="혼합">혼합</option>
 							        </select>
 							      </div>
 							      <div class="study-group-insert-form-group">
@@ -1278,12 +1302,13 @@
 							        <select id="gender" name="gender" v-model="detailList.genderGroup">
 							          <option value="남성">남성</option>
 							          <option value="여성">여성</option>
-							          <option value="">성별무관</option>
+							          <option value="혼성">혼성</option>
 							        </select>
 							      </div>
 							      <div class="study-group-insert-form-group">
 							        <label for="book">참고 할 교재</label>
 							        <select id="book" name="book" v-model="detailList.bookId">
+										<option value="">선택안함</option>
 							          <option v-for="item in typeList" :value="item.bookId">{{item.title}}</option>
 							        </select>
 							      </div>
@@ -1607,7 +1632,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							 
+							self.rejectionMessage = "";
 							alert(userNickName + "님이 강퇴되었습니다.");
 							self.fnDetail();
 							self.fnSidebar(3);
@@ -1635,6 +1660,12 @@
 		        },
 				fnGroupUpdate(studyName,stgStartDate,stgEndDate,stgStudyTime,age,onOffMode,genderGroup,bookId,description,maxparticipants){
 					var self = this;
+					var studyName = self.detailList.studyName;
+					// 스터디 이름 24자 이내 확인
+					if (!studyName || studyName.length > 24) {
+				        alert("스터디 이름을 24자 이내로 입력해주세요.");
+				        return;
+				    }
 					var studyGroupId = self.studyGroupId;
 					var nparmap = {studyName : studyName , stgStartDate : stgStartDate ,
 									stgEndDate : stgEndDate ,stgStudyTime : stgStudyTime,
@@ -1722,7 +1753,22 @@
                self.pageView = a; 
 			   self.filePreview ="";
 			   self.file = null;
-            },
+		     // 페이지가 2일 때, 실시간 채팅 폴링 시작
+		       if (a == 2) {
+		         if (!self.intervalId) {
+		           // 기존 타이머가 없을 때만 새로 설정
+		           self.intervalId = setInterval(() => {
+		             self.fnMessageSelect();
+		           }, 1000);
+		         }
+		       } else {
+		         // 페이지가 2가 아닐 때, 타이머 중지
+		         if (self.intervalId !== null) {
+		           clearInterval(self.intervalId);
+		           self.intervalId = null; // 타이머 ID 초기화
+		         }
+		       }
+		     },
             fnDetail() {
                     const self = this;
                     const nparmap = { studyGroupId: self.studyGroupId };
@@ -1734,7 +1780,7 @@
                         success: function(data) {
                              console.log(data);
                             self.detailList = data.detailList;
-							self.fnTop5(data.detailList.category);
+							self.fnTop5(data.detailList.boardTypeId);
                      self.fnBoardType(self.detailList.boardTypeId);
                      self.fnsGroupAdminSearch(self.detailList.studyAdminId, self.detailList.studyGroupId);
                         },
@@ -1809,6 +1855,7 @@
 			self.fnMessageSelect();
 			self.fnUserList(1);
 			
+		 
 			
             window.addEventListener('loginStatusChanged', function(){
                if(window.sessionStorage.getItem("isLogin") === 'true'){

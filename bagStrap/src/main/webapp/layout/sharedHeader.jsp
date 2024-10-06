@@ -24,8 +24,6 @@
 		    font-family: 'Noto Sans KR', sans-serif; /* 한글과 영문에 적합한 세련된 폰트 */
 		    line-height: 1.6;
 		    color: #333;
-		    background: url('images/background.jpg') no-repeat center center fixed;
-		    background-size: cover;
 		}
 
 		/* 헤더 스타일 */
