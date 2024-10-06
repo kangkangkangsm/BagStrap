@@ -607,7 +607,7 @@
                   type : "POST", 
                   data : nparmap,
                   success : function(data) { 
-                      alert(data.message);
+                     
                       var idx = data.idx;
                       console.log(idx);
                       console.log(self.file);        
@@ -706,7 +706,6 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        alert(data.message);
                         var idx = data.idx;
                         console.log(idx);
                         console.log(self.file);        

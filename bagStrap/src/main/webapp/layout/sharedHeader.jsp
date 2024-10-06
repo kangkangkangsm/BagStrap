@@ -356,7 +356,7 @@
 	                <ul class="headerloginSubMenu">
 	                    <li v-if="isLogin"><a href="/myinfo">MyInfo</a></li>
 	                    <li v-if="!isLogin"><a href="/join">Join</a></li>
-	                    <li><a href="javascript:;" @click="fnPageChange('/mystudy')">MyStudy</a></li>
+	                    <li><a href="javascript:;" @click="fnPageChangeStudy()">MyStudy</a></li>
 	                    <li><a href="javascript:;" @click="fnPageChange('/myshop/orders')">MyShop</a></li>
 	                    <li v-if="isAdmin"><a href="/admin/orders">Admin</a></li>
 	                    <li v-if="isLogin"><a href="javascript:;" @click="fnLogout()">Logout</a></li>
@@ -491,6 +491,10 @@
 			    }
 			},
 	        methods: {
+				fnPageChangeStudy(){
+					var self = this;
+					$.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+				},
 				fnCloseLogin(){
 					var self = this;
 					document.getElementById('headerLoginModal').close();
@@ -768,13 +772,13 @@
 								else if(str.includes('고객 문의')) location.href="/admin/orders";
 							} else {
 								if(str.includes('문의에 답변')) location.href="/myinquiry";
-								else if(str.includes('강퇴되었습니다')) location.href="/study-comm-myboard";
+								else if(str.includes('강퇴되었습니다'))  $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								else if(str.includes('가입이 거절되었습니다')) ; 
-								else if(str.includes('스터디 가입 요청')) $.pageChange("/study-group-detail", { boardNo: boardId });
-								else if(str.includes('가입이 승인되었습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
-								else if(str.includes('그룹장이 되셨습니다')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('스터디 가입 요청')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+								else if(str.includes('가입이 승인되었습니다')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+								else if(str.includes('그룹장이 되셨습니다')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								else if(str.includes('환불 요청')) location.href="/myshop/refunds";
-								else if(str.includes('생성이 승인')) $.pageChange("/study-group-detail", { boardNo: boardId });
+								else if(str.includes('생성이 승인')) $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
 								}
 						}
 					});

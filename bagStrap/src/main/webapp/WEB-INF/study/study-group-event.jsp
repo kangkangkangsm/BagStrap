@@ -30,15 +30,36 @@
 		}
 	
 		.note-taking-title, .wrong-answer-title {
-		    flex: 0 0 43%;
-		    background: #58c672;
-		    color: white;
-		    text-align: center;
-		    padding: 10px;
-		    border-radius: 15px;
-		    font-size: 24px;
-		    margin: 0 10px;
-		}
+	        flex: 0 0 43%;
+	        background: #58c672;
+	        color: white;
+	        text-align: center;
+	        padding: 10px;
+	        border-radius: 15px;
+	        font-size: 24px;
+	        margin: 0 10px;
+	        cursor: pointer; /* 손가락 모양 */
+	        transition: background 0.3s ease, transform 0.3s ease;
+	    }
+
+	    .note-taking-title:hover, .wrong-answer-title:hover {
+	        background: #45a859; /* 호버 색상 */
+	        transform: scale(1.05); /* 살짝 확대 */
+	    }
+
+	    .wrong-answer-title {
+	        background: #665bd0;
+	    }
+
+	    .wrong-answer-title:hover {
+	        background: #5146a3; /* 오답노트 호버 색상 */
+	    }
+
+	    /* 클릭 후 활성화된 상태 유지 */
+	    .active-title {
+	        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* 클릭 후 색상 유지 */
+	        transform: scale(1.05); /* 살짝 확대 유지 */
+	    }
 	
 		.note-taking-title {
 		    background: #58c672;
@@ -78,6 +99,7 @@
 		    width: 30%;
 		    padding: 25px;
 		    transition: transform 0.3s;
+			cursor: pointer;
 		}
 	
 		.award-item:hover {
@@ -172,20 +194,22 @@
 	                   <div class="top-titles">
 	                       <div class="note-taking-title" @click="fnSee('1')">노트필기대회</div>
 	                       <div class="wrong-answer-title" @click="fnSee('2')" >오답노트대회</div>
-	                       <select id="month-select" class="month-selector" v-model="month" @change="fnevent3001(month)">
-	                           <option value="01month">1월</option>
-	                           <option value="02month">2월</option>
-	                           <option value="03month">3월</option>
-	                           <option value="04month">4월</option>
-	                           <option value="05month">5월</option>
-	                           <option value="06month">6월</option>
-	                           <option value="07month">7월</option>
-	                           <option value="08month">8월</option>
-	                           <option value="09month">9월</option>
-	                           <option value="10month">10월</option>
-	                           <option value="11month">11월</option>
-	                           <option value="12month">12월</option>
-	                       </select>
+						   <template v-if="isAdmin">
+	                          <select id="month-select" class="month-selector" v-model="month" @change="fnevent3001(month)">
+	                              <option value="01month">1월</option>
+	                              <option value="02month">2월</option>
+	                              <option value="03month">3월</option>
+	                              <option value="04month">4월</option>
+	                              <option value="05month">5월</option>
+	                              <option value="06month">6월</option>
+	                              <option value="07month">7월</option>
+	                              <option value="08month">8월</option>
+	                              <option value="09month">9월</option>
+	                              <option value="10month">10월</option>
+	                              <option value="11month">11월</option>
+	                              <option value="12month">12월</option>
+	                          </select>
+	   					   </template>
 	                   </div>
 	
 					   <div class="study-group-event">
