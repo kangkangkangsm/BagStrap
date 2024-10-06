@@ -79,5 +79,6 @@ public class User {
 	public String getban() {
 		return ban;
 	}
+	
 }
 	

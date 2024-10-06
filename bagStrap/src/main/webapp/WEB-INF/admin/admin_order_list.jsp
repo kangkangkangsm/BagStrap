@@ -245,6 +245,45 @@
 		    padding: 10px;
 		    border-radius: 5px;
 		}
+		/* Pagination 스타일 */
+		.pagination {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin: 30px 0;
+		    gap: 10px;
+		    color: #000000;
+		}
+
+		.pagination button {
+		    background-color: #ffffff;
+		    border: 1px solid #dee2e6;
+		    color: #000000;
+		    padding: 10px 15px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, color 0.3s;
+		    border-radius: 4px;
+		    font-size: 1em; /* 글자 크기 조정 */
+		}
+
+		.pagination button:hover {
+		    background-color: #E0E0E0;
+		    color: #ffffff;
+		}
+
+		.pagination button.active {
+		    background-color: #000000;
+		    color: #ffffff;
+		    cursor: default;
+		}
+
+		.pagination button:disabled {
+		    background-color: #e9ecef;
+		    color: #6c757d;
+		    cursor: not-allowed;
+		    border: 1px solid #dee2e6;
+		}
+
 	</style>
 </head>
 <body>
@@ -282,7 +321,7 @@
 					                <div class="admin-order-status-wrapper">
 					                    <span class="admin-order-status">
 											<template v-if="items[0].status === '주문 완료'">
-												<a href="javascript:;" @click="updateStatus(items[0].orderId)"> {{items[0].status}}</a>
+												<a href="javascript:;" style="color:blue;" @click="updateStatus(items[0].orderId)"> {{items[0].status}}</a>
 											</template>
 											<template v-else>
 												{{items[0].status}}
@@ -320,9 +359,9 @@
 					            <div class="admin-reject-comment" id="reject-comment-item-1" v-model="item.rejectComment">{{item.rejectComment}}</div>
 								<div v-if="item.refundId != null && item.refundId != undefined">환불 수량: {{item.refundQuantity}}</div>
 				                <div class="admin-refund-status"  v-if="items[0].refundId != null && items[0].refundId != undefined">{{item.refundStatus}}</div>
-				                <div class="admin-radio-group"  v-if="items[0].refundId != null && items[0].refundId != undefined  && item.refundStatus === '환불 대기'">
+				                <div class="admin-radio-group"  v-if="items[0].refundId != null && items[0].refundId != undefined ">
 				                    <label class="admin-radio-label" v-if="item.refundStatus">
-				                        <input v-if="item.refundStatus" type="radio" :name="index" v-model="item.refundStatus" value="승인됨" @click="acceptRefund(item, items[0].orderId)" :disabled="item.initialDisabled">
+				                        <input v-if="item.refundStatus" type="radio" :name="index" v-model="item.refundStatus" value="승인됨" @click="acceptRefund(item, items[0].orderId)" :disabled="item.initialDisabled" 	:checked="item.refundStatus === '승인됨'">
 				                        <div class="admin-radio-custom"></div>Accept
 				                    </label>
 				                    <label class="admin-radio-label" v-if="item.refundStatus">
@@ -492,6 +531,7 @@
 					success : function(data) { 
 						console.log(data);
 						alert(data.body.message);
+						self.fnGetList(1);
 					}
 				});
 			},
