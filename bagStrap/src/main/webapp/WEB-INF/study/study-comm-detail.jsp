@@ -529,8 +529,8 @@
 	                                                    </div>
 	                                                </div>
 	                                            </div>
-	                                            <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)" style="">답글 완료</button>
-	                                            <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)" style="">취소</button>
+	                                            <button class="stu-comm-detail-comment-button" @click="fnupdateCommentReResult(item.commentId,comcontents,item.boardId)" >답글 완료</button>
+	                                            <button class="stu-comm-detail-comment-button" @click="fnReChat(item.boardId)" >취소</button>
 	                                        </div>
 	                                    </template>
 	                                </template>
@@ -554,8 +554,8 @@
 	                                                </div>
 	                                            </div>
 	                                        </div>
-	                                        <button class="stu-comm-detail-comment-button" @click="fnupdateCommentResult(item.commentId,item.comcontents)" style="background-color: #343A40;">수정 완료</button>
-	                                        <button class="stu-comm-detail-comment-button" @click="fnCommUpdateNo(item.boardId)" style="background-color: #343A40;">취소</button>
+	                                        <button class="stu-comm-detail-comment-button" @click="fnupdateCommentResult(item.commentId,item.comcontents)" >수정 완료</button>
+	                                        <button class="stu-comm-detail-comment-button" @click="fnCommUpdateNo(item.boardId)">취소</button>
 	                                    </div>
 	                                </template> 
 	                            </div>

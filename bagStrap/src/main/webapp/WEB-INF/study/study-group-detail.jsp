@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
     <title>첫번째 페이지</title>
-    <!-- 외부 CSS 라이브러리 (예: Google Fonts) 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <style>
         /* 기본 스타일 */
