@@ -270,12 +270,11 @@
 	}
 
 	.split.left {
-	    background: url('images/gallery1.jpg') center center no-repeat;
 	    background-size: cover;
 	}
 
 	.split.right {
-	    background: url('images/gallery2.jpg') center center no-repeat;
+
 	    background-size: cover;
 	}
 

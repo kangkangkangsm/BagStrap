@@ -142,10 +142,13 @@ public class ShopServiceImpl implements ShopService{
 		return resultMap;
 	}
 
+	@Transactional
 	@Override
 	public HashMap<String, Object> selectBookDetail(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
+			System.out.println("----------------------------------");
+			System.out.println(map);
 			List<Order> detailList = shopMapper.selectBookDetail(map);
 			int totalPages = shopMapper.selectreviewListCount(map);
 			List<Order> reviewList = shopMapper.selectreviewList(map);

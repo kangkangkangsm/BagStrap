@@ -293,14 +293,16 @@
 					                </div>
 					            </div>
 					        </summary>
-							<div class="admin-item-list">
-								환불 사유 : 
-								<template v-if="items[0].reason">
-								    <div>{{items[0].reason}}</div>
-								</template>
-								<template v-if="items[0].filePath">
-								    <img style="width:300px; height:300px;" :src="items[0].filePath">
-								</template>			                
+							<div class="admin-item-list" v-for="(item,index) in items" >
+								<div v-if="item.refundId != null && item.refundId != undefined">
+									환불 사유   : 
+									<template v-if="item.reason">
+									    <div> {{item.reason}}</div>
+									</template>
+									<template v-if="item.filePath">
+									    <img style="width:200px; height:200px;" :src="item.filePath">
+									</template>
+								</div>			                
 							</div>
 					        <div class="details-content" v-for="(item,index) in items" :key="item.bookId">
 								
@@ -316,9 +318,9 @@
 					                
 					            <!-- Reject Comment 표시 공간 -->
 					            <div class="admin-reject-comment" id="reject-comment-item-1" v-model="item.rejectComment">{{item.rejectComment}}</div>
-								<div  v-if="items[0].refundId != null && items[0].refundId != undefined">환불 수량: {{item.refundQuantity}}</div>
+								<div v-if="item.refundId != null && item.refundId != undefined">환불 수량: {{item.refundQuantity}}</div>
 				                <div class="admin-refund-status"  v-if="items[0].refundId != null && items[0].refundId != undefined">{{item.refundStatus}}</div>
-				                <div class="admin-radio-group"  v-if="items[0].refundId != null && items[0].refundId != undefined">
+				                <div class="admin-radio-group"  v-if="items[0].refundId != null && items[0].refundId != undefined  && item.refundStatus === '환불 대기'">
 				                    <label class="admin-radio-label" v-if="item.refundStatus">
 				                        <input v-if="item.refundStatus" type="radio" :name="index" v-model="item.refundStatus" value="승인됨" @click="acceptRefund(item, items[0].orderId)" :disabled="item.initialDisabled">
 				                        <div class="admin-radio-custom"></div>Accept

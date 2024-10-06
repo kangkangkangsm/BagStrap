@@ -340,9 +340,9 @@
 							self.data.userEmail = data.userEmail;
 							self.data.phone = data.phone;
 							self.addressNo = data.addressNo;
-						//	self.fnImp();
-							self.imp = 'rsp.imp_uid';
-							self.completeOrder();
+							self.fnImp();
+						//	self.imp = 'rsp.imp_uid'; // 테스트용
+						//	self.completeOrder(); // 테스트용
 						} else {
 							alert(data.message);
 						}

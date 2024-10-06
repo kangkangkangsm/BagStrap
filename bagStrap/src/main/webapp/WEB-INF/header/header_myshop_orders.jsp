@@ -709,6 +709,12 @@
         mounted() {
             var self = this;
 			self.fnGetList(self.currentPage);
+			if(window.sessionStorage.getItem("isLogin") === 'true'){
+				self.isLogin = true;	
+			}
+			if(window.sessionStorage.getItem("isAdmin") === 'true'){
+				self.isAdmin = true;	
+			}
 			window.addEventListener('loginStatusChanged', function(){
 				if(window.sessionStorage.getItem("isLogin") === 'true'){
 					self.isLogin = true;	

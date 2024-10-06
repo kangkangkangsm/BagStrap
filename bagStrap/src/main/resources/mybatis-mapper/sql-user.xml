@@ -9,5 +9,20 @@
 		FROM TBL_USER
 		WHERE USER_ID = #{userId}
 	</select>
+	<select id="selectId" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
+		SELECT *
+		FROM TBL_USER
+		WHERE USER_NAME = #{name} AND PHONE = #{userPhone}
+	</select>
+	<select id="selectPwd" parameterType="hashmap" resultType="com.example.bagStrap.model.User">
+		SELECT *
+		FROM TBL_USER
+		WHERE USER_ID = #{userId} AND PHONE = #{userPhone}
+	</select>
+	<update id="changePwd" parameterType="hashmap">
+		UPDATE TBL_USER
+		SET PASSWORD = #{password} 
+		WHERE USER_ID = #{userId} AND PHONE = #{userPhone}
+	</update>
 	
 </mapper>

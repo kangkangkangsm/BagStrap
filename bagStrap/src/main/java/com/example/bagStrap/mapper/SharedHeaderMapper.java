@@ -35,6 +35,8 @@ public interface SharedHeaderMapper {
 	void deleteStudyGroupForAdmin(HashMap<String, Object> map);
 	int selectNotificationCount(HashMap<String, Object> map);
 	List<Notification> selectNotification(HashMap<String, Object> map);
-	
+	void updateNoti(HashMap<String, Object> map);
+	void deleteNoti(HashMap<String, Object> map);
+
 	
 }

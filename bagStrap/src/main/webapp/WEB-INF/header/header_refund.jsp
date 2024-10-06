@@ -363,31 +363,31 @@
 					<h2>상품을 선택해 주세요</h2>
 					<div class="ordered-list-container round">
 					    <div class="left-section">
-					        <div class="ordered-product" v-for="item in orderList" :key="item.bookId">
-								<input class="cart-checkbox" type="checkbox" :id="item.bookId" :value="item.quantity"@change="isItemChecked()"/>
-								<label :for="item.bookId">
-					            	<img class="ordered-product-image" :src="item.image" :alt="item.title">
-								</label>
-								<div class="ordered-product-info">
+					        <div v-for="item in orderList" :key="item.bookId">
+								<div class="ordered-product" v-if="item.quantity != 0">
+									<input class="cart-checkbox" type="checkbox" :id="item.bookId" :value="item.quantity" @change="isItemChecked()"/>
 									<label :for="item.bookId">
-						                <div class="ordered-product-name">{{item.title}}</div>
+						            	<img class="ordered-product-image" :src="item.image" :alt="item.title">
 									</label>
-									<div class="ordered-product-detail-info">
-										<label :for="item.bookId">{{item.author}}</label>
-									    <span class="refund-price">{{item.price}}원</span>
-									</div>
-									<div class="ordered-product-detail-info">
-										<label :for="item.bookId"></label>
-
-										<div class="quantity-container">
-										    <button class="quantity-button" @click="changeQuantity(item, -1)" id="decrease">-</button>
-											<span class="quantity-value">{{item.quantity}}</span>
-										    <button class="quantity-button" @click="changeQuantity(item, 1)" id="increase">+</button>
-										</div> 
-										
-					                </div>
-					            </div>
-								
+									<div class="ordered-product-info">
+										<label :for="item.bookId">
+							                <div class="ordered-product-name">{{item.title}}</div>
+										</label>
+										<div class="ordered-product-detail-info">
+											<label :for="item.bookId">{{item.author}}</label>
+										    <span class="refund-price">{{item.price}}원</span>
+										</div>
+										<div class="ordered-product-detail-info">
+											<label :for="item.bookId"></label>
+	
+											<div class="quantity-container">
+											    <button class="quantity-button" @click="changeQuantity(item, -1)" id="decrease">-</button>
+												<span class="quantity-value">{{item.quantity}}</span>
+											    <button class="quantity-button" @click="changeQuantity(item, 1)" id="increase">+</button>
+											</div> 
+						                </div>
+						            </div>
+								</div>
 					        </div>
 							
 					    </div>
@@ -596,6 +596,7 @@
 
 						});
 						data.orderList.forEach(item => {
+							self.orderMaxList = []
 							self.orderMaxList.push({
 								bookId : item.bookId,
 								quantity : item.quantity 
@@ -611,10 +612,9 @@
 				var self = this;
 
 				if(self.selectedBooks.length == 0 && self.progress == 1){
-					alert('상품을 선택해주세요');
+					alert('환불할 상품을 확인해주세요');
 					return;
 				}
-				
 				if(self.progress == 2){
 					var end = false; 
 					if(self.selectedRadio1 === ''){
@@ -667,9 +667,15 @@
 			changeQuantity(book, numb){
 				var self = this;
 				var max = self.orderMaxList.find(item => item.bookId === book.bookId);
-				if(max.quantity != book.quantity){
-					book.quantity += numb;	
-				} else if (book.quantity === 0){
+				if (max.quantity === 0 && numb === 1){
+					alert('환불 가능한 최대 수량입니다.');
+					return;
+				} 
+				book.quantity += numb;
+				if(max.quantity < book.quantity){
+					book.quantity = max.quantity;
+					alert('환불 가능한 최대 수량입니다.');	
+				} else if(book.quantity <= 0){
 					book.quantity = 1;
 				}
 				
@@ -678,13 +684,15 @@
 			},
 			isItemChecked(){
 				var self = this;
+				console.log(self.orderList)
 				self.selectedBooks = [];
 				self.orderList.forEach(item => {
-					if(document.getElementById(item.bookId).checked === true){
+					if(document.getElementById(item.bookId) === null || document.getElementById(item.bookId) === undefined){ // null 체크용
+					} else if(document.getElementById(item.bookId).checked === true){
 						self.selectedBooks.push({
-							bookId : item.bookId,
-							bookQuantity : item.quantity,
-							bookPrice : item.price
+						bookId : item.bookId,
+						bookQuantity : item.quantity,
+						bookPrice : item.price
 						});
 					}
 				})

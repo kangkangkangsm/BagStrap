@@ -17,5 +17,7 @@ public interface SharedHeaderService {
 	HashMap<String, Object> selectStudyGroupForAdmin(HashMap<String, Object> map);
 	HashMap<String, Object> updateStudyGroupForAdmin(HashMap<String, Object> map);
 	HashMap<String, Object> deleteStudyGroupForAdmin(HashMap<String, Object> map);
+	HashMap<String, Object> updateNoti(HashMap<String, Object> map);
+	HashMap<String, Object> deleteNoti(HashMap<String, Object> map);
 	
 }
