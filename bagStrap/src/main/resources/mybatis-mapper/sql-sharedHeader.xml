@@ -52,7 +52,7 @@
 		WHERE O.USER_ID = #{userId} AND TO_CHAR(ORDER_DATE, 'YYYY') LIKE '%'|| #{year} || '%'
 		 AND TITLE LIKE '%'|| #{keyword} || '%' 
 		ORDER BY ORDER_DATE DESC
-		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+	    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
 	
 	<select id="selectOrderListForRefund" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
@@ -124,8 +124,13 @@
                 INNER JOIN TBL_REFUND_ITEM I ON R.REFUND_ID = I.REFUND_ID 
                 LEFT JOIN TBL_BOARDFILE F ON R.REFUND_FILE = F.BOARDNO
             ) R ON O.ORDER_ID = R.ORDER_ID AND OI.BOOK_ID = R.BOOK_ID
-		ORDER BY O.ORDER_DATE DESC
-		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		ORDER BY 
+    CASE 
+        WHEN R.REFUND_STATUS = '환불 대기' THEN 0
+        ELSE 1
+    END,
+    O.ORDER_DATE DESC
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 <!--	<select id="selectAdminOrderList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">
@@ -191,7 +196,7 @@
 		INNER JOIN TBL_BOARDFILE F ON G.STUDY_GROUP_ID = F.BOARDNO
 		ORDER BY STARTDATE DESC)
 		ORDER BY GROUPSTATUS
-		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
 	<update id="updateStudyGroupForAdmin" parameterType="hashmap">
 		UPDATE TBL_STUDY_GROUP
@@ -214,7 +219,7 @@
 		FROM TBL_NOTIFICATION
 		WHERE USER_ID = #{userId} OR STATUS = #{status}
 		ORDER BY NOTIFICATION_ID DESC
-		OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	<update id="updateNoti" parameterType="hashmap">

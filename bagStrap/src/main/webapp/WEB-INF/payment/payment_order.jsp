@@ -83,7 +83,13 @@
         #defaultStatus {
             margin-bottom: 10px;
         }
-
+		#defaultStatus > div{
+            
+			font-weight: bold;
+        }
+		#defaultStatus > div > a{
+		    color: #abcdef;
+		}
         .closeBtn {
             cursor: pointer;
             float: right;
@@ -472,7 +478,6 @@
 			},
 			updateSaveYN(addressNo, defaultYN){
 				var self = this;
-				alert(typeof defaultYN)
 				if(defaultYN === 'Y'){
 					alert('기본 배송지는 제거할 수 없습니다.');
 					return;

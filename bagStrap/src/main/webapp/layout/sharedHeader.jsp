@@ -286,6 +286,8 @@
 
 		/* headerNotification 클릭 시 notification-box를 보이게 하는 클래스 */
 		.headerNotification.active .notification-box {
+			width: 300px;
+
 			display: block;
 			opacity: 1;
 			transform: translateY(0);
@@ -306,6 +308,21 @@
 		
 		.notification-box li:hover div{
 		    background-color: #f0f0f0;
+		}
+
+		.add-to-cart {
+			z-index: 10;
+		    padding: 10px 15px;
+		    border: none;
+		    background-color: #ff7f50;
+		    color: white;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    font-size: 16px;
+		}
+
+		.add-to-cart:hover {
+		    background-color: #e74c3c;
 		}
 	</style>
 </head>
@@ -364,7 +381,7 @@
 	            </div>
 
 	            <div class="headerCSCenter headerCustomerSub">
-	                <a class="clickableText" href="cscenter">CSCenter</a>
+	                <a class="clickableText" href="/cscenter">CSCenter</a>
 	            </div>
 	            
 	            <!-- Cart -->
@@ -441,16 +458,16 @@
 
 						</div>
 						<div v-if="flg === ''">
-							<a href="javascript:;" @click="fnChangeLoginBox('id')">아이디 찾기</a> | <a href="javascript:;" @click="fnChangeLoginBox('pwd')">비밀번호 찾기</a>
+							<a href="javascript:;" @click="fnChangeLoginBox('id')" style="color:#87CEFA">아이디 찾기</a> <span  style="color:#87CEFA">|</span> <a href="javascript:;" @click="fnChangeLoginBox('pwd')" style="color:#87CEFA">비밀번호 찾기</a>
 						</div>
 						<div v-else>
 							<a href="javascript:;" @click="fnChangeLoginBox('')">로그인 하러가기</a>
 						</div>
-						<button v-if="flg === ''" @click="fnLogin()">로그인</button>
+						<button v-if="flg === ''" class="add-to-cart" @click="fnLogin()">로그인</button>
 						<button v-if="flg !== '' && flg !== 'confirmPwd' && flg !== 'confirmId' && flg !== 'changePwd'" @click="checkAccountInfo()">인증번호 받기</button>
 						<button v-if="flg === 'confirmPwd' || flg === 'confirmId'"@click="confirmInputNumb()">인증하기</button>
 						<button v-if="flg === 'changePwd'"@click="changePwd()">비밀번호 변경</button>
-	                    계정이 없으신가요? <a href="javascript:;">회원가입</a>
+	                    계정이 없으신가요? <a href="/join" style="color:#87CEFA">회원가입</a>
 	               </div>
 	           </dialog>
 			   

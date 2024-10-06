@@ -224,11 +224,6 @@
 		    cursor: not-allowed;
 		}
 
-		.pagination button:not(.active):not(:disabled):hover {
-		    background-color: #0056b3;
-		    color: white;
-		}
-
 		.study-group-list-search-bar {
 			display: flex;
 			justify-content: space-between;
@@ -378,6 +373,44 @@
 			position: relative;
 		}
 
+		/* Pagination 스타일 */
+		.pagination {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin: 30px 0;
+		    gap: 10px;
+		    color: #000000;
+		}
+
+		.pagination button {
+		    background-color: #ffffff;
+		    border: 1px solid #dee2e6;
+		    color: #000000;
+		    padding: 10px 15px;
+		    cursor: pointer;
+		    transition: background-color 0.3s, color 0.3s;
+		    border-radius: 4px;
+		    font-size: 1em; /* 글자 크기 조정 */
+		}
+
+		.pagination button:hover {
+		    background-color: #E0E0E0;
+		    color: #ffffff;
+		}
+
+		.pagination button.active {
+		    background-color: #000000;
+		    color: #ffffff;
+		    cursor: default;
+		}
+
+		.pagination button:disabled {
+		    background-color: #e9ecef;
+		    color: #6c757d;
+		    cursor: not-allowed;
+		    border: 1px solid #dee2e6;
+		}
 </style>
 </head>
 <body>

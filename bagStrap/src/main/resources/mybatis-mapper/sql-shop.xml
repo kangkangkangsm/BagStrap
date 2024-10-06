@@ -56,7 +56,7 @@
 		         GROUP BY BOOK_ID) R 
 		    ON B.BOOK_ID = R.BOOK_ID
 		    WHERE (#{keyword} IS NULL OR #{keyword} = '' OR TITLE LIKE '%' || #{keyword} || '%' OR AUTHOR LIKE '%' || #{keyword} || '%') 
-			<if test='category2 != "2000"'>
+			<if test='category2 != 2000'>
 		    	AND TO_CHAR(B.CATEGORY) = #{category2} 
 		    </if>		    
 		    AND #{highPrice} >= PRICE 
@@ -65,7 +65,7 @@
 		        AND B.DISCOUNT != 0 
 		    </if>
 		    <if test='category != "All"'>
-		    	AND SYSDATE+9/24-30 > CREATED_AT 
+			AND CREATED_AT >= SYSDATE+ 9 / 24 - 30
 	    	</if>
 		    ORDER BY 
 		    <choose>
@@ -83,7 +83,7 @@
 		        </otherwise>
 		    </choose>
 		    
-		    OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 	</select>
 
 
@@ -163,7 +163,7 @@
 			FROM TBL_REVIEW 
 			WHERE BOOK_ID = #{bookId}
 			ORDER BY CREATED_AT DESC
-		    OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	<select id="selectRecommendedList" parameterType="hashmap" resultType="com.example.bagStrap.model.Order">

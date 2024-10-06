@@ -274,40 +274,7 @@
 		    background-color: #ccc;
 		    margin: 20px 0;
 		}
-		/* 페이징 버튼 스타일 */
-			.pagination {
-			    display: flex;
-			    justify-content: center;
-			    margin: 20px 0;
-			}
 
-			.pagination button {
-			    background-color: #f8f9fa;
-			    border: 1px solid #dee2e6;
-			    color: #007bff;
-			    padding: 8px 12px;
-			    margin: 0 2px;
-			    cursor: pointer;
-			    transition: background-color 0.3s, color 0.3s;
-			    border-radius: 4px;
-			}
-
-			.pagination button.active {
-			    background-color: #007bff;
-			    color: white;
-			    cursor: default;
-			}
-
-			.pagination button:disabled {
-			    background-color: #e9ecef;
-			    color: #6c757d;
-			    cursor: not-allowed;
-			}
-
-			.pagination button:not(.active):not(:disabled):hover {
-			    background-color: #0056b3;
-			    color: white;
-			}
 
 			.study-group-list-search-bar {
 				display: flex;
@@ -511,7 +478,7 @@
 					<label :for="book.bookId">
 					    <img :src="book.image" alt="책 표지" class="book-cover">
 					</label>
-					<label :for="book.bookId">
+					<label class="book-details" :for="book.bookId">
 						<div class="book-details" >
 							<h1>{{ book.shortTitle }}</h1>
 							<h3>{{ book.author }}</h3>

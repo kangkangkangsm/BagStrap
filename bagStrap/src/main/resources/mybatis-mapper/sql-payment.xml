@@ -181,7 +181,7 @@
 			WHERE USER_ID = #{userId}
 			AND (#{keyword} IS NULL OR #{keyword} = '' OR B.TITLE LIKE '%' || #{keyword} || '%' OR B.AUTHOR LIKE '%' || #{keyword} || '%') 
 			ORDER BY R.CREATED_DATE DESC
-			OFFSET #{currentPage}-1 ROWS FETCH FIRST #{pageSize} ROWS ONLY
+		    OFFSET (#{currentPage} - 1) * #{pageSize} ROWS FETCH FIRST #{pageSize} ROWS ONLY
 
 	</select>
 	 <update id="updateOrderStatus" parameterType="hashmap">

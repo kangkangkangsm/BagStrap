@@ -171,40 +171,6 @@
 		    font-weight: bold;
 		}
 
-		/* Pagination 스타일 */
-		.pagination {
-		    display: flex;
-		    justify-content: center;
-		    margin: 20px 0;
-		}
-
-		.pagination button {
-		    background-color: #f8f9fa;
-		    border: 1px solid #dee2e6;
-		    color: #007bff;
-		    padding: 8px 12px;
-		    margin: 0 2px;
-		    cursor: pointer;
-		    transition: background-color 0.3s, color 0.3s;
-		    border-radius: 4px;
-		}
-
-		.pagination button.active {
-		    background-color: #007bff;
-		    color: white;
-		    cursor: default;
-		}
-
-		.pagination button:disabled {
-		    background-color: #e9ecef;
-		    color: #6c757d;
-		    cursor: not-allowed;
-		}
-
-		.pagination button:not(.active):not(:disabled):hover {
-		    background-color: #0056b3;
-		    color: white;
-		}
 
 		/* Modal 다이얼로그 스타일 */
 		.admin-dialog {
