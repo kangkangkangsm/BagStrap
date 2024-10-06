@@ -95,7 +95,7 @@
 					keyword:self.keyword
 				};
 				$.ajax({
-					url:"/adminUsers.dox",
+					url:"/join.dox",
 					dataType:"json",	
 					type : "POST", 
 					data : nparam,

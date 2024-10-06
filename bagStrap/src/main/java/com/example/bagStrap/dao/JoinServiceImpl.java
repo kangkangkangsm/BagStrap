@@ -131,11 +131,11 @@ public class JoinServiceImpl implements JoinService{
 		try {
 			List<User> list	 = joinMapper.myInfoList(map);
 			resultMap.put("result", "success");
-			resultMap.put("messsage", "마이인포성공!!");
+			resultMap.put("messsage", "마이인포성공");
 			resultMap.put("userList", list);
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
-			resultMap.put("messsage", "마이인포실패!!");
+			resultMap.put("messsage", "마이인포실패");
 			e.printStackTrace();
 		}
 		return resultMap;
@@ -148,10 +148,10 @@ public class JoinServiceImpl implements JoinService{
 		try {
 			joinMapper.addressUpdate(map);
 			resultMap.put("result", "success");
-			resultMap.put("message","주소업데이트성공!!");
+			resultMap.put("message","주소가 업데이트되었습니다.");
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
-			resultMap.put("message", "주소업데이트실패!!");
+			resultMap.put("message", "주소 업데이트에 실패하였습니다.");
 		}
 		return resultMap;
 	}
@@ -165,11 +165,11 @@ public class JoinServiceImpl implements JoinService{
 			joinMapper.nickUpdate(map);
 			System.out.println("map12 : " + map);
 			resultMap.put("result", "success");
-			resultMap.put("message","닉네임업데이트성공!!");
+			resultMap.put("message","닉네임이 업데이트되었습니다.");
 		}catch(Exception e) {
 			System.err.println("예외 발생: " + e.getMessage());
 			resultMap.put("result", "fail");
-			resultMap.put("message", "닉네임업데이트실패!!");
+			resultMap.put("message", "닉네임 업데이트에 실패혀셨습니다.");
 			e.printStackTrace();
 		}
 		return resultMap;
@@ -184,10 +184,10 @@ public class JoinServiceImpl implements JoinService{
 			joinMapper.deleteQuit(map);
 			System.out.println("map10 : " + map);
 			resultMap.put("result", "success");
-			resultMap.put("message","회원탈퇴성공!!");
+			resultMap.put("message","회원탈퇴성공");
 		}catch(Exception e) {
 			resultMap.put("result", "fail");
-			resultMap.put("message", "회원탈퇴실패!!");
+			resultMap.put("message", "회원탈퇴실패");
 			e.printStackTrace();
 		}
 		return resultMap;
@@ -223,11 +223,11 @@ public class JoinServiceImpl implements JoinService{
 			List<User> list = joinMapper.adminUsers(map);
 			resultMap.put("list", list);
 			resultMap.put("result", "success");
-			resultMap.put("message", "리스트뽑아내기성공!!");
+			resultMap.put("message", "리스트뽑아내기성공");
 		}catch(Exception e) {
 			e.printStackTrace();
 			resultMap.put("result", "fail");
-			resultMap.put("message", "리스트뽑아내기실패!!");
+			resultMap.put("message", "리스트뽑아내기실패");
 		}
 		return resultMap;
 	}
