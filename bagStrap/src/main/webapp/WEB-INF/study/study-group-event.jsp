@@ -30,15 +30,36 @@
 		}
 	
 		.note-taking-title, .wrong-answer-title {
-		    flex: 0 0 43%;
-		    background: #58c672;
-		    color: white;
-		    text-align: center;
-		    padding: 10px;
-		    border-radius: 15px;
-		    font-size: 24px;
-		    margin: 0 10px;
-		}
+	        flex: 0 0 43%;
+	        background: #58c672;
+	        color: white;
+	        text-align: center;
+	        padding: 10px;
+	        border-radius: 15px;
+	        font-size: 24px;
+	        margin: 0 10px;
+	        cursor: pointer; /* 손가락 모양 */
+	        transition: background 0.3s ease, transform 0.3s ease;
+	    }
+
+	    .note-taking-title:hover, .wrong-answer-title:hover {
+	        background: #45a859; /* 호버 색상 */
+	        transform: scale(1.05); /* 살짝 확대 */
+	    }
+
+	    .wrong-answer-title {
+	        background: #665bd0;
+	    }
+
+	    .wrong-answer-title:hover {
+	        background: #5146a3; /* 오답노트 호버 색상 */
+	    }
+
+	    /* 클릭 후 활성화된 상태 유지 */
+	    .active-title {
+	        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* 클릭 후 색상 유지 */
+	        transform: scale(1.05); /* 살짝 확대 유지 */
+	    }
 	
 		.note-taking-title {
 		    background: #58c672;
@@ -78,6 +99,7 @@
 		    width: 30%;
 		    padding: 25px;
 		    transition: transform 0.3s;
+			cursor: pointer;
 		}
 	
 		.award-item:hover {

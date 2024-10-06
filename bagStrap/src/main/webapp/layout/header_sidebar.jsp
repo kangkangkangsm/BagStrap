@@ -76,8 +76,7 @@
 			<h3 class="study-comm-sidebard-h3">MyStudy</h3>
 			<div class="study-comm-sidebard-section">
 	            <ul>
-	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">스터디 캘린더</a></li>
-	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">내 스터디 관리</a></li>
+	                <li><a href="javascript:;" @click="fnPageChangeStudy()">내 스터디 관리</a></li>
 	            </ul>
 				</div>
         </div>
@@ -123,6 +122,10 @@
 	            };
 	        },
 	        methods: {
+				fnPageChangeStudy(){
+					var self = this;
+					$.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+				},
 				checkLoginAndPageChange(path){
 					var self = this;
 					if(self.isLogin){
@@ -130,7 +133,26 @@
 					} else{
 						alert('로그인 후 이용가능합니다.');	
 					}
-				}
+				},
+				fnSession() {
+					var self = this;
+					$.ajax({
+						url: "sharedHeader.dox",
+						dataType: "json",	
+						type: "POST", 
+						success: function(data) {
+							self.isLogin = data.isLogin;
+							if (data.isLogin) {
+								self.sessionUserId = data.userId;
+								self.sessionUserNickName = data.userNickName;
+								self.isAdmin = data.isAdmin;
+							} else {
+								self.sessionUserId = '';
+								self.sessionUserNickName = '';
+							}
+						}
+					});
+				},
 	        },
 	        mounted() {
 	            var self = this;
@@ -140,6 +162,10 @@
 				if(window.sessionStorage.getItem("isAdmin") === 'true'){
 					self.isAdmin = true;	
 				}
+				
+		        window.addEventListener('loginStatusChanged', function () {
+		            self.fnSession();  
+		        });
 				window.addEventListener('loginStatusChanged', function(){
 					if(window.sessionStorage.getItem("isLogin") === 'true'){
 						self.isLogin = true;	

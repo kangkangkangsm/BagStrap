@@ -356,7 +356,7 @@
 	                <ul class="headerloginSubMenu">
 	                    <li v-if="isLogin"><a href="/myinfo">MyInfo</a></li>
 	                    <li v-if="!isLogin"><a href="/join">Join</a></li>
-	                    <li><a href="javascript:;" @click="fnPageChange('/mystudy')">MyStudy</a></li>
+	                    <li><a href="javascript:;" @click="fnPageChangeStudy()">MyStudy</a></li>
 	                    <li><a href="javascript:;" @click="fnPageChange('/myshop/orders')">MyShop</a></li>
 	                    <li v-if="isAdmin"><a href="/admin/orders">Admin</a></li>
 	                    <li v-if="isLogin"><a href="javascript:;" @click="fnLogout()">Logout</a></li>
@@ -491,6 +491,10 @@
 			    }
 			},
 	        methods: {
+				fnPageChangeStudy(){
+					var self = this;
+					$.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
+				},
 				fnCloseLogin(){
 					var self = this;
 					document.getElementById('headerLoginModal').close();
