@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="http://localhost:8080/js/jquery.js"></script>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<script src="/js/jquery.js"></script>
+	<script src="/js/vue.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"/>
-	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>웹 페이지 레이아웃</title>
+    <title>현이의 가방끈</title>
 	<style>
 		<style>
 		/* 기본 스타일 초기화 */
