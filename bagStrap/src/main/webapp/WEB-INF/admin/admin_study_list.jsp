@@ -255,7 +255,7 @@
 			          <div class="admin-study">
 			              <ul class="admin-study-list">
 			                  <li class="admin-study-list-item" v-for="item in studyList">
-								<a class="admin-study-left" href="javascript:;" @click="goToDetail(item.boardNo)">
+								<a class="admin-study-left" href="javascript:;" @click="goToDetail(item.studyGroupId)">
 									<template v-if="item.filePath">
 										<img style="width: 100px; height: 100px" :src="item.filePath" alt=" Image" class="">
 									</template>
@@ -272,8 +272,8 @@
 										승인됨
 									</template>
 									<template v-else>
-										<button type="button" @click="permitStudy(item.boardNo)">승인</button>
-										<button type="button" @click="denyStudy(item.boardNo)">거절</button>
+										<button type="button" @click="permitStudy(item.studyGroupId)">승인</button>
+										<button type="button" @click="denyStudy(item.studyGroupId)">거절</button>
 									</template>
 								</div>
 			                  </li>

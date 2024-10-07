@@ -424,6 +424,7 @@
 		<if test="search != null and search != ''">
 		    AND (DESCRIPTION LIKE '%' || #{search} || '%' OR STUDY_NAME LIKE '%' || #{search} || '%')
 		</if>
+		ORDER BY CREATEDATE DESC
 		OFFSET #{startIndex} ROWS FETCH FIRST #{outputNumber} ROWS ONLY
 	</select>	
 	<!-- 스터디 그룹 리스트 개수-->
