@@ -62,15 +62,6 @@
         </div>
 		<nav class="stu-comm-menu">
         <div>
-			<h3 class="study-comm-sidebard-h3">MyInfo</h3>
-			<div class="study-comm-sidebard-section">
-	            <ul>
-	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">회원정보 수정</a></li>
-<!--	                <li><a href="javascript:;">내 활동내역</a></li>
--->	            </ul>
-			</div>
-        </div>
-        <div>
 			<h3 class="study-comm-sidebard-h3">MyStudy</h3>
 			<div class="study-comm-sidebard-section">
 	            <ul>
@@ -105,6 +96,15 @@
 					<li><a href="/admin/studyList">스터디 신청</a></li>
 					<li><a href="/admin-users">유저 관리</a></li>
 					
+	            </ul>
+			</div>
+        </div>
+        <div>
+			<h3 class="study-comm-sidebard-h3">MyInfo</h3>
+			<div class="study-comm-sidebard-section">
+	            <ul>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">회원정보 수정</a></li>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/quit')`">회원 탈퇴</a></li>
 	            </ul>
 			</div>
         </div>
