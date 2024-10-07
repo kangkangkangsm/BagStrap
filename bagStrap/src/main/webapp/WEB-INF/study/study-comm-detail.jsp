@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>첫번째 페이지</title>
 	   <style>
 		/* 기존 스타일 유지 */
