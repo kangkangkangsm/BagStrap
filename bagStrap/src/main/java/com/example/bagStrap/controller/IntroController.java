@@ -26,6 +26,16 @@ public class IntroController {
     public String main(Model model) throws Exception{
          return "/intro/intro_home";
     }
+	@RequestMapping("/main") 
+    public String main(Model model) throws Exception{
+         return "/intro/main";
+    }
+
+	@RequestMapping("/main2") 
+    public String main(Model model) throws Exception{
+         return "/intro/main2";
+    }
+
 
 	@RequestMapping(value = "/intro.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
