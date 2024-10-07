@@ -27,21 +27,25 @@
 	    font-weight: bold;
 	}
 	nav {
+		flex-direction: column;
+		align-items: center; /* 가로 중앙 정렬 */
 	    background-color: #ffffff;
 	    border-radius: 8px;
 	    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	    /* padding: 30px; */
+	    padding: 20px; 
 	    margin: 0 auto;
 	    width: 90%;
 	    max-width: 400px;
 	}
 	nav a {
 	    display: block;
+		width: 100%; /* 링크가 전체 너비를 차지하도록 설정 */
+		text-align: center; /* 텍스트 가운데 정렬 */
 	    padding: 15px;
 	    color: #2980b9;
 	    text-decoration: none;
-	    border-radius: 5px;
-	    margin-bottom: 10px;
+	    border-radius: 5px 0;
+	    margin-bottom: 15px;
 	    transition: background-color 0.3s, color 0.3s;
 	    font-size: 1.1em;
 	}
@@ -53,6 +57,7 @@
 	    border: none;
 	    border-top: 1px solid #e0e0e0;
 	    margin: 10px 0;
+		width: 100%;
 	}
 	p {
 	    text-align: center;
@@ -69,14 +74,14 @@
 				<p>※고객 문의는 로그인을 해야 합니다.</p>
 			</span>	
 			<nav>
-				<a href="noticelist">공지사항</a><br><hr>
-				<a href="faqlist">자주 묻는 질문</a><br><hr>
+				<a href="noticelist">공지사항</a><hr>
+				<a href="faqlist">자주 묻는 질문</a><hr>
 				<span v-if=isLogin>	
-					<a href="inquiry">문의하기</a><br><hr>
-					<a href="myinquiry">내가 한 문의</a><br><hr>
+					<a href="inquiry">문의하기</a><hr>
+					<a href="myinquiry">내가 한 문의</a><hr>
 				</span>
 				<span v-if=isAdmin>
-					<a href="history">문의 내역</a><br><hr>
+					<a href="history">문의 내역</a>
 				</span>		
 			</nav>	
 		</div>
