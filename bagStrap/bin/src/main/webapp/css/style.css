@@ -43,6 +43,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -86,7 +87,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    background-color: #333;
 	}
 	.clickableText:hover{
-	    text-shadow: 2px 2px 2px #333;
+		opacity:0.7;
 	}
 	.clickableText:active{
 	    color: #333;
@@ -94,12 +95,14 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 
 	.clickableSvg:hover path {
 	    fill: #555;
+		opacity: 0.7;
 	    stroke: #000;
 	    stroke-width: 2;
 	}
 
 	.clickableSvg:active path {
 	    fill: #333;
+		opacity: 1;
 	}
 	
 	/* 우측 정렬된 closeBtn -> layout/sharedHeader 참고 */
@@ -150,98 +153,12 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    border: 1px solid #dee2e6;
 	}
 
-	.pagination button:not(.active):not(:disabled):hover {
-	    background-color: #0056b3;
-	    color: white;
-	}
 
 
 
 	/* HEADER */
-
-	.header {
-	    display: flex;
-	    width: 100%;
-	    height: 150px; /* 헤더 높이 설정 */
-	    background-color: #4CAF50; /* 헤더 배경색 */
-	    color: white;
-	    align-items: center;
-	    padding: 0 10px;
-	    box-sizing: border-box;
-	}
-
-	.header-logo {
-	    flex: 15;
-	    height: 120px;
-	    background-color: #FFC107; /* 로고 배경색 */
-	}
-
-	.header-menu {
-	    flex: 55;
-	    height: 120px;
-	    background-color: #2196F3; /* 메뉴 배경색 */
-	    display: flex;
-	}
-
-	.headerCustomerMenu {
-	    font-size: 20px;
-	    flex: 30;
-	    height: 120px;
-	    background-color: #FF5722; /* 고객 메뉴 배경색 */
-	    display: flex;
-	    justify-content: flex-end;
-	    padding: 40px 0px;
-	    box-sizing: border-box;
-		text-align: center;
-	}
-	.headerCustomerSub{
-	    width: 100px;
-	    z-index: 1;
-	}
-	.headerLogin{
-	    
-	}
-	.headerLoginModal{
-	    width: 400px;
-	    height: 300px;
-	}
-	#loginBox{
-	    display: flex;
-	    flex-direction: column;
-
-	    margin: 20px auto;
-	    width: 300px;
-	    height: 200px;   
-	}
-	#loginImage{
-	    align-content: center;
-	}
 	
-	.headerloginMainMenu:hover .headerloginSubMenu{
-	    display: block;
-	}
-	.headerloginSubMenu{
-	    display: none;
-	    width: 120px;
-	    background-color: #eee;
-	    padding: 5px 0px;
-	}
-	.headerCSCetner{
-	    
-	}
-	.headerCart{
-	    
-	}
-	.headerIcon{
-		width: 30px;
-		margin: 0px 15px;
-	}
-	.headerAdmin{
-	    
-	}
-	.headerNotification{
-	    
-	}
+	
 
 
 
@@ -249,7 +166,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	.main-container {
 	    display: flex;
 	    flex: 1; /* 메인 컨테이너가 남은 공간을 차지하도록 설정 */
-	    background-color: #F5F5F5; /* 메인 컨테이너 배경색 */
+	    background-color: white; /* 메인 컨테이너 배경색 */
 	    overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
 	    box-sizing: border-box;
 	    padding: 0px 12vw;
@@ -259,7 +176,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	/* SIDEBAR */
 	.sidebar {
 	    width: 300px; /* 사이드바의 고정 너비 */
-	    background-color: #9E9E9E; /* 사이드바 배경색 */
+	    background-color:#FFFFFF; /* 사이드바 배경색 */
 	    padding: 10px;
 	    box-sizing: border-box;
 	}
@@ -280,13 +197,15 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    background-color: #333;
 	    color: white;
 	    text-align: center;
-	    padding: 10px;
+	    padding: 30px;
 		height:200px;
 	    width: 100%;
 	    box-sizing: border-box;
 		margin-top: auto; /* 페이지 하단에 붙도록 설정 */
 	}
-
+	.footer div{
+		padding-bottom: 10px;
+	}
 
 	/* 스터디 커뮤니티 사이드바 css */
 	.stu-comm-profile {
@@ -440,6 +359,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
     .study-group-insert-submit-btn {
         width: 100%;
         padding: 12px;
+		
         background-color: #ff6700; /* 제출 버튼 색상 */
         color: #fff; /* 제출 버튼 글자색 */
         border: none;
@@ -472,9 +392,7 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    padding: 20px;
 	}
 
-	.study-mygroup-detail2-sidebar-top {
-	    margin-bottom: 20px;
-	}
+	
 
 	.study-mygroup-detail2-sidebar ul {
 	    list-style: none;
@@ -778,33 +696,42 @@ a {color: #222; text-decoration: none; outline: none} a:hover, a:active {text-d
 	    height: 100px;
 	    resize: none;
 	}
+	/* Pagination 스타일 */
+	.pagination {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    margin: 30px 0;
+	    gap: 10px;
+	    color: #000000;
+	}
 
-	  /* 반응형 디자인 */
-	  @media (max-width: 768px) {
-      .main-container {
-          flex-direction: column;
-      }
+	.pagination button {
+	    background-color: #ffffff;
+	    border: 1px solid #dee2e6;
+	    color: #000000;
+	    padding: 10px 15px;
+	    cursor: pointer;
+	    transition: background-color 0.3s, color 0.3s;
+	    border-radius: 4px;
+	    font-size: 1em; /* 글자 크기 조정 */
+	}
 
-      .sidebar {
-          width: 100%;
-          text-align: center;
-      }
+	.pagination button:hover {
+	    background-color: #E0E0E0;
+	    color: #ffffff;
+	}
 
-      .book-info {
-          flex-direction: column;
-          align-items: center;
-      }
+	.pagination button.active {
+	    background-color: #000000;
+	    color: #ffffff;
+	    cursor: default;
+	}
 
-      .book-info img {
-          margin-right: 0;
-      }
+	.pagination button:disabled {
+	    background-color: #e9ecef;
+	    color: #6c757d;
+	    cursor: not-allowed;
+	    border: 1px solid #dee2e6;
+	}
 
-      .buttons {
-          flex-direction: column;
-      }
-
-      .buttons button {
-          flex: 1 1 100%;
-      }
-	      }
-		  

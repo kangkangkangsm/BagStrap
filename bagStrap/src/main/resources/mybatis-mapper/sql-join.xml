@@ -98,12 +98,23 @@
 		WHERE (ban ='Y' OR (USER_NICKNAME ='0' AND USER_ID = #{userId}))
 	</select>
 	<!-- 스터디 커뮤니티 게시글 작성하기 이미지 첨부-->
-	<insert id="insertJoinProFile" parameterType="hashmap" >
+	<insert id="insertJoinProFile" parameterType="hashmap">
 		INSERT INTO TBL_BOARDFILE
 		VALUES(BOARDFILE_SEQ.NEXTVAL, #{idx},#{fileName},#{fileOrgName},#{filePath},#{fileSize},#{fileExt},'N',SYSDATE + (9/24))
 	</insert>
 	
+	<!--페이징-->
+	<select id="selectPage" parameterType="hashmap">
+		SELECT * 
+		FROM TBL_USER
+		LIMIT #{offset}, #{size}
+	</select>
 	
+	<select id="countUsers" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*)
+		FROM TBL_USER
+	</select>
+
 </mapper>
 
 
