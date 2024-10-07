@@ -200,39 +200,69 @@
 	    </div>
 	    
 	    <h3 class="study-group-sidebard-h3">연령별</h3>
-	    <div class="study-group-sidebard-section age-section"> <!-- 고유 클래스 추가 -->
-	        <button class="study-group-sidebard-button" @click="fnMoveAge('')">전체</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveAge('중딩')">중딩</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveAge('고딩')">고딩</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveAge('대딩')">대딩</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveAge('성인')">성인</button>
-	    </div>
+		<div class="study-group-sidebard-section age-section">
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedAge === '' }"
+		            @click="fnMoveAge('')">전체</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedAge === '중딩' }"
+		            @click="fnMoveAge('중딩')">중딩</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedAge === '고딩' }"
+		            @click="fnMoveAge('고딩')">고딩</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedAge === '대딩' }"
+		            @click="fnMoveAge('대딩')">대딩</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedAge === '성인' }"
+		            @click="fnMoveAge('성인')">성인</button>
+		</div>
 	    
-	    <h3 class="study-group-sidebard-h3">온라인/오프라인</h3>
-	    <div class="study-group-sidebard-section onoff-section"> <!-- 고유 클래스 추가 -->
-	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('')">전체</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('온라인')">온라인</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('오프')">오프</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveOnOff('혼합')">혼합</button>
-	    </div>
+		<h3 class="study-group-sidebard-h3">온라인/오프라인</h3>
+		<div class="study-group-sidebard-section onoff-section"> <!-- 고유 클래스 추가 -->
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedOnOff === '' }"
+		            @click="fnMoveOnOff('')">전체</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedOnOff === '온라인' }"
+		            @click="fnMoveOnOff('온라인')">온라인</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedOnOff === '오프' }"
+		            @click="fnMoveOnOff('오프')">오프</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedOnOff === '혼합' }"
+		            @click="fnMoveOnOff('혼합')">혼합</button>
+		</div>
 
-	    <h3 class="study-group-sidebard-h3">과목</h3>
-	    <div class="study-group-sidebard-section subject-section"> <!-- 고유 클래스 추가 -->
-	        <button class="study-group-sidebard-button" @click="fnMoveSubject('')">전체</button>
-	        <template v-for="item in categoryList" :key="item.boardTypeId">
-	            <template v-if="item.boardTypeId >= '2000' && item.boardTypeId <= '2999'">
-	                <button class="study-group-sidebard-button" @click="fnMoveSubject(item.boardTypeId)">{{item.name}}</button>
-	            </template>
-	        </template>
-	    </div>
+		<h3 class="study-group-sidebard-h3">과목</h3>
+		<div class="study-group-sidebard-section subject-section"> <!-- 고유 클래스 추가 -->
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedSubject === '' }"
+		            @click="fnMoveSubject('')">전체</button>
+		    <template v-for="item in categoryList" :key="item.boardTypeId">
+		        <template v-if="item.boardTypeId >= '2000' && item.boardTypeId <= '2999'">
+		            <button class="study-group-sidebard-button" 
+		                    :class="{ active: selectedSubject === item.boardTypeId }"
+		                    @click="fnMoveSubject(item.boardTypeId)">{{item.name}}</button>
+		        </template>
+		    </template>
+		</div>
 
-	    <h3 class="study-group-sidebard-h3">성별</h3>
-	    <div class="study-group-sidebard-section gender-section"> <!-- 고유 클래스 추가 -->
-	        <button class="study-group-sidebard-button" @click="fnMoveGender('')">전체</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveGender('남성')">남자</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveGender('여성')">여자</button>
-	        <button class="study-group-sidebard-button" @click="fnMoveGender('혼성')">혼성</button>
-	    </div>
+		<h3 class="study-group-sidebard-h3">성별</h3>
+		<div class="study-group-sidebard-section gender-section"> <!-- 고유 클래스 추가 -->
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedGender === '' }"
+		            @click="fnMoveGender('')">전체</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedGender === '남성' }"
+		            @click="fnMoveGender('남성')">남자</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedGender === '여성' }"
+		            @click="fnMoveGender('여성')">여자</button>
+		    <button class="study-group-sidebard-button" 
+		            :class="{ active: selectedGender === '혼성' }"
+		            @click="fnMoveGender('혼성')">혼성</button>
+		</div>
 
 	    <h3 class="study-group-sidebard-h3">스터디 시작 날짜</h3>
 	    <div class="study-group-sidebard-section">
@@ -284,7 +314,11 @@
 					countMycommentCnt: null,
 					countMyStudyCnt: null,
 					sidebarSession : {},
-					
+					selectedAge: '',  // 연령 선택 상태
+			        selectedOnOff: '',  // 온라인/오프라인 선택 상태
+			        selectedSubject: '',  // 과목 선택 상태
+			        selectedGender: ''  // 성별 선택 상태
+			
 					
 	            };
 	        },
@@ -320,23 +354,26 @@
 	   				 $.pageChange("/study-comm-myboard",{itemMode : "board", author : self.sessionUserId});
 	   				}
 	   		    },
-				 fnMoveAge(Age){
-					window.sessionStorage.setItem("age", Age);
-					window.dispatchEvent(new Event('sideBarEventAge'));
-   				 //$.pageChange("/study-group-list",{Age : Age});
-   				 },
-				 fnMoveOnOff(OnOff){
-	  				window.sessionStorage.setItem("onOffMode", OnOff);
-	  				window.dispatchEvent(new Event('sideBarEventonOff'));
-	  			 },
-				 fnMoveSubject(boardTypeId){
-					window.sessionStorage.setItem("boardTypeId", boardTypeId);
-	  				window.dispatchEvent(new Event('sideBarEventboardTypeId'));
-				 },
-				 fnMoveGender(genderGroup){
-					window.sessionStorage.setItem("genderGroup", genderGroup);
-	  				window.dispatchEvent(new Event('sideBarEventgenderGroup'));
-				 },
+				fnMoveAge(Age) {
+				      this.selectedAge = Age;
+				      window.sessionStorage.setItem("age", Age);
+				      window.dispatchEvent(new Event('sideBarEventAge'));
+				  },
+				  fnMoveOnOff(OnOff) {
+				      this.selectedOnOff = OnOff;
+				      window.sessionStorage.setItem("onOffMode", OnOff);
+				      window.dispatchEvent(new Event('sideBarEventonOff'));
+				  },
+				  fnMoveSubject(boardTypeId) {
+				      this.selectedSubject = boardTypeId;
+				      window.sessionStorage.setItem("boardTypeId", boardTypeId);
+				      window.dispatchEvent(new Event('sideBarEventboardTypeId'));
+				  },
+				  fnMoveGender(genderGroup) {
+				      this.selectedGender = genderGroup;
+				      window.sessionStorage.setItem("genderGroup", genderGroup);
+				      window.dispatchEvent(new Event('sideBarEventgenderGroup'));
+				  },
 				 fnMoveStartDate(startDate) {
 				    window.sessionStorage.setItem("startDate", this.startDate);
 				    window.dispatchEvent(new Event('sideBarEventStartDate'));
