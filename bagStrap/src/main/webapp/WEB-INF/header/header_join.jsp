@@ -252,13 +252,34 @@
 							            </div>  
 							        </div>                  
 							    </div>      
-							</div>
-							<div>
-								휴대전화
-							</div>
-							<div>
-								<input type=text v-model="phone">
-							</div>
+							</div>	
+							<div class="form_box">
+							    <div class="form_title">
+							        <label class="form_label">
+							            휴대폰 번호
+							            <span class="required">
+							                <span class="hidden">필수입력</span>
+							            </span>
+							        <label>
+							    </div>
+							    <div class="form_cont">
+							        <div class="form_col_group">
+							            <div class="col_box">
+							                <div class="valid_check">
+							                    <div class="input_btn_box">
+							                        <input type="text" v-model="phone" @input="validatePhone" class="form_ip" placeholder="(-) 를 제외하고 번호를 입력하세요">
+							                    </div>
+							                </div>
+							                <!-- 오류 메시지: 이메일이 유효하지 않을 때 표시 -->
+							                <span v-if="phoneError" class="error-message" :style="{ color: 'red', fontSize: '13px' }">{{ phoneError }}</span>
+							                <!-- 유효한 이메일인 경우 메시지 표시 -->
+							                <span v-if="isPhoneValid" class="valid-message" :style="{ color: 'green', fontSize: '13px' }">
+												사용 가능한 번호 입니다.
+											</span>
+							            </div>  
+							        </div>                  
+							    </div>      
+							</div>	
 							<div class="form_box">
 								<div class="form_title">
 									<label class="form_label">
@@ -341,26 +362,22 @@
 							    </div>
 							</div>
 								
-							
-							<label class="form_label">프로필 사진(생략가능)</label>
-					        <input type="file" @change="fnFileChange"/>
-					        <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
+							<div class="form_label_pro_image">
+								<label class="form_label" style="padding-top: '30px'">프로필 사진</label>
+								<input type="file" @change="fnFileChange" class/>
+								<input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
 
-					        <!-- 이미지 미리보기 -->
-					        <div v-if="filePreview">
-					            <img :src="filePreview" class="stu-comm-insert-image-preview" />
-					        </div>
-
-					       
-							
-							
-							
-								<div class="btn_wrap justify page_bottom" id="joinComplete">
-						            <button type="button" class="btn_lg btn_light_gray" @click="fnSave">
-										<span class="text">회원가입</span>
-									</button>
-						        </div>	
-							</div>
+								<!-- 이미지 미리보기 -->
+								<div v-if="filePreview">
+								    <img :src="filePreview" class="stu-comm-insert-image-preview" />
+								</div>
+									<div class="btn_wrap justify page_bottom" id="joinComplete">
+								        <button type="button" class="btn_lg btn_light_gray" @click="fnSave">
+											<span class="text">회원가입</span>
+										</button>
+								    </div>	
+								</div>
+							</div>	
 								
 							
 						</div>	

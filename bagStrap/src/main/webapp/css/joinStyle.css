@@ -324,6 +324,7 @@ label {
     align-items: flex-start;
     flex-direction: row;
     width: 100%;
+	gap: 0 10px;
 }
 .input_btn_box .form_ip, .input_btn_box .time_limit, .input_btn_box .form_ip_pw, .input_btn_box .form_ip_pw, .input_btn_box .form_sel, .input_btn_box .awesomplete, .input_btn_box .input_price_box {
     flex: 1;
@@ -385,7 +386,6 @@ body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input
 }
 button{
 	background-color: rgb(255, 128, 0);
-	border: 1px solid #d5d5d5;
 	color: #fff;
 	width: 70px;
 	height: 45px;
@@ -484,9 +484,7 @@ li {
     align-items: center;
     flex-direction: row;
 }
-.input_btn_box .form_ip + .form_filter_box, .input_btn_box .time_limit + .form_filter_box, .input_btn_box .form_ip_pw + .form_filter_box, .input_btn_box .form_ip_pw + .form_filter_box, .input_btn_box .form_sel + .form_filter_box, .input_btn_box .awesomplete + .form_filter_box, .input_btn_box .input_price_box + .form_filter_box {
-    margin-left: 6px;
-}
+
 .form_filter_box .form_filter {
     flex: 1 1 auto;
 }
@@ -564,12 +562,9 @@ li {
 	justify-content: center;
 }
 
-.form_filter_box .form_filter input:checked + label .text {
-    padding-left: 14px;
-}
 .form_filter_box .form_filter input + label .text {
     position: relative;
-    text-align: left;
+    text-align: center;
 }
 .form_filter_box .form_filter:last-child input + label {
     border-radius: 0 6px 6px 0;
@@ -577,9 +572,6 @@ li {
 .form_filter_box .form_filter input[type="radio"] {
     display: none; /* 기본 라디오 버튼은 숨김 */
 }
-
-
-
 
 .btn_wrap.justify {
     display: flex;
@@ -627,6 +619,9 @@ a.btn_lg, button.btn_lg {
     background-image: url(../src/iz1.png);
     transition: background 0.2s ease-out;
 	background-color: transparent;
+}
+.form_label_pro_image{
+	padding-top: 15px;
 }
 
 
