@@ -44,9 +44,9 @@
 		/* 게시글 컨테이너 */
 		.stu-comm-detail-board-container {
 		    width: 97%;
-		    padding: 30px 0px;
+		    padding: 5px 0px;
 		    background: transparent;
-		    margin: 30px auto;
+		    margin: 5px auto;
 		    margin-left: 20px;
 		}
 
@@ -174,6 +174,7 @@
 		    padding: 15px;
 		    background-color: #f9f9f9;
 		    border-radius: 8px;
+			margin-bottom:140px;
 		}
 
 		.stu-comm-detail-comment-item {
