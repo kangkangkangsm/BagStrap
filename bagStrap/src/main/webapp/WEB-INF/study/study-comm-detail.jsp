@@ -106,6 +106,8 @@
 		    border-radius: 8px;
 		    padding: 15px;
 		    margin-bottom: 20px;
+			margin-top: 20px;
+			margin-left : 40px;
 		}
 
 		.stu-comm-detail-comment textarea {
@@ -405,12 +407,16 @@
 	                                <div>
 	                                    <label for="file-upload" style="cursor: pointer;">
 	                                        <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
-	                                    </label>
+	                                    </label>										
 	                                    <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
-	                                    <div v-if="filePreview">
+	                                    {{imageView}}
+										<template v-if="imageView === '1'">
+										<div v-if="filePreview">
 	                                        <img :src="filePreview" class="file-preview" />
 	                                    </div>
 	                                    <div v-if="fileName">{{ fileName }}</div>
+										</template>
+										
 	                                </div>
 	                            </div>
 	                        </div>
@@ -585,7 +591,8 @@
                 contents : "",
                 fileName: '', // 파일명 저장
                 filePreview: '', // 이미지 미리보기 URL 저장
-                selectLikeCheck : {}
+                selectLikeCheck : {},
+				imageView : '1'
             };
         },
         methods: {
@@ -683,6 +690,7 @@
 	        },
             fnCommUpdateNo(boardId){
                 var self = this;
+				self.imageView = '1'; 
                 var nparmap = {boardId : boardId};
                 $.ajax({
                     url:"/updateCommentNO.dox",
@@ -692,11 +700,15 @@
                     success : function(data) { 
                         console.log(data);        
                         self.fnView();                
+						self.filePreview ="";
+						self.fileName ="";
+						self.file = "";
                     }
                 });
             },
             fnupdateCommentResult(commentId,comcontents){
                 var self = this;
+				self.imageView = '1'; 
                 var nparmap = { 
                     commentId : commentId,
                     content : comcontents
@@ -754,6 +766,7 @@
             },
             fnCommUpdateN(commentId){
                 var self = this;
+				self.imageView = '2'; 
                 var boardId = self.boardId;
                 var nparmap = {boardId : boardId};
                 $.ajax({
@@ -762,8 +775,8 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
-                        self.fnCommUpdate(commentId);                        
+                        console.log(data);              
+                        self.fnCommUpdate(commentId);        
                     }
                 });
             },
@@ -1100,6 +1113,7 @@
             var self = this;
             self.fnView();
             self.fnSession();
+			
 			
 	// (추가) 로그인 상태가 변경되었을 때 세션 정보 다시 로드
 	        window.addEventListener('loginStatusChanged', function () {
