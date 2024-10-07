@@ -283,7 +283,16 @@
 		    cursor: not-allowed;
 		    border: 1px solid #dee2e6;
 		}
-
+		
+		.admin-refund-reason{
+			display: flex;
+			border: 1px solid #eee;
+			background-color: #eee;
+			border-radius: 5px;
+			width: 90%;
+			margin: 5px auto;
+			padding: 20px;
+		}
 	</style>
 </head>
 <body>
@@ -333,9 +342,10 @@
 					            </div>
 					        </summary>
 							<div class="admin-item-list" v-for="(item,index) in items" >
-								<div v-if="item.refundId != null && item.refundId != undefined">
-									환불 사유   : 
+								<div v-if="item.refundId != null && item.refundId != undefined" class="admin-refund-reason">
 									<template v-if="item.reason">
+										환불 사유   : 
+
 									    <div> {{item.reason}}</div>
 									</template>
 									<template v-if="item.filePath">

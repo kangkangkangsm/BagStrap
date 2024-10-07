@@ -201,8 +201,9 @@
 		}
 
 		.stu-comm-insert-image-preview {
-		    width: 100px;
-		    height: 100px;
+		    width: 150px;
+		    height: 150px;
+			margin: 0px 60px;
 		    object-fit: cover;
 		    margin-top: 10px;
 		}
