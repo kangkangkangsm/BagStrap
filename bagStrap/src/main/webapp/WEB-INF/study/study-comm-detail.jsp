@@ -409,7 +409,6 @@
 	                                        <img src="../src/첨부이모티콘.png" style="width: 25px; height: 25px;">
 	                                    </label>										
 	                                    <input type="file" id="file-upload" style="display: none;" @change="fnFileChange"/>
-	                                    {{imageView}}
 										<template v-if="imageView === '1'">
 										<div v-if="filePreview">
 	                                        <img :src="filePreview" class="file-preview" />
@@ -637,6 +636,7 @@
                                   self.fileName ="";
 								  self.file = "";
 								  self.comcontents="";
+								  self.imageView = '1'; 
                               },
                               error: function(jqXHR, textStatus, errorThrown) {
                                   console.error('업로드 실패!', textStatus, errorThrown);
@@ -648,6 +648,7 @@
 						  self.filePreview ="";
 	                        self.fileName ="";
 						  self.comcontents="";
+						  self.imageView = '1'; 
                       }        
                   }
               });
@@ -675,6 +676,7 @@
 					document.getElementById('inputId').focus();
 					return;
 				};
+				self.imageView = '2'; 
                var boardId = self.boardId;
                var nparmap = {boardId : boardId};
                $.ajax({
