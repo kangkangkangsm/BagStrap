@@ -710,7 +710,6 @@
             },
             fnupdateCommentResult(commentId,comcontents){
                 var self = this;
-				self.imageView = '1'; 
                 var nparmap = { 
                     commentId : commentId,
                     content : comcontents
@@ -740,6 +739,7 @@
                                     self.filePreview ="";
                                     self.fileName ="";
 									self.file = "";
+									self.imageView = '1'; 
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     console.error('업로드 실패!', textStatus, errorThrown);
@@ -747,6 +747,7 @@
                             });        
                         } else{
                             self.fnView();    
+							self.imageView = '1'; 
                         }        
                     }
                 });
