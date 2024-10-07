@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,12 +32,7 @@
 	                      </div>		
 	                  </div>	
 	              </section>
-					
-				  
-				  
-				  
-				  
-				  
+
 	              <!-- 새로운 책 리스트 섹션 -->
 	              <section class="new-book-list-wrapper main2-wrapper">
 	                  <div class="new-book-list-title">

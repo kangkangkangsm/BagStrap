@@ -555,9 +555,9 @@ li {
 
 .form_filter_box .form_filter input:checked + label {
 	z-index: 1;
-	border-color: #5055b1; /* 선택된 상태에서의 테두리 색상 */
+	border-color: rgb(173, 182, 241); /* 선택된 상태에서의 테두리 색상 */
 	color: #474c98; /* 선택된 상태에서의 글자 색상 */
-	background-color: #e0e1f9; /* 선택된 상태에서의 배경 색상 */
+	background-color: rgb(173, 182, 241); /* 선택된 상태에서의 배경 색상 */
 	padding: 5px 10px;
 	justify-content: center;
 }
@@ -583,15 +583,28 @@ li {
     flex: 1;
     min-width: auto;
 }
-a.btn_light_gray[disabled], a.btn_light_gray[aria-disabled], a.btn_light_gray.disabled, button.btn_light_gray[disabled], button.btn_light_gray[aria-disabled], button.btn_light_gray.disabled {
-    background: rgb(255, 128, 0);
-    border-color: #bebebe;
+a.btn_light_gray[disabled], 
+a.btn_light_gray[aria-disabled], 
+a.btn_light_gray.disabled, 
+button.btn_light_gray[disabled], 
+button.btn_light_gray[aria-disabled], 
+button.btn_light_gray.disabled {
+    background: rgb(200, 200, 200); /* 비활성화 시 회색 */
+    border-color: rgb(255, 255, 255); /* 비활성화 시 테두리 색상 */
 }
+
+/* 일반 상태 */
 a.btn_light_gray, button.btn_light_gray {
     color: #fff;
-    background: #767676;
-    border: 1px solid #767676;
-    
+    background: rgb(192, 192, 192); /* 평소에는 연한 회색 */
+    border: 1px solid transparent; /* 기본 테두리 없음 */
+}
+
+/* 마우스 오버 시 */
+a.btn_light_gray:hover, button.btn_light_gray:hover {
+    background: rgb(255, 128, 0); /* 호버 시 주황색 */
+    border-color: rgb(255, 255, 255); /* 호버 시 테두리 하얀색 */
+    cursor: pointer; /* 마우스 커서 포인터 모양 */
 }
 a.btn_lg, button.btn_lg {
     display: inline-flex;
