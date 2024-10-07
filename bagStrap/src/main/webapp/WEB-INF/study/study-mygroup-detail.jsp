@@ -443,7 +443,7 @@
 	/* 전체 채팅 컨테이너 스타일 */
 	.chat-container {
 	    width: 103%;
-	    height: 850px;
+	    height: 800px;
 	   
 	    border-radius: 8px;
 	    display: flex;
@@ -982,7 +982,7 @@
 						   <!-- ===========================================그룹 정보=========================================== -->
 						   <!-- ===========================================자유게시판=========================================== -->
 						   <template v-if="pageView == '2'">
-								<div class="study-mygroup-detail-member-admin-header" style="margin-top:140px;">
+								<div class="study-mygroup-detail-member-admin-header" style="margin-top:40px;">
 						         <p>여기에서 그룹원끼리 자유롭게 채팅 및 자료공유 가능합니다</p>
 						       </div>
 						     <div class="chat-container" style="margin-top:40px;">
