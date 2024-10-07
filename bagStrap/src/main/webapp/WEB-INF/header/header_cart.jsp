@@ -478,7 +478,7 @@
 					<label :for="book.bookId">
 					    <img :src="book.image" alt="책 표지" class="book-cover">
 					</label>
-					<label class="book-details" :for="book.bookId">
+					<label class="book-details" :for="book.bookId" style="flex:1">
 						<div class="book-details" >
 							<h1>{{ book.shortTitle }}</h1>
 							<h3>{{ book.author }}</h3>
@@ -646,6 +646,7 @@
 			deleteCartItem(bookId){
 				if(confirm("해당 상품을 장바구니에서 삭제하시겠습니까?")){
 					var self = this;
+					document.getElementById(bookId).checked = false
 					var nparmap = {
 						bookId : bookId
 					};
@@ -659,6 +660,19 @@
 							alert(data.message);
 							if(data.result){
 								self.fnGetList();
+								self.selectedBooks = [];
+
+								self.cartList.forEach(item => {
+									if(document.getElementById(item.bookId).checked === true){
+										self.selectedBooks.push({
+											bookId : item.bookId,
+											bookQuantity : item.quantity,
+											bookPrice : item.price
+										});
+									}
+								})
+								console.log(self.cartList)
+								console.log(self.cartList)
 							}
 						}
 					});
