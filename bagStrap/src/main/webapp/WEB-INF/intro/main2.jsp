@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/mainStyle2.css">
+    <link rel="stylesheet" type="text/css" href="/css/mainStyle2.css">
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>

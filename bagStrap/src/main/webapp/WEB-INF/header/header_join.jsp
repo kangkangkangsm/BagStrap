@@ -14,7 +14,7 @@
 <head>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/joinStyle.css">
+	<link rel="stylesheet" type="text/css" href="/css/joinStyle.css">
 	<script src="https://unpkg.com/vue@3"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<meta charset="UTF-8">

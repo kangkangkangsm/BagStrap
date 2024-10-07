@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>첫번째 페이지</title>
 	<style>
    /* 전체 레이아웃 스타일 */

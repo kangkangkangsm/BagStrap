@@ -5,10 +5,10 @@
 <head>
 	<meta charset="UTF-8">
 	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="http://localhost:8080/js/jquery.js"></script>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<!--	<script src="http://localhost:8080/js/jquery.js"></script>
+-->	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css"/>
-	<link rel="stylesheet" type="text/css" href="http://localhost:8080/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
     <title>Document</title>
 </head>
 <body>
