@@ -18,7 +18,7 @@
 	<script src="https://unpkg.com/vue@3"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<meta charset="UTF-8">
-	<title>첫번째 페이지</title>
+	<title>회원가입 페이지</title>
 	<style>
 	</style>
 </head>
@@ -40,13 +40,13 @@
 					<p class="title_heading">
 						회원가입 
 					</p>
-					<div class="right_area">
+	<!--				<div class="right_area">
 						<span class="step_round_desc">마지막 단계입니다!</span>
 						<ol class="step_round_list">
 							<li class="step_item">1</li>
 							<li class="step_item active">2</li>
 						</ol>		
-					</div>	
+					</div>	-->
 				</div>
 				<div class="title_wrap title_size_def">
 					<div class="right_area">
@@ -148,7 +148,7 @@
 									    <button type="button" class="btn_toggle_pw" @click="togglePasswordVisibility">
 									        <span class="hidden">{{ isPasswordVisible ? '비밀번호 숨김 상태' : '비밀번호 보임 상태' }}</span>
 									        {{ isPasswordVisible ? '' : '' }}
-									    </button>        
+									    </button>     
 									</div>
 							        <div class="pw_valid_wrap">
 							            <div class="valid_step_box">
@@ -217,10 +217,11 @@
 							    </div>
 							    <div class="form_cont">
 							        <div class="form_ip_pw">
-							            <input :type="isConfirmPasswordVisible ? 'text' : 'password'" v-model="confirmPassword" @input="comparePasswords" class="form_ip" placeholder="비밀번호를 다시 입력하세요" maxlength="15">
-							            <button type="button" class="btn_toggle_pw" @click="toggleConfirmPasswordVisibility">
-							                <span class="hidden">{{ isConfirmPasswordVisible ? '비밀번호 숨김 상태' : '비밀번호 보임 상태' }}</span>
-							            </button>
+										<input :type="isConfirmPasswordVisible ? 'text' : 'password'" v-model="confirmPassword" @input="comparePasswords" class="form_ip" placeholder="비밀번호를 다시 입력하세요" maxlength="15">
+										<button type="button" class="btn_toggle_pw" @click="toggleConfirmPasswordVisibility">
+										    <span class="hidden">{{ isConfirmPasswordVisible ? '비밀번호 숨김 상태' : '비밀번호 보임 상태' }}</span>
+										    <!-- 눈 아이콘 -->
+										</button>
 							        </div>
 							        <!-- 상태 메시지: 비밀번호가 다를 때만 표시 -->
 							        <span v-if="passwordsDoNotMatch" :style="{ color: 'red', fontSize: '13px' }">
@@ -847,7 +848,13 @@
 		        
 		    }
 		},
-		   
+		toggleConfirmPasswordVisibility() {
+		          this.isConfirmPasswordVisible = !this.isConfirmPasswordVisible; // 비밀번호 확인란 보임/숨김 토글
+		      },
+		      comparePasswords() {
+		          this.passwordsDoNotMatch = this.confirmPassword !== this.password;  // 비밀번호 일치 여부 확인
+		      },
+
 		 fnAddr() {
 			var self = this;
 			new daum.Postcode({
