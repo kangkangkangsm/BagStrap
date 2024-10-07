@@ -40,7 +40,7 @@
 		}
 
 		th {
-		    background-color: #3498db; /* 헤더 배경색 */
+		    background-color: #343a40; /* 헤더 배경색 */
 		    color: white; /* 헤더 텍스트 색상 */
 		    padding: 12px; /* 패딩 추가 */
 		    text-align: center; 
