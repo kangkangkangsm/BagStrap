@@ -342,15 +342,17 @@
 					            </div>
 					        </summary>
 							<div class="admin-item-list" v-for="(item,index) in items" >
-								<div v-if="item.refundId != null && item.refundId != undefined" class="admin-refund-reason">
-									<template v-if="item.reason">
-										환불 사유   : 
-
-									    <div> {{item.reason}}</div>
-									</template>
-									<template v-if="item.filePath">
-									    <img style="width:200px; height:200px;" :src="item.filePath">
-									</template>
+								<div v-if="item.refundId != null && item.refundId != undefined" style="flex:1">
+									<div class="admin-refund-reason" style="background: #E0E0E0; padding: 5px 20px;">환불 사유</div>
+									<div class="admin-refund-reason">
+										<template v-if="item.reason">
+	
+										    <div style="flex:1;"> {{item.reason}}</div>
+										</template>
+										<template v-if="item.filePath">
+										    <img style="width:150px; height:150px;" :src="item.filePath">
+										</template>
+									</div>
 								</div>			                
 							</div>
 					        <div class="details-content" v-for="(item,index) in items" :key="item.bookId">

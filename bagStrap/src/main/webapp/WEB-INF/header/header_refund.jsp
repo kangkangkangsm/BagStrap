@@ -342,7 +342,7 @@
 		
         <div class="content">
 			<div id="app">
-				
+				{{lastRefundReasonContent}} {{refundReasonContent}}
 					<div class="progress-bar">
 					    <div :class="['step', { active: progress > 0 }]">
 					        <span class="step-number" :class="{ 'step-active': progress > 0 }">1</span>
@@ -510,7 +510,8 @@
 				refundReasonList2: [],
 				refundReasonList3: [],
 				selectedReason: '',
-				refundReasonContent: '',				
+				refundReasonContent: '',	
+				lastRefundReasonContent: '',			
 				file: null,
 				filePreview: null,
 				
@@ -559,16 +560,18 @@
 				if(item1.length !=0){
 					console.log(item1[0])
 					if(item1[0].textarea === 'Y'){
+						self.lastRefundReasonContent = item1[0].reasonText;
 						//alert('첫번째 radio에 있는 refundReasonContent만 읽으면 됨')
 					} else {
-						self.refundReasonContent = item1[0].reasonText
+						self.lastRefundReasonContent = item1[0].reasonText;
 						//alert('첫번째 radio에 있는 value만 읽으면 됨')
 					}
 				} else if(item2.length !=0){
 					if(item2[0].textarea === 'Y'){
 						//alert('두번째 radio에 있는 refundReasonContent만 읽으면 됨')
+						self.lastRefundReasonContent = item2[0].reasonText;
 					} else{
-						self.refundReasonContent = item2[0].reasonText
+						self.lastRefundReasonContent = item2[0].reasonText;
 						//alert('두번째 radio에 있는 value만 읽으면 됨')
 					}
 				}
@@ -707,7 +710,7 @@
 				var nparmap = {
 					orderList : JSON.stringify(self.selectedBooks), // bookId, bookQuantity
 					orderId : self.orderId,
-					refundReasonContent : self.refundReasonContent,
+					refundReasonContent : self.lastRefundReasonContent + ' ' + self.refundReasonContent,
 					imp : self.imp
 				};
 				$.ajax({
