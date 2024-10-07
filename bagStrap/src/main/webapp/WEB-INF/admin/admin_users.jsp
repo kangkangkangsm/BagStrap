@@ -40,6 +40,13 @@
 						<input type="text" v-model="keyword" placeholder="검색어을 입력하세요">
 						<button @click="fnGetList">검색</button>
 					</div>
+					<div>
+						<select v-model="changePage" @change=fnGetLsit(1)>
+							<option value="5">5개씩</option>
+							<option value="10">10개씩</option>
+							<option value="15">15개씩</option>
+						</select>
+					</div>	
 					
 					<table>
 						<tr>
@@ -66,6 +73,13 @@
 								</td>
 						</tr>
 					</table>
+					<div>
+						<button>이전</button>
+						<button>1</button>
+						<button>2</button>
+						<button>3</button>
+						<button>다음</button>
+					</div>
 				</div>
 			</div>
 	    </main>
@@ -84,11 +98,12 @@
 				userId:'',
 				ban:'',
 				searchOption:'all',
-				keyword:''
+				keyword:'',
+				changePage:'5'
 			};
         },
         methods: {
-			fnGetList() {
+			fnGetList(page) {
 				var self=this;
 				var nparam={
 					searchOption:self.searchOption,
