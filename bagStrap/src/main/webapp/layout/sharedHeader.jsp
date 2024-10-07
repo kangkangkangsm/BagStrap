@@ -786,7 +786,7 @@
 							if(status === 'ADMIN'){
 								if(str.includes('스터디 요청')) location.href="/admin/studyList";
 								else if(str.includes('환불 요청')) location.href="/admin/orders";
-								else if(str.includes('고객 문의')) location.href="/admin/orders";
+								else if(str.includes('고객 문의')) location.href="/history";
 							} else {
 								if(str.includes('문의에 답변')) location.href="/myinquiry";
 								else if(str.includes('강퇴되었습니다'))  $.pageChange("/study-comm-myboard", {itemMode : "board", author : self.sessionUserId});
