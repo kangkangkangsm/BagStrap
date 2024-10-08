@@ -334,7 +334,7 @@
 							type : "POST", 
 							data : nparmap,
 							success : function(data) {
-								console.log(data);
+							
 								self.countMyCommCnt=data.countMyCommCnt;
 								self.countMycommentCnt=data.countMycommentCnt;
 								self.countMyStudyCnt = data.countMyStudyCnt;
@@ -402,7 +402,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							console.log(data);
+							
 							self.categoryList = data.categoryList;
 						}
 					});
@@ -417,13 +417,13 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-								console.log(data);
+								
 							if(data.isLogin){
 								self.isLogin = data.isLogin; 
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
 								self.isAdmin = data.isAdmin;
-								console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+								
 								self.fnMyCnt();
 							} else {
 								self.sessionUserId = '';

@@ -68,7 +68,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.info = data.info;
 					}
 				});

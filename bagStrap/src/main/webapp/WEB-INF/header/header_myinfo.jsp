@@ -212,9 +212,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
-						console.log("AJAX 응답 데이터:")
-						console.log(data);
-						console.log(data.userList); 
+						
 						if (data.userList) {
 				                self.userList = data.userList[0]; // userList가 유효한지 확인
 				            } else {
@@ -222,7 +220,7 @@
 				            }
 				        },
 				        error: function(xhr, status, error) {
-				            console.error("AJAX 요청 실패:", status, error);
+				          
 				        }
 				    });
 				},
@@ -240,7 +238,7 @@
 				type : "POST", 
 				data : nparmap,
 				success : function(data) {
-					console.log("AJAX 응답 데이터1:", data); 
+					
 					if(data.result == 'success'){
 						self.addressView = false;
 						} else {
@@ -272,10 +270,10 @@
 		  				type : "POST", 
 		  				data : nparmap,
 		  				success : function(data) { 
-		  					console.log(data);
+		  					
 		  					alert("인증번호가 발신되었습니다. 핸드폰을 확인해주세요")
 		  					self.aaa = data.confirmNumb;
-							console.log(self);
+						
 							
 
 		  					timeCheck = setInterval(() => {
@@ -325,9 +323,7 @@
 						type : "POST", 
 						data : nparam,
 						success : function(data) {
-							console.log("AJAX 응답 데이터2:", data);
-							console.log(data.userList); 
-							console.log("닉네임 업데이트 데이터:", nparam);
+							
 							if(data.result == 'success'){
 								self.NickView = false;
 								} else {

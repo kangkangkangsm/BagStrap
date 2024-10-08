@@ -538,8 +538,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 			priceSum(){
 				var result = 0
 				this.selectedBooks.forEach(item => {
-					console.log('quantity: '+ typeof item.bookQuantity);
-					console.log('bookPrice: '+ typeof item.bookPrice);
+					
 					result = result + item.bookQuantity*item.bookPrice;
 				})
 				return result;
@@ -558,7 +557,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 				var item1 = self.refundReasonList2.filter(item => item.reasonId.startsWith(reasonId) );
 				var item2 = self.refundReasonList3.filter(item => item.reasonId.startsWith(reasonId));
 				if(item1.length !=0){
-					console.log(item1[0])
+					
 					if(item1[0].textarea === 'Y'){
 						self.lastRefundReasonContent = item1[0].reasonText;
 						//alert('첫번째 radio에 있는 refundReasonContent만 읽으면 됨')
@@ -587,7 +586,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.refundReasonList1 =[];
 						self.refundReasonList2 =[];
 						self.refundReasonList3 =[];
@@ -610,8 +609,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 							})
 							self.checkQuantity += item.quantity;
 						});
-						console.log('orderMaxList')
-						console.log(self.orderMaxList)
+						
 						self.orderList = data.orderList;
 					}
 				});
@@ -692,7 +690,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 			},
 			isItemChecked(){
 				var self = this;
-				console.log(self.orderList)
+				
 				self.selectedBooks = [];
 				self.orderList.forEach(item => {
 					if(document.getElementById(item.bookId) === null || document.getElementById(item.bookId) === undefined){ // null 체크용
@@ -719,14 +717,13 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log('data');
-						console.log(data);
+						
 						if(data.body.code == -1){
 							alert(data.body.message);	
 						} else {
 							var idx = data.body.idx;
 							var message = data.body.message;	
-							console.log("idx:" + idx);
+						
 							if (self.file) {
 								  const formData = new FormData();
 								  formData.append('file1', self.file);
@@ -759,7 +756,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 			fnFileChange(event) {
 			    const file = event.target.files[0];
 			    this.file = file;
-				console.log(file)
+			
 
 			    // 파일명이 있으면 표시
 			    this.fileName = file.name;

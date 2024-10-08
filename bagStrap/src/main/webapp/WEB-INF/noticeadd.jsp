@@ -148,7 +148,7 @@
                             if (data.isLogin) {
                                 this.sessionUserId = data.userId;
                                 this.sessionUserNickName = data.userNickName;
-                                console.log('세션아이디:', this.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+                               
                             } else {
                                 this.sessionUserId = '';
                                 this.sessionUserNickName = '';

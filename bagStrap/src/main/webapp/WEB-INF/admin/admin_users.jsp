@@ -115,7 +115,7 @@
 					type : "POST", 
 					data : nparam,
 					success : function(data) {
-						console.log("AJAX 응답 데이터:", data); 
+					
 							self.list=data.list;	
 					 }
 				});
@@ -132,7 +132,7 @@
 					type : "POST", 
 					data : nparam,
 					success : function(data) {
-					console.log("AJAX 응답 데이터:", data); 
+					
 						self.fnGetList();
 					}
 				});

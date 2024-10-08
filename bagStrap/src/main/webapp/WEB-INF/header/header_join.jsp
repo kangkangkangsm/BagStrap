@@ -468,7 +468,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 					}
 				});
             },
@@ -597,9 +597,9 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-							console.log(data);
+						
 							var idx = data.idx;
-					console.log(idx);
+					
 					if (self.file) {
 						  const formData = new FormData();
 						  formData.append('file1', self.file);
@@ -611,12 +611,12 @@
 								processData: false,  
 								contentType: false,  
 								success: function() {
-								  console.log('업로드 성공!');
+								 
 								  location.href = "/intro";
 								  self.filePreview = "";
 								},
 								error: function(jqXHR, textStatus, errorThrown) {
-								  console.error('업로드 실패!', textStatus, errorThrown);
+								
 								}
 						  });		
 					  } else {
@@ -670,7 +670,7 @@
 				type : "POST", 
 				data : nparam,
 				success : function(data) {
-					console.log(data);
+					
  
 					if(data.result === "success") {
 						self.idError= "";
@@ -763,7 +763,7 @@
 		         success: function(data) {
 		             if (data.result === "success") {
 		                 // 닉네임 사용 가능
-		                 console.log(data);
+		                
 		                 self.nickNameError = "";  // 에러 메시지 제거
 		                 self.isUserNickNameChecked = true;
 		                 self.validNickNameMessage = "사용 가능한 닉네임입니다.";  // 성공 메시지 설정
@@ -859,7 +859,7 @@
 			var self = this;
 			new daum.Postcode({
 		        oncomplete: function(data) {
-					console.log(data);
+					
 					self.address=data.address;
 					self.zonecode=data.zonecode,
 					self.isAddrDisabled=true;
@@ -881,7 +881,7 @@
 		 				data : nparam,
 		 				success : function(data) { 
 		 					if(data.result == "success") {
-		 						console.log(data);
+		 					
 		 						alert(data.message);
 							}else{
 		 						alert(data.message);

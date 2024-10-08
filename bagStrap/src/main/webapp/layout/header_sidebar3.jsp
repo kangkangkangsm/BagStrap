@@ -81,7 +81,7 @@
 					success : function(data) {
 						self.boardTypelist = data.boardTypelist; 
 						self.boardList = data.boardList;
-						console.log(data);
+						
 
 					}
 				});

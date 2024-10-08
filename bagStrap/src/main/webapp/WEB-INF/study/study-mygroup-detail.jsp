@@ -1413,7 +1413,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							console.log(data);
+							
 							self.userList = data.userList;
 							self.applyY = data.applyY;
 							self.totalPages = Math.ceil(self.applyY / self.pageSize);
@@ -1684,7 +1684,7 @@
 						success : function(data) { 
 							 
 							var idx = data.idx;
-							console.log(idx);
+							
 							if (self.file) {
 								  const formData = new FormData();
 								  formData.append('file1', self.file);
@@ -1704,7 +1704,7 @@
 		  								alert("정보변경 완료");
 										},
 										error: function(jqXHR, textStatus, errorThrown) {
-										  console.error('업로드 실패!', textStatus, errorThrown);
+										 
 										}
 								  });		
 							  } else {
@@ -1781,7 +1781,7 @@
                         type: "POST",
                         data: nparmap,
                         success: function(data) {
-                             console.log(data);
+                             
                             self.detailList = data.detailList;
 							self.fnTop5(data.detailList.boardTypeId);
                      self.fnBoardType(self.detailList.boardTypeId);
@@ -1798,7 +1798,7 @@
                        type: "POST",
                        data: nparmap,
                        success: function(data) {
-						console.log(data);
+						
 						self.selectTop5 = data.selectTop5;
                        },
                    });
@@ -1837,7 +1837,7 @@
                         self.sessionUserId = data.userId;
                         self.sessionUserNickName = data.userNickName;
                         self.isAdmin = data.isAdmin;
-                        console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+                       
                      } else {
                         self.sessionUserId = '';
                         self.sessionUserNickName = '';

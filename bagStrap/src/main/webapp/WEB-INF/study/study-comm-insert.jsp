@@ -166,7 +166,7 @@
 					success: function(data) { 
 						alert(data.message);
 						var idx = data.idx;
-						console.log(idx);
+						
 						if (self.file) {
 							  const formData = new FormData();
 							  formData.append('file1', self.file);
@@ -178,12 +178,12 @@
 									processData: false,  
 									contentType: false,  
 									success: function() {
-									  console.log('업로드 성공!');
+									
 									  location.href = "/study-comm";
 									  self.filePreview = "";
 									},
 									error: function(jqXHR, textStatus, errorThrown) {
-									  console.error('업로드 실패!', textStatus, errorThrown);
+									  
 									}
 							  });		
 						  } else {

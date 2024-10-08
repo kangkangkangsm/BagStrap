@@ -569,8 +569,7 @@
 			priceSum(){
 				var result = 0
 				this.selectedBooks.forEach(item => {
-					console.log('quantity: '+ typeof item.bookQuantity);
-					console.log('bookPrice: '+ typeof item.bookPrice);
+					
 					result = result + item.bookQuantity*item.bookPrice;
 				})
 				return result;
@@ -587,7 +586,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+					
 						
 						self.cartList = data.cartList;
 					}
@@ -629,7 +628,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 						}
 					});
 				}
@@ -656,7 +655,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 							alert(data.message);
 							if(data.result){
 								self.fnGetList();
@@ -671,8 +670,7 @@
 										});
 									}
 								})
-								console.log(self.cartList)
-								console.log(self.cartList)
+								
 							}
 						}
 					});

@@ -149,7 +149,7 @@
 					type: "POST",
 					data: { boardId: self.boardId },
 					success: function(data) { 
-						console.log(data);
+						
 						self.viewList = data.viewList;
 						self.title = self.viewList.title; // 제목 설정
 						self.boardTypeId = self.viewList.boardTypeId; // 카테고리 설정
@@ -176,8 +176,7 @@
 					success: function(data) { 
 						alert(data.message);
 						var idx = data.idx;
-						console.log(idx);
-						console.log(self.file);		
+					
 						if (self.file) {
 							const formData = new FormData();
 							formData.append('file1', self.file);
@@ -189,11 +188,11 @@
 								processData: false,  
 								contentType: false,  
 								success: function() {
-									console.log('업로드 성공!');
+									
 									self.fnUpdateView();
 								},
 								error: function(jqXHR, textStatus, errorThrown) {
-									console.error('업로드 실패!', textStatus, errorThrown);
+									
 								}
 							});		
 						} else {
@@ -231,7 +230,7 @@
 					type: "POST", 
 					data: nparmap,
 					success: function(data) { 
-						console.log(data);
+						
 						self.categoryList = data.categoryList;
 					}
 				});
@@ -250,7 +249,7 @@
 							self.sessionUserId = data.userId;
 							self.sessionUserNickName = data.userNickName;
 							self.isAdmin = data.isAdmin;
-							console.log('세션아이디:', self.sessionUserId); 
+							
 						} else {
 							self.sessionUserId = '';
 							self.sessionUserNickName = '';

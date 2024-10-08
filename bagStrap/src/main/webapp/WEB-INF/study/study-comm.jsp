@@ -395,7 +395,7 @@
 					type: "POST", 
 					data: nparmap,
 					success: function(data) {
-						console.log(data);
+						
 						self.commlist = data.commlist;
 						self.cnt = data.cnt;
 						self.totalPages = Math.ceil(self.cnt / self.pageSize);

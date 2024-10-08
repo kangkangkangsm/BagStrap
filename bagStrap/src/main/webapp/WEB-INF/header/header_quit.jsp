@@ -90,7 +90,7 @@
 					type : "POST", 
 					data : nparam,
 					success : function(data) {
-						console.log("AJAX 응답 데이터4:", data); 
+						
 						if(data.result == 'success'){
 							confirm("정말로 탈퇴하시겠습니까?");
 							self.fnDeleteUp();
@@ -112,7 +112,7 @@
 					type : "POST", 
 					data : nparam,
 					success : function(data) {
-						console.log("AJAX 응답 데이터3:", data); 
+						
 						if(data.result == 'success'){
 	                        alert(data.message);
 						}	

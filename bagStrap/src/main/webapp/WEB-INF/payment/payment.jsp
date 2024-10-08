@@ -83,7 +83,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						alert(data.message);
 						if(data.result){
 							self.fnImp();
@@ -106,7 +106,7 @@
 				    buyer_postcode: "123-456",
 				  },
 				  function (rsp) {
-					console.log(rsp)
+					
 				    // callback 로직
 				    //* ...중략... *//
 				  },
@@ -124,7 +124,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 					}
 				});
 			}
