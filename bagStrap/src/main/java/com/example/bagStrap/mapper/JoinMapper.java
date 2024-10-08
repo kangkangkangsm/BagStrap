@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.bagStrap.model.User;
 
@@ -39,4 +40,16 @@ public interface JoinMapper {
 	int banExtra(HashMap<String, Object> map);
 	
 	void insertJoinProFile (HashMap<String, Object> map);
+	//페이징
+	@Mapper
+	public interface UserMapper {
+	    List<User> getUserList(@Param("offset") int offset, 
+	                           @Param("limit") int limit, 
+	                           @Param("searchOption") String searchOption, 
+	                           @Param("keyword") String keyword);
+
+	    int getUserCount(@Param("searchOption") String searchOption, 
+	                     @Param("keyword") String keyword);
+	}
+
 }

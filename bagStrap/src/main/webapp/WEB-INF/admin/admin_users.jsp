@@ -103,7 +103,7 @@
 			};
         },
         methods: {
-			fnGetList(page) {
+			fnGetList() {
 				var self=this;
 				var nparam={
 					searchOption:self.searchOption,
