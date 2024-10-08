@@ -165,7 +165,6 @@
 		                type: "POST",
 		                data: nparmap,
 		                success: function(data) {
-							console.log(data);
 							
 							if(data.result){
 								self.isFirst = false;
@@ -188,7 +187,7 @@
 		                type: "POST",
 		                data: nparmap,
 		                success: function(data) {
-							console.log(data);
+						
 							if(data.result){
 								alert(data.message);
 								location.href="/myshop/orders";
@@ -209,7 +208,7 @@
 		                type: "POST",
 		                data: nparmap,
 		                success: function(data) {
-							console.log(data);
+							
 							if(data.result){
 								alert(data.message);
 								location.href="/myshop/orders";
@@ -228,7 +227,7 @@
 		                type: "POST",
 		                data: nparmap,
 		                success: function(data) {
-							console.log(data);
+							
 							if(data.result){
 								alert(data.message);
 								location.href="/myshop/orders";

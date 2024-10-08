@@ -247,7 +247,7 @@
 				        type: "POST",
 				        data: nparmap, // 검색어 데이터를 함께 전송
 				        success: function(data) {
-							console.log(data);
+							
 							if(data.categoryList){
 								self.categoryList = data.categoryList;
 								self.max = data.minMaxPrice[0].max;

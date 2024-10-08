@@ -686,7 +686,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+					
 						if(data.orderList){
 						self.orderList = data.orderList;
 						self.orderYear = data.orderYear;
@@ -720,7 +720,7 @@
 				    type: "POST", // GET 방식으로 전송
 				    data: { bookId: bookId }, // bookIds를 전송
 				    success: function(data) {
-						console.log(data)
+						
 						if(data.result){
 							self.showToast(bookId);
 						} else {

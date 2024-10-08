@@ -273,7 +273,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						if("data.result"){
 							self.myAddressList = data.addressList;
 
@@ -288,7 +288,7 @@
 
 				new daum.Postcode({
 			        oncomplete: function(data) {
-						console.log(data);
+						
 						self.address = data.address;
 						self.zonecode = data.zonecode;
 			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
@@ -337,7 +337,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						
 						if(data.result){
 							self.data.totalAmount = +data.totalAmount;
@@ -371,7 +371,7 @@
 				    buyer_postcode: self.zonecode,
 				  },
 				  function (rsp) {
-					console.log(rsp);
+					
 					if(rsp.success){
 						self.imp = rsp.imp_uid;
 						self.completeOrder();
@@ -393,7 +393,7 @@
 						imp : self.imp
 					},
 					success : function(data) { 
-						console.log(data);
+						
 						alert(data.message);
 						$.pageChange("/payment/complete", {orderId: self.data.paymentId, orderList: self.orderList, priceSum: self.priceSum})
 					}
@@ -411,7 +411,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 					}
 				});
 			},
@@ -469,7 +469,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.fnMyAddress();
 						alert(data.message);
 						
@@ -491,7 +491,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.fnMyAddress();
 						alert(data.message);
 					}

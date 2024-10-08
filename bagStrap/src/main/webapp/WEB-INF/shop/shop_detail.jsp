@@ -296,7 +296,7 @@
 			                type: "POST",
 			                data: nparmap, // 검색어 데이터를 함께 전송
 			                success: function(data) {
-								console.log(data);
+								
 								if(data.result){
 								self.detailList = data.detailList;
 								self.reviewList = data.reviewList;
@@ -307,12 +307,12 @@
 									if(item.title != null && item.title != undefined)
 									 return item
 								 })
-								console.log(self.book)
+								
 									
 								}								
 			                },
 			                error: function(error) {
-			                    console.error("데이터를 불러오는 중 오류 발생", error);
+			                  
 			                }
 			            });
 			        },
@@ -330,7 +330,7 @@
 						    type: "POST", // GET 방식으로 전송
 						    data: { bookId: self.bookId }, // bookIds를 전송
 						    success: function(data) {
-								console.log(data)
+								
 								if(data.result){
 									if(confirm(data.message +'장바구니로 이동하시겠습니까?')){
 										$.pageChange("/myshop/cart", {});	

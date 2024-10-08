@@ -490,7 +490,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						if(data.orderList){
 							self.orderList = data.orderList.map(item => ({
 							  ...item,
@@ -514,7 +514,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.fnGetList(self.currentPage);
 					}
 				});
@@ -541,7 +541,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						alert(data.body.message);
 						self.fnGetList(1);
 					}

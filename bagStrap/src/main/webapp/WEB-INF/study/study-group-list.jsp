@@ -384,7 +384,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 							self.groupList = data.groupList;
 							self.groupListCnt = data.groupListCnt;
 							self.totalPages = Math.ceil(self.groupListCnt / self.pageSize);
@@ -401,13 +401,13 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-								console.log(data);
+							
 							self.isLogin = data.isLogin 
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
 								self.isAdmin = data.isAdmin;
-								console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+							
 							} else {
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';
