@@ -26,7 +26,7 @@
 	    font-size: 2.5em;
 	    font-weight: bold;
 	}
-	nav {
+	.menu {
 		flex-direction: column;
 		align-items: center; /* 가로 중앙 정렬 */
 	    background-color: #ffffff;
@@ -37,7 +37,7 @@
 	    width: 90%;
 	    max-width: 400px;
 	}
-	nav a {
+	.menu a {
 	    display: block;
 		width: 100%; /* 링크가 전체 너비를 차지하도록 설정 */
 		text-align: center; /* 텍스트 가운데 정렬 */
@@ -49,11 +49,11 @@
 	    transition: background-color 0.3s, color 0.3s;
 	    font-size: 1.1em;
 	}
-	nav a:hover {
+	.menu a:hover {
 	    background-color: #2980b9;
 	    color: white;
 	}
-	nav hr {
+	.menu hr {
 	    border: none;
 	    border-top: 1px solid #e0e0e0;
 	    margin: 10px 0;
@@ -73,7 +73,7 @@
 			<span v-if=!isLogin>
 				<p>※고객 문의는 로그인을 해야 합니다.</p>
 			</span>	
-			<nav>
+			<nav class=menu>
 				<a href="noticelist">공지사항</a><hr>
 				<a href="faqlist">자주 묻는 질문</a><hr>
 				<span v-if=isLogin>	
