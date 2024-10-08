@@ -114,6 +114,17 @@
 		SELECT COUNT(*)
 		FROM TBL_USER
 	</select>
+	
+	<select id="getUserList" resultType="User">
+	    SELECT * FROM TBL_USER
+	    WHERE ${searchOption} LIKE CONCAT('%', #{keyword}, '%')
+	    LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<select id="getUserCount" resultType="int">
+   	 	SELECT COUNT(*) FROM TBL_USER
+    	WHERE ${searchOption} LIKE CONCAT('%', #{keyword}, '%')
+	</select>
 
 </mapper>
 

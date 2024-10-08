@@ -3,10 +3,14 @@ package com.example.bagStrap.controller;
 import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +36,7 @@ public class JoinController {
 	/*
 	 * @Autowired SmsService smsService;
 	 */
+	private JoinService userService;
 
 	@RequestMapping("/join") 
     public String search(Model model) throws Exception{
@@ -300,6 +305,30 @@ public class JoinController {
 	        
 	        return fileName;
 	    }
+	    
+	    
+
+	        @PostMapping("/join.dox")
+	        @ResponseBody
+	        public Map<String, Object> getUserList(@RequestBody Map<String, Object> params) {
+	            int page = (int) params.get("page");
+	            int pageSize = (int) params.get("pageSize");
+	            String searchOption = (String) params.get("searchOption");
+	            String keyword = (String) params.get("keyword");
+
+	            int offset = (page - 1) * pageSize;
+
+	            List<User> users = joinService.getUserList(offset, pageSize, searchOption, keyword);
+	            int totalCount = joinService.getUserCount(searchOption, keyword);
+
+	            Map<String, Object> result = new HashMap<>();
+	            result.put("list", users);
+	            result.put("totalCount", totalCount);
+
+	            return result;
+	        }
+	    
+
 	
 }	
 	

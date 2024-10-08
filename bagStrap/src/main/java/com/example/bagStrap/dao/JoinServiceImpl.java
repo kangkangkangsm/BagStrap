@@ -2,9 +2,13 @@ package com.example.bagStrap.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.bagStrap.mapper.JoinMapper;
 import com.example.bagStrap.model.User;
@@ -17,6 +21,7 @@ public class JoinServiceImpl implements JoinService{
 
 	@Autowired
 	JoinMapper joinMapper;
+	private JoinMapper joinService;
 	
 	@Override
 	public HashMap<String, Object> searchJoin(HashMap<String, Object> map) {
@@ -284,6 +289,20 @@ public class JoinServiceImpl implements JoinService{
 		return resultMap;
 	}
 
+	@Override
+    public List<User> getUserList(int offset, int limit, String searchOption, String keyword) {
+        return ((JoinServiceImpl) joinMapper).getUserList(offset, limit, searchOption, keyword);
+    }
+
+    @Override
+    public int getUserCount(String searchOption, String keyword) {
+        return ((JoinServiceImpl) joinMapper).getUserCount(searchOption, keyword);
+    }
+
+
+	
+	
+	
 	
 }
 

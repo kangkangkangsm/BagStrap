@@ -1,6 +1,7 @@
 package com.example.bagStrap.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.bagStrap.model.User;
 
@@ -35,4 +36,8 @@ public interface JoinService {
 	HashMap<String, Object> extraBanOut(HashMap<String, Object> map);
 	//프로필
 	HashMap<String, Object> insertJoinProFile (HashMap<String, Object> map);
+	
+	List<User> getUserList(int offset, int limit, String searchOption, String keyword);
+    int getUserCount(String searchOption, String keyword);
+	
 }
