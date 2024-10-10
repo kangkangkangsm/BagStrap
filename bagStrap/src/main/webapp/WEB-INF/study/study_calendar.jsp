@@ -45,7 +45,7 @@
                 },
                 events: [], // 초기 이벤트 x
                 select: function(info) {
-                    console.log("clicked event occurs: date=" + info.dateStr);
+                   
                     window.selectedInfo = info; // 선택된 정보를 전역 변수에 저장
                 },
                 eventClick: function(info) {

@@ -394,7 +394,7 @@
 	                    <span>댓글수 : {{viewList.commentCnt}}</span>
 	                    
 	                    <!-- 댓글 작성 섹션 -->
-	                    <div class="stu-comm-detail-comment">
+	                    <div class="stu-comm-detail-comment" style="margin-left:-3px;">
 	                        <div style="flex-grow: 1;">
 	                            <template v-if="isLogin">
 	                                <span>{{sessionUserNickName}} 님</span>
@@ -616,8 +616,7 @@
                   success : function(data) { 
                      
                       var idx = data.idx;
-                      console.log(idx);
-                      console.log(self.file);        
+                       
                       if (self.file) {
                           const formData = new FormData();
                           formData.append('file1', self.file);
@@ -629,7 +628,7 @@
                               processData: false,  
                               contentType: false,  
                               success: function() {
-                                  console.log('업로드 성공!');
+                                 
 								  self.fnReChat();
                                   self.fnView();    
                                   self.filePreview ="";
@@ -639,7 +638,7 @@
 								  self.imageView = '1'; 
                               },
                               error: function(jqXHR, textStatus, errorThrown) {
-                                  console.error('업로드 실패!', textStatus, errorThrown);
+                                
                               }
                           });        
                       } else{
@@ -663,7 +662,7 @@
 	                  type : "POST", 
 	                  data : nparmap,
 	                  success : function(data) { 
-	                      console.log(data);
+	                     
 	                      self.fnView();                        
 	                  }
 	              });
@@ -685,7 +684,7 @@
                    type : "POST", 
                    data : nparmap,
                    success : function(data) { 
-                       console.log(data);
+                       
                        self.fnReCommChat(commentId);                        
                    }
                });
@@ -700,7 +699,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);        
+                               
                         self.fnView();                
 						self.filePreview ="";
 						self.fileName ="";
@@ -721,8 +720,7 @@
                     data : nparmap,
                     success : function(data) { 
                         var idx = data.idx;
-                        console.log(idx);
-                        console.log(self.file);        
+                           
                         if (self.file) {
                             const formData = new FormData();
                             formData.append('file1', self.file);
@@ -734,7 +732,7 @@
                                 processData: false,  
                                 contentType: false,  
                                 success: function() {
-                                    console.log('업로드 성공!');
+                                   
                                     self.fnView();    
                                     self.filePreview ="";
                                     self.fileName ="";
@@ -742,7 +740,7 @@
 									self.imageView = '1'; 
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    console.error('업로드 실패!', textStatus, errorThrown);
+                                    
                                 }
                             });        
                         } else{
@@ -762,7 +760,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         self.fnView();                        
                     }
                 });
@@ -778,7 +776,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);              
+                                   
                         self.fnCommUpdate(commentId);        
                     }
                 });
@@ -792,7 +790,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         if(data.commentStatus == "N"){
                             alert("숨김해제 완료");
                         }else{
@@ -811,7 +809,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         alert(data.message);
                         self.fnView();
                     }
@@ -829,7 +827,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                      
                         if(data.resultHide == "N"){
                             alert("숨김해제 완료");
                         }else{
@@ -848,7 +846,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         alert(data.message);
                         location.href="/study-comm"
                     }
@@ -880,7 +878,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         self.viewList = data.viewList;
                         self.viewComment = data.viewComment;
                     }
@@ -895,13 +893,13 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) {
-                        console.log(data);
+                       
                         self.isLogin = data.isLogin; 
                         if(data.isLogin){
                             self.sessionUserId = data.userId;
                             self.sessionUserNickName = data.userNickName;
                             self.isAdmin = data.isAdmin;
-                            console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+                           
                         } else {
                             self.sessionUserId = '';
                             self.sessionUserNickName = '';    
@@ -927,8 +925,7 @@
                     data : nparmap,
                     success : function(data) { 
                         var idx = data.idx;
-                        console.log(idx);
-                        console.log(self.file);        
+                           
                         if (self.file) {
                             const formData = new FormData();
                             formData.append('file1', self.file);
@@ -940,7 +937,7 @@
                                 processData: false,  
                                 contentType: false,  
                                 success: function() {
-                                    console.log('업로드 성공!');
+                                  
                                     alert(data.message);
                                     self.contents = "";
                                     self.file = null;
@@ -949,7 +946,7 @@
                                     self.fnView();
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    console.error('업로드 실패!', textStatus, errorThrown);
+                                  
                                 }
                             });        
                         } else{
@@ -988,7 +985,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                      
                         self.viewList.likeCnt++;
                     }
                 });        
@@ -1003,7 +1000,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                     
                         self.fnView();
                     }
                 });
@@ -1018,7 +1015,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                       
                         self.viewList.likeCnt--;
                     }
                 });        
@@ -1033,7 +1030,7 @@
                     type : "POST", 
                     data : nparmap,
                     success : function(data) { 
-                        console.log(data);
+                        
                         self.fnView();
                     }
                 });
@@ -1057,8 +1054,7 @@
                     type: "POST",
                     data: nparmap,
                     success: function(data) {
-                        console.log(data);
-                        console.log(type);
+                       
                         if (data.selectLikeCheck) {
                             if (data.selectLikeCheck.targetType === "게시글"){
                                 if (confirm("이미 좋아요 하신 게시글입니다. 해제 하시겠습니까?")) {
@@ -1099,7 +1095,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) {
-						console.log(data); 
+						
 						alert(data.message);
 						if(data.result){
 							document.getElementById('headerLoginModal').close();

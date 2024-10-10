@@ -325,7 +325,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						if(data.refundList){
 							self.refundList = data.refundList;	
 							self.currentPage = currentPage;

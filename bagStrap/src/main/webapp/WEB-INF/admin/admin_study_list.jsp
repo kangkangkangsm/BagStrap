@@ -342,7 +342,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.studyList = data.studyList;
 						self.currentPage = currentPage;
 						self.totalPages = data.totalPages;
@@ -361,7 +361,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						alert(data.message);
 						self.fnGetList(self.currentPage);
 
@@ -379,7 +379,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						alert(data.message);
 						self.fnGetList(self.currentPage);
 					}

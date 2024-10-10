@@ -565,7 +565,7 @@
 		  				type : "POST", 
 		  				data : nparmap,
 		  				success : function(data) { 
-		  					console.log(data);
+		  					
 							if(data.result){
 								self.user = data.userInfo;
 								self.flg = data.confirm;
@@ -591,7 +591,7 @@
 		  				type : "POST", 
 		  				data : nparmap,
 		  				success : function(data) { 
-		  					console.log(data);
+		  					
 		  					alert("인증번호가 발신되었습니다. 핸드폰을 확인해주세요")
 		  					self.confirmNumb = data.confirmNumb;							
 
@@ -651,7 +651,7 @@
 		  				type : "POST", 
 		  				data : nparmap,
 		  				success : function(data) { 
-		  					console.log(data);
+		  					
 							alert(data.message);
 							self.fnClear();
 		  					
@@ -690,7 +690,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							console.log(data);
+							
 							self.isLogin = data.isLogin; 
 							self.isAdmin = data.isAdmin;
 							self.currentPage = currentPage;
@@ -738,7 +738,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							console.log(data); 
+							
 							alert(data.message);
 							if(data.result){
 								document.getElementById('headerLoginModal').close();
@@ -761,7 +761,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-							console.log(data); 
+							
 							alert(data.message);
 							self.getSharedHeader(1);
 							// (선민 추가) 로그인 후 페이지 새로고침

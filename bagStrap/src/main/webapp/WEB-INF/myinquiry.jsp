@@ -140,7 +140,7 @@
 				var self = this;
 				
 				if (!this.sessionUserId) {
-				      console.log("로그인 정보가 없습니다.");
+				    
 				      return;
 				  }
 				var nparmap = {
@@ -153,7 +153,7 @@
 					type: "POST", 
 					data: nparmap,
 					success: function(data) { 
-						console.log(data);
+						
 						self.list = data.list;	
 					}
 				});
@@ -167,7 +167,7 @@
 			            this.isLogin = data.isLogin;
 			            if (data.isLogin) {
 			                this.sessionUserId = data.userId;  
-			                console.log('세션아이디:', this.sessionUserId);
+			             
 							this.fnGetList(); // 로그인 후 문의 내역 가져오기
 			            } else {
 			                this.sessionUserId = '';

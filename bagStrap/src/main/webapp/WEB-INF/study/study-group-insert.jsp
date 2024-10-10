@@ -309,7 +309,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 						}
 					});
 		        },
@@ -391,10 +391,10 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 							var idx = data.idx;
 							self.insertStuGroupKingApply(self.sessionUserId, idx);
-							console.log(idx);
+							
 							if (self.file) {
 								  const formData = new FormData();
 								  formData.append('file1', self.file);
@@ -411,7 +411,7 @@
 										  self.filePreview = "";
 										},
 										error: function(jqXHR, textStatus, errorThrown) {
-										  console.error('업로드 실패!', textStatus, errorThrown);
+										 
 										}
 								  });		
 							  } else {
@@ -450,7 +450,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 							self.typeList = data.typeList;
 						}
 					});
@@ -465,7 +465,7 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) { 
-							console.log(data);
+							
 							self.categoryList = data.categoryList;
 						}
 					});
@@ -480,13 +480,13 @@
 						type : "POST", 
 						data : nparmap,
 						success : function(data) {
-								console.log(data);
+								
 							self.isLogin = data.isLogin 
 							if(data.isLogin){
 								self.sessionUserId = data.userId;
 								self.sessionUserNickName = data.userNickName;
 								self.isAdmin = data.isAdmin;
-								console.log('세션아이디:', self.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+								
 							} else {
 								self.sessionUserId = '';
 								self.sessionUserNickName = '';

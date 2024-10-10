@@ -95,7 +95,7 @@
 				        type: "POST", 
 				        data: nparam,
 				        success: function(data) {
-				        	console.log(data);
+				        	
 				            alert(data.message);
  				            if (data.result === "success") {
 				                location.href = "history"; 
@@ -112,8 +112,7 @@
 				            this.isLogin = data.isLogin;
 				            if (data.isLogin) {
 				                this.sessionUserId = data.userId;
-				               
-				                console.log('세션아이디:', this.sessionUserId);  // sessionUserId가 제대로 설정되었는지 확인
+				            
 				            } else {
 				                this.sessionUserId = '';
 				                

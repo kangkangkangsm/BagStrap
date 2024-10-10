@@ -52,7 +52,7 @@
 				        type: 'POST',
 				        contentType: 'application/json',  // JSON으로 보낼 것을 명시
 				        success: function(data) {
-				            console.log(data);
+				           
 				            self.categoryList = data.list;
 				        },
 				        error: function(e) {
@@ -67,7 +67,7 @@
 		                type: 'GET',
 		                data: { query: self.query },
 		                success: function(data) {
-		                    console.log(data);
+		                 
 		                    self.results = data.items;
 							data.items.forEach(function(item){
 								var map = {
@@ -84,8 +84,7 @@
 								}
 								self.parMap.push(map);
 							})
-							console.log('hi');
-							console.log(self.parMap);
+							
 		                },
 		                error: function() {
 		                    self.results = [{ title: '검색 중 오류가 발생했습니다.' }];
@@ -100,7 +99,7 @@
 				        contentType: 'application/json',  // JSON으로 보낼 것을 명시
 				        data: JSON.stringify({ bookList: self.parMap }),  // 데이터를 JSON 문자열로 변환
 				        success: function(data) {
-				            console.log(data);
+				           
 				            alert('성공~');
 				        },
 				        error: function(e) {

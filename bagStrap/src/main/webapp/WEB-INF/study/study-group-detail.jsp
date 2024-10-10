@@ -332,7 +332,7 @@
 		                  type : "POST", 
 		                  data : nparmap,
 		                  success : function(data) {
-							console.log(data);
+							
 							if(data.Subscription === null || data.Subscription === undefined ){
 								self.fnJoin(studyGroupId,selfIntro,studyGoal,additionalQuestions);
 							}else if(data.Subscription.fetchapplstatus == 'N'){
@@ -389,7 +389,7 @@
                         type: "POST",
                         data: nparmap,
                         success: function(data) {
-                            console.log(data);
+                           
                             self.detailList = data.detailList;
                         },
                     });
@@ -401,13 +401,13 @@
                         dataType: "json",
                         type: "POST",
                         success: function(data) {
-                            console.log(data);
+                            
                             self.isLogin = data.isLogin;
                             if (data.isLogin) {
                                 self.sessionUserId = data.userId;
                                 self.sessionUserNickName = data.userNickName;
                                 self.isAdmin = data.isAdmin;
-                                console.log('세션아이디:', self.sessionUserId);
+                               
                             } else {
                                 self.sessionUserId = '';
                                 self.sessionUserNickName = '';

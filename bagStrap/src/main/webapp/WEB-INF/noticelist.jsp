@@ -218,7 +218,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						self.list = data.list;	
 						self.totalPages = Math.ceil(data.count/self.selectSize); //올림, 동적 생성 
 						

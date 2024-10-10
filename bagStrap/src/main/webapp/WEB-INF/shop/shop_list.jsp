@@ -528,7 +528,7 @@
 			                type: "POST",
 			                data: nparmap, // 검색어 데이터를 함께 전송
 			                success: function(data) {
-								console.log(data);
+								
 								if(data.bookList){
 								self.bookList = data.bookList;
 								self.currentPage = currentPage;
@@ -538,7 +538,7 @@
 								}								
 			                },
 			                error: function(error) {
-			                    console.error("데이터를 불러오는 중 오류 발생", error);
+			                    
 			                }
 			            });
 			        },
@@ -557,7 +557,7 @@
 						    type: "POST", // GET 방식으로 전송
 						    data: { bookId: bookId }, // bookIds를 전송
 						    success: function(data) {
-								console.log(data)
+								
 								if(data.result){
 									self.showToast(bookId);
 								} else {
@@ -565,7 +565,7 @@
 								}
 						    },
 						    error: function(error) {
-						        console.error("장바구니 추가 중 오류 발생", error);
+						       
 						    }
 						});
 						

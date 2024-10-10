@@ -674,7 +674,7 @@
 					type : "POST", 
 					data : nparmap,
 					success : function(data) { 
-						console.log(data);
+						
 						if(data.selectOrderComplete){
 						self.orderList = data.selectOrderComplete;
 						self.studyList = data.selectOrderCompleteStudy;
