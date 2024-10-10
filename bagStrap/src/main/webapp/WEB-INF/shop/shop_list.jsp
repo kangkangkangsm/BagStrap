@@ -6,6 +6,8 @@
 	<jsp:include page="/layout/sharedHeader.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 <style>
+a:hover, a:active {text-decoration: none; color:#222; }
+
 	.book-list {
 	    display: grid;
 	     grid-template-columns: repeat(5, 1fr); /* 5 books per row */
