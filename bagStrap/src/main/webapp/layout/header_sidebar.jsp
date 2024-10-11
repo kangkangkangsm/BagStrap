@@ -104,7 +104,7 @@
 			<div class="study-comm-sidebard-section">
 	            <ul>
 	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/myinfo')">회원정보 수정</a></li>
-	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/quit')`">회원 탈퇴</a></li>
+	                <li><a href="javascript:;" @click="checkLoginAndPageChange('/quit')">회원 탈퇴</a></li>
 	            </ul>
 			</div>
         </div>
