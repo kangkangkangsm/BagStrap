@@ -1007,7 +1007,12 @@
 									<template v-else>
 									  <div class="message-left">
 									    <div class="message-user">
-									      <img :src="item.filePath" alt="User Image" class="user-img">
+										  <template v-if="item.filePath">
+									     	 <img :src="item.filePath" alt="User Image" class="user-img">
+										  </template>
+										  <template v-else>
+  									      	 <img src="../src/profile.png" alt="User Image" class="user-img">
+  										  </template>
 									      <span class="user-name">{{ item.userNickName }}</span>
 									    </div>
 									    <div class="message-content">
