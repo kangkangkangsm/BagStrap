@@ -213,7 +213,7 @@
  NOCOMPRESS LOGGING
   TABLESPACE "USERS" ;
 --------------------------------------------------------
---  DDL for Table TBL_FAQ
+--  DDL for Table 
 --------------------------------------------------------
 
   CREATE TABLE "ADMIN"."TBL_FAQ" 
@@ -1310,7 +1310,7 @@ Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (6,'쿠폰은 어떻게 사용할 수 있나요?', '쿠폰은 결제 페이지에서 쿠폰 코드 입력란에 코드를 입력하면 할인이 적용됩니다.', '쿠폰',to_date('24/09/20','RR/MM/DD'),null);
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (7,'고객센터 연락처는 어떻게 되나요?', '고객센터 전화번호는 080-000-0000입니다.' ,'고객센터',to_date('24/09/20','RR/MM/DD'),null);
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (8,'주문을 취소하고 싶습니다. 어떻게 해야 하나요?', '주문 취소는 배송 전까지 가능하며, 고객센터를 통해 취소 요청을 하실 수 있습니다.', '주문', to_date('24/09/20','RR/MM/DD'),null);
-Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (9,'현재 진행 중인 혜택이 있나요?', '현재 진행 중인 혜택에 대한 정보는 웹사이트의 혜택 페이지에서 확인할 수 있습니다.''혜택',to_date('24/09/20','RR/MM/DD'),null);
+Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (9,'현재 진행 중인 혜택이 있나요?', '현재 진행 중인 혜택에 대한 정보는 웹사이트의 혜택 페이지에서 확인할 수 있습니다.' ,'혜택',to_date('24/09/20','RR/MM/DD'),null);
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (10,'상품 리뷰는 어떻게 작성하나요?', '상품 페이지에서 "리뷰 작성" 버튼을 클릭하고 리뷰를 작성하실 수 있습니다.', '리뷰',to_date('24/09/20','RR/MM/DD'),null);
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (11,'문의 내용은 수정할 수 있나요?', '문의 내용은 접수 후 수정할 수 없습니다. 만약 수정이 필요한 경우, 새로운 문의를 접수해 주세요.','문의',to_date('24/09/20','RR/MM/DD'),null);
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (12,'적립금을 어떻게 사용할 수 있나요?', '적립금은 결제 시에 사용 가능하며, 적립금 사용 옵션에서 선택하여 결제에 적용할 수 있습니다.','적립금',to_date('24/09/20','RR/MM/DD'),null);
