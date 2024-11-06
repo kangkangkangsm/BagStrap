@@ -256,7 +256,7 @@
    (	"INQUIRY_ID" NUMBER, 
 	"CATEGORY" VARCHAR2(50 BYTE), 
 	"TITLE" VARCHAR2(255 BYTE), 
-	"MESSAGE" CLOB, 
+	"MESSAGE" VARCHAR2(50 BYTE), 
 	"CREATED_AT" DATE DEFAULT CURRENT_TIMESTAMP, 
 	"UPDATED_AT" DATE DEFAULT NULL, 
 	"USER_ID" VARCHAR2(20 BYTE), 
@@ -1346,20 +1346,20 @@ Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT
 Insert into ADMIN.TBL_FAQ (FAQ_ID,QUESTION,ANSWER,CATEGORY,CREATED_AT,UPDATED_AT) values (12,'적립금','적립금을 어떻게 사용할 수 있나요?', '적립금은 결제 시에 사용 가능하며, 적립금 사용 옵션에서 선택하여 결제에 적용할 수 있습니다.',to_date('24/09/20','RR/MM/DD'),null);
 REM INSERTING into ADMIN.TBL_INQUIRY
 SET DEFINE OFF;
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (6,'general','hello',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'asd','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (7,'order','언제 오나요?',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user04','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (13,'general','안녕하세요',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user05','완료');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (14,'order','11',to_date('24/09/27','RR/MM/DD'),to_date('24/09/27','RR/MM/DD'),'user04','완료');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (25,'refund','환불 신청',to_date('24/10/10','RR/MM/DD'),null,'user16','완료');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (27,'general','안녕하세요',to_date('24/10/11','RR/MM/DD'),null,'admin','완료');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (8,'general','안녕하세요',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user06','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (9,'order','반품 요청',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user01','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (11,'order','결제 확인',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user05','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (12,'order','주문 상태',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user02','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (15,'general','hello',to_date('24/09/29','RR/MM/DD'),to_date('24/09/29','RR/MM/DD'),'user03','완료');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (1,'refund','교환 요청',to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'user04','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (4,'order','언제 오나요?',to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'user03','대기');
-Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (5,'refund','교환 바람',to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'asd','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (6,'general','hello','hello',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'asd','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (7,'order','언제 오나요?','궁금',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user04','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (13,'general','안녕하세요','hi',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user05','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (14,'order','11','주문 번호 11에 대한 자세한 정보를 요청드립니다.',to_date('24/09/27','RR/MM/DD'),to_date('24/09/27','RR/MM/DD'),'user04','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (25,'refund','환불 신청','상품에 문제가 있어 환불을 요청합니다.',to_date('24/10/10','RR/MM/DD'),null,'user16','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (27,'general','안녕하세요',to_date('24/10/11','RR/MM/DD'),null,'admin','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (8,'general','안녕하세요','서비스에 대한 문의입니다.',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user06','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (9,'order','반품 요청','구매한 제품이 마음에 들지 않아 반품을 요청합니다.',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user01','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (11,'order','결제 확인','결제가 정상적으로 처리되었는지 확인 부탁드립니다.',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user05','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (12,'order','주문 상태','주문 상태를 확인하고 싶습니다.',to_date('24/09/26','RR/MM/DD'),to_date('24/09/26','RR/MM/DD'),'user02','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (15,'general','hello','궁금한 점이 있어 문의드립니다',to_date('24/09/29','RR/MM/DD'),to_date('24/09/29','RR/MM/DD'),'user03','완료');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (1,'refund','교환 요청','상품에 문제가 있어 교환을 요청합니다.',to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'user04','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (4,'order','언제 오나요?','예상 도착 시간을 알려주세요.'to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'user03','대기');
+Insert into ADMIN.TBL_INQUIRY (INQUIRY_ID,CATEGORY,TITLE,MESSAGE,CREATED_AT,UPDATED_AT,USER_ID,ANSWER) values (5,'refund','교환 바람','상품에 불만이 있어 교환을 요청합니다. 가능한 빨리 처리해 주세요.',to_date('24/09/25','RR/MM/DD'),to_date('24/09/25','RR/MM/DD'),'asd','완료');
 REM INSERTING into ADMIN.TBL_LIKES
 SET DEFINE OFF;
 Insert into ADMIN.TBL_LIKES (LIKEID,LIKEUSERID,TARGETID,TARGETTYPE,LIKEDATE) values (395,'user06',170,'게시글',to_date('24/10/05','RR/MM/DD'));
