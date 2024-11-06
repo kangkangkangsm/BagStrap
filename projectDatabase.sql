@@ -696,7 +696,7 @@ REM INSERTING into ADMIN.TBL_ANSWER
 SET DEFINE OFF;
 Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (15,14,'배송 상태는 현재 준비 중이며, 내일 중으로 배송이 시작될 예정입니다.',to_date('24/09/30','RR/MM/DD'),null);
 Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (16,13,'hello',to_date('24/09/30','RR/MM/DD'),null);
-Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (17,5,'해당 상품은 교환 가능하며,교환 절차가 완료되면 다시 연락드리겠습니다.'to_date('24/09/30','RR/MM/DD'),null);
+Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (17,5,'해당 상품은 교환 가능하며,교환 절차가 완료되면 다시 연락드리겠습니다.',to_date('24/09/30','RR/MM/DD'),null);
 Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (20,25,'환불 요청이 정상적으로 접수되었습니다.',to_date('24/10/10','RR/MM/DD'),null);
 Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (14,15,'test',to_date('24/09/30','RR/MM/DD'),null);
 Insert into ADMIN.TBL_ANSWER (ANSWER_ID,INQUIRY_ID,ANSWER_MESSAGE,CREATED,UPDATED) values (21,27,'안녕',to_date('24/10/11','RR/MM/DD'),null);
