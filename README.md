@@ -93,3 +93,5 @@
 - **데이터 관리**: AJAX를 통한 비동기 통신, JSON 데이터 포맷 사용
 - **기타**: Daum 우편번호 API, Iamport 결제 연동 API
 
+## 시연 동영상 
+- [![시연 영상 보기](https://img.youtube.com/vi/KnEwswZHVI4/0.jpg)](https://youtu.be/KnEwswZHVI4?si=5s14YKUagPiPNhTz)
