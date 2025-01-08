@@ -94,4 +94,4 @@
 - **기타**: Daum 우편번호 API, Iamport 결제 연동 API
 
 ## 시연 동영상 
-- [![시연 영상 보기]](https://youtu.be/KnEwswZHVI4?si=5s14YKUagPiPNhTz)
+- [[시연 영상]](https://youtu.be/KnEwswZHVI4?si=5s14YKUagPiPNhTz)
